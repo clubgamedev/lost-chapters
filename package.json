@@ -11,7 +11,6 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
-    "phaser": "^3.14.0",
     "vue": "^2.5.17",
     "vue-router": "^3.0.1"
   },

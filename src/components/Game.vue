@@ -1,16 +1,28 @@
 <template>
-  <div id='gameScreen'></div>
+  <div id='game'></div>
 </template>
 
 <script>
-import Game from '@/game/index.js';
+import { startGame } from "@/game/breakout.js";
+
+export default {
+  name: "Game",
+  data() {
+    return {
+      game: null
+    };
+  },
+  created() {
+    this.game = startGame();
+  }
+};
 </script>
 
 <style>
-#gameScreen {
+#game {
   margin: 0 auto;
 }
-#gameScreen canvas {
+#game canvas {
   display: block;
   margin: 0 auto;
 }
