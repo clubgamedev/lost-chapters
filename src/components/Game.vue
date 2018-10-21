@@ -3,17 +3,23 @@
 </template>
 
 <script>
-import { startGame } from "@/game/breakout.js";
-
 export default {
   name: "Game",
+  props: {
+    importGame: Function
+  },
   data() {
     return {
       game: null
     };
   },
-  created() {
-    this.game = startGame();
+  mounted() {
+    this.importGame().then(module => {
+      this.game = module.startGame();
+    });
+  },
+  destroyed() {
+    this.game.onExit && this.game.onExit();
   }
 };
 </script>

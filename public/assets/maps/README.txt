@@ -1,0 +1,1 @@
+voir pour l'édition de maps avec Tiled Map Editor : http://www.mapeditor.org/

@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
-import Home from "./views/Home.vue";
+import Breakout from "./views/Breakout.vue";
+import TinyRPG from "./views/TinyRPG.vue";
 
 Vue.use(Router);
 
@@ -10,8 +11,17 @@ export default new Router({
   routes: [
     {
       path: "/",
-      name: "home",
-      component: Home
+      redirect: "/tinyrpg"
+    },
+    {
+      path: "/breakout",
+      name: "breakout",
+      component: Breakout
+    },
+    {
+      path: "/tinyrpg",
+      name: "tiynrpg",
+      component: TinyRPG
     },
     {
       path: "/about",

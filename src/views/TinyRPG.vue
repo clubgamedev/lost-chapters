@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <Game />
+    <Game :importGame="importGame" />
   </div>
 </template>
 
@@ -11,6 +11,12 @@ export default {
   name: "game",
   components: {
     Game
+  },
+  data() {
+    return {
+      importGame: () =>
+        import(/* webpackChunkName: "tinyrpg" */ "@/game/tinyrpg.js")
+    };
   }
 };
 </script>
