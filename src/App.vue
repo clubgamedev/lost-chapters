@@ -2,6 +2,7 @@
   <div id="app">
     <div id="nav">
       <router-link to="/breakout">Breakout</router-link> |
+      <router-link to="/reigns">Reigns</router-link> |
       <router-link to="/tinyrpg">TinyRPG</router-link> |
       <router-link to="/about">About</router-link>
     </div>

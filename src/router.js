@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
 import Breakout from "./views/Breakout.vue";
+import Reigns from "./views/Reigns.vue";
 import TinyRPG from "./views/TinyRPG.vue";
 
 Vue.use(Router);
@@ -22,6 +23,11 @@ export default new Router({
       path: "/tinyrpg",
       name: "tiynrpg",
       component: TinyRPG
+    },
+    {
+      path: "/reigns",
+      name: "reigns",
+      component: Reigns
     },
     {
       path: "/about",
