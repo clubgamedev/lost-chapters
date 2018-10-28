@@ -1,4 +1,4 @@
-/* global Phaser */
+/* global Phaser game */
 
 /*
  * TINY RPG Forest Demo Code
@@ -7,45 +7,39 @@
  * Get free assets and code at: www.pixelgameart.org
  * */
 
-const audioFlag = true;
-let attackFlag = 0;
+import { addSounds, loadAudio, startMusic, sounds } from "./audio";
+
+import { Player } from "./characters/Player";
+import { Michel } from "./characters/Michel";
+import { Mole } from "./characters/Mole"
+import { Treant } from "./characters/Treant"
+
+import { spawnCoin } from "./items/Coin";
+import { spawnGem } from "./items/Gem";
+
 let game;
 let player;
 const gameWidth = 272;
 const gameHeight = 192;
 let globalMap;
-let enemies_group;
-let loot_group;
-let objects_group;
-let projectiles_group;
-let player_state;
-const PLAYER_STATE = {
-  LEFT: 0,
-  RIGHT: 1,
-  UP: 2,
-  DOWN: 3,
-  WALKING_LEFT: 4,
-  WALKING_RIGHT: 5,
-  WALKING_UP: 6,
-  WALKING_DOWN: 7
-};
 let hurtFlag;
 let exit;
 let kills = 5;
 
 export function startGame() {
   game = new Phaser.Game(gameWidth, gameHeight, Phaser.AUTO, "game");
-  game.state.add("Boot", boot);
-  game.state.add("Preload", preload);
-  game.state.add("TitleScreen", titleScreen);
-  game.state.add("PlayGame", playGame);
-  game.state.add("GameOver", gameOver);
-  //
+  game.state.add("Boot", BootScene);
+  game.state.add("Preload", LoadingScene);
+  game.state.add("TitleScreen", MenuScene);
+  game.state.add("PlayGame", GameScene);
+  game.state.add("GameOver", GameOverScene);
+
   game.state.start("Boot");
+  window.game = game; // make it global
   return game;
 }
 
-class boot {
+class BootScene {
   preload() {
     this.game.load.image("loading", "assets/sprites/loading.png");
   }
@@ -59,7 +53,7 @@ class boot {
   }
 }
 
-class preload {
+class LoadingScene {
   preload() {
     const loadingBar = this.add.sprite(
       game.width / 2,
@@ -98,24 +92,14 @@ class preload {
       "assets/atlas/atlas-props.json"
     );
 
+    game.load.spritesheet('michel', 'assets/characters/michel.png', 32, 32, 9);
+    game.load.spritesheet('michelle', 'assets/characters/michelle.png', 32, 32, 9);
+
     // images
     game.load.image("exit", "assets/environment/exit-open.png");
 
     // audio
-    game.load.audio("music", [
-      "assets/sound/ancient_path.ogg",
-      "assets/sound/ancient_path.mp3"
-    ]);
-    game.load.audio("hurt", ["assets/sound/hurt.ogg", "assets/sound/hurt.mp3"]);
-    game.load.audio("slash", [
-      "assets/sound/slash.ogg",
-      "assets/sound/slash.mp3"
-    ]);
-    game.load.audio("item", ["assets/sound/item.ogg", "assets/sound/item.mp3"]);
-    game.load.audio("enemy-death", [
-      "assets/sound/enemy-death.ogg",
-      "assets/sound/enemy-death.mp3"
-    ]);
+    loadAudio();
   }
 
   create() {
@@ -124,7 +108,7 @@ class preload {
   }
 }
 
-class titleScreen {
+class MenuScene {
   create() {
     game.add.tileSprite(0, 0, gameWidth, gameHeight, "title-bg");
     this.title = game.add.image(game.width / 2, 130, "title");
@@ -174,7 +158,7 @@ class titleScreen {
   }
 }
 
-class gameOver {
+class GameOverScene {
   create() {
     game.add.tileSprite(0, 0, gameWidth, gameHeight, "title-bg");
     this.title = game.add.image(game.width / 2, game.height / 2, "gameover");
@@ -207,68 +191,34 @@ class gameOver {
   }
 }
 
-class playGame {
+class GameScene {
   create() {
-    this.addAudios();
+
     this.createTileMap(1);
     this.createGroups();
     this.createExit(46, 27);
     this.populate();
-    this.createPlayer(47, 31);
+
+    addSounds();
+    startMusic();
+
+    //player = new Player(game, 47, 31)
+    player = new Michel(game, 47, 31)
+    game.add.existing(player);
 
     this.bindKeys();
     this.createCamera();
     this.createHud();
 
-    this.startMusic();
-
     const attackKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-    attackKey.onDown.add(this.prepareAttack, this);
-    attackKey.onUp.add(this.releaseAttack, this);
+    attackKey.onDown.add(() => { player.prepareAttack() });
+    attackKey.onUp.add(() => { player.releaseAttack() });
   }
 
   createExit(x, y) {
     exit = game.add.sprite(x * 16, y * 16, "exit");
     exit.alpha = 0;
     game.physics.arcade.enable(exit);
-  }
-
-  startMusic() {
-    if (!audioFlag) {
-      return;
-    }
-
-    this.music = game.add.audio("music");
-    this.music.loop = true;
-
-    this.music.play();
-
-    this.game.onExit = () => this.music.stop();
-  }
-
-  addAudios() {
-    this.audioHurt = game.add.audio("hurt");
-    this.audioItem = game.add.audio("item");
-    this.audioEnemyDeath = game.add.audio("enemy-death");
-    this.audioSlash = game.add.audio("slash");
-  }
-
-  prepareAttack() {
-    if (attackFlag == 0) {
-      attackFlag = 1;
-    }
-  }
-
-  releaseAttack() {
-    if (attackFlag == 1) {
-      // reset if not pulled all the way
-      attackFlag = 0;
-    }
-
-    if (attackFlag == 2) {
-      attackFlag = 0;
-      this.shoot();
-    }
   }
 
   createHud() {
@@ -285,13 +235,14 @@ class playGame {
   }
 
   bindKeys() {
-    this.wasd = {
+    game.input.keyboard.keys = {
       left: game.input.keyboard.addKey(Phaser.Keyboard.LEFT),
       right: game.input.keyboard.addKey(Phaser.Keyboard.RIGHT),
       down: game.input.keyboard.addKey(Phaser.Keyboard.DOWN),
       up: game.input.keyboard.addKey(Phaser.Keyboard.UP),
       attack: game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
     };
+
     game.input.keyboard.addKeyCapture([
       Phaser.Keyboard.SPACEBAR,
       Phaser.Keyboard.LEFT,
@@ -324,23 +275,19 @@ class playGame {
     //this.layer.visible = false;
   }
 
-  createPlayer(x, y) {
-    const temp = new Player(game, x, y);
-    game.add.existing(temp);
-  }
-
   createGroups() {
-    enemies_group = game.add.group();
-    enemies_group.enableBody = true;
-    //
-    loot_group = game.add.group();
-    loot_group.enableBody = true;
-    //
-    objects_group = game.add.group();
-    objects_group.enableBody = true;
-    //
-    projectiles_group = game.add.group();
-    projectiles_group.enableBody = true;
+    game.groups = {};
+    game.groups.enemies = game.add.group();
+    game.groups.enemies.enableBody = true;
+
+    game.groups.loot = game.add.group();
+    game.groups.loot.enableBody = true;
+
+    game.groups.objects = game.add.group();
+    game.groups.objects.enableBody = true;
+
+    game.groups.projectiles = game.add.group();
+    game.groups.projectiles.enableBody = true;
   }
 
   populate() {
@@ -374,9 +321,8 @@ class playGame {
       "Object Layer"
     );
     for (let i = 0; i < enemies_array.length; i++) {
-      enemies_group.add(
+      game.groups.enemies.add(
         new Mole(
-          game,
           enemies_array[i].x / 16,
           enemies_array[i].y / 16,
           enemies_array[i].properties.vertical
@@ -392,80 +338,29 @@ class playGame {
       "Object Layer"
     );
     for (let i = 0; i < enemies_array.length; i++) {
-      enemies_group.add(
-        new Treant(game, enemies_array[i].x / 16, enemies_array[i].y / 16)
+      game.groups.enemies.add(
+        new Treant(enemies_array[i].x / 16, enemies_array[i].y / 16)
       ); // create prefab
     }
-  }
-
-  shoot() {
-    let shot;
-    let dir = "s";
-    if (
-      player_state == PLAYER_STATE.WALKING_UP ||
-      player_state == PLAYER_STATE.UP
-    ) {
-      dir = "n";
-      shot = new Arrow(game, player.x, player.y, dir);
-    } else if (
-      player_state == PLAYER_STATE.WALKING_DOWN ||
-      player_state == PLAYER_STATE.DOWN
-    ) {
-      dir = "s";
-      shot = new Arrow(game, player.x, player.y, dir);
-    } else if (
-      player_state == PLAYER_STATE.WALKING_LEFT ||
-      player_state == PLAYER_STATE.LEFT
-    ) {
-      dir = "w";
-      shot = new Arrow(game, player.x, player.y + 4, dir);
-    } else if (
-      player_state == PLAYER_STATE.WALKING_RIGHT ||
-      player_state == PLAYER_STATE.RIGHT
-    ) {
-      dir = "e";
-      shot = new Arrow(game, player.x, player.y + 4, dir);
-    }
-
-    projectiles_group.add(shot);
-    this.audioSlash.play();
   }
 
   update() {
     // physics
     game.physics.arcade.collide(player, this.layer_collisions);
-    game.physics.arcade.collide(enemies_group, this.layer_collisions);
+    game.physics.arcade.collide(game.groups.enemies, this.layer_collisions);
     //
-    game.physics.arcade.overlap(
-      enemies_group,
-      projectiles_group,
-      this.shotImpact,
-      null,
-      this
-    );
+    game.physics.arcade.overlap(game.groups.enemies, game.groups.projectiles, this.shotImpact, null, this);
 
     if (player.alive) {
       //overlaps
-      game.physics.arcade.overlap(
-        player,
-        enemies_group,
-        this.hurtPlayer,
-        null,
-        this
-      );
-      game.physics.arcade.overlap(
-        player,
-        loot_group,
-        this.lootManager,
-        null,
-        this
-      );
+      game.physics.arcade.overlap(player, game.groups.enemies, this.hurtPlayer, null, this);
+      game.physics.arcade.overlap(player, game.groups.loot, this.lootManager, null, this);
 
       // exit game if key is obtained
       game.physics.arcade.overlap(player, exit, this.exitManager, null, this);
     }
 
-    this.movePlayer();
+    player.move(game.input.keyboard.keys);
 
     //this.debugGame();
     this.hurtManager();
@@ -473,14 +368,14 @@ class playGame {
 
   exitManager() {
     if (kills <= 0) {
-      this.game.state.start("GameOver");
-      this.music.stop();
+      game.state.start("GameOver");
+      game.music.stop();
     }
   }
 
   lootManager(player, loot) {
     if (loot.type == "gem") {
-      this.audioItem.play();
+      sounds.ITEM.play();
       loot.kill();
       if (player.health < 3) {
         player.health++;
@@ -488,7 +383,7 @@ class playGame {
       }
     }
     if (loot.type == "coin") {
-      this.audioItem.play();
+      sounds.ITEM.play();
       loot.kill();
     }
   }
@@ -505,15 +400,15 @@ class playGame {
     player.health--;
     this.updateHealthHud();
 
-    this.audioHurt.play();
+    sounds.HURT.play();
     if (player.health < 1) {
       this.gameOver();
     }
   }
 
   gameOver() {
-    this.music.stop();
-    this.game.state.start("GameOver");
+    game.music.stop();
+    game.state.start("GameOver");
   }
 
   updateHealthHud() {
@@ -553,15 +448,15 @@ class playGame {
     enemy.kill();
     shot.destroy();
     kills--;
-    this.audioEnemyDeath.play();
-    this.spawnCoin(enemy.x / 16, enemy.y / 16);
+    sounds.ENEMY_DEATH.play();
+    spawnCoin(enemy.x / 16, enemy.y / 16);
     this.spawnEnemyDeath(enemy.position.x, enemy.position.y);
     // sometimes drop gems or coins
     if (game.rnd.integerInRange(0, 2) == 0) {
       if (game.rnd.integerInRange(0, 1) == 0) {
-        this.spawnCoin(enemy.x / 16, enemy.y / 16);
+        spawnCoin(enemy.x / 16, enemy.y / 16);
       } else {
-        this.spawnGem(enemy.x / 16, enemy.y / 16);
+        spawnGem(enemy.x / 16, enemy.y / 16);
       }
     }
 
@@ -571,76 +466,7 @@ class playGame {
   }
 
   spawnEnemyDeath(x, y) {
-    const temp = new EnemyDeath(game, x, y);
-    game.add.existing(temp);
-  }
-
-  movePlayer() {
-    const vel = 50;
-
-    // attack animations
-    if (attackFlag != 0) {
-      player.body.velocity.x = 0;
-      player.body.velocity.y = 0;
-      return;
-    }
-
-    // capture input
-    if (this.wasd.down.isDown) {
-      player_state = PLAYER_STATE.WALKING_DOWN;
-      player.body.velocity.y = vel;
-      player.body.velocity.x = 0;
-    } else if (this.wasd.up.isDown) {
-      player_state = PLAYER_STATE.WALKING_UP;
-      player.body.velocity.y = -vel;
-      player.body.velocity.x = 0;
-    } else if (this.wasd.left.isDown) {
-      player_state = PLAYER_STATE.WALKING_LEFT;
-      player.body.velocity.x = -vel;
-      player.body.velocity.y = 0;
-    } else if (this.wasd.right.isDown) {
-      player_state = PLAYER_STATE.WALKING_RIGHT;
-      player.body.velocity.x = vel;
-      player.body.velocity.y = 0;
-    } else {
-      player.body.velocity.y = 0;
-      player.body.velocity.x = 0;
-    }
-
-    // idle
-    if (
-      player_state == PLAYER_STATE.WALKING_DOWN &&
-      player.body.velocity.y == 0
-    ) {
-      player_state = PLAYER_STATE.DOWN;
-    } else if (
-      player_state == PLAYER_STATE.WALKING_UP &&
-      player.body.velocity.y == 0
-    ) {
-      player_state = PLAYER_STATE.UP;
-    } else if (
-      player_state == PLAYER_STATE.WALKING_LEFT &&
-      player.body.velocity.x == 0
-    ) {
-      player_state = PLAYER_STATE.LEFT;
-    } else if (
-      player_state == PLAYER_STATE.WALKING_RIGHT &&
-      player.body.velocity.x == 0
-    ) {
-      player_state = PLAYER_STATE.RIGHT;
-    }
-  }
-
-  spawnGem(x, y) {
-    const temp = new Gem(game, x, y);
-    game.add.existing(temp);
-    loot_group.add(temp);
-  }
-
-  spawnCoin(x, y) {
-    const temp = new Coin(game, x, y);
-    game.add.existing(temp);
-    loot_group.add(temp);
+    game.add.existing(new EnemyDeath(game, x, y));
   }
 
   debugGame() {
@@ -648,9 +474,9 @@ class playGame {
     //game.debug.spriteInfo(this.player, 30, 30);
 
     game.debug.body(player);
-    enemies_group.forEachAlive(this.renderGroup, this);
-    projectiles_group.forEachAlive(this.renderGroup, this);
-    loot_group.forEachAlive(this.renderGroup, this);
+    game.groups.enemies.forEachAlive(this.renderGroup, this);
+    game.groups.projectiles.forEachAlive(this.renderGroup, this);
+    game.groups.loot.forEachAlive(this.renderGroup, this);
   }
 
   renderGroup(member) {
@@ -658,457 +484,21 @@ class playGame {
   }
 }
 
-
-// entities
-
-// player
-
-function Player(game, x, y) {
-  x *= 16;
-  y *= 16;
-  this.initX = x;
-  this.initY = y;
-  this.health = 3;
-  Phaser.Sprite.call(
-    this,
-    game,
-    x,
-    y,
-    "atlas",
-    "idle/hero-idle-back/hero-idle-back"
-  );
-  this.anchor.setTo(0.5);
-  game.physics.arcade.enable(this);
-  this.body.setSize(6, 10, 13, 20);
-  //add animations
-  const animVel = 12;
-  this.animations.add(
-    "idle-front",
-    ["idle/hero-idle-front/hero-idle-front"],
-    0,
-    true
-  );
-  this.animations.add(
-    "idle-back",
-    ["idle/hero-idle-back/hero-idle-back"],
-    0,
-    true
-  );
-  this.animations.add(
-    "idle-side",
-    ["idle/hero-idle-side/hero-idle-side"],
-    0,
-    true
-  );
-  //
-  this.animations.add(
-    "walk-front",
-    Phaser.Animation.generateFrameNames(
-      "walk/hero-walk-front/hero-walk-front-",
-      1,
-      6,
-      "",
-      0
-    ),
-    animVel,
-    true
-  );
-  this.animations.add(
-    "walk-back",
-    Phaser.Animation.generateFrameNames(
-      "walk/hero-walk-back/hero-walk-back-",
-      1,
-      6,
-      "",
-      0
-    ),
-    animVel,
-    true
-  );
-  this.animations.add(
-    "walk-side",
-    Phaser.Animation.generateFrameNames(
-      "walk/hero-walk-side/hero-walk-side-",
-      1,
-      6,
-      "",
-      0
-    ),
-    animVel,
-    true
-  );
-  //
-  const attack_front = this.animations.add(
-    "attack-front",
-    Phaser.Animation.generateFrameNames(
-      "attack-weapon/hero-attack-front/hero-attack-front-weapon-",
-      1,
-      3,
-      "",
-      0
-    ),
-    animVel,
-    false
-  );
-  const attack_back = this.animations.add(
-    "attack-back",
-    Phaser.Animation.generateFrameNames(
-      "attack-weapon/hero-attack-back/hero-attack-back-weapon-",
-      1,
-      3,
-      "",
-      0
-    ),
-    animVel,
-    false
-  );
-  const attack_side = this.animations.add(
-    "attack-side",
-    Phaser.Animation.generateFrameNames(
-      "attack-weapon/hero-attack-side/hero-attack-side-weapon-",
-      1,
-      3,
-      "",
-      0
-    ),
-    animVel,
-    false
-  );
-  // set flag to false on complete
-  attack_front.onComplete.add(resetAttackFlag, this);
-  attack_back.onComplete.add(resetAttackFlag, this);
-  attack_side.onComplete.add(resetAttackFlag, this);
-
-  function resetAttackFlag() {
-    attackFlag = 2;
-  }
-
-  this.animations.play("coin");
-  this.type = "player";
-  player = this;
-}
-Player.prototype = Object.create(Phaser.Sprite.prototype);
-Player.prototype.constructor = Player;
-Player.prototype.update = function () {
-  // player attack animation
-  if (attackFlag == 2) {
-    return;
-  }
-
-  // player attack animation
-  if (attackFlag == 1) {
-    if (
-      player_state == PLAYER_STATE.WALKING_DOWN ||
-      player_state == PLAYER_STATE.DOWN
-    ) {
-      this.animations.play("attack-front");
-    } else if (
-      player_state == PLAYER_STATE.WALKING_UP ||
-      player_state == PLAYER_STATE.UP
-    ) {
-      this.animations.play("attack-back");
-    } else if (
-      player_state == PLAYER_STATE.WALKING_LEFT ||
-      player_state == PLAYER_STATE.LEFT
-    ) {
-      this.animations.play("attack-side");
-    } else if (
-      player_state == PLAYER_STATE.WALKING_RIGHT ||
-      player_state == PLAYER_STATE.RIGHT
-    ) {
-      this.animations.play("attack-side");
-    }
-    return;
-  }
-
-  // player walk animation
-  if (player_state == PLAYER_STATE.WALKING_DOWN) {
-    this.animations.play("walk-front");
-    this.scale.x = 1;
-  } else if (player_state == PLAYER_STATE.WALKING_UP) {
-    this.animations.play("walk-back");
-    this.scale.x = 1;
-  } else if (player_state == PLAYER_STATE.WALKING_LEFT) {
-    this.animations.play("walk-side");
-    this.scale.x = -1;
-  } else if (player_state == PLAYER_STATE.WALKING_RIGHT) {
-    this.animations.play("walk-side");
-    this.scale.x = 1;
-  } else if (player_state == PLAYER_STATE.DOWN) {
-    this.animations.play("idle-front");
-    this.scale.x = 1;
-  } else if (player_state == PLAYER_STATE.UP) {
-    this.animations.play("idle-back");
-    this.scale.x = 1;
-  } else if (player_state == PLAYER_STATE.LEFT) {
-    this.animations.play("idle-side");
-  } else if (player_state == PLAYER_STATE.RIGHT) {
-    this.animations.play("idle-side");
-  }
-};
-
-// Mole
-
-function Mole(game, x, y, verticalMove) {
-  x *= 16;
-  y *= 16;
-  const vel = 8;
-  Phaser.Sprite.call(this, game, x, y, "atlas", "idle/mole-idle-front");
-  this.animations.add(
-    "walk-front",
-    Phaser.Animation.generateFrameNames(
-      "walk/mole-walk-front/mole-walk-front-",
-      1,
-      4,
-      "",
-      0
-    ),
-    vel,
-    true
-  );
-  this.animations.add(
-    "walk-back",
-    Phaser.Animation.generateFrameNames(
-      "walk/mole-walk-back/mole-walk-back-",
-      1,
-      4,
-      "",
-      0
-    ),
-    vel,
-    true
-  );
-  this.animations.add(
-    "walk-side",
-    Phaser.Animation.generateFrameNames(
-      "walk/mole-walk-side/mole-walk-side-",
-      1,
-      4,
-      "",
-      0
-    ),
-    vel,
-    true
-  );
-  this.animations.play("walk-front");
-  this.anchor.setTo(0.5);
-  game.physics.arcade.enable(this);
-  this.body.setSize(10, 10, 7, 12);
-  this.speed = 60;
-  if (verticalMove) {
-    this.body.velocity.y = this.speed;
-  } else {
-    this.body.velocity.x = this.speed;
-  }
-  this.body.bounce.x = 1;
-  this.body.bounce.y = 1;
-  this.type = "mole";
-}
-Mole.prototype = Object.create(Phaser.Sprite.prototype);
-Mole.prototype.constructor = Mole;
-Mole.prototype.update = function () {
-  if (this.body.velocity.y > 0) {
-    this.animations.play("walk-front");
-  } else if (this.body.velocity.y < 0) {
-    this.animations.play("walk-back");
-  } else if (this.body.velocity.y == 0) {
-    this.animations.play("walk-side");
-    if (this.body.velocity.x > 0) {
-      this.scale.x = 1;
-    } else {
-      this.scale.x = -1;
-    }
-  }
-};
-
-// Treant
-
-function Treant(game, x, y) {
-  x *= 16;
-  y *= 16;
-  const vel = 8;
-  Phaser.Sprite.call(this, game, x, y, "atlas", "idle/treant-idle-front");
-  this.animations.add(
-    "walk-front",
-    Phaser.Animation.generateFrameNames(
-      "walk/treant-walk-front/treant-walk-front-",
-      1,
-      4,
-      "",
-      0
-    ),
-    vel,
-    true
-  );
-  this.animations.add(
-    "walk-back",
-    Phaser.Animation.generateFrameNames(
-      "walk/treant-walk-back/treant-walk-back-",
-      1,
-      4,
-      "",
-      0
-    ),
-    vel,
-    true
-  );
-  this.animations.add(
-    "walk-side",
-    Phaser.Animation.generateFrameNames(
-      "walk/treant-walk-side/treant-walk-side-",
-      1,
-      4,
-      "",
-      0
-    ),
-    vel,
-    true
-  );
-  this.animations.play("walk-front");
-  this.anchor.setTo(0.5);
-  game.physics.arcade.enable(this);
-  this.body.setSize(11, 12, 10, 20);
-  this.speed = 40;
-  this.moveCounter = 0;
-  this.direction = "up";
-  this.directionsArray = ["up", "down", "left", "right"];
-  this.type = "treant";
-}
-Treant.prototype = Object.create(Phaser.Sprite.prototype);
-Treant.prototype.constructor = Treant;
-Treant.prototype.update = function () {
-  this.moveCounter++;
-  // move around
-  if (this.moveCounter == 50) {
-    this.direction = this.directionsArray[
-      game.rnd.between(0, this.directionsArray.length - 1)
-    ];
-  } else if (this.moveCounter > 50) {
-    this.move();
-  }
-
-  if (this.moveCounter > 70) {
-    this.moveCounter = 0;
-    this.body.velocity.x = 0;
-    this.body.velocity.y = 0;
-  }
-};
-Treant.prototype.move = function () {
-  if (this.direction == "left") {
-    this.body.velocity.x = -this.speed;
-    this.animations.play("walk-side");
-    this.scale.x = -1;
-  } else if (this.direction == "right") {
-    this.body.velocity.x = this.speed;
-    this.animations.play("walk-side");
-    this.scale.x = 1;
-  }
-  if (this.direction == "up") {
-    this.body.velocity.y = -this.speed;
-    this.animations.play("walk-back");
-  }
-  if (this.direction == "down") {
-    this.body.velocity.y = this.speed;
-    this.animations.play("walk-front");
-  }
-};
-
-// arrow
-
-function Arrow(game, x, y, dir) {
-  Phaser.Sprite.call(this, game, x, y, "atlas", "arrow");
-  this.anchor.setTo(0.5);
-  game.physics.arcade.enable(this);
-  this.body.setSize(5, 8, 0, 7);
-  const vel = 270;
-  switch (dir) {
-    case "n":
-      this.body.velocity.y = -vel;
-      break;
-    case "s":
-      this.body.velocity.y = vel;
-      this.scale.y = -1;
-      break;
-    case "e":
-      this.body.velocity.x = vel;
-      this.angle = 90;
-      break;
-    case "w":
-      this.body.velocity.x = -vel;
-      this.angle = 270;
-      break;
-  }
-}
-Arrow.prototype = Object.create(Phaser.Sprite.prototype);
-Arrow.prototype.constructor = Arrow;
-Arrow.prototype.update = function () {
-  if (!this.inWorld) {
-    this.destroy();
-  }
-};
-
 // enemy death
 
-function EnemyDeath(game, x, y) {
-  Phaser.Sprite.call(this, game, x, y, "atlas", "enemy-death/enemy-death-1");
-  this.anchor.setTo(0.5);
-  const anim = this.animations.add(
-    "death",
-    Phaser.Animation.generateFrameNames(
-      "enemy-death/enemy-death-",
-      1,
-      6,
-      "",
-      0
-    ),
-    18,
-    false
-  );
-  this.animations.play("death");
-  anim.onComplete.add(function () {
-    this.kill();
-  }, this);
+class EnemyDeath extends Phaser.Sprite {
+  constructor(game, x, y) {
+    super(game, x, y, "atlas", "enemy-death/enemy-death-1");
+    this.anchor.setTo(0.5);
+    const anim = this.animations.add(
+      "death",
+      Phaser.Animation.generateFrameNames("enemy-death/enemy-death-", 1, 6, "", 0),
+      18,
+      false
+    );
+    this.animations.play("death");
+    anim.onComplete.add(function () {
+      this.kill();
+    }, this);
+  }
 }
-
-EnemyDeath.prototype = Object.create(Phaser.Sprite.prototype);
-EnemyDeath.prototype.constructor = EnemyDeath;
-
-// Gem
-
-function Gem(game, x, y) {
-  x *= 16;
-  y *= 16;
-  Phaser.Sprite.call(this, game, x, y, "atlas", "gem/gem-1");
-  this.animations.add(
-    "gem",
-    Phaser.Animation.generateFrameNames("gem/gem-", 1, 4, "", 0),
-    10,
-    true
-  );
-  this.anchor.setTo(0.5);
-  game.physics.arcade.enable(this);
-  this.animations.play("gem");
-  this.type = "gem";
-}
-Gem.prototype = Object.create(Phaser.Sprite.prototype);
-Gem.prototype.constructor = Gem;
-
-// COIN
-
-function Coin(game, x, y) {
-  x *= 16;
-  y *= 16;
-  Phaser.Sprite.call(this, game, x, y, "atlas", "coin/coin-1");
-  this.animations.add(
-    "coin",
-    Phaser.Animation.generateFrameNames("coin/coin-", 1, 4, "", 0),
-    10,
-    true
-  );
-  this.anchor.setTo(0.5);
-  game.physics.arcade.enable(this);
-  this.animations.play("coin");
-  this.type = "coin";
-}
-Coin.prototype = Object.create(Phaser.Sprite.prototype);
-Coin.prototype.constructor = Coin;
