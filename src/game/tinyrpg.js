@@ -10,7 +10,7 @@
 import { addSounds, loadAudio, startMusic, sounds } from "./audio";
 
 import { Player } from "./characters/Player";
-import { Michel } from "./characters/Michel";
+import { Character } from "./characters/Character";
 import { Mole } from "./characters/Mole"
 import { Treant } from "./characters/Treant"
 
@@ -94,6 +94,8 @@ class LoadingScene {
 
     game.load.spritesheet('michel', 'assets/characters/michel.png', 32, 32, 9);
     game.load.spritesheet('michelle', 'assets/characters/michelle.png', 32, 32, 9);
+    game.load.spritesheet('franck', 'assets/characters/franck.png', 32, 32, 9);
+    game.load.spritesheet('augustin', 'assets/characters/augustin.png', 32, 32, 9);
 
     // images
     game.load.image("exit", "assets/environment/exit-open.png");
@@ -203,7 +205,18 @@ class GameScene {
     startMusic();
 
     //player = new Player(game, 47, 31)
-    player = new Michel(game, 47, 31)
+
+    /* TEST */
+    let sprites = ["michelle", "franck", "augustin", "michel"]
+    player = new Character(game, 47, 31);
+    player.prepareAttack = () => {
+      let sprite = sprites.shift();
+      player.loadTexture(sprite);
+      sprites.push(sprite);
+    };
+    player.releaseAttack = () => { }
+    /* /TEST */
+
     game.add.existing(player);
 
     this.bindKeys();

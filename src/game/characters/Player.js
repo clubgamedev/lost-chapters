@@ -78,98 +78,42 @@ export class Player extends Phaser.Sprite {
 
     addAnimations() {
         const animVel = 12;
-        this.animations.add(
-            "idle-front",
-            ["idle/hero-idle-front/hero-idle-front"],
-            0,
-            true
-        );
-        this.animations.add(
-            "idle-back",
-            ["idle/hero-idle-back/hero-idle-back"],
-            0,
-            true
-        );
-        this.animations.add(
-            "idle-side",
-            ["idle/hero-idle-side/hero-idle-side"],
-            0,
-            true
-        );
-        //
-        this.animations.add(
-            "walk-front",
-            Phaser.Animation.generateFrameNames(
-                "walk/hero-walk-front/hero-walk-front-",
-                1,
-                6,
-                "",
-                0
-            ),
+        this.animations.add("idle-front", ["idle/hero-idle-front/hero-idle-front"], 0, true);
+        this.animations.add("idle-back", ["idle/hero-idle-back/hero-idle-back"], 0, true);
+        this.animations.add("idle-side", ["idle/hero-idle-side/hero-idle-side"], 0, true);
+
+        this.animations.add("walk-front",
+            Phaser.Animation.generateFrameNames("walk/hero-walk-front/hero-walk-front-", 1, 6, "", 0),
             animVel,
             true
         );
-        this.animations.add(
-            "walk-back",
-            Phaser.Animation.generateFrameNames(
-                "walk/hero-walk-back/hero-walk-back-",
-                1,
-                6,
-                "",
-                0
-            ),
+        this.animations.add("walk-back",
+            Phaser.Animation.generateFrameNames("walk/hero-walk-back/hero-walk-back-", 1, 6, "", 0),
             animVel,
             true
         );
-        this.animations.add(
-            "walk-side",
-            Phaser.Animation.generateFrameNames(
-                "walk/hero-walk-side/hero-walk-side-",
-                1,
-                6,
-                "",
-                0
-            ),
+        this.animations.add("walk-side",
+            Phaser.Animation.generateFrameNames("walk/hero-walk-side/hero-walk-side-", 1, 6, "", 0),
             animVel,
             true
         );
-        //
-        const attack_front = this.animations.add(
-            "attack-front",
-            Phaser.Animation.generateFrameNames(
-                "attack-weapon/hero-attack-front/hero-attack-front-weapon-",
-                1,
-                3,
-                "",
-                0
-            ),
+
+        const attack_front = this.animations.add("attack-front",
+            Phaser.Animation.generateFrameNames("attack-weapon/hero-attack-front/hero-attack-front-weapon-", 1, 3, "", 0),
             animVel,
             false
         );
-        const attack_back = this.animations.add(
-            "attack-back",
-            Phaser.Animation.generateFrameNames(
-                "attack-weapon/hero-attack-back/hero-attack-back-weapon-",
-                1,
-                3,
-                "",
-                0
-            ),
+        const attack_back = this.animations.add("attack-back",
+            Phaser.Animation.generateFrameNames("attack-weapon/hero-attack-back/hero-attack-back-weapon-", 1, 3, "", 0),
             animVel,
             false
         );
-        const attack_side = this.animations.add(
-            "attack-side",
-            Phaser.Animation.generateFrameNames(
-                "attack-weapon/hero-attack-side/hero-attack-side-weapon-",
-                1,
-                3,
-                "",
-                0
-            ),
+        const attack_side = this.animations.add("attack-side",
+            Phaser.Animation.generateFrameNames("attack-weapon/hero-attack-side/hero-attack-side-weapon-", 1, 3, "", 0),
             animVel,
             false
         );
+
         // set flag to false on complete
         const onAttackReady = () => { this.action = PLAYER_ACTION.ATTACK_READY; }
         attack_front.onComplete.add(onAttackReady, this);
