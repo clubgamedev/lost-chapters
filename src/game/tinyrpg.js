@@ -55,12 +55,7 @@ class BootScene {
 
 class LoadingScene {
   preload() {
-    const loadingBar = this.add.sprite(
-      game.width / 2,
-      game.height / 2,
-      "loading"
-    );
-    loadingBar.anchor.setTo(0.5);
+    const loadingBar = this.add.sprite(0, game.height / 2 - 10, "loading");
     game.load.setPreloadSprite(loadingBar);
     // load title screen
     game.load.image("title-bg", "assets/sprites/title-screen.png");
@@ -121,7 +116,7 @@ class MenuScene {
   create() {
     game.add.tileSprite(0, 0, gameWidth, gameHeight, "title-bg");
 
-    this.pressEnter = game.add.image(game.width / 2, game.height - 25, "enter");
+    this.pressEnter = game.add.image(game.width / 2, game.height - 20, "enter");
     this.pressEnter.anchor.setTo(0.5);
     blinkText(this.pressEnter);
 
@@ -133,11 +128,7 @@ class MenuScene {
   startGame() {
     if (this.state == 1) {
       this.state = 2;
-      this.title2 = game.add.image(
-        game.width / 2,
-        game.height / 2,
-        "instructions"
-      );
+      this.title2 = game.add.image(game.width / 2, game.height / 2, "instructions");
       this.title2.anchor.setTo(0.5);
     } else {
       this.game.state.start("PlayGame");
@@ -151,7 +142,7 @@ class GameOverScene {
     this.title = game.add.image(game.width / 2, game.height / 2, "gameover");
     this.title.anchor.setTo(0.5);
 
-    this.pressEnter = game.add.image(game.width / 2, game.height - 25, "enter");
+    this.pressEnter = game.add.image(game.width / 2, game.height - 20, "enter");
     this.pressEnter.anchor.setTo(0.5);
     blinkText(this.pressEnter);
 
