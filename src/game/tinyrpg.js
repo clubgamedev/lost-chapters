@@ -63,10 +63,8 @@ class LoadingScene {
     loadingBar.anchor.setTo(0.5);
     game.load.setPreloadSprite(loadingBar);
     // load title screen
-    game.load.image("title-bg", "assets/sprites/title-screen-bg.png");
-    game.load.image("title", "assets/sprites/title-screen.png");
+    game.load.image("title-bg", "assets/sprites/title-screen.png");
     game.load.image("enter", "assets/sprites/press-enter-text.png");
-    game.load.image("credits", "assets/sprites/credits-text.png");
     game.load.image("instructions", "assets/sprites/instructions.png");
     game.load.image("gameover", "assets/sprites/game-over.png");
 
@@ -110,30 +108,26 @@ class LoadingScene {
   }
 }
 
+function blinkText(sprite) {
+  sprite.alpha = 0.95;
+  game.add.tween(sprite)
+    .to({ alpha: 0.3 }, 800, Phaser.Easing.Quadratic.InOut)
+    .yoyo(true)
+    .loop()
+    .start()
+}
+
 class MenuScene {
   create() {
     game.add.tileSprite(0, 0, gameWidth, gameHeight, "title-bg");
-    this.title = game.add.image(game.width / 2, 130, "title");
-    this.title.anchor.setTo(0.5, 1);
-    const tween = game.add.tween(this.title);
-    tween
-      .to({ y: 130 + 10 }, 800, Phaser.Easing.Linear.In)
-      .yoyo(true)
-      .loop();
 
-    tween.start();
-    //
-    this.pressEnter = game.add.image(game.width / 2, game.height - 35, "enter");
+    this.pressEnter = game.add.image(game.width / 2, game.height - 25, "enter");
     this.pressEnter.anchor.setTo(0.5);
-    //
+    blinkText(this.pressEnter);
+
     const startKey = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
     startKey.onDown.add(this.startGame, this);
     this.state = 1;
-    //
-    game.time.events.loop(900, this.blinkText, this);
-    //
-    const credits = game.add.image(game.width / 2, game.height - 15, "credits");
-    credits.anchor.setTo(0.5);
   }
 
   startGame() {
@@ -145,17 +139,8 @@ class MenuScene {
         "instructions"
       );
       this.title2.anchor.setTo(0.5);
-      this.title.destroy();
     } else {
       this.game.state.start("PlayGame");
-    }
-  }
-
-  blinkText() {
-    if (this.pressEnter.alpha) {
-      this.pressEnter.alpha = 0;
-    } else {
-      this.pressEnter.alpha = 1;
     }
   }
 }
@@ -166,30 +151,17 @@ class GameOverScene {
     this.title = game.add.image(game.width / 2, game.height / 2, "gameover");
     this.title.anchor.setTo(0.5);
 
-    //
-    this.pressEnter = game.add.image(game.width / 2, game.height - 35, "enter");
+    this.pressEnter = game.add.image(game.width / 2, game.height - 25, "enter");
     this.pressEnter.anchor.setTo(0.5);
-    //
+    blinkText(this.pressEnter);
+
     const startKey = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
     startKey.onDown.add(this.startGame, this);
     this.state = 1;
-    //
-    game.time.events.loop(900, this.blinkText, this);
-    //
-    const credits = game.add.image(game.width / 2, game.height - 15, "credits");
-    credits.anchor.setTo(0.5);
   }
 
   startGame() {
     this.game.state.start("PlayGame");
-  }
-
-  blinkText() {
-    if (this.pressEnter.alpha) {
-      this.pressEnter.alpha = 0;
-    } else {
-      this.pressEnter.alpha = 1;
-    }
   }
 }
 
