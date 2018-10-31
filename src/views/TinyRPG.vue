@@ -1,7 +1,7 @@
 <template>
-  <div class="home">
+  <main>
     <Game :importGame="importGame" />
-  </div>
+  </main>
 </template>
 
 <script>

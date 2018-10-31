@@ -30,4 +30,9 @@
 #nav a.router-link-exact-active {
   color: #42b983;
 }
+
+main {
+  max-height: 90vh;
+  margin: auto;
+}
 </style>

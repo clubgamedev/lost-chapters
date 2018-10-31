@@ -27,6 +27,7 @@ export default {
 <style>
 #game {
   margin: 0 auto;
+  max-width: 120vh;
 }
 #game canvas {
   display: block;
