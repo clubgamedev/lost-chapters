@@ -10,12 +10,10 @@ const CHARACTER_STATE = {
 };
 
 export class Character extends Phaser.Sprite {
-    constructor(game, x, y, sprite = "michel") {
-        super(game, x * 16, y * 16, sprite, 3);
+    constructor(game, startPosition, sprite = "michel") {
+        super(game, startPosition.x * 16 + 10, startPosition.y * 16 + 10, sprite, 3);
         this.type = "character";
         this.state = CHARACTER_STATE.DOWN;
-        this.initX = x * 16;
-        this.initY = y * 16;
         this.anchor.setTo(0.5);
         game.physics.arcade.enable(this);
         this.body.setSize(6, 10, 13, 20);

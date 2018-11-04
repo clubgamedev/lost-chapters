@@ -2,59 +2,31 @@ import { addSounds, startMusic, sounds } from "../audio";
 
 import { Player } from "../characters/Player";
 import { Character } from "../characters/Character";
-import { Mole } from "../characters/Mole"
-import { Treant } from "../characters/Treant"
 
 import { spawnCoin } from "../items/Coin";
 import { spawnGem } from "../items/Gem";
 
 import { spawnEnemyDeath } from "../effects/EnemyDeath";
+import { Level, caveLevel, forestLevel } from "../levels";
 
-let player;
-let globalMap;
 let hurtFlag;
-let exit;
-let kills = 5;
 
 export class GameScene {
     create() {
-
-        this.createTileMap(1);
-        this.createGroups();
-        this.createExit(46, 27);
-        this.populate();
+        game.level = new Level(caveLevel);
 
         addSounds();
         startMusic();
 
-        //player = new Player(game, 47, 31)
-
-        /* TEST */
-        let sprites = ["michelle", "franck", "augustin", "michel"]
-        player = new Character(game, 47, 31);
-        player.prepareAttack = () => {
-            let sprite = sprites.shift();
-            player.loadTexture(sprite);
-            sprites.push(sprite);
-        };
-        player.releaseAttack = () => { }
-        /* /TEST */
-
-        game.add.existing(player);
+        this.spawnPlayer();
 
         this.bindKeys();
         this.createCamera();
         this.createHud();
 
         const attackKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-        attackKey.onDown.add(() => { player.prepareAttack() });
-        attackKey.onUp.add(() => { player.releaseAttack() });
-    }
-
-    createExit(x, y) {
-        exit = game.add.sprite(x * 16, y * 16, "exit");
-        exit.alpha = 0;
-        game.physics.arcade.enable(exit);
+        attackKey.onDown.add(() => { game.player.prepareAttack() });
+        attackKey.onUp.add(() => { game.player.releaseAttack() });
     }
 
     createHud() {
@@ -67,7 +39,24 @@ export class GameScene {
     }
 
     createCamera() {
-        game.camera.follow(player);
+        game.camera.follow(game.player);
+    }
+
+    spawnPlayer() {
+        //game.player = new Player(game, 47, 31)
+
+        /* TEST */
+        let sprites = ["michelle", "franck", "augustin", "michel"]
+        game.player = new Character(game, game.level.startPosition);
+        game.player.prepareAttack = () => {
+            let sprite = sprites.shift();
+            game.player.loadTexture(sprite);
+            sprites.push(sprite);
+        };
+        game.player.releaseAttack = () => { }
+        /* /TEST */
+
+        game.add.existing(game.player);
     }
 
     bindKeys() {
@@ -88,125 +77,31 @@ export class GameScene {
         ]);
     }
 
-    createTileMap() {
-        //tilemap
-        globalMap = game.add.tilemap("map");
-        globalMap.addTilesetImage("collisions");
-        globalMap.addTilesetImage("tileset");
-        globalMap.addTilesetImage("objects");
-
-        this.layer_collisions = globalMap.createLayer("Collisions Layer");
-        this.layer = globalMap.createLayer("Tile Layer");
-        this.layer2 = globalMap.createLayer("Tile Layer 2");
-
-        // collisions
-        globalMap.setCollision([0, 1]);
-
-        this.layer.resizeWorld();
-        this.layer2.resizeWorld();
-        this.layer_collisions.resizeWorld();
-
-        // this.layer_collisions.visible = true;
-        // this.layer_collisions.debug = true;
-        //this.layer.visible = false;
-    }
-
-    createGroups() {
-        game.groups = {};
-        game.groups.enemies = game.add.group();
-        game.groups.enemies.enableBody = true;
-
-        game.groups.loot = game.add.group();
-        game.groups.loot.enableBody = true;
-
-        game.groups.objects = game.add.group();
-        game.groups.objects.enableBody = true;
-
-        game.groups.projectiles = game.add.group();
-        game.groups.projectiles.enableBody = true;
-    }
-
-    populate() {
-        // populate enemies from the tiled map from the objects layer
-        this.createMoles();
-        this.createTreants();
-    }
-
-    //find objects in a Tiled layer that containt a property called "type" equal to a certain value
-    findObjectsByType(type, map, layer) {
-        const result = new Array();
-        map.objects[layer].forEach(element => {
-            //console.log(element);
-            if (element.type === type) {
-                //Phaser uses top left, Tiled bottom left so we have to adjust the y position
-                //also keep in mind that the cup images are a bit smaller than the tile which is 16x16
-                //so they might not be placed in the exact pixel position as in Tiled
-                //console.log("Found " + element.type);
-                element.y -= map.tileHeight;
-
-                result.push(element);
-            }
-        });
-        return result;
-    }
-
-    createMoles() {
-        const enemies_array = this.findObjectsByType(
-            "mole",
-            globalMap,
-            "Object Layer"
-        );
-        for (let i = 0; i < enemies_array.length; i++) {
-            game.groups.enemies.add(
-                new Mole(
-                    enemies_array[i].x / 16,
-                    enemies_array[i].y / 16,
-                    enemies_array[i].properties.vertical
-                )
-            ); // create prefab
-        }
-    }
-
-    createTreants() {
-        const enemies_array = this.findObjectsByType(
-            "treant",
-            globalMap,
-            "Object Layer"
-        );
-        for (let i = 0; i < enemies_array.length; i++) {
-            game.groups.enemies.add(
-                new Treant(enemies_array[i].x / 16, enemies_array[i].y / 16)
-            ); // create prefab
-        }
-    }
-
     update() {
         // physics
-        game.physics.arcade.collide(player, this.layer_collisions);
-        game.physics.arcade.collide(game.groups.enemies, this.layer_collisions);
+        game.physics.arcade.collide(game.player, game.level.layer_collisions);
+        game.physics.arcade.collide(game.groups.enemies, game.level.layer_collisions);
         //
         game.physics.arcade.overlap(game.groups.enemies, game.groups.projectiles, this.shotImpact, null, this);
 
-        if (player.alive) {
+        if (game.player.alive) {
             //overlaps
-            game.physics.arcade.overlap(player, game.groups.enemies, this.hurtPlayer, null, this);
-            game.physics.arcade.overlap(player, game.groups.loot, this.lootManager, null, this);
+            game.physics.arcade.overlap(game.player, game.groups.enemies, this.hurtPlayer, null, this);
+            game.physics.arcade.overlap(game.player, game.groups.loot, this.lootManager, null, this);
 
             // exit game if key is obtained
-            game.physics.arcade.overlap(player, exit, this.exitManager, null, this);
+            game.physics.arcade.overlap(game.player, game.level.exit, this.onExitReached, null, this);
         }
 
-        player.move(game.input.keyboard.keys);
+        game.player.move(game.input.keyboard.keys);
 
         //this.debugGame();
         this.hurtManager();
     }
 
-    exitManager() {
-        if (kills <= 0) {
-            game.state.start("GameOver");
-            game.music.stop();
-        }
+    onExitReached() {
+        game.state.start("GameOver");
+        game.music.stop();
     }
 
     lootManager(player, loot) {
@@ -231,13 +126,12 @@ export class GameScene {
         hurtFlag = true;
         this.game.time.reset();
 
-        player.alpha = 0.5;
-
-        player.health--;
+        game.player.alpha = 0.5;
+        game.player.health--;
         this.updateHealthHud();
 
         sounds.HURT.play();
-        if (player.health < 1) {
+        if (game.player.health < 1) {
             this.gameOver();
         }
     }
@@ -248,7 +142,7 @@ export class GameScene {
     }
 
     updateHealthHud() {
-        switch (player.health) {
+        switch (game.player.health) {
             case 3:
                 this.hud_1.loadTexture("atlas", "hearts/hearts-1", false);
                 this.hud_2.loadTexture("atlas", "hearts/hearts-1", false);
@@ -276,14 +170,13 @@ export class GameScene {
     hurtManager() {
         if (hurtFlag && this.game.time.totalElapsedSeconds() > 2) {
             hurtFlag = false;
-            player.alpha = 1;
+            game.player.alpha = 1;
         }
     }
 
     shotImpact(enemy, shot) {
         enemy.kill();
         shot.destroy();
-        kills--;
         sounds.ENEMY_DEATH.play();
         spawnCoin(enemy.x / 16, enemy.y / 16);
         spawnEnemyDeath(enemy.position.x, enemy.position.y);
@@ -295,17 +188,13 @@ export class GameScene {
                 spawnGem(enemy.x / 16, enemy.y / 16);
             }
         }
-
-        if (kills <= 0) {
-            exit.alpha = 1;
-        }
     }
 
     debugGame() {
         // return;
         //game.debug.spriteInfo(this.player, 30, 30);
 
-        game.debug.body(player);
+        game.debug.body(game.player);
         game.groups.enemies.forEachAlive(this.renderGroup, this);
         game.groups.projectiles.forEachAlive(this.renderGroup, this);
         game.groups.loot.forEachAlive(this.renderGroup, this);

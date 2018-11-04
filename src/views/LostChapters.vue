@@ -15,7 +15,7 @@ export default {
   data() {
     return {
       importGame: () =>
-        import(/* webpackChunkName: "tinyrpg" */ "@/game/tinyrpg.js")
+        import(/* webpackChunkName: "game" */ "@/game/lostchapters.js")
     };
   }
 };

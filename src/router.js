@@ -2,7 +2,7 @@ import Vue from "vue";
 import Router from "vue-router";
 import Breakout from "./views/Breakout.vue";
 import Reigns from "./views/Reigns.vue";
-import TinyRPG from "./views/TinyRPG.vue";
+import LostChapters from "./views/LostChapters.vue";
 
 Vue.use(Router);
 
@@ -12,7 +12,7 @@ export default new Router({
   routes: [
     {
       path: "/",
-      redirect: "/tinyrpg"
+      redirect: "/lostchapters"
     },
     {
       path: "/breakout",
@@ -20,9 +20,9 @@ export default new Router({
       component: Breakout
     },
     {
-      path: "/tinyrpg",
-      name: "tiynrpg",
-      component: TinyRPG
+      path: "/lostchapters",
+      name: "LostChapters",
+      component: LostChapters
     },
     {
       path: "/reigns",

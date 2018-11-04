@@ -1,4 +1,4 @@
-import {loadAudio} from "../audio"
+import { loadAudio } from "../audio"
 
 export class LoadingScene {
     preload() {
@@ -12,14 +12,12 @@ export class LoadingScene {
 
         // tileset
         game.load.image("tileset", "assets/environment/tileset.png");
+        game.load.image("tileset_cave", "assets/environment/cave_tileset.png");
         game.load.image("objects", "assets/environment/objects.png");
         game.load.image("collisions", "assets/environment/collisions.png");
-        game.load.tilemap(
-            "map",
-            "assets/maps/map.json",
-            null,
-            Phaser.Tilemap.TILED_JSON
-        );
+        game.load.tilemap("map", "assets/maps/map.json", null, Phaser.Tilemap.TILED_JSON);
+        game.load.tilemap("map_cave", "assets/maps/terrier.json", null, Phaser.Tilemap.TILED_JSON);
+
         // atlas
         game.load.atlasJSONArray(
             "atlas",
@@ -32,6 +30,7 @@ export class LoadingScene {
             "assets/atlas/atlas-props.json"
         );
 
+        // spritesheets
         game.load.spritesheet('michel', 'assets/characters/michel.png', 32, 32, 9);
         game.load.spritesheet('michelle', 'assets/characters/michelle.png', 32, 32, 9);
         game.load.spritesheet('franck', 'assets/characters/franck.png', 32, 32, 9);
