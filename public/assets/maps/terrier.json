@@ -55,7 +55,7 @@
                          "value":true
                         }],
                  "rotation":0,
-                 "type":"mole",
+                 "type":"cultist",
                  "visible":true,
                  "width":16,
                  "x":108,
@@ -85,7 +85,7 @@
                          "value":false
                         }],
                  "rotation":0,
-                 "type":"mole",
+                 "type":"cultist",
                  "visible":true,
                  "width":16,
                  "x":677.5,
@@ -103,7 +103,7 @@
                          "value":true
                         }],
                  "rotation":0,
-                 "type":"mole",
+                 "type":"cultist",
                  "visible":true,
                  "width":16,
                  "x":656,
@@ -121,7 +121,7 @@
                          "value":false
                         }],
                  "rotation":0,
-                 "type":"mole",
+                 "type":"cultist",
                  "visible":true,
                  "width":16,
                  "x":480.5,
@@ -163,7 +163,7 @@
                          "value":true
                         }],
                  "rotation":0,
-                 "type":"mole",
+                 "type":"cultist",
                  "visible":true,
                  "width":16,
                  "x":262.5,
@@ -181,7 +181,7 @@
                          "value":false
                         }],
                  "rotation":0,
-                 "type":"mole",
+                 "type":"cultist",
                  "visible":true,
                  "width":16,
                  "x":345,
@@ -199,7 +199,7 @@
                          "value":false
                         }],
                  "rotation":0,
-                 "type":"mole",
+                 "type":"cultist",
                  "visible":true,
                  "width":16,
                  "x":263,
@@ -217,7 +217,7 @@
                          "value":false
                         }],
                  "rotation":0,
-                 "type":"mole",
+                 "type":"cultist",
                  "visible":true,
                  "width":16,
                  "x":768,
@@ -235,7 +235,7 @@
                          "value":false
                         }],
                  "rotation":0,
-                 "type":"mole",
+                 "type":"cultist",
                  "visible":true,
                  "width":16,
                  "x":190,
@@ -253,7 +253,7 @@
                          "value":false
                         }],
                  "rotation":0,
-                 "type":"mole",
+                 "type":"cultist",
                  "visible":true,
                  "width":16,
                  "x":800.5,

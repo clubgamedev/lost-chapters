@@ -1,5 +1,6 @@
 import { Mole } from "./characters/Mole"
 import { Treant } from "./characters/Treant"
+import { Cultist } from "./characters/Cultist"
 
 export const forestLevel = {
 	name: "La forêt",
@@ -76,22 +77,17 @@ export class Level {
 	}
 
 	createEnemies() {
-		findObjectsByType("mole", this.tilemap, "Object Layer").forEach(
-			enemy => {
-				let verticalMove = enemy.properties.some(
+		const enemies = { mole: Mole, treant: Treant, cultist: Cultist };
+		Object.entries(enemies).forEach(([enemyType, Constructor]) => {
+			findObjectsByType(enemyType, this.tilemap, "Object Layer").forEach(enemy => {
+				let verticalMove = enemy.properties && enemy.properties.some(
 					prop => prop.name === "vertical" && prop.value === true
 				)
 				game.groups.enemies.add(
-					new Mole(enemy.x / 16, enemy.y / 16, verticalMove)
+					new Constructor(enemy.x / 16, enemy.y / 16, verticalMove)
 				)
-			}
-		)
-
-		findObjectsByType("treant", this.tilemap, "Object Layer").forEach(
-			enemy => {
-				game.groups.enemies.add(new Treant(enemy.x / 16, enemy.y / 16))
-			}
-		)
+			})
+		})
 	}
 
 	createExit({ x, y }) {

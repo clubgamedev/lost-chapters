@@ -33,7 +33,7 @@ export class Player extends Phaser.Sprite {
 		this.action = PLAYER_ACTION.IDLE
 		this.anchor.setTo(0.5)
 		game.physics.arcade.enable(this)
-		this.body.setSize(6, 10, 13, 20)
+		this.body.setSize(10, 10, 10, 20)
 		this.size = 1
 		this.scale.setTo(this.size)
 

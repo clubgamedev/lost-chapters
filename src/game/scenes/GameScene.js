@@ -57,7 +57,7 @@ export class GameScene {
 			game.player.loadTexture(sprite)
 			sprites.push(sprite)
 		}
-		game.player.releaseAttack = () => {}
+		game.player.releaseAttack = () => { }
 		/* /TEST */
 
 		game.add.existing(game.player)
@@ -126,7 +126,7 @@ export class GameScene {
 
 		game.player.move(game.input.keyboard.keys)
 
-		//this.debugGame();
+		this.debugGame();
 		this.hurtManager()
 
 		game.level.update()
