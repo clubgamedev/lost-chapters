@@ -15,7 +15,7 @@
         data() {
             return {
                 importGame: () =>
-                    import(/* webpackChunkName: "breakout" */ "@/game/decryptor.js")
+                    import(/* webpackChunkName: "breakout" */ "@/game/decryptor/decryptor.js")
             };
         }
     };

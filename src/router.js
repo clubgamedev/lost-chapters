@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
+import Decryptor from "./views/Decryptor.vue";
 import Breakout from "./views/Breakout.vue";
 import Reigns from "./views/Reigns.vue";
 import LostChapters from "./views/LostChapters.vue";
@@ -29,6 +30,11 @@ export default new Router({
       name: "reigns",
       component: Reigns
     },
+      {
+          path: "/decryptor",
+          name: "decryptor",
+          component: Decryptor
+      },
     {
       path: "/about",
       name: "about",
