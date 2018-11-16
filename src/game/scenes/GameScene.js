@@ -1,12 +1,7 @@
 import { addSounds, startMusic, sounds } from "../audio"
 
 import { Player } from "../characters/Player"
-import { Character } from "../characters/Character"
 
-import { spawnCoin } from "../items/Coin"
-import { spawnGem } from "../items/Gem"
-
-import { spawnEnemyDeath } from "../effects/EnemyDeath"
 import { Level, caveLevel, forestLevel } from "../levels"
 
 let hurtFlag
@@ -47,20 +42,8 @@ export class GameScene {
 	}
 
 	spawnPlayer() {
-		//game.player = new Player(game, 47, 31)
-
-		/* TEST */
-		let sprites = ["michelle", "franck", "augustin", "michel"]
-		game.player = new Character(game, game.level.startPosition)
-		game.player.prepareAttack = () => {
-			let sprite = sprites.shift()
-			game.player.loadTexture(sprite)
-			sprites.push(sprite)
-		}
-		game.player.releaseAttack = () => { }
-		/* /TEST */
-
-		game.add.existing(game.player)
+		game.player = new Player(game, { x: 10, y: 8 })
+		game.groups.characters.add(game.player)
 	}
 
 	bindKeys() {
@@ -84,52 +67,24 @@ export class GameScene {
 	update() {
 		// physics
 		game.physics.arcade.collide(game.player, game.level.layer_collisions)
-		game.physics.arcade.collide(
-			game.groups.enemies,
-			game.level.layer_collisions
-		)
-		//
-		game.physics.arcade.overlap(
-			game.groups.enemies,
-			game.groups.projectiles,
-			this.shotImpact,
-			null,
-			this
-		)
+		game.physics.arcade.collide(game.player, game.groups.pnjs)
+		game.physics.arcade.collide(game.groups.enemies, game.level.layer_collisions)
 
 		if (game.player.alive) {
 			//overlaps
-			game.physics.arcade.overlap(
-				game.player,
-				game.groups.enemies,
-				this.hurtPlayer,
-				null,
-				this
-			)
-			game.physics.arcade.overlap(
-				game.player,
-				game.groups.loot,
-				this.lootManager,
-				null,
-				this
-			)
-
-			// exit game if key is obtained
-			game.physics.arcade.overlap(
-				game.player,
-				game.level.exit,
-				this.onExitReached,
-				null,
-				this
-			)
+			game.physics.arcade.overlap(game.player, game.groups.enemies, this.hurtPlayer, null, this)
+			game.physics.arcade.overlap(game.player, game.groups.loot, this.lootManager, null, this)
+			game.physics.arcade.overlap(game.player, game.level.exit, this.onExitReached, null, this)
 		}
 
 		game.player.move(game.input.keyboard.keys)
 
-		this.debugGame();
+		//this.debugGame();
 		this.hurtManager()
 
 		game.level.update()
+
+		game.groups.render.sort('y', Phaser.Group.SORT_ASCENDING); // depth sort
 	}
 
 	onExitReached() {
@@ -207,29 +162,12 @@ export class GameScene {
 		}
 	}
 
-	shotImpact(enemy, shot) {
-		enemy.kill()
-		shot.destroy()
-		sounds.ENEMY_DEATH.play()
-		spawnCoin(enemy.x / 16, enemy.y / 16)
-		spawnEnemyDeath(enemy.position.x, enemy.position.y)
-		// sometimes drop gems or coins
-		if (game.rnd.integerInRange(0, 2) == 0) {
-			if (game.rnd.integerInRange(0, 1) == 0) {
-				spawnCoin(enemy.x / 16, enemy.y / 16)
-			} else {
-				spawnGem(enemy.x / 16, enemy.y / 16)
-			}
-		}
-	}
-
 	debugGame() {
 		// return;
 		//game.debug.spriteInfo(this.player, 30, 30);
 
 		game.debug.body(game.player)
-		game.groups.enemies.forEachAlive(this.renderGroup, this)
-		game.groups.projectiles.forEachAlive(this.renderGroup, this)
+		game.groups.characters.forEachAlive(this.renderGroup, this)
 		game.groups.loot.forEachAlive(this.renderGroup, this)
 	}
 
@@ -237,3 +175,4 @@ export class GameScene {
 		game.debug.body(member)
 	}
 }
+

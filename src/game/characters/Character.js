@@ -10,7 +10,7 @@ const CHARACTER_STATE = {
 }
 
 export class Character extends Phaser.Sprite {
-	constructor(game, startPosition, sprite = "michel") {
+	constructor(game, startPosition, sprite = "michel", startState = "DOWN") {
 		super(
 			game,
 			startPosition.x * 16 + 10,
@@ -20,10 +20,11 @@ export class Character extends Phaser.Sprite {
 		)
 
 		this.type = "character"
-		this.state = CHARACTER_STATE.DOWN
+		this.state = CHARACTER_STATE[startState]
 		this.anchor.setTo(0.5)
 		game.physics.arcade.enable(this)
 		this.body.setSize(10, 10, 10, 20)
+		this.body.moves = false;
 		this.size = 1
 		this.scale.setTo(this.size)
 
@@ -34,26 +35,26 @@ export class Character extends Phaser.Sprite {
 		// player walk animation
 		if (this.state == CHARACTER_STATE.WALKING_DOWN) {
 			this.animations.play("walk-front")
-			this.scale.x = 1 * this.size
 		} else if (this.state == CHARACTER_STATE.WALKING_UP) {
 			this.animations.play("walk-back")
-			this.scale.x = 1 * this.size
 		} else if (this.state == CHARACTER_STATE.WALKING_LEFT) {
 			this.animations.play("walk-side")
-			this.scale.x = 1 * this.size
 		} else if (this.state == CHARACTER_STATE.WALKING_RIGHT) {
 			this.animations.play("walk-side")
-			this.scale.x = -1 * this.size
 		} else if (this.state == CHARACTER_STATE.DOWN) {
 			this.animations.play("idle-front")
-			this.scale.x = 1 * this.size
 		} else if (this.state == CHARACTER_STATE.UP) {
 			this.animations.play("idle-back")
-			this.scale.x = 1 * this.size
 		} else if (this.state == CHARACTER_STATE.LEFT) {
 			this.animations.play("idle-side")
 		} else if (this.state == CHARACTER_STATE.RIGHT) {
 			this.animations.play("idle-side")
+		}
+
+		if (this.state == CHARACTER_STATE.WALKING_RIGHT || this.state == CHARACTER_STATE.RIGHT) {
+			this.scale.x = -1 * this.size
+		} else {
+			this.scale.x = 1 * this.size
 		}
 	}
 
@@ -113,11 +114,6 @@ export class Character extends Phaser.Sprite {
 			this.body.velocity.x == 0
 		) {
 			this.state = CHARACTER_STATE.RIGHT
-		}
-
-		if (game.lamp) {
-			game.lamp.x = this.x
-			game.lamp.y = this.y
 		}
 	}
 }

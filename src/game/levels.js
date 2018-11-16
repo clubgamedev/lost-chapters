@@ -1,6 +1,8 @@
 import { Mole } from "./characters/Mole"
 import { Treant } from "./characters/Treant"
 import { Cultist } from "./characters/Cultist"
+import { Character } from "./characters/Character"
+import RenderGroup from "./RenderGroup";
 
 export const forestLevel = {
 	name: "La forêt",
@@ -35,6 +37,7 @@ export class Level {
 		this.createGroups()
 		this.createExit(exitPosition)
 		this.createEnemies()
+		this.createPNJ();
 		this.createLights(lightRadius)
 	}
 
@@ -63,17 +66,20 @@ export class Level {
 
 	createGroups() {
 		game.groups = {}
-		game.groups.enemies = game.add.group()
-		game.groups.enemies.enableBody = true
 
-		game.groups.loot = game.add.group()
+		game.groups.render = new RenderGroup(game);
+
+		game.groups.characters = game.add.group(game.groups.render);
+		game.groups.characters.enableBody = true
+
+		game.groups.enemies = game.add.group(game.groups.characters)
+		game.groups.pnjs = game.add.group(game.groups.characters)
+
+		game.groups.loot = game.add.group(game.groups.render)
 		game.groups.loot.enableBody = true
 
-		game.groups.objects = game.add.group()
+		game.groups.objects = game.add.group(game.groups.render)
 		game.groups.objects.enableBody = true
-
-		game.groups.projectiles = game.add.group()
-		game.groups.projectiles.enableBody = true
 	}
 
 	createEnemies() {
@@ -84,7 +90,19 @@ export class Level {
 					prop => prop.name === "vertical" && prop.value === true
 				)
 				game.groups.enemies.add(
-					new Constructor(enemy.x / 16, enemy.y / 16, verticalMove)
+					new Constructor({ x: enemy.x / 16, y: enemy.y / 16 }, verticalMove)
+				)
+			})
+		})
+	}
+
+	createPNJ() {
+		const characters = ["franck", "augustin"];
+		characters.forEach((characterName) => {
+			findObjectsByType(characterName, this.tilemap, "Object Layer").forEach(character => {
+				let state = character.properties.find(prop => prop.name === "state").value;
+				game.groups.pnjs.add(
+					new Character(game, { x: character.x / 16, y: character.y / 16 }, characterName, state)
 				)
 			})
 		})

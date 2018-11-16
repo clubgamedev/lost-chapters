@@ -29,6 +29,6 @@ export function addSounds() {
 export function startMusic() {
     game.music = game.add.audio("music");
     game.music.loop = true;
-    game.music.play();
+    //game.music.play();
     game.onExit = () => game.music.stop();
 }
