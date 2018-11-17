@@ -19,12 +19,9 @@ export class GameScene {
 		this.createCamera()
 		this.createHud()
 
-		const attackKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
-		attackKey.onDown.add(() => {
-			game.player.prepareAttack()
-		})
-		attackKey.onUp.add(() => {
-			game.player.releaseAttack()
+		const actionKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
+		actionKey.onDown.add(() => {
+			game.player.doAction()
 		})
 	}
 
@@ -52,7 +49,7 @@ export class GameScene {
 			right: game.input.keyboard.addKey(Phaser.Keyboard.RIGHT),
 			down: game.input.keyboard.addKey(Phaser.Keyboard.DOWN),
 			up: game.input.keyboard.addKey(Phaser.Keyboard.UP),
-			attack: game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
+			action: game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
 		}
 
 		game.input.keyboard.addKeyCapture([
@@ -67,7 +64,7 @@ export class GameScene {
 	update() {
 		// physics
 		game.physics.arcade.collide(game.player, game.level.layer_collisions)
-		game.physics.arcade.collide(game.player, game.groups.pnjs)
+		game.physics.arcade.collide(game.player, game.groups.pnj)
 		game.physics.arcade.collide(game.groups.enemies, game.level.layer_collisions)
 
 		if (game.player.alive) {
@@ -167,6 +164,7 @@ export class GameScene {
 		//game.debug.spriteInfo(this.player, 30, 30);
 
 		game.debug.body(game.player)
+		game.debug.pixel(game.player.watchingPoint.x, game.player.watchingPoint.y, "rgba(0,255,0,1)", 1);
 		game.groups.characters.forEachAlive(this.renderGroup, this)
 		game.groups.loot.forEachAlive(this.renderGroup, this)
 	}

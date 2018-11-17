@@ -1,4 +1,4 @@
-const CHARACTER_STATE = {
+export const CHARACTER_STATE = {
 	LEFT: 0,
 	RIGHT: 1,
 	UP: 2,
@@ -89,31 +89,28 @@ export class Character extends Phaser.Sprite {
 			this.body.velocity.x = vel
 			this.body.velocity.y = 0
 		} else {
-			this.body.velocity.y = 0
-			this.body.velocity.x = 0
+			this.stopMoving();
 		}
+	}
 
+	stopMoving() {
+		this.body.velocity.y = 0
+		this.body.velocity.x = 0
 		// idle
-		if (
-			this.state == CHARACTER_STATE.WALKING_DOWN &&
-			this.body.velocity.y == 0
-		) {
-			this.state = CHARACTER_STATE.DOWN
-		} else if (
-			this.state == CHARACTER_STATE.WALKING_UP &&
-			this.body.velocity.y == 0
-		) {
-			this.state = CHARACTER_STATE.UP
-		} else if (
-			this.state == CHARACTER_STATE.WALKING_LEFT &&
-			this.body.velocity.x == 0
-		) {
-			this.state = CHARACTER_STATE.LEFT
-		} else if (
-			this.state == CHARACTER_STATE.WALKING_RIGHT &&
-			this.body.velocity.x == 0
-		) {
-			this.state = CHARACTER_STATE.RIGHT
+
+		switch (this.state) {
+			case CHARACTER_STATE.WALKING_LEFT:
+				this.state = CHARACTER_STATE.LEFT
+				break;
+			case CHARACTER_STATE.WALKING_RIGHT:
+				this.state = CHARACTER_STATE.RIGHT
+				break;
+			case CHARACTER_STATE.WALKING_UP:
+				this.state = CHARACTER_STATE.UP
+				break;
+			case CHARACTER_STATE.WALKING_DOWN:
+				this.state = CHARACTER_STATE.DOWN
+				break;
 		}
 	}
 }

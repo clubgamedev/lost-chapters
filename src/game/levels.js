@@ -2,7 +2,7 @@ import { Mole } from "./characters/Mole"
 import { Treant } from "./characters/Treant"
 import { Cultist } from "./characters/Cultist"
 import { Character } from "./characters/Character"
-import RenderGroup from "./RenderGroup";
+import RenderGroup from "./utils/RenderGroup";
 
 export const forestLevel = {
 	name: "La forêt",
@@ -73,7 +73,7 @@ export class Level {
 		game.groups.characters.enableBody = true
 
 		game.groups.enemies = game.add.group(game.groups.characters)
-		game.groups.pnjs = game.add.group(game.groups.characters)
+		game.groups.pnj = game.add.group(game.groups.characters)
 
 		game.groups.loot = game.add.group(game.groups.render)
 		game.groups.loot.enableBody = true
@@ -101,9 +101,9 @@ export class Level {
 		characters.forEach((characterName) => {
 			findObjectsByType(characterName, this.tilemap, "Object Layer").forEach(character => {
 				let state = character.properties.find(prop => prop.name === "state").value;
-				game.groups.pnjs.add(
-					new Character(game, { x: character.x / 16, y: character.y / 16 }, characterName, state)
-				)
+				let pnj = new Character(game, { x: character.x / 16, y: character.y / 16 }, characterName, state)
+				pnj.body.setSize(18, 14, 6, 18);
+				game.groups.pnj.add(pnj)
 			})
 		})
 	}
