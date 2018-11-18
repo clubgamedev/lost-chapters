@@ -16,12 +16,19 @@ body {
 	color: goldenrod;
 }
 
+@font-face {
+	font-family: "Alagard";
+	font-style: normal;
+	font-weight: 400;
+	src: url("../public/assets/fonts/alagard.ttf");
+}
+
 #app {
-	font-family: "Avenir", Helvetica, Arial, sans-serif;
+	font-family: "Alagard", Helvetica, Arial, sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	text-align: center;
-	color: #2c3e50;
+	color: goldenrod;
 }
 
 canvas {

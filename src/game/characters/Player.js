@@ -1,5 +1,5 @@
 import { Character, CHARACTER_STATE } from "./Character"
-import { talkTo, hideDialog } from "../utils/dialogs";
+import { talkTo, nextLine } from "../utils/dialogs";
 
 export class Player extends Character {
 	constructor(game, startPosition) {
@@ -51,7 +51,7 @@ export class Player extends Character {
 	}
 
 	doAction() {
-		if (game.dialog) return hideDialog();
+		if (game.dialog) return nextLine();
 
 		let { x, y } = this.watchingPoint;
 		let pnjInFront = game.groups.pnj.children.find(obj => obj instanceof Phaser.Sprite && obj.getBounds().contains(x, y));

@@ -9,6 +9,7 @@ export class LoadingScene {
 		game.load.image("enter", "assets/sprites/press-enter-text.png");
 		game.load.image("instructions", "assets/sprites/instructions.png");
 		game.load.image("gameover", "assets/sprites/game-over.png");
+		game.load.image("dialog-box", "assets/sprites/dialog-box.png");
 
 		// tileset
 		game.load.image("tileset", "assets/environment/tileset.png");
@@ -39,11 +40,6 @@ export class LoadingScene {
 
 		// images
 		game.load.image("exit", "assets/environment/exit-open.png");
-
-		// fonts
-		game.load.bitmapFont('font-gold', 'assets/fonts/gnsh-bitmapfont-colour1.png', 'assets/fonts/gnsh-bitmapfont.xcf');
-		game.load.bitmapFont('font-red', 'assets/fonts/gnsh-bitmapfont-colour2.png', 'assets/fonts/gnsh-bitmapfont.xcf');
-		game.load.bitmapFont('font-blue', 'assets/fonts/gnsh-bitmapfont-colour4.png', 'assets/fonts/gnsh-bitmapfont.xcf');
 
 		// audio
 		loadAudio();
