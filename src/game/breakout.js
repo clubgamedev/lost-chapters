@@ -18,7 +18,7 @@ function preload() {
     "assets/breakout/breakout.png",
     "assets/breakout/breakout.json"
   );
-  game.load.image("starfield", "assets/misc/starfield.jpg");
+  game.load.image("starfield", "assets/breakout/starfield.jpg");
 }
 
 var ball;

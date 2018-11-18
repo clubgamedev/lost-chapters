@@ -40,6 +40,11 @@ export class LoadingScene {
 		// images
 		game.load.image("exit", "assets/environment/exit-open.png");
 
+		// fonts
+		game.load.bitmapFont('font-gold', 'assets/fonts/gnsh-bitmapfont-colour1.png', 'assets/fonts/gnsh-bitmapfont.xcf');
+		game.load.bitmapFont('font-red', 'assets/fonts/gnsh-bitmapfont-colour2.png', 'assets/fonts/gnsh-bitmapfont.xcf');
+		game.load.bitmapFont('font-blue', 'assets/fonts/gnsh-bitmapfont-colour4.png', 'assets/fonts/gnsh-bitmapfont.xcf');
+
 		// audio
 		loadAudio();
 	}
