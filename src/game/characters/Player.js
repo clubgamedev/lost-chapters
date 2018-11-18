@@ -79,7 +79,6 @@ export class Player extends Character {
 					break;
 			}
 
-			this.stopMoving();
 			talkTo(pnjInFront.key);
 		}
 	}

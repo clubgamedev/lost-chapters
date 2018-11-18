@@ -1,4 +1,5 @@
-import { addSounds, startMusic, sounds } from "../audio"
+import { addSounds, startMusic, sounds } from "../utils/audio"
+import { startDialog } from "../utils/dialogs"
 
 import { Player } from "../characters/Player"
 
@@ -90,18 +91,22 @@ export class GameScene {
 	}
 
 	lootManager(player, loot) {
-		if (loot.type == "gem") {
-			sounds.ITEM.play()
-			loot.kill()
-			if (player.health < 3) {
-				player.health++
-				this.updateHealthHud()
-			}
+		switch (loot.type) {
+			case "gem":
+				if (player.health < 3) {
+					player.health++
+					this.updateHealthHud()
+				}
+				startDialog([
+					"Vous avez trouvé une gemme"
+				])
+			case "coin":
+				break;
+
 		}
-		if (loot.type == "coin") {
-			sounds.ITEM.play()
-			loot.kill()
-		}
+
+		sounds.ITEM.play()
+		loot.kill()
 	}
 
 	hurtPlayer() {

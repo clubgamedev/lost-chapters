@@ -2,6 +2,7 @@ import { Mole } from "./characters/Mole"
 import { Treant } from "./characters/Treant"
 import { Cultist } from "./characters/Cultist"
 import { Character } from "./characters/Character"
+import { spawnGem } from "./items/Gem";
 import RenderGroup from "./utils/RenderGroup";
 
 export const forestLevel = {
@@ -39,6 +40,8 @@ export class Level {
 		this.createEnemies()
 		this.createPNJ();
 		this.createLights(lightRadius)
+
+		spawnGem(14, 14);
 	}
 
 	createTileMap(tilemap, tileset) {

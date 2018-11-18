@@ -1,4 +1,6 @@
 export function startDialog(lines, color = "#A63C2E") {
+    game.player.stopMoving();
+
     let bgSprite = game.add.sprite(0, game.height - 40, "dialog-box");
     bgSprite.fixedToCamera = true;
 
