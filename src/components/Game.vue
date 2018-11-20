@@ -15,7 +15,7 @@ export default {
   },
   mounted() {
     this.importGame().then(module => {
-      this.game = module.startGame();
+      this.game = module.startGame(["action_shuffle"]);
     });
   },
   destroyed() {

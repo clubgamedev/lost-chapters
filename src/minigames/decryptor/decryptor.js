@@ -1,8 +1,12 @@
-/* global Phaser */
-
 let game;
 
-export function startGame(variants, difficulty) {
+let DecryptorConfig = {
+    BLINK : "blink",
+    SCREEN_SHUFFLE: "screen_shuffle",
+    ACTION_SHUFFLE: "action_shuffle"
+};
+
+export function startGame(variants) {
     game = new Phaser.Game(800, 450, Phaser.AUTO, "game", {
         preload: preload,
         create: create,
@@ -19,6 +23,7 @@ let keyAction;
 export function preload() {
     loadZodiacs();
     loadActions();
+    game.groups = {};
     keyAction = { "u": ["ArrowUp"], "d": ["ArrowDown"], "l": ["ArrowLeft"], "r": ["ArrowRight"], "1": ["1"], "2": ["2"], "3": ["3"], "4": ["4"] }
 }
 
@@ -69,6 +74,7 @@ let gameState = {
 };
 let winningText;
 let mapActionZodiacs = new Map();
+let screenTips=[];
 
 function constructMapActionZodiacs() {
     let actionArrayRemained = actionArray.slice();
@@ -87,6 +93,23 @@ function constructMapActionZodiacs() {
         }
         zodiacsArrayRemained.splice(indexZodiac, 1);
     }
+}
+
+function shuffleMapActionZodiacs(){
+    let actionArrayRemained = actionArray.slice();
+    let tricksArrayRemained = tricksArray.slice();
+    let oldMapActionZodiacs = new Map(mapActionZodiacs);
+    oldMapActionZodiacs.forEach((zodiac, action) => {
+        let indexAction = Math.floor(Math.random() * actionArrayRemained.length);
+        let indexTrick = Math.floor(Math.random() * tricksArrayRemained.length);
+        if(actionArray.indexOf(action) > -1){
+            mapActionZodiacs.set(actionArrayRemained[indexAction], zodiac);
+            actionArrayRemained.splice(indexAction, 1);
+        } else {
+            mapActionZodiacs.set(tricksArrayRemained[indexTrick], zodiac);
+            tricksArrayRemained.splice(indexTrick, 1);
+        }
+    });
 }
 
 function createElements() {
@@ -108,11 +131,28 @@ function createElements() {
 
         let element = {
             display: graphicsElement,
+            zodiac: mapActionZodiacs.get(action),
             action: action
         };
         elementsToFind.push(element);
         game.world.addChild(element.display);
     }
+}
+
+function refreshActionsElements(){
+    elementsToFind.forEach((element) => {
+        element.action = findActionForZodiac(element.zodiac);
+    })
+}
+
+function findActionForZodiac(zodiacToFind){
+    let result = "";
+    mapActionZodiacs.forEach((zodiac, action) => {
+        if(zodiacToFind === zodiac){
+            result = action;
+        }
+    });
+    return result;
 }
 
 function createScreenTips() {
@@ -127,7 +167,16 @@ function createScreenTips() {
         let actionImage = game.add.sprite(place.width / 2 - TmpImg.width, place.height - TmpImg.height * 2, action);
         actionImage.scale.setTo(2, 2);
         place.addChild(actionImage);
+        if(game.variants.indexOf(DecryptorConfig.BLINK)>-1){
+            zodiacImage.alpha = 1;
+            game.add.tween(zodiacImage)
+                .to({ alpha: 0 }, 800, Phaser.Easing.Cubic.InOut)
+                .yoyo(true)
+                .loop()
+                .start()
+        }
         place.addChild(zodiacImage);
+        screenTips.push(place);
         game.world.addChild(place);
         i++;
     });
@@ -191,13 +240,15 @@ function displayLosingScreen() {
         boundsAlignV: "middle" // bounds center align vertically
     };
 
-    let losingText = new Phaser.Text(game, 0, 0, "Am I Dead ?", textStyleLose);
+    screenTips.forEach((screenTip) => {
+        screenTip.destroy();
+    });
+    let losingText = new Phaser.Text(game, 0, 0, "Is death real ?", textStyleLose);
     losingText.setTextBounds(0, 0, game.width, game.height);
     let graphics = game.add.graphics(0, 0);
 
     graphics.addChild(losingText);
     game.input.keyboard.onDownCallback = function(e) {
-        console.log("", e.key);
         enterKeyWhenLose();
     };
 }
@@ -219,10 +270,25 @@ function manageTimer() {
     timer = game.time.events.add(Phaser.Timer.SECOND * duration, displayLosingScreen, this);
 }
 
+function clearScreenTips(){
+    screenTips.forEach((screenTip) => {
+        screenTip.destroy();
+    });
+}
+
 function testKeyPressWithElement(keyPress, element) {
     if (keyAction[element.action].indexOf(keyPress) > -1) {
         element.display.destroy();
         gameState.elementIndex++;
+        if(game.variants.indexOf(DecryptorConfig.SCREEN_SHUFFLE) > -1){
+            clearScreenTips();
+            createScreenTips();
+        }else if(game.variants.indexOf(DecryptorConfig.ACTION_SHUFFLE) > -1){
+            clearScreenTips();
+            shuffleMapActionZodiacs();
+            refreshActionsElements();
+            createScreenTips();
+        }
     }
 }
 
@@ -234,7 +300,7 @@ export function update() {
 }
 
 export function render() {
-    game.debug.text("Time until event: " + game.time.events.duration, 32, 32);
+    game.debug.text("Time is bleeding: " + game.time.events.duration, 32, 32);
 }
 
 function displayWinningText() {
