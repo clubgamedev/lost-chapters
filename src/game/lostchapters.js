@@ -5,6 +5,7 @@ import { LoadingScene } from "./scenes/LoadingScene"
 import { MenuScene } from "./scenes/MenuScene"
 import { GameScene } from "./scenes/GameScene"
 import { GameOverScene } from "./scenes/GameOverScene"
+import { DecryptorScene } from "./scenes/minigames/Decryptor";
 
 const gameWidth = 255
 const gameHeight = 144
@@ -16,6 +17,7 @@ export function startGame() {
 	game.state.add("TitleScreen", MenuScene)
 	game.state.add("PlayGame", GameScene)
 	game.state.add("GameOver", GameOverScene)
+	game.state.add("Decryptor", DecryptorScene);
 
 	game.state.start("Boot")
 	window.game = game //global

@@ -56,7 +56,6 @@ export class Player extends Character {
 		let { x, y } = this.watchingPoint;
 		let pnjInFront = game.groups.pnj.children.find(obj => obj instanceof Phaser.Sprite && obj.getBounds().contains(x, y));
 
-
 		if (pnjInFront) {
 			// talk to someone
 
@@ -79,7 +78,17 @@ export class Player extends Character {
 					break;
 			}
 
-			talkTo(pnjInFront.key);
+			return talkTo(pnjInFront.key);
+		}
+
+		let objectInFront = game.groups.objects.children.find(obj => obj instanceof Phaser.Sprite && obj.getBounds().contains(x, y));
+		if (objectInFront) {
+			switch (objectInFront.key) {
+				case "runes":
+					game.variants = objectInFront.properties.find(prop => prop.name === "variant").value.split(",");
+					game.state.start("Decryptor");
+					return;
+			}
 		}
 	}
 }

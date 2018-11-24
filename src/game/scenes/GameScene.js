@@ -9,6 +9,7 @@ let hurtFlag
 
 export class GameScene {
 	create() {
+		game.scale.setGameSize(255, 144);
 		game.level = new Level(caveLevel)
 
 		addSounds()
@@ -170,7 +171,9 @@ export class GameScene {
 
 		game.debug.body(game.player)
 		game.debug.pixel(game.player.watchingPoint.x, game.player.watchingPoint.y, "rgba(0,255,0,1)", 1);
-		game.groups.characters.forEachAlive(this.renderGroup, this)
+		game.groups.enemies.forEachAlive(this.renderGroup, this)
+		game.groups.pnj.forEachAlive(this.renderGroup, this)
+		game.groups.objects.forEachAlive(this.renderGroup, this)
 		game.groups.loot.forEachAlive(this.renderGroup, this)
 	}
 

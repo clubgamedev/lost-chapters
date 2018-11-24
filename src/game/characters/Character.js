@@ -10,14 +10,8 @@ export const CHARACTER_STATE = {
 }
 
 export class Character extends Phaser.Sprite {
-	constructor(game, startPosition, sprite = "michel", startState = "DOWN") {
-		super(
-			game,
-			startPosition.x * 16 + 10,
-			startPosition.y * 16 + 10,
-			sprite,
-			3
-		)
+	constructor(game, position, sprite = "michel", startState = "DOWN") {
+		super(game, position.x * 16 + 10, position.y * 16 + 10, sprite, 3)
 
 		this.type = "character"
 		this.state = CHARACTER_STATE[startState]

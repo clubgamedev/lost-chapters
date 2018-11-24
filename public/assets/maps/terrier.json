@@ -226,24 +226,6 @@
                 {
                  "gid":3,
                  "height":16,
-                 "id":18,
-                 "name":"",
-                 "properties":[
-                        {
-                         "name":"state",
-                         "type":"string",
-                         "value":"DOWN"
-                        }],
-                 "rotation":0,
-                 "type":"franck",
-                 "visible":true,
-                 "width":16,
-                 "x":70,
-                 "y":121.333333333333
-                }, 
-                {
-                 "gid":3,
-                 "height":16,
                  "id":19,
                  "name":"",
                  "properties":[
@@ -330,6 +312,24 @@
                  "width":16,
                  "x":215.333333333333,
                  "y":265.333333333333
+                }, 
+                {
+                 "gid":7,
+                 "height":16,
+                 "id":24,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"variant",
+                         "type":"string",
+                         "value":"action_shuffle"
+                        }],
+                 "rotation":0,
+                 "type":"runes",
+                 "visible":true,
+                 "width":16,
+                 "x":70,
+                 "y":90.6666666666667
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -338,7 +338,7 @@
          "y":0
         }],
  "nextlayerid":5,
- "nextobjectid":24,
+ "nextobjectid":26,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.2.1",

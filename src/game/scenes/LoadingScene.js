@@ -37,6 +37,7 @@ export class LoadingScene {
 		game.load.spritesheet('franck', 'assets/characters/franck.png', 32, 32, 9);
 		game.load.spritesheet('augustin', 'assets/characters/augustin.png', 32, 32, 9);
 		game.load.spritesheet('cultist', 'assets/characters/cultist.png', 32, 32, 9);
+		game.load.spritesheet("runes", 'assets/decryptor/runes.png', 16, 16, 8);
 
 		// images
 		game.load.image("exit", "assets/environment/exit-open.png");

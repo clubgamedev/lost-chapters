@@ -1,11 +1,5 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/breakout">Breakout</router-link> |
-      <router-link to="/reigns">Reigns</router-link> |
-      <router-link to="/game">Lost Chapters</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
     <router-view/>
   </div>
 </template>

@@ -3,6 +3,7 @@ import { Treant } from "./characters/Treant"
 import { Cultist } from "./characters/Cultist"
 import { Character } from "./characters/Character"
 import { spawnGem } from "./items/Gem";
+import { Runes } from "./items/Runes";
 import RenderGroup from "./utils/RenderGroup";
 
 export const forestLevel = {
@@ -39,6 +40,7 @@ export class Level {
 		this.createExit(exitPosition)
 		this.createEnemies()
 		this.createPNJ();
+		this.createObjects();
 		this.createLights(lightRadius)
 
 		spawnGem(14, 14);
@@ -111,6 +113,16 @@ export class Level {
 		})
 	}
 
+	createObjects() {
+		const objects = { runes: Runes };
+		Object.entries(objects).forEach(([objectType, Constructor]) => {
+			findObjectsByType(objectType, this.tilemap, "Object Layer").forEach(object => {
+				let sprite = new Constructor({ x: object.x / 16, y: object.y / 16 }, object.properties)
+				game.groups.objects.add(sprite)
+			})
+		})
+	}
+
 	createExit({ x, y }) {
 		this.exit = game.add.sprite(x * 16, y * 16, "exit")
 		this.exit.alpha = 0
@@ -146,11 +158,11 @@ export class Level {
 			game.height + 10
 		)
 
-		var radius = this.lightRadius + game.rnd.integerInRange(-1, 1),
+		let radius = this.lightRadius + game.rnd.integerInRange(-1, 1),
 			heroX = game.player.x - game.camera.x,
 			heroY = game.player.y - game.camera.y
 
-		var gradient = this.shadowTexture.context.createRadialGradient(
+		let gradient = this.shadowTexture.context.createRadialGradient(
 			heroX,
 			heroY,
 			this.lightRadius * 0.75,
@@ -179,7 +191,6 @@ export class Level {
 // find objects in a Tiled layer that containt a property called "type" equal to a certain value
 function findObjectsByType(type, map, layer) {
 	return map.objects[layer].filter(element => {
-		//console.log(element);
 		if (element.type === type) {
 			//Phaser uses top left, Tiled bottom left so we have to adjust the y position
 			//also keep in mind that the cup images are a bit smaller than the tile which is 16x16
