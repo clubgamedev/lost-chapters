@@ -1,5 +1,7 @@
 import { blinkText } from "../effects/blinkText";
 
+import { newGame } from "../save";
+
 export class MenuScene {
     create() {
         game.add.tileSprite(0, 0, game.width, game.height, "title-bg");
@@ -19,6 +21,7 @@ export class MenuScene {
             this.title2 = game.add.image(game.width / 2, game.height / 2, "instructions");
             this.title2.anchor.setTo(0.5);
         } else {
+            newGame();
             this.game.state.start("MainGame");
         }
     }

@@ -3,14 +3,14 @@ import { startDialog } from "../utils/dialogs"
 
 import { Player } from "../characters/Player"
 
-import { Level, caveLevel, forestLevel } from "../levels"
+import { Level, levels, caveLevel, forestLevel } from "../levels"
 
 let hurtFlag
 
 export class GameScene {
 	create() {
 		game.scale.setGameSize(255, 144);
-		game.level = new Level(caveLevel)
+		game.level = new Level(levels[game.save.level])
 
 		addSounds()
 		startMusic()
@@ -28,12 +28,8 @@ export class GameScene {
 	}
 
 	createHud() {
-		this.hud_1 = game.add.sprite(10, 5, "atlas", "hearts/hearts-1")
-		this.hud_2 = game.add.sprite(18, 5, "atlas", "hearts/hearts-1")
-		this.hud_3 = game.add.sprite(26, 5, "atlas", "hearts/hearts-1")
-		this.hud_1.fixedToCamera = true
-		this.hud_2.fixedToCamera = true
-		this.hud_3.fixedToCamera = true
+		game.lucidityBar = game.add.sprite(10, 5, "lucidity-bar");
+		game.lucidityBar.fixedToCamera = true
 	}
 
 	createCamera() {
@@ -41,7 +37,7 @@ export class GameScene {
 	}
 
 	spawnPlayer() {
-		game.player = new Player(game, { x: 10, y: 8 })
+		game.player = new Player(game, game.save.playerPosition)
 		game.groups.characters.add(game.player)
 	}
 
@@ -94,9 +90,9 @@ export class GameScene {
 	lootManager(player, loot) {
 		switch (loot.type) {
 			case "gem":
-				if (player.health < 3) {
-					player.health++
-					this.updateHealthHud()
+				if (player.lucidity < 16) {
+					player.lucidity++
+					this.updateHud()
 				}
 				startDialog([
 					"Vous avez trouvé une gemme"
@@ -118,11 +114,11 @@ export class GameScene {
 		this.game.time.reset()
 
 		game.player.alpha = 0.5
-		game.player.health--
-		this.updateHealthHud()
+		game.player.lucidity--
+		this.updateHud()
 
 		sounds.HURT.play()
-		if (game.player.health < 1) {
+		if (game.player.lucidity < 1) {
 			this.gameOver()
 		}
 	}
@@ -132,30 +128,8 @@ export class GameScene {
 		game.state.start("GameOver")
 	}
 
-	updateHealthHud() {
-		switch (game.player.health) {
-			case 3:
-				this.hud_1.loadTexture("atlas", "hearts/hearts-1", false)
-				this.hud_2.loadTexture("atlas", "hearts/hearts-1", false)
-				this.hud_3.loadTexture("atlas", "hearts/hearts-1", false)
-				break
-			case 2:
-				this.hud_1.loadTexture("atlas", "hearts/hearts-1", false)
-				this.hud_2.loadTexture("atlas", "hearts/hearts-1", false)
-				this.hud_3.loadTexture("atlas", "hearts/hearts-2", false)
-				break
-			case 1:
-				this.hud_1.loadTexture("atlas", "hearts/hearts-1", false)
-				this.hud_2.loadTexture("atlas", "hearts/hearts-2", false)
-				this.hud_3.loadTexture("atlas", "hearts/hearts-2", false)
-				break
-			case 0:
-				this.hud_1.loadTexture("atlas", "hearts/hearts-2", false)
-				this.hud_2.loadTexture("atlas", "hearts/hearts-2", false)
-				this.hud_3.loadTexture("atlas", "hearts/hearts-2", false)
-
-				break
-		}
+	updateHud() {
+		game.lucidityBar.frame = 16 - game.player.lucidity;
 	}
 
 	hurtManager() {

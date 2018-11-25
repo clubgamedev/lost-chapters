@@ -9,7 +9,7 @@ let elementsToFind = [];
 let MAX_NB_BUTTONS = 8;
 let actionArray = ["u", "d", "l", "r", "1", "2", "3", "4"];
 let zodiacsArray = ["aquarius", "aries", "cancer", "capricorn", "gemini", "leo", "libra", "pisces", "sagittarius", "scorpio", "taurus", "virgo"];
-let duration = 20;
+let duration = 2;
 let tricksArray = ["lt", "rt", "+", "-"];
 
 let downScreenHeight;
@@ -69,8 +69,8 @@ export class DecryptorScene {
 
     render() {
         timerText && timerText.destroy();
-        timerText = game.add.text(8, 8, "Time is bleeding: " + game.time.events.duration, {
-            font: "12px Alagard",
+        timerText = game.add.text(8, 8, `Time is bleeding: ${(game.time.events.duration / 1000).toFixed(0)}s`, {
+            font: "14px Alagard",
             fill: "white",
             boundsAlignH: "left",
             boundsAlignV: "bottom",
@@ -249,7 +249,7 @@ function gameOver(youWon) {
         if (youWon) {
             startDialog(["More knowledge !"], "lightblue");
         } else {
-            startDialog(["Too late..."], "gray");
+            startDialog(["Too late..."], "#aaa");
         }
 
     }, 500);

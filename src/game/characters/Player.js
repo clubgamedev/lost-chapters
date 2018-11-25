@@ -1,11 +1,12 @@
 import { Character, CHARACTER_STATE } from "./Character"
 import { talkTo, nextLine } from "../utils/dialogs";
+import { save } from "../save";
 
 export class Player extends Character {
 	constructor(game, startPosition) {
-		super(game, startPosition, "michel")
+		super(game, startPosition, "michel", game.save.playerState)
 		this.type = "player"
-		this.health = 3
+		this.lucidity = 16
 		this.body.setSize(10, 10, 11, 20)
 		this.body.moves = true;
 		this.watchingPoint = this.worldPosition;
@@ -86,6 +87,7 @@ export class Player extends Character {
 			switch (objectInFront.key) {
 				case "runes":
 					game.variants = objectInFront.properties.find(prop => prop.name === "variant").value.split(",");
+					save();
 					game.state.start("Decryptor");
 					return;
 			}

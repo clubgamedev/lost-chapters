@@ -1,7 +1,7 @@
 import { Mole } from "./characters/Mole"
 import { Treant } from "./characters/Treant"
 import { Cultist } from "./characters/Cultist"
-import { Character } from "./characters/Character"
+import { Character, CHARACTER_STATE } from "./characters/Character"
 import { spawnGem } from "./items/Gem";
 import { Runes } from "./items/Runes";
 import RenderGroup from "./utils/RenderGroup";
@@ -22,6 +22,11 @@ export const caveLevel = {
 	startPosition: { x: 10, y: 8 },
 	exitPosition: { x: 50, y: 24 },
 	lightRadius: 80
+}
+
+export const levels = {
+	forest: forestLevel,
+	cave: caveLevel
 }
 
 export class Level {
@@ -106,7 +111,8 @@ export class Level {
 		characters.forEach((characterName) => {
 			findObjectsByType(characterName, this.tilemap, "Object Layer").forEach(character => {
 				let state = character.properties.find(prop => prop.name === "state").value;
-				let pnj = new Character(game, { x: character.x / 16, y: character.y / 16 }, characterName, state)
+				console.log(state, CHARACTER_STATE[state]);
+				let pnj = new Character(game, { x: character.x / 16, y: character.y / 16 }, characterName, CHARACTER_STATE[state])
 				pnj.body.setSize(18, 14, 6, 18);
 				game.groups.pnj.add(pnj)
 			})
