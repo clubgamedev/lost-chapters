@@ -16,6 +16,6 @@ export class GameOverScene {
     }
 
     startGame() {
-        this.game.state.start("PlayGame");
+        this.game.state.start("MainGame");
     }
 }

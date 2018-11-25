@@ -19,7 +19,7 @@ export class MenuScene {
             this.title2 = game.add.image(game.width / 2, game.height / 2, "instructions");
             this.title2.anchor.setTo(0.5);
         } else {
-            this.game.state.start("PlayGame");
+            this.game.state.start("MainGame");
         }
     }
 }

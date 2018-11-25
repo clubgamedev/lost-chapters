@@ -1,6 +1,7 @@
 <template>
   <div id="app">
-    <router-view/>
+	  <h1>Lost Chapters</h1>
+    	<router-view/>
   </div>
 </template>
 

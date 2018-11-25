@@ -1,8 +1,10 @@
 import { shuffleArray } from "../../utils/array";
+import { startDialog } from "../../utils/dialogs";
 
 let keyAction;
 let timer;
 let total = 0;
+let graphics;
 let elementsToFind = [];
 let MAX_NB_BUTTONS = 8;
 let actionArray = ["u", "d", "l", "r", "1", "2", "3", "4"];
@@ -16,9 +18,10 @@ let gameState = {
     elementIndex: 0,
     state: "BEGINNING"
 };
-let winningText;
+let timerText;
 let mapActionZodiacs = new Map();
 let screenTips = [];
+let sprites = [];
 
 let DecryptorConfig = {
     BLINK: "blink",
@@ -49,7 +52,8 @@ export class DecryptorScene {
         constructMapActionZodiacs();
         createElements();
         createScreenTips();
-        manageTimer();
+
+        timer = game.time.events.add(Phaser.Timer.SECOND * duration, gameOver, this);
 
         game.input.keyboard.onDownCallback = function (e) {
             console.log("key:", e.key);
@@ -59,20 +63,26 @@ export class DecryptorScene {
 
     update() {
         if (gameState.elementIndex === 8) {
-            game.time.events.remove(timer);
-            displayWinningText();
+            gameOver(true);
         }
     }
 
     render() {
-        game.debug.text("Time is bleeding: " + game.time.events.duration, 32, 32);
+        timerText && timerText.destroy();
+        timerText = game.add.text(8, 8, "Time is bleeding: " + game.time.events.duration, {
+            font: "12px Alagard",
+            fill: "white",
+            boundsAlignH: "left",
+            boundsAlignV: "bottom",
+            wordWrap: true,
+            wordWrapWidth: 245
+        });
     }
 
-    destroy() {
+    shutdown() {
+        clearSprites();
         game.time.events.remove(timer);
-        screenTips.forEach((screenTip) => {
-            screenTip.destroy();
-        });
+        game.input.keyboard.onDownCallback = null;
     }
 }
 
@@ -143,7 +153,7 @@ function shuffleMapActionZodiacs() {
 }
 
 function createElements() {
-    let graphics = game.add.graphics(0, 0);
+    graphics = game.add.graphics(0, 0);
     graphics.lineStyle(0);
 
     graphics.beginFill(0xDDDDDD, 1);
@@ -156,6 +166,7 @@ function createElements() {
         graphicsElement.drawRect(i * game.width / 8 + 15, (downScreenHeight - 60) / 2, 70, 60);
         graphicsElement.endFill();
         let zodiacImage = game.add.image(i * game.width / 8 + 20, (downScreenHeight - 50) / 2, mapActionZodiacs.get(action));
+        sprites.push(zodiacImage);
         //console.log(mapActionZodiacs.get(action) + " / " + action);
         graphicsElement.addChild(zodiacImage);
 
@@ -193,6 +204,7 @@ function createScreenTips() {
         let place = tipsPlaces[i];
         let TmpImg = game.cache.getImage(zodiac);
         let zodiacImage = game.add.sprite(place.width / 2 - TmpImg.width / 2, place.height / 2 - TmpImg.height / 2, zodiac);
+        sprites.push(zodiacImage);
         TmpImg = game.cache.getImage(action);
         let actionImage = game.add.sprite(place.width / 2 - TmpImg.width, place.height - TmpImg.height * 2, action);
         actionImage.scale.setTo(2, 2);
@@ -231,50 +243,30 @@ function createPlaces() {
     return tipsPlaces;
 }
 
-function displayLosingScreen() {
-    game.time.events.remove(timer);
-    let textStyleLose = {
-        font: "60px 'Press Start 2P'",
-        fill: '#CC0000',
-        align: 'center',
-        boundsAlignH: "center", // bounds center align horizontally
-        boundsAlignV: "middle" // bounds center align vertically
-    };
+function gameOver(youWon) {
+    game.state.start('MainGame');
+    setTimeout(() => {
+        if (youWon) {
+            startDialog(["More knowledge !"], "lightblue");
+        } else {
+            startDialog(["Too late..."], "gray");
+        }
 
-    screenTips.forEach((screenTip) => {
-        screenTip.destroy();
-    });
-    let losingText = new Phaser.Text(game, 0, 0, "Is death real ?", textStyleLose);
-    losingText.setTextBounds(0, 0, game.width, game.height);
-    let graphics = game.add.graphics(0, 0);
-
-    graphics.addChild(losingText);
-    game.input.keyboard.onDownCallback = function (e) {
-        enterKeyWhenLose();
-    };
-}
-
-function enterKeyWhenLose() {
-    let textStyleTooLate = {
-        font: "25px  'Press Start 2P'",
-        fill: '#999999',
-        align: 'center',
-    };
-
-    let tooLateText = new Phaser.Text(game, 0, 0, "Too Late...", textStyleTooLate);
-    tooLateText.setTextBounds(0, 0, game.width, game.height);
-    let graphics = game.add.graphics(Math.floor(Math.random() * game.width), Math.floor(Math.random() * game.height));
-    graphics.addChild(tooLateText);
-}
-
-function manageTimer() {
-    timer = game.time.events.add(Phaser.Timer.SECOND * duration, displayLosingScreen, this);
+    }, 500);
 }
 
 function clearScreenTips() {
     screenTips.forEach((screenTip) => {
         screenTip.destroy();
     });
+}
+
+function clearSprites() {
+    clearScreenTips();
+    sprites.forEach(sprite => sprite.destroy());
+    sprites = [];
+    timerText && timerText.destroy();
+    graphics.destroy();
 }
 
 function testKeyPressWithElement(keyPress, element) {
@@ -291,20 +283,4 @@ function testKeyPressWithElement(keyPress, element) {
             createScreenTips();
         }
     }
-}
-
-function displayWinningText() {
-    let textStyleWin = {
-        font: "40px 'Press Start 2P'",
-        fill: '#2FB90A',
-        align: 'center',
-        boundsAlignH: "center", // bounds center align horizontally
-        boundsAlignV: "middle" // bounds center align vertically
-    };
-
-    winningText = new Phaser.Text(game, 0, 0, "More knowledge !", textStyleWin);
-    winningText.setTextBounds(0, 0, game.width, game.height);
-
-    let graphics = game.add.graphics(0, 0);
-    graphics.addChild(winningText);
 }

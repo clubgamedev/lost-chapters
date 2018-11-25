@@ -150,7 +150,7 @@ export class Level {
 	}
 
 	updateShadowTexture() {
-		this.shadowTexture.context.fillStyle = "rgb(10, 10, 10)"
+		this.shadowTexture.context.fillStyle = "rgba(0, 0, 0, 0.75)"
 		this.shadowTexture.context.fillRect(
 			-10,
 			-10,
@@ -170,7 +170,7 @@ export class Level {
 			heroY,
 			radius
 		)
-		gradient.addColorStop(0, "rgba(255, 255, 255, 1.0)")
+		gradient.addColorStop(0, "rgba(255, 220, 150, 1.0)")
 		gradient.addColorStop(1, "rgba(255, 255, 255, 0.0)")
 
 		this.shadowTexture.context.beginPath()
@@ -184,7 +184,6 @@ export class Level {
 			false
 		)
 		this.shadowTexture.context.fill()
-
 		this.shadowTexture.dirty = true
 	}
 }

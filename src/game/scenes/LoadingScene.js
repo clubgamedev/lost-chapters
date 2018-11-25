@@ -47,7 +47,7 @@ export class LoadingScene {
 	}
 
 	create() {
-		//this.game.state.start('PlayGame');
+		//this.game.state.start('MainGame');
 		this.game.state.start("TitleScreen");
 	}
 }

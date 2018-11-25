@@ -15,7 +15,7 @@ export function startGame() {
 	game.state.add("Boot", BootScene)
 	game.state.add("Preload", LoadingScene)
 	game.state.add("TitleScreen", MenuScene)
-	game.state.add("PlayGame", GameScene)
+	game.state.add("MainGame", GameScene)
 	game.state.add("GameOver", GameOverScene)
 	game.state.add("Decryptor", DecryptorScene);
 
