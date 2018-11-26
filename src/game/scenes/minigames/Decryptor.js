@@ -9,7 +9,7 @@ let elementsToFind = [];
 let MAX_NB_BUTTONS = 8;
 let actionArray = ["u", "d", "l", "r", "1", "2", "3", "4"];
 let zodiacsArray = ["aquarius", "aries", "cancer", "capricorn", "gemini", "leo", "libra", "pisces", "sagittarius", "scorpio", "taurus", "virgo"];
-let duration = 2;
+let duration = 20;
 let tricksArray = ["lt", "rt", "+", "-"];
 
 let downScreenHeight;
@@ -25,6 +25,7 @@ let sprites = [];
 
 let DecryptorConfig = {
     BLINK: "blink",
+    ALEA_BLINK: "alea_blink",
     SCREEN_SHUFFLE: "screen_shuffle",
     ACTION_SHUFFLE: "action_shuffle"
 };
@@ -209,10 +210,11 @@ function createScreenTips() {
         let actionImage = game.add.sprite(place.width / 2 - TmpImg.width, place.height - TmpImg.height * 2, action);
         actionImage.scale.setTo(2, 2);
         place.addChild(actionImage);
-        if (game.variants.indexOf(DecryptorConfig.BLINK) > -1) {
+        if (game.variants.indexOf(DecryptorConfig.BLINK) > -1 || game.variants.indexOf(DecryptorConfig.ALEA_BLINK)>-1) {
+            let duration = game.variants.indexOf(DecryptorConfig.ALEA_BLINK)>-1 ? Math.random() * 800 + 100: 800;
             zodiacImage.alpha = 1;
             game.add.tween(zodiacImage)
-                .to({ alpha: 0 }, 800, Phaser.Easing.Cubic.InOut)
+                .to({ alpha: 0 }, duration, Phaser.Easing.Cubic.InOut)
                 .yoyo(true)
                 .loop()
                 .start()
