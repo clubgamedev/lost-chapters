@@ -10,7 +10,7 @@ export const CHARACTER_STATE = {
 }
 
 export class Character extends Phaser.Sprite {
-	constructor(game, position, sprite = "michel", startState = CHARACTER_STATE.DOWN) {
+	constructor(game, position, sprite, startState = CHARACTER_STATE.DOWN) {
 		super(game, position.x * 16, position.y * 16, sprite, startState)
 		this.type = "character"
 		this.state = startState;

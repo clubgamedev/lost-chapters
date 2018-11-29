@@ -210,8 +210,8 @@ function createScreenTips() {
         let actionImage = game.add.sprite(place.width / 2 - TmpImg.width, place.height - TmpImg.height * 2, action);
         actionImage.scale.setTo(2, 2);
         place.addChild(actionImage);
-        if (game.variants.indexOf(DecryptorConfig.BLINK) > -1 || game.variants.indexOf(DecryptorConfig.ALEA_BLINK)>-1) {
-            let duration = game.variants.indexOf(DecryptorConfig.ALEA_BLINK)>-1 ? Math.random() * 800 + 100: 800;
+        if (game.variants.indexOf(DecryptorConfig.BLINK) > -1 || game.variants.indexOf(DecryptorConfig.ALEA_BLINK) > -1) {
+            let duration = game.variants.indexOf(DecryptorConfig.ALEA_BLINK) > -1 ? Math.random() * 800 + 100 : 800;
             zodiacImage.alpha = 1;
             game.add.tween(zodiacImage)
                 .to({ alpha: 0 }, duration, Phaser.Easing.Cubic.InOut)

@@ -1,19 +1,19 @@
-export function startDialog(lines, color = "#A63C2E") {
+export function startDialog(lines, color = "#994C4C") {
     game.player.stopMoving();
 
     let bgSprite = game.add.sprite(0, game.height - 40, "dialog-box");
     bgSprite.fixedToCamera = true;
 
     let textSprite = game.add.text(8, game.height - 34, "", {
-        font: "12px Alagard",
+        font: "14px Alagard",
         fill: color,
         boundsAlignH: "left",
         boundsAlignV: "bottom",
         wordWrap: true,
         wordWrapWidth: 245
     });
-    textSprite.setShadow(1, 1, '#280900', 0);
-    textSprite.lineSpacing = -8;
+    //textSprite.setShadow(1, 1, '#280900', 0);
+    textSprite.lineSpacing = -9;
     textSprite.fixedToCamera = true;
 
     game.dialog = { lines: [...lines], color, textSprite, bgSprite };

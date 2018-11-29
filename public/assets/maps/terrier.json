@@ -253,7 +253,7 @@
                          "value":"UP"
                         }],
                  "rotation":0,
-                 "type":"franck",
+                 "type":"michel",
                  "visible":true,
                  "width":16,
                  "x":126.666666666667,
@@ -274,8 +274,8 @@
                  "type":"augustin",
                  "visible":true,
                  "width":16,
-                 "x":406,
-                 "y":263.333333333333
+                 "x":235.75,
+                 "y":166.083333333333
                 }, 
                 {
                  "gid":3,
@@ -289,11 +289,11 @@
                          "value":"UP"
                         }],
                  "rotation":0,
-                 "type":"augustin",
+                 "type":"indiana",
                  "visible":true,
                  "width":16,
-                 "x":601.333333333333,
-                 "y":159.333333333333
+                 "x":217.083333333333,
+                 "y":263.083333333333
                 }, 
                 {
                  "gid":3,
@@ -307,11 +307,11 @@
                          "value":"RIGHT"
                         }],
                  "rotation":0,
-                 "type":"augustin",
+                 "type":"michelle",
                  "visible":true,
                  "width":16,
-                 "x":215.333333333333,
-                 "y":265.333333333333
+                 "x":140.833333333333,
+                 "y":162.833333333333
                 }, 
                 {
                  "gid":7,
@@ -330,6 +330,24 @@
                  "width":16,
                  "x":70,
                  "y":90.6666666666667
+                }, 
+                {
+                 "gid":3,
+                 "height":16,
+                 "id":27,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"state",
+                         "type":"string",
+                         "value":"LEFt"
+                        }],
+                 "rotation":0,
+                 "type":"anna",
+                 "visible":true,
+                 "width":16,
+                 "x":279.333333333333,
+                 "y":247.333333333333
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -338,7 +356,7 @@
          "y":0
         }],
  "nextlayerid":5,
- "nextobjectid":26,
+ "nextobjectid":28,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.2.1",

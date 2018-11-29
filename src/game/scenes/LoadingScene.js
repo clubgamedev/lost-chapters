@@ -34,6 +34,8 @@ export class LoadingScene {
 		// spritesheets
 		game.load.spritesheet('michel', 'assets/characters/michel.png', 32, 32, 9);
 		game.load.spritesheet('michelle', 'assets/characters/michelle.png', 32, 32, 9);
+		game.load.spritesheet('indiana', 'assets/characters/indiana.png', 32, 32, 9);
+		game.load.spritesheet('anna', 'assets/characters/anna.png', 32, 32, 9);
 		game.load.spritesheet('franck', 'assets/characters/franck.png', 32, 32, 9);
 		game.load.spritesheet('augustin', 'assets/characters/augustin.png', 32, 32, 9);
 		game.load.spritesheet('cultist', 'assets/characters/cultist.png', 32, 32, 9);
