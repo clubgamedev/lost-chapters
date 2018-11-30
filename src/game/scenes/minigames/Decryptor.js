@@ -1,16 +1,31 @@
 import { shuffleArray } from "../../utils/array";
 import { startDialog } from "../../utils/dialogs";
 
+let countDown;
+let timerText;
+
 let keyAction;
-let timer;
-let total = 0;
-let graphics;
+
 let elementsToFind = [];
 let MAX_NB_BUTTONS = 8;
 let actionArray = ["u", "d", "l", "r", "1", "2", "3", "4"];
 let zodiacsArray = ["aquarius", "aries", "cancer", "capricorn", "gemini", "leo", "libra", "pisces", "sagittarius", "scorpio", "taurus", "virgo"];
+let mapActionSprite = {
+    "u" : "arrowUp.png",
+    "d" : "arrowDown.png",
+    "l" : "arrowLeft.png",
+    "r" : "arrowRight.png",
+    "1" : "buttonA.png",
+    "2" : "buttonB.png",
+    "3" : "buttonX.png",
+    "4" : "buttonY.png",
+    "lt" : "upLeft.png",
+    "rt" : "upRight.png",
+    "lb" : "downLeft.png",
+    "rb" : "downRight.png"
+};
 let duration = 20;
-let tricksArray = ["lt", "rt", "+", "-"];
+let tricksArray = ["lt", "rt", "lb", "rb"];
 
 let downScreenHeight;
 
@@ -18,10 +33,10 @@ let gameState = {
     elementIndex: 0,
     state: "BEGINNING"
 };
-let timerText;
 let mapActionZodiacs = new Map();
 let screenTips = [];
 let sprites = [];
+let bottomBar;
 
 let DecryptorConfig = {
     BLINK: "blink",
@@ -35,14 +50,14 @@ export class DecryptorScene {
         loadActions();
         loadZodiacs();
         keyAction = {
-            "u": ["ArrowUp"],
-            "d": ["ArrowDown"],
-            "l": ["ArrowLeft"],
-            "r": ["ArrowRight"],
-            "1": ["1"],
-            "2": ["2"],
-            "3": ["3"],
-            "4": ["4"]
+            "u": [Phaser.Keyboard.UP, Phaser.Gamepad.XBOX360_DPAD_UP],
+            "d": [Phaser.Keyboard.DOWN, Phaser.Gamepad.XBOX360_DPAD_UP],
+            "l": [Phaser.Keyboard.LEFT, Phaser.Gamepad.XBOX360_DPAD_UP],
+            "r": [Phaser.Keyboard.RIGHT, Phaser.Gamepad.XBOX360_DPAD_UP],
+            "1": [Phaser.Keyboard.ONE, Phaser.Keyboard.A, Phaser.Gamepad.XBOX360_A],
+            "2": [Phaser.Keyboard.TWO, Phaser.Keyboard.B, Phaser.Gamepad.XBOX360_B],
+            "3": [Phaser.Keyboard.THREE, Phaser.Keyboard.X, Phaser.Gamepad.XBOX360_X],
+            "4": [Phaser.Keyboard.FOUR, Phaser.Keyboard.Y, Phaser.Gamepad.XBOX360_Y]
         }
     }
 
@@ -54,11 +69,23 @@ export class DecryptorScene {
         createElements();
         createScreenTips();
 
-        timer = game.time.events.add(Phaser.Timer.SECOND * duration, gameOver, this);
+        countDown = game.time.create(false);
 
+        countDown.add(Phaser.Timer.SECOND * duration, gameOver, this);
+
+        countDown.start();
+
+        game.input.gamepad.start();
+        game.input.gamepad.onDownCallback = function (e) {
+            testKeyPressWithElement(e.keyCode, elementsToFind[gameState.elementIndex]);
+        };
+        game.input.gamepad.onAxisCallback = function (e) {
+            testKeyPressWithElement(e.keyCode, elementsToFind[gameState.elementIndex]);
+        };
+
+        game.input.keyboard.addKeyCapture([Phaser.Keyboard.A, Phaser.Keyboard.B, Phaser.Keyboard.X, Phaser.Keyboard.Y, Phaser.Keyboard.SPACEBAR, Phaser.Keyboard.ONE, Phaser.Keyboard.TWO, Phaser.Keyboard.THREE, Phaser.Keyboard.FOUR, Phaser.Keyboard.CONTROL, Phaser.Keyboard.ALT, Phaser.Keyboard.ENTER, Phaser.Keyboard.UP, Phaser.Keyboard.DOWN, Phaser.Keyboard.LEFT, Phaser.Keyboard.RIGHT])
         game.input.keyboard.onDownCallback = function (e) {
-            console.log("key:", e.key);
-            testKeyPressWithElement(e.key, elementsToFind[gameState.elementIndex]);
+            testKeyPressWithElement(e.keyCode, elementsToFind[gameState.elementIndex]);
         };
     }
 
@@ -70,7 +97,7 @@ export class DecryptorScene {
 
     render() {
         timerText && timerText.destroy();
-        timerText = game.add.text(8, 8, `Time is bleeding: ${(game.time.events.duration / 1000).toFixed(0)}s`, {
+        timerText = game.add.text(8, 8, `Time is bleeding: ${(countDown.duration / 1000).toFixed(0)}s`, {
             font: "14px Alagard",
             fill: "white",
             boundsAlignH: "left",
@@ -82,24 +109,15 @@ export class DecryptorScene {
 
     shutdown() {
         clearSprites();
-        game.time.events.remove(timer);
+        countDown.removeAll();
         game.input.keyboard.onDownCallback = null;
+        game.input.gamepad.onDownCallback = null;
+        game.input.gamepad.onAxisCallback = null;
     }
 }
 
 function loadActions() {
-    game.load.image("1", "assets/decryptor/1_button.png");
-    game.load.image("2", "assets/decryptor/2_button.png");
-    game.load.image("3", "assets/decryptor/3_button.png");
-    game.load.image("4", "assets/decryptor/4_button.png");
-    game.load.image("u", "assets/decryptor/u_button.png");
-    game.load.image("d", "assets/decryptor/d_button.png");
-    game.load.image("l", "assets/decryptor/l_button.png");
-    game.load.image("r", "assets/decryptor/r_button.png");
-    game.load.image("lt", "assets/decryptor/lt_button.png");
-    game.load.image("rt", "assets/decryptor/rt_button.png");
-    game.load.image("-", "assets/decryptor/-_button.png");
-    game.load.image("+", "assets/decryptor/+_button.png");
+    game.load.atlasXML('game_buttons', 'assets/decryptor/game_buttons.png', 'assets/decryptor/game_buttons.xml');
 }
 
 function loadZodiacs() {
@@ -154,12 +172,12 @@ function shuffleMapActionZodiacs() {
 }
 
 function createElements() {
-    graphics = game.add.graphics(0, 0);
-    graphics.lineStyle(0);
+    bottomBar = game.add.graphics(0, 0);
+    bottomBar.lineStyle(0);
 
-    graphics.beginFill(0xDDDDDD, 1);
-    graphics.drawRect(0, game.height - downScreenHeight, game.width, downScreenHeight);
-    graphics.endFill();
+    bottomBar.beginFill(0xDDDDDD, 1);
+    bottomBar.drawRect(0, game.height - downScreenHeight, game.width, downScreenHeight);
+    bottomBar.endFill();
     for (let i = 0; i < MAX_NB_BUTTONS; i++) {
         let action = actionArray[Math.floor(Math.random() * MAX_NB_BUTTONS)];
         let graphicsElement = new Phaser.Graphics(game, 0, game.height - downScreenHeight);
@@ -205,10 +223,15 @@ function createScreenTips() {
         let place = tipsPlaces[i];
         let TmpImg = game.cache.getImage(zodiac);
         let zodiacImage = game.add.sprite(place.width / 2 - TmpImg.width / 2, place.height / 2 - TmpImg.height / 2, zodiac);
+        game.add.tween(zodiacImage)
+            .to( { y: zodiacImage.y + 10 }, 1500, Phaser.Easing.Linear.None)
+            .yoyo(true)
+            .loop()
+            .start();
         sprites.push(zodiacImage);
-        TmpImg = game.cache.getImage(action);
-        let actionImage = game.add.sprite(place.width / 2 - TmpImg.width, place.height - TmpImg.height * 2, action);
-        actionImage.scale.setTo(2, 2);
+        let actionImage = game.add.sprite(place.width / 2 - 50, place.height - 50 * 2, 'game_buttons');
+        actionImage.frameName = mapActionSprite[action];
+//        actionImage.scale.setTo(2, 2);
         place.addChild(actionImage);
         if (game.variants.indexOf(DecryptorConfig.BLINK) > -1 || game.variants.indexOf(DecryptorConfig.ALEA_BLINK) > -1) {
             let duration = game.variants.indexOf(DecryptorConfig.ALEA_BLINK) > -1 ? Math.random() * 800 + 100 : 800;
@@ -261,6 +284,7 @@ function clearScreenTips() {
     screenTips.forEach((screenTip) => {
         screenTip.destroy();
     });
+    screenTips = [];
 }
 
 function clearSprites() {
@@ -268,7 +292,7 @@ function clearSprites() {
     sprites.forEach(sprite => sprite.destroy());
     sprites = [];
     timerText && timerText.destroy();
-    graphics.destroy();
+    bottomBar.destroy();
 }
 
 function testKeyPressWithElement(keyPress, element) {
@@ -283,6 +307,15 @@ function testKeyPressWithElement(keyPress, element) {
             shuffleMapActionZodiacs();
             refreshActionsElements();
             createScreenTips();
+        }
+    }else{
+        let duration = countDown.duration;
+        if(duration>5000){
+            countDown.removeAll();
+            countDown.add(duration - (Phaser.Timer.SECOND * 5), gameOver, this);
+            console.log('Lose 5 seconds');
+        }else{
+            gameOver();
         }
     }
 }
