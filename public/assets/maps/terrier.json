@@ -332,6 +332,11 @@
                  "name":"",
                  "properties":[
                         {
+                         "name":"duration",
+                         "type":"int",
+                         "value":30
+                        }, 
+                        {
                          "name":"variant",
                          "type":"string",
                          "value":"action_shuffle"
