@@ -1,3 +1,5 @@
+import { levels } from "./levels";
+
 export function loadSave() {
     if (localStorage.getItem("save") != null) {
         game.save = JSON.parse(localStorage.getItem("save"));
@@ -15,8 +17,8 @@ export function save() {
 
 export function newGame() {
     game.save = {
-        level: "cave",
-        playerPosition: { x: 10, y: 8 }
+        level: "autel"
     }
+    game.save.playerPosition = levels[game.save.level].startPosition;
     localStorage.setItem("save", JSON.stringify(game.save));
 }

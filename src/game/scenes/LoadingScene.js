@@ -14,10 +14,12 @@ export class LoadingScene {
 		// tileset
 		game.load.image("tileset", "assets/environment/tileset.png");
 		game.load.image("tileset_cave", "assets/environment/cave_tileset.png");
+		game.load.image("tileset_dungeon", "assets/environment/dungeon_tileset.png");
 		game.load.image("objects", "assets/environment/objects.png");
 		game.load.image("collisions", "assets/environment/collisions.png");
 		game.load.tilemap("map", "assets/maps/map.json", null, Phaser.Tilemap.TILED_JSON);
 		game.load.tilemap("map_cave", "assets/maps/terrier.json", null, Phaser.Tilemap.TILED_JSON);
+		game.load.tilemap("map_autel", "assets/maps/autel.json", null, Phaser.Tilemap.TILED_JSON);
 
 		// atlas
 		game.load.atlasJSONArray(
@@ -41,6 +43,7 @@ export class LoadingScene {
 		game.load.spritesheet('cultist', 'assets/characters/cultist.png', 32, 32, 9);
 
 		game.load.spritesheet("runes", 'assets/decryptor/runes.png', 16, 16, 8);
+		game.load.spritesheet("fire", 'assets/environment/fireplace.png', 16, 20, 12);
 
 		game.load.spritesheet("lucidity-bar", 'assets/ui/lucidity-bar.png', 24, 8, 16);
 

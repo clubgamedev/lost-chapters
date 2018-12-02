@@ -2,14 +2,15 @@ import { Mole } from "./characters/Mole"
 import { Treant } from "./characters/Treant"
 import { Cultist } from "./characters/Cultist"
 import { Character, CHARACTER_STATE } from "./characters/Character"
-import { spawnGem } from "./items/Gem";
 import { Runes } from "./items/Runes";
+import { Fire } from "./effects/Fire";
 import RenderGroup from "./utils/RenderGroup";
+import { initLights, updateLights } from "./utils/Light";
 
 export const forestLevel = {
 	name: "La forêt",
 	tilemap: "map",
-	tileset: "tileset",
+	tilesets: ["tileset"],
 	startPosition: { x: 47, y: 31 },
 	exitPosition: { x: 46, y: 27 },
 	lightRadius: 120
@@ -18,55 +19,71 @@ export const forestLevel = {
 export const caveLevel = {
 	name: "Le Terrier",
 	tilemap: "map_cave",
-	tileset: "tileset_cave",
+	tilesets: ["tileset_cave"],
 	startPosition: { x: 10, y: 8 },
 	exitPosition: { x: 50, y: 24 },
-	lightRadius: 80
+	lightRadius: 80,
+	obscurity: 0.75
+}
+
+export const autelLevel = {
+	name: "L'autel",
+	tilemap: "map_autel",
+	tilesets: ["tileset_cave", "tileset_dungeon"],
+	startPosition: { x: 14, y: 29 },
+	exitPosition: { x: 14, y: 8 },
+	lightRadius: 85,
+	obscurity: 1
 }
 
 export const levels = {
 	forest: forestLevel,
-	cave: caveLevel
+	cave: caveLevel,
+	autel: autelLevel
 }
 
 export class Level {
 	constructor({
 		name,
 		tilemap,
-		tileset,
+		tilesets,
 		startPosition,
 		exitPosition,
-		lightRadius
+		lightRadius,
+		obscurity
 	}) {
 		this.name = name
 		this.startPosition = startPosition
-		this.createTileMap(tilemap, tileset)
+		this.createTileMap(tilemap, tilesets)
 		this.createGroups()
 		this.createExit(exitPosition)
 		this.createEnemies()
 		this.createPNJ();
 		this.createObjects();
-		this.createLights(lightRadius)
-
-		spawnGem(14, 14);
+		this.createLights(lightRadius, obscurity)
 	}
 
-	createTileMap(tilemap, tileset) {
+	createTileMap(tilemap, tilesets) {
 		//tilemap
 		this.tilemap = game.add.tilemap(tilemap)
 		this.tilemap.addTilesetImage("collisions")
-		this.tilemap.addTilesetImage(tileset)
+		tilesets.forEach(tileset => { this.tilemap.addTilesetImage(tileset) });
 		this.tilemap.addTilesetImage("objects")
 
+		game.stage.backgroundColor = game.cache.getTilemapData(tilemap).data.backgroundcolor;
+
 		this.layer_collisions = this.tilemap.createLayer("Collisions Layer")
+		this.layer_collisions.visible = false;
 		this.layer = this.tilemap.createLayer("Tile Layer")
 		this.layer2 = this.tilemap.createLayer("Tile Layer 2")
+		this.layer3 = this.tilemap.createLayer("Tile Layer 3")
 
 		// collisions
 		this.tilemap.setCollision(1, true, this.layer_collisions)
 
 		this.layer.resizeWorld()
 		this.layer2.resizeWorld()
+		this.layer3.resizeWorld()
 		this.layer_collisions.resizeWorld()
 
 		// this.layer_collisions.visible = true;
@@ -135,63 +152,23 @@ export class Level {
 		game.physics.arcade.enable(this.exit)
 	}
 
-	createLights(lightRadius) {
-		this.lightRadius = lightRadius
-		this.shadowTexture = game.add.bitmapData(game.width, game.height)
-		this.shadowTexture.radius = 90
-		this.lightSprite = game.add.image(
-			game.camera.x,
-			game.camera.y,
-			this.shadowTexture
-		)
-		this.lightSprite.width = game.width + 10
-		this.lightSprite.height = game.height + 10
+	createLights(lightRadius, obscurity) {
+		initLights(lightRadius, obscurity);
+		const lightSources = { fire: Fire };
 
-		this.lightSprite.blendMode = Phaser.blendModes.MULTIPLY
+		Object.entries(lightSources).forEach(([objectType, Constructor]) => {
+			findObjectsByType(objectType, this.tilemap, "Object Layer").forEach(lightSource => {
+				let sprite = new Constructor({ x: lightSource.x / 16, y: lightSource.y / 16 }, lightSource.properties)
+				game.groups.objects.add(sprite);
+			})
+		})
 	}
 
 	update() {
-		this.lightSprite.reset(game.camera.x - 5, game.camera.y - 5)
-		this.updateShadowTexture()
+		updateLights();
 	}
 
-	updateShadowTexture() {
-		this.shadowTexture.context.fillStyle = "rgba(0, 0, 0, 0.75)"
-		this.shadowTexture.context.fillRect(
-			-10,
-			-10,
-			game.width + 10,
-			game.height + 10
-		)
 
-		let radius = this.lightRadius + game.rnd.integerInRange(-1, 1),
-			heroX = game.player.x - game.camera.x,
-			heroY = game.player.y - game.camera.y
-
-		let gradient = this.shadowTexture.context.createRadialGradient(
-			heroX,
-			heroY,
-			this.lightRadius * 0.75,
-			heroX,
-			heroY,
-			radius
-		)
-		gradient.addColorStop(0, "rgba(255, 220, 150, 1.0)")
-		gradient.addColorStop(1, "rgba(255, 255, 255, 0.0)")
-
-		this.shadowTexture.context.beginPath()
-		this.shadowTexture.context.fillStyle = gradient
-		this.shadowTexture.context.arc(
-			heroX,
-			heroY,
-			radius,
-			0,
-			Math.PI * 2,
-			false
-		)
-		this.shadowTexture.context.fill()
-		this.shadowTexture.dirty = true
-	}
 }
 // find objects in a Tiled layer that containt a property called "type" equal to a certain value
 function findObjectsByType(type, map, layer) {
