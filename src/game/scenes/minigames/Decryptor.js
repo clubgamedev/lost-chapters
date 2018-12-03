@@ -36,6 +36,7 @@ let mapActionZodiacs = new Map();
 let screenTips = [];
 let sprites = [];
 let bottomBar;
+let countdownBar;
 
 let DecryptorConfig = {
     BLINK: "blink",
@@ -65,13 +66,11 @@ export class DecryptorScene {
 
         downScreenHeight = game.height / 5;
         constructMapActionZodiacs();
-        createElements();
         createScreenTips();
+        createElements();
 
         countDown = game.time.create(false);
-
         countDown.add(Phaser.Timer.SECOND * (game.duration ? game.duration : 30), gameOver, this);
-
         countDown.start();
 
         game.input.gamepad.start();
@@ -95,15 +94,8 @@ export class DecryptorScene {
     }
 
     render() {
-        timerText && timerText.destroy();
-        timerText = game.add.text(8, 8, `Time is bleeding: ${(countDown.duration / 1000).toFixed(0)}s`, {
-            font: "14px Alagard",
-            fill: "white",
-            boundsAlignH: "left",
-            boundsAlignV: "bottom",
-            wordWrap: true,
-            wordWrapWidth: 245
-        });
+        countdownBar.y = (countDown.duration / 1000 / game.duration) * (game.height - downScreenHeight);
+        countdownBar.height = (game.height - downScreenHeight) - countdownBar.y;
     }
 
     shutdown() {
@@ -216,6 +208,12 @@ function findActionForZodiac(zodiacToFind) {
 
 function createScreenTips() {
     game.add.image(0,0,'backgroundTipsCave');
+    countdownBar = game.add.graphics(0, game.height - downScreenHeight);
+    countdownBar.beginFill(0xcc0000,0.2);
+    countdownBar.drawRect(0,0, game.width, 1);
+    countdownBar.endFill();
+    sprites.push(countdownBar);
+
     let tipsPlaces = createPlaces();
 
     let i = 0;
