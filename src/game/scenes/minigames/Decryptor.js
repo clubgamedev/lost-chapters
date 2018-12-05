@@ -37,6 +37,8 @@ let screenTips = [];
 let sprites = [];
 let bottomBar;
 let countdownBar;
+let tipsPlaces;
+let particleInitialized;
 
 let DecryptorConfig = {
     BLINK: "blink",
@@ -66,6 +68,10 @@ export class DecryptorScene {
 
         downScreenHeight = game.height / 5;
         constructMapActionZodiacs();
+
+        tipsPlaces = createPlaces();
+        this.createCountdownBar();
+        particleInitialized = false;
         createScreenTips();
         createElements();
 
@@ -85,6 +91,16 @@ export class DecryptorScene {
         game.input.keyboard.onDownCallback = function (e) {
             testKeyPressWithElement(e.keyCode, elementsToFind[gameState.elementIndex]);
         };
+    }
+
+    createCountdownBar() {
+        let backgroupCave = game.add.image(0, 0, 'backgroundTipsCave');
+        sprites.push(backgroupCave);
+        countdownBar = game.add.graphics(0, game.height - downScreenHeight);
+        countdownBar.beginFill(0xcc0000, 0.2);
+        countdownBar.drawRect(0, 0, game.width, 1);
+        countdownBar.endFill();
+        sprites.push(countdownBar);
     }
 
     update() {
@@ -128,6 +144,7 @@ function loadZodiacs() {
     game.load.image("virgo", "assets/decryptor/virgo.png");
     game.load.image("bottomBar", "assets/decryptor/bottom_bar.png");
     game.load.image("backgroundTipsCave", "assets/decryptor/background_tips_cave.png")
+    game.load.image("particle_blue", "assets/decryptor/particle_blue.png")
 
 }
 
@@ -207,20 +224,25 @@ function findActionForZodiac(zodiacToFind) {
 }
 
 function createScreenTips() {
-    game.add.image(0,0,'backgroundTipsCave');
-    countdownBar = game.add.graphics(0, game.height - downScreenHeight);
-    countdownBar.beginFill(0xcc0000,0.2);
-    countdownBar.drawRect(0,0, game.width, 1);
-    countdownBar.endFill();
-    sprites.push(countdownBar);
-
-    let tipsPlaces = createPlaces();
-
     let i = 0;
     mapActionZodiacs.forEach((zodiac, action) => {
         let scaleButtonImage = 0.75;
         let place = tipsPlaces[i];
+
         let TmpImg = game.cache.getImage(zodiac);
+        if(!particleInitialized) {
+            let emitter = game.add.emitter(place.x + place.width / 2, place.y + place.height / 2 - ((50 * scaleButtonImage) / 2) + 10);
+            emitter.width = TmpImg.width - 10;
+            emitter.makeParticles('particle_blue');
+            emitter.setRotation(0, 0);
+            emitter.setAlpha(0, 1);
+            emitter.setScale(0.5, 1, 0.5, 1);
+            emitter.setXSpeed(0, 0);
+            emitter.setYSpeed(50, 100);
+            emitter.start(false, 300, 100, 0);
+            sprites.push(emitter);
+        }
+
         let zodiacImage = game.add.sprite(place.width / 2 - TmpImg.width / 2, place.height / 2 - (TmpImg.height / 2 + ((50 * scaleButtonImage) / 2)), zodiac);
         game.add.tween(zodiacImage)
             .to( { y: zodiacImage.y + 10 }, 1500, Phaser.Easing.Linear.None)
@@ -246,6 +268,7 @@ function createScreenTips() {
         game.world.addChild(place);
         i++;
     });
+    particleInitialized = true;
 }
 
 function createPlaces() {
@@ -286,6 +309,12 @@ function clearScreenTips() {
     screenTips = [];
 }
 
+function emptyScreenTips() {
+    screenTips.forEach((screenTip) => {
+        screenTip.removeChildren();
+    });
+}
+
 function clearSprites() {
     clearScreenTips();
     sprites.forEach(sprite => sprite.destroy());
@@ -304,10 +333,10 @@ function testKeyPressWithElement(keyPress, element) {
             tween.start();
         gameState.elementIndex++;
         if (game.variants.indexOf(DecryptorConfig.SCREEN_SHUFFLE) > -1) {
-            clearScreenTips();
+            emptyScreenTips();
             createScreenTips();
         } else if (game.variants.indexOf(DecryptorConfig.ACTION_SHUFFLE) > -1) {
-            clearScreenTips();
+            emptyScreenTips();
             shuffleMapActionZodiacs();
             refreshActionsElements();
             createScreenTips();
