@@ -34,11 +34,13 @@ let gameState = {
 };
 let mapActionZodiacs = new Map();
 let screenTips = [];
-let sprites = [];
+let gameObjects = [];
 let bottomBar;
 let countdownBar;
 let tipsPlaces;
 let particleInitialized;
+let errorSound;
+let foundSound;
 
 let DecryptorConfig = {
     BLINK: "blink",
@@ -47,10 +49,41 @@ let DecryptorConfig = {
     ACTION_SHUFFLE: "action_shuffle"
 };
 
+function loadActions() {
+    game.load.atlasXML('game_buttons', 'assets/decryptor/game_buttons.png', 'assets/decryptor/game_buttons.xml');
+}
+
+function loadZodiacs() {
+    game.load.image("aquarius", "assets/decryptor/aquarius.png");
+    game.load.image("aries", "assets/decryptor/aries.png");
+    game.load.image("cancer", "assets/decryptor/cancer.png");
+    game.load.image("capricorn", "assets/decryptor/capricorn.png");
+    game.load.image("gemini", "assets/decryptor/gemini.png");
+    game.load.image("leo", "assets/decryptor/leo.png");
+    game.load.image("libra", "assets/decryptor/libra.png");
+    game.load.image("pisces", "assets/decryptor/pisces.png");
+    game.load.image("sagittarius", "assets/decryptor/sagittarius.png");
+    game.load.image("scorpio", "assets/decryptor/scorpio.png");
+    game.load.image("taurus", "assets/decryptor/taurus.png");
+    game.load.image("virgo", "assets/decryptor/virgo.png");
+    game.load.image("bottomBar", "assets/decryptor/bottom_bar.png");
+    game.load.image("backgroundTipsCave", "assets/decryptor/background_tips_cave.png")
+    game.load.image("particle_blue", "assets/decryptor/particle_blue.png")
+
+}
+
+function loadSounds() {
+    game.load.audio('element_found', 'assets/decryptor/collect_item_hurry_out_of_time_01.wav');
+    game.load.audio('element_error', 'assets/decryptor/voice_male_b_effort_quick_action_05.wav');
+
+}
+
 export class DecryptorScene {
     preload() {
         loadActions();
         loadZodiacs();
+        loadSounds();
+
         keyAction = {
             "u": [Phaser.Keyboard.UP, Phaser.Gamepad.XBOX360_DPAD_UP],
             "d": [Phaser.Keyboard.DOWN, Phaser.Gamepad.XBOX360_DPAD_UP],
@@ -72,6 +105,10 @@ export class DecryptorScene {
         tipsPlaces = createPlaces();
         this.createCountdownBar();
         particleInitialized = false;
+        foundSound = game.add.audio('element_found');
+        gameObjects.push(foundSound);
+        errorSound = game.add.audio('element_error');
+        gameObjects.push(errorSound);
         createScreenTips();
         createElements();
 
@@ -95,12 +132,12 @@ export class DecryptorScene {
 
     createCountdownBar() {
         let backgroupCave = game.add.image(0, 0, 'backgroundTipsCave');
-        sprites.push(backgroupCave);
+        gameObjects.push(backgroupCave);
         countdownBar = game.add.graphics(0, game.height - downScreenHeight);
         countdownBar.beginFill(0xcc0000, 0.2);
         countdownBar.drawRect(0, 0, game.width, 1);
         countdownBar.endFill();
-        sprites.push(countdownBar);
+        gameObjects.push(countdownBar);
     }
 
     update() {
@@ -125,28 +162,7 @@ export class DecryptorScene {
     }
 }
 
-function loadActions() {
-    game.load.atlasXML('game_buttons', 'assets/decryptor/game_buttons.png', 'assets/decryptor/game_buttons.xml');
-}
 
-function loadZodiacs() {
-    game.load.image("aquarius", "assets/decryptor/aquarius.png");
-    game.load.image("aries", "assets/decryptor/aries.png");
-    game.load.image("cancer", "assets/decryptor/cancer.png");
-    game.load.image("capricorn", "assets/decryptor/capricorn.png");
-    game.load.image("gemini", "assets/decryptor/gemini.png");
-    game.load.image("leo", "assets/decryptor/leo.png");
-    game.load.image("libra", "assets/decryptor/libra.png");
-    game.load.image("pisces", "assets/decryptor/pisces.png");
-    game.load.image("sagittarius", "assets/decryptor/sagittarius.png");
-    game.load.image("scorpio", "assets/decryptor/scorpio.png");
-    game.load.image("taurus", "assets/decryptor/taurus.png");
-    game.load.image("virgo", "assets/decryptor/virgo.png");
-    game.load.image("bottomBar", "assets/decryptor/bottom_bar.png");
-    game.load.image("backgroundTipsCave", "assets/decryptor/background_tips_cave.png")
-    game.load.image("particle_blue", "assets/decryptor/particle_blue.png")
-
-}
 
 function constructMapActionZodiacs() {
     let actionArrayRemained = actionArray.slice();
@@ -186,14 +202,14 @@ function shuffleMapActionZodiacs() {
 
 function createElements() {
     bottomBar = game.add.image(0, game.height - downScreenHeight, "bottomBar");
-    sprites.push(bottomBar);
+    gameObjects.push(bottomBar);
 
     for (let i = 0; i < MAX_NB_BUTTONS; i++) {
         let action = actionArray[Math.floor(Math.random() * MAX_NB_BUTTONS)];
         let elementPlace = new Phaser.Graphics(game, 0, game.height - downScreenHeight);
         elementPlace.drawRect(i * game.width / 8 + 15, (downScreenHeight - 60) / 2, 70, 60);
         let zodiacImage = game.add.image(i * game.width / 8 + 20, (downScreenHeight - 50) / 2, mapActionZodiacs.get(action));
-        sprites.push(zodiacImage);
+        gameObjects.push(zodiacImage);
         //console.log(mapActionZodiacs.get(action) + " / " + action);
         elementPlace.addChild(zodiacImage);
 
@@ -240,7 +256,7 @@ function createScreenTips() {
             emitter.setXSpeed(0, 0);
             emitter.setYSpeed(50, 100);
             emitter.start(false, 300, 100, 0);
-            sprites.push(emitter);
+            gameObjects.push(emitter);
         }
 
         let zodiacImage = game.add.sprite(place.width / 2 - TmpImg.width / 2, place.height / 2 - (TmpImg.height / 2 + ((50 * scaleButtonImage) / 2)), zodiac);
@@ -249,7 +265,7 @@ function createScreenTips() {
             .yoyo(true)
             .loop()
             .start();
-        sprites.push(zodiacImage);
+        gameObjects.push(zodiacImage);
         let actionImage = game.add.sprite(place.width / 2 - (50*0.75/2), place.height - (50*scaleButtonImage), 'game_buttons');
         actionImage.frameName = mapActionSprite[action];
         actionImage.scale.setTo(scaleButtonImage, scaleButtonImage);
@@ -291,6 +307,11 @@ function createPlaces() {
 }
 
 function gameOver(youWon) {
+    if (youWon) {
+        //TODO : ecran et son de victoire
+    }else{
+        //TODO : ecran et son de défaite
+    }
     game.state.start('MainGame');
     setTimeout(() => {
         if (youWon) {
@@ -300,6 +321,7 @@ function gameOver(youWon) {
         }
 
     }, 500);
+
 }
 
 function clearScreenTips() {
@@ -317,8 +339,8 @@ function emptyScreenTips() {
 
 function clearSprites() {
     clearScreenTips();
-    sprites.forEach(sprite => sprite.destroy());
-    sprites = [];
+    gameObjects.forEach(sprite => sprite.destroy());
+    gameObjects = [];
     timerText && timerText.destroy();
     bottomBar.destroy();
 }
@@ -327,6 +349,7 @@ function testKeyPressWithElement(keyPress, element) {
     console.log("keyPress : " , keyPress);
     console.log("keyActionForElement : " , keyAction[element.action]);
     if (keyAction[element.action].indexOf(keyPress) > -1) {
+        foundSound.play();
         let tween = game.add.tween(element.display)
             .to( { y : element.display.y + 10, alpha : 0 }, 500, Phaser.Easing.Linear.None);
             tween.onComplete.add(()=>{element.display.destroy()}, this);
@@ -342,10 +365,12 @@ function testKeyPressWithElement(keyPress, element) {
             createScreenTips();
         }
     }else{
+
         let duration = countDown.duration;
         game.camera.shake(0.01, 250);
         game.camera.flash(0xcc0000, 500);
         if(duration>5000){
+            errorSound.play();
             countDown.removeAll();
             countDown.add(duration - (Phaser.Timer.SECOND * 5), gameOver, this);
             console.log('Lose 5 seconds');
