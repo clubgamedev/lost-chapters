@@ -41,6 +41,7 @@ let tipsPlaces;
 let particleInitialized;
 let errorSound;
 let foundSound;
+let playbackRateValue;
 
 let DecryptorConfig = {
     BLINK: "blink",
@@ -105,10 +106,11 @@ export class DecryptorScene {
         tipsPlaces = createPlaces();
         this.createCountdownBar();
         particleInitialized = false;
+        playbackRateValue=1;
         foundSound = game.add.audio('element_found');
-        gameObjects.push(foundSound);
+        //gameObjects.push(foundSound);
         errorSound = game.add.audio('element_error');
-        gameObjects.push(errorSound);
+        //gameObjects.push(errorSound);
         createScreenTips();
         createElements();
 
@@ -210,7 +212,6 @@ function createElements() {
         elementPlace.drawRect(i * game.width / 8 + 15, (downScreenHeight - 60) / 2, 70, 60);
         let zodiacImage = game.add.image(i * game.width / 8 + 20, (downScreenHeight - 50) / 2, mapActionZodiacs.get(action));
         gameObjects.push(zodiacImage);
-        //console.log(mapActionZodiacs.get(action) + " / " + action);
         elementPlace.addChild(zodiacImage);
 
         let element = {
@@ -350,6 +351,8 @@ function testKeyPressWithElement(keyPress, element) {
     console.log("keyActionForElement : " , keyAction[element.action]);
     if (keyAction[element.action].indexOf(keyPress) > -1) {
         foundSound.play();
+        foundSound._sound.playbackRate.value = playbackRateValue;
+        playbackRateValue += 0.1;
         let tween = game.add.tween(element.display)
             .to( { y : element.display.y + 10, alpha : 0 }, 500, Phaser.Easing.Linear.None);
             tween.onComplete.add(()=>{element.display.destroy()}, this);
@@ -365,7 +368,6 @@ function testKeyPressWithElement(keyPress, element) {
             createScreenTips();
         }
     }else{
-
         let duration = countDown.duration;
         game.camera.shake(0.01, 250);
         game.camera.flash(0xcc0000, 500);
