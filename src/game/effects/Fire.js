@@ -10,6 +10,6 @@ export class Fire extends Phaser.Sprite {
         this.animations.play("fire");
         properties = Object.assign({ radius: 50, color: "rgba(255, 220, 150, 1.0)" }, properties)
 
-        this.light = new Light({ x: position.x * 16, y: position.y * 16 }, properties.radius, properties.color);
+        this.light = new Light({ x: position.x * 16, y: position.y * 16 }, properties.radius, properties.color, 2);
     }
 }

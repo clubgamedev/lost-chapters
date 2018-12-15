@@ -12,14 +12,16 @@ export class LoadingScene {
 		game.load.image("dialog-box", "assets/sprites/dialog-box.png");
 
 		// tileset
-		game.load.image("tileset", "assets/environment/tileset.png");
+		game.load.image("tileset_forest", "assets/environment/forest_tileset.png");
+		game.load.image("tileset_inside", "assets/environment/inside_tileset.png");
 		game.load.image("tileset_cave", "assets/environment/cave_tileset.png");
 		game.load.image("tileset_dungeon", "assets/environment/dungeon_tileset.png");
 		game.load.image("objects", "assets/environment/objects.png");
 		game.load.image("collisions", "assets/environment/collisions.png");
-		game.load.tilemap("map", "assets/maps/map.json", null, Phaser.Tilemap.TILED_JSON);
+		game.load.tilemap("map_forest", "assets/maps/forest.json", null, Phaser.Tilemap.TILED_JSON);
 		game.load.tilemap("map_cave", "assets/maps/terrier.json", null, Phaser.Tilemap.TILED_JSON);
 		game.load.tilemap("map_autel", "assets/maps/autel.json", null, Phaser.Tilemap.TILED_JSON);
+		game.load.tilemap("map_school", "assets/maps/universite.json", null, Phaser.Tilemap.TILED_JSON);
 
 		// atlas
 		game.load.atlasJSONArray(

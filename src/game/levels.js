@@ -7,10 +7,20 @@ import { Fire } from "./effects/Fire";
 import RenderGroup from "./utils/RenderGroup";
 import { initLights, updateLights } from "./utils/Light";
 
+export const schoolLevel = {
+	name: "L'Université",
+	tilemap: "map_school",
+	tilesets: ["tileset_inside"],
+	startPosition: { x: 84, y: 98 },
+	exitPosition: { x: 0, y: 0 },
+	lightRadius: 100,
+	obscurity: 1
+}
+
 export const forestLevel = {
 	name: "La forêt",
-	tilemap: "map",
-	tilesets: ["tileset"],
+	tilemap: "map_forest",
+	tilesets: ["tileset_forest"],
 	startPosition: { x: 47, y: 31 },
 	exitPosition: { x: 46, y: 27 },
 	lightRadius: 120
@@ -39,7 +49,8 @@ export const autelLevel = {
 export const levels = {
 	forest: forestLevel,
 	cave: caveLevel,
-	autel: autelLevel
+	autel: autelLevel,
+	school: schoolLevel
 }
 
 export class Level {

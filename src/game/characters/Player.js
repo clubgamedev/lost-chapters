@@ -4,7 +4,7 @@ import { save } from "../save";
 
 export class Player extends Character {
 	constructor(game, startPosition) {
-		super(game, startPosition, "indiana", game.save.playerState)
+		super(game, startPosition, "michel", game.save.playerState)
 		this.type = "player"
 		this.lucidity = 16
 		this.body.setSize(10, 10, 11, 20)
@@ -59,7 +59,7 @@ export class Player extends Character {
 
 		if (pnjInFront) {
 			// talk to someone
-			game.player.loadTexture(pnjInFront.key); // transform for testing
+			//game.player.loadTexture(pnjInFront.key); // TEST: transforme en le personnage ciblé
 
 			switch (this.state) {
 				case CHARACTER_STATE.LEFT:
