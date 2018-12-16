@@ -71,6 +71,7 @@ export class Level {
 		this.createEnemies()
 		this.createPNJ();
 		this.createObjects();
+		this.createTriggers();
 		this.createLights(lightRadius, obscurity)
 	}
 
@@ -79,7 +80,6 @@ export class Level {
 		this.tilemap = game.add.tilemap(tilemap)
 		this.tilemap.addTilesetImage("collisions")
 		tilesets.forEach(tileset => { this.tilemap.addTilesetImage(tileset) });
-		this.tilemap.addTilesetImage("objects")
 
 		game.stage.backgroundColor = game.cache.getTilemapData(tilemap).data.backgroundcolor;
 
@@ -118,6 +118,11 @@ export class Level {
 
 		game.groups.objects = game.add.group(game.groups.render)
 		game.groups.objects.enableBody = true
+
+		game.groups.lights = game.add.group(game.groups.render);
+
+		game.groups.triggers = game.add.group(game.groups.render);
+		game.groups.triggers.enableBody = true
 	}
 
 	createEnemies() {
@@ -139,7 +144,6 @@ export class Level {
 		characters.forEach((characterName) => {
 			findObjectsByType(characterName, this.tilemap, "Object Layer").forEach(character => {
 				let state = character.properties.find(prop => prop.name === "state").value;
-				console.log(state, CHARACTER_STATE[state]);
 				let pnj = new Character(game, { x: character.x / 16, y: character.y / 16 }, characterName, CHARACTER_STATE[state])
 				pnj.body.setSize(18, 14, 6, 18);
 				game.groups.pnj.add(pnj)
@@ -157,6 +161,26 @@ export class Level {
 		})
 	}
 
+	createTriggers() {
+		const tps = findObjectsByType("teleport", this.tilemap, "Object Layer")
+		tps.forEach(tp => {
+			let trigger = game.add.sprite(tp.x, tp.y, "exit")
+			trigger.alpha = 0;
+			game.groups.triggers.add(trigger)
+			trigger.action = () => {
+				if (game.player.movesBeforeTp > 0) return;
+				let destinationId = tp.properties.find(prop => prop.name === "to").value;
+				let destination = tps.find(x => x.properties.find(prop => prop.name === "from").value === destinationId);
+				if (destination) {
+					game.player.movesBeforeTp = 50;
+					game.camera.flash("black")
+					game.player.position.x = destination.x + 8;
+					game.player.position.y = destination.y - 8;
+				}
+			}
+		})
+	}
+
 	createExit({ x, y }) {
 		this.exit = game.add.sprite(x * 16, y * 16, "exit")
 		this.exit.alpha = 0
@@ -170,7 +194,7 @@ export class Level {
 		Object.entries(lightSources).forEach(([objectType, Constructor]) => {
 			findObjectsByType(objectType, this.tilemap, "Object Layer").forEach(lightSource => {
 				let sprite = new Constructor({ x: lightSource.x / 16, y: lightSource.y / 16 }, lightSource.properties)
-				game.groups.objects.add(sprite);
+				game.groups.lights.add(sprite);
 			})
 		})
 	}

@@ -69,6 +69,7 @@ export class GameScene {
 			//overlaps
 			game.physics.arcade.overlap(game.player, game.groups.enemies, this.hurtPlayer, null, this)
 			game.physics.arcade.overlap(game.player, game.groups.loot, this.lootManager, null, this)
+			game.physics.arcade.overlap(game.player, game.groups.triggers, this.onTrigger, null, this)
 			game.physics.arcade.overlap(game.player, game.level.exit, this.onExitReached, null, this)
 		}
 
@@ -85,6 +86,10 @@ export class GameScene {
 	onExitReached() {
 		game.state.start("GameOver")
 		game.music.stop()
+	}
+
+	onTrigger(player, trigger) {
+		trigger.action();
 	}
 
 	lootManager(player, loot) {
