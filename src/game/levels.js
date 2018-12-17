@@ -7,6 +7,8 @@ import { Fire } from "./effects/Fire";
 import RenderGroup from "./utils/RenderGroup";
 import { initLights, updateLights } from "./utils/Light";
 
+let t = 0;
+
 export const forestLevel = {
 	name: "La forêt",
 	tilemap: "map",
@@ -63,7 +65,7 @@ export class Level {
 		this.createLights(lightRadius, obscurity)
 	}
 
-	createTileMap(tilemap, tilesets) {
+	createTileMap (tilemap, tilesets) {
 		//tilemap
 		this.tilemap = game.add.tilemap(tilemap)
 		this.tilemap.addTilesetImage("collisions")
@@ -91,7 +93,7 @@ export class Level {
 		// this.layer.visible = false;
 	}
 
-	createGroups() {
+	createGroups () {
 		game.groups = {}
 
 		game.groups.render = new RenderGroup(game);
@@ -109,7 +111,7 @@ export class Level {
 		game.groups.objects.enableBody = true
 	}
 
-	createEnemies() {
+	createEnemies () {
 		const enemies = { mole: Mole, treant: Treant, cultist: Cultist };
 		Object.entries(enemies).forEach(([enemyType, Constructor]) => {
 			findObjectsByType(enemyType, this.tilemap, "Object Layer").forEach(enemy => {
@@ -123,7 +125,7 @@ export class Level {
 		})
 	}
 
-	createPNJ() {
+	createPNJ () {
 		const characters = ["franck", "augustin", "michel", "michelle", "indiana", "anna"];
 		characters.forEach((characterName) => {
 			findObjectsByType(characterName, this.tilemap, "Object Layer").forEach(character => {
@@ -136,7 +138,7 @@ export class Level {
 		})
 	}
 
-	createObjects() {
+	createObjects () {
 		const objects = { runes: Runes };
 		Object.entries(objects).forEach(([objectType, Constructor]) => {
 			findObjectsByType(objectType, this.tilemap, "Object Layer").forEach(object => {
@@ -146,13 +148,13 @@ export class Level {
 		})
 	}
 
-	createExit({ x, y }) {
+	createExit ({ x, y }) {
 		this.exit = game.add.sprite(x * 16, y * 16, "exit")
 		this.exit.alpha = 0
 		game.physics.arcade.enable(this.exit)
 	}
 
-	createLights(lightRadius, obscurity) {
+	createLights (lightRadius, obscurity) {
 		initLights(lightRadius, obscurity);
 		const lightSources = { fire: Fire };
 
@@ -164,14 +166,16 @@ export class Level {
 		})
 	}
 
-	update() {
+	update () {
 		updateLights();
+		t += .03;
+		game.music && game.music._sound && (game.music._sound.playbackRate.value = Math.sin(t) * .1 + .9);
 	}
 
 
 }
 // find objects in a Tiled layer that containt a property called "type" equal to a certain value
-function findObjectsByType(type, map, layer) {
+function findObjectsByType (type, map, layer) {
 	return map.objects[layer].filter(element => {
 		if (element.type === type) {
 			//Phaser uses top left, Tiled bottom left so we have to adjust the y position

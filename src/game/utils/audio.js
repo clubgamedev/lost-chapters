@@ -1,6 +1,6 @@
 export const sounds = {}
 
-export function loadAudio() {
+export function loadAudio () {
     game.load.audio("music", [
         "assets/sound/ForestV1.mp3"
     ]);
@@ -16,7 +16,7 @@ export function loadAudio() {
     ]);
 }
 
-export function addSounds() {
+export function addSounds () {
     Object.assign(sounds, {
         HURT: game.add.audio("hurt"),
         ITEM: game.add.audio("item"),
@@ -25,7 +25,7 @@ export function addSounds() {
     })
 }
 
-export function startMusic() {
+export function startMusic () {
     game.music = game.add.audio("music");
     game.music.loop = true;
     game.music.play();
@@ -34,20 +34,16 @@ export function startMusic() {
     game.onExit = () => game.music.stop();
 }
 
-export function addEffects() {
+export function addEffects () {
     const context = game.music.context;
     const source = game.music._sound;
     source.disconnect(0);
-    source.playbackRate.value = 1.2;
-
 
     const tuna = new Tuna(context);
-    const effect = new tuna.Overdrive({
-        outputGain: 0.25,         //0 to 1+
-        drive: 0.3,              //0 to 1
-        curveAmount: 1,          //0 to 1
-        algorithmIndex: 0,       //0 to 5, selects one of our drive algorithms
-        bypass: 0
+    const effect = new tuna.Bitcrusher({
+        bits: 16,          //1 to 16
+        normfreq: 0.2,    //0 to 1
+        bufferSize: 4096  //256 to 16384
     });
 
     source.connect(effect);
