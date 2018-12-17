@@ -1,8 +1,9 @@
 export class Light {
-    constructor(position, radius = 100, color = "rgba(255, 255, 255, 1.0)") {
+    constructor(position, radius = 100, color = "rgba(255, 255, 255, 1.0)", flicker = 2) {
         this.position = position
         this.radius = radius
         this.color = color;
+        this.flicker = flicker;
         game.lights.push(this);
     }
 }
@@ -18,7 +19,7 @@ export function initLights(lightRadius, obscurity = 0.75) {
     game.light = { sprite, shadowTexture, obscurity }
     game.lights = [];
 
-    game.cameraLight = new Light(game.camera, lightRadius, "white");
+    game.cameraLight = new Light(game.camera, lightRadius, "white", 0);
 }
 
 export function updateLights() {
@@ -37,7 +38,7 @@ export function updateLights() {
     )
 
     game.lights.forEach(light => {
-        let radius = light.radius + game.rnd.integerInRange(-2, 2),
+        let radius = light.radius + game.rnd.integerInRange(-light.flicker, light.flicker),
             posX = light.position.x - game.camera.x,
             posY = light.position.y - game.camera.y
 

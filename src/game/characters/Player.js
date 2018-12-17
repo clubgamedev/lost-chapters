@@ -4,9 +4,10 @@ import { save } from "../save";
 
 export class Player extends Character {
 	constructor(game, startPosition) {
-		super(game, startPosition, "indiana", game.save.playerState)
+		super(game, startPosition, "michel", game.save.playerState)
 		this.type = "player"
 		this.lucidity = 16
+		this.movesBeforeTp = 0;
 		this.body.setSize(10, 10, 11, 20)
 		this.body.moves = true;
 		this.watchingPoint = this.worldPosition;
@@ -44,6 +45,8 @@ export class Player extends Character {
 	move(keys) {
 		if (game.dialog) return; // can't move while talking
 		super.move(keys);
+		const isMoving = (keys.up.isDown || keys.right.isDown || keys.down.isDown || keys.left.isDown);
+		if (isMoving && this.movesBeforeTp > 0) this.movesBeforeTp--;
 
 		if (game.lamp) {
 			game.lamp.x = this.x
@@ -59,7 +62,7 @@ export class Player extends Character {
 
 		if (pnjInFront) {
 			// talk to someone
-			game.player.loadTexture(pnjInFront.key); // transform for testing
+			//game.player.loadTexture(pnjInFront.key); // TEST: transforme en le personnage ciblé
 
 			switch (this.state) {
 				case CHARACTER_STATE.LEFT:

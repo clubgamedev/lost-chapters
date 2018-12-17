@@ -42,8 +42,8 @@ export function addEffects () {
     const tuna = new Tuna(context);
     const effect = new tuna.Bitcrusher({
         bits: 16,          //1 to 16
-        normfreq: 0.2,    //0 to 1
-        bufferSize: 4096  //256 to 16384
+        normfreq: 0.8,    //0 to 1
+        bufferSize: 1024  //256 to 16384
     });
 
     source.connect(effect);
