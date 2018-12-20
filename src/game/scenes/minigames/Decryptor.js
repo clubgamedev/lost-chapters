@@ -107,9 +107,9 @@ export class DecryptorScene {
         this.createCountdownBar();
         particleInitialized = false;
         playbackRateValue=1;
-        foundSound = game.add.audio('element_found');
+        foundSound = game.sound.add('element_found');
         //gameObjects.push(foundSound);
-        errorSound = game.add.audio('element_error');
+        errorSound = game.sound.add('element_error');
         //gameObjects.push(errorSound);
         createScreenTips();
         createElements();
