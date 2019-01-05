@@ -75,7 +75,7 @@ export class Level {
 		this.createLights(lightRadius, obscurity)
 	}
 
-	createTileMap (tilemap, tilesets) {
+	createTileMap(tilemap, tilesets) {
 		//tilemap
 		this.tilemap = game.add.tilemap(tilemap)
 		this.tilemap.addTilesetImage("collisions")
@@ -102,7 +102,7 @@ export class Level {
 		// this.layer.visible = false;
 	}
 
-	createGroups () {
+	createGroups() {
 		game.groups = {}
 
 		game.groups.render = new RenderGroup(game);
@@ -125,7 +125,7 @@ export class Level {
 		game.groups.triggers.enableBody = true
 	}
 
-	createEnemies () {
+	createEnemies() {
 		const enemies = { mole: Mole, treant: Treant, cultist: Cultist };
 		Object.entries(enemies).forEach(([enemyType, Constructor]) => {
 			findObjectsByType(enemyType, this.tilemap, "Object Layer").forEach(enemy => {
@@ -139,7 +139,7 @@ export class Level {
 		})
 	}
 
-	createPNJ () {
+	createPNJ() {
 		const characters = ["franck", "augustin", "michel", "michelle", "indiana", "anna"];
 		characters.forEach((characterName) => {
 			findObjectsByType(characterName, this.tilemap, "Object Layer").forEach(character => {
@@ -151,7 +151,7 @@ export class Level {
 		})
 	}
 
-	createObjects () {
+	createObjects() {
 		const objects = { runes: Runes };
 		Object.entries(objects).forEach(([objectType, Constructor]) => {
 			findObjectsByType(objectType, this.tilemap, "Object Layer").forEach(object => {
@@ -161,11 +161,13 @@ export class Level {
 		})
 	}
 
-	createTriggers () {
+	createTriggers() {
 		const tps = findObjectsByType("teleport", this.tilemap, "Object Layer")
 		tps.forEach(tp => {
 			let trigger = game.add.sprite(tp.x, tp.y, "exit")
-			trigger.alpha = 0;
+			//trigger.alpha = 0;
+			trigger.width = tp.width;
+			trigger.height = tp.height;
 			game.groups.triggers.add(trigger)
 			trigger.action = () => {
 				if (game.player.movesBeforeTp > 0) return;
@@ -174,20 +176,20 @@ export class Level {
 				if (destination) {
 					game.player.movesBeforeTp = 50;
 					game.camera.flash("black")
-					game.player.position.x = destination.x + 8;
-					game.player.position.y = destination.y - 8;
+					game.player.position.x = destination.x + destination.width / 2;
+					game.player.position.y = destination.y + destination.height / 2 - 8;
 				}
 			}
 		})
 	}
 
-	createExit ({ x, y }) {
+	createExit({ x, y }) {
 		this.exit = game.add.sprite(x * 16, y * 16, "exit")
 		this.exit.alpha = 0
 		game.physics.arcade.enable(this.exit)
 	}
 
-	createLights (lightRadius, obscurity) {
+	createLights(lightRadius, obscurity) {
 		initLights(lightRadius, obscurity);
 		const lightSources = { fire: Fire };
 
@@ -199,25 +201,26 @@ export class Level {
 		})
 	}
 
-	update () {
+	update() {
 		updateLights();
 		if (game.music && game.music._sound) {
 			let t = game.time.totalElapsedSeconds();
-			game.music._sound.playbackRate.value = Math.sin(t) * .05 + 1;
+			game.music._sound.playbackRate.value = 1 + Math.sin(t) * (16 - game.player.lucidity) * 0.1;
 		}
 	}
 
 
 }
 // find objects in a Tiled layer that containt a property called "type" equal to a certain value
-function findObjectsByType (type, map, layer) {
+function findObjectsByType(type, map, layer) {
 	return map.objects[layer].filter(element => {
 		if (element.type === type) {
 			//Phaser uses top left, Tiled bottom left so we have to adjust the y position
 			//also keep in mind that the cup images are a bit smaller than the tile which is 16x16
 			//so they might not be placed in the exact pixel position as in Tiled
 			//console.log("Found " + element.type);
-			element.y -= map.tileHeight
+			//element.y -= map.tileHeight
+			element.y -= element.height;
 			return element
 		}
 	})

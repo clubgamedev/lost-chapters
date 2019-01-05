@@ -154,6 +154,7 @@ export class GameScene {
 		game.groups.pnj.forEachAlive(this.renderGroup, this)
 		game.groups.objects.forEachAlive(this.renderGroup, this)
 		game.groups.loot.forEachAlive(this.renderGroup, this)
+		game.groups.triggers.forEachAlive(this.renderGroup, this)
 	}
 
 	renderGroup(member) {

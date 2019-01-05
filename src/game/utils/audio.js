@@ -1,6 +1,6 @@
 export const sounds = {}
 
-export function loadAudio () {
+export function loadAudio() {
     game.load.audio("music", [
         "assets/sound/ForestV1.mp3"
     ]);
@@ -16,7 +16,7 @@ export function loadAudio () {
     ]);
 }
 
-export function addSounds () {
+export function addSounds() {
     Object.assign(sounds, {
         HURT: game.add.audio("hurt"),
         ITEM: game.add.audio("item"),
@@ -25,16 +25,16 @@ export function addSounds () {
     })
 }
 
-export function startMusic () {
+export function startMusic() {
     game.music = game.add.audio("music");
     game.music.loop = true;
     game.music.play();
 
-    game.music.onPlay.add(() => addEffects());
+    //game.music.onPlay.add(() => addEffects());
     game.onExit = () => game.music.stop();
 }
 
-export function addEffects () {
+export function addEffects() {
     const context = game.music.context;
     const source = game.music._sound;
     source.disconnect(0);
