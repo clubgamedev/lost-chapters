@@ -360,6 +360,47 @@
                  "width":30.7727,
                  "x":721.11365,
                  "y":1151
+                }, 
+                {
+                 "gid":7,
+                 "height":32,
+                 "id":61,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"from",
+                         "type":"int",
+                         "value":1
+                        }, 
+                        {
+                         "name":"to",
+                         "type":"int",
+                         "value":3
+                        }],
+                 "rotation":0,
+                 "type":"teleport",
+                 "visible":true,
+                 "width":16,
+                 "x":1209.33333333333,
+                 "y":1054
+                }, 
+                {
+                 "gid":7,
+                 "height":32,
+                 "id":62,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"level",
+                         "type":"string",
+                         "value":"cave"
+                        }],
+                 "rotation":0,
+                 "type":"exit",
+                 "visible":true,
+                 "width":16,
+                 "x":1391,
+                 "y":1504
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -368,7 +409,7 @@
          "y":0
         }],
  "nextlayerid":20,
- "nextobjectid":61,
+ "nextobjectid":63,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.2.1",

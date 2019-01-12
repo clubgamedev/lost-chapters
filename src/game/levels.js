@@ -59,7 +59,6 @@ export class Level {
 		tilemap,
 		tilesets,
 		startPosition,
-		exitPosition,
 		lightRadius,
 		obscurity
 	}) {
@@ -67,7 +66,6 @@ export class Level {
 		this.startPosition = startPosition
 		this.createTileMap(tilemap, tilesets)
 		this.createGroups()
-		this.createExit(exitPosition)
 		this.createEnemies()
 		this.createPNJ();
 		this.createObjects();
@@ -109,6 +107,7 @@ export class Level {
 
 		game.groups.characters = game.add.group(game.groups.render);
 		game.groups.characters.enableBody = true
+		game.groups.characters.add(game.player)
 
 		game.groups.enemies = game.add.group(game.groups.characters)
 		game.groups.pnj = game.add.group(game.groups.characters)
@@ -165,7 +164,7 @@ export class Level {
 		const tps = findObjectsByType("teleport", this.tilemap, "Object Layer")
 		tps.forEach(tp => {
 			let trigger = game.add.sprite(tp.x, tp.y, "exit")
-			//trigger.alpha = 0;
+			trigger.alpha = 0;
 			trigger.width = tp.width;
 			trigger.height = tp.height;
 			game.groups.triggers.add(trigger)
@@ -181,12 +180,22 @@ export class Level {
 				}
 			}
 		})
-	}
 
-	createExit({ x, y }) {
-		this.exit = game.add.sprite(x * 16, y * 16, "exit")
-		this.exit.alpha = 0
-		game.physics.arcade.enable(this.exit)
+		const exits = findObjectsByType("exit", this.tilemap, "Object Layer")
+		exits.forEach(exit => {
+			let exitSprite = game.add.sprite(exit.x, exit.y, "exit")
+			exitSprite.alpha = 0;
+			exitSprite.width = exit.width;
+			exitSprite.height = exit.height;
+			game.groups.triggers.add(exitSprite)
+			exitSprite.action = () => {
+				let levelName = exit.properties.find(prop => prop.name === "level").value;
+				exitSprite.destroy(); // to avoid infinite loop during camera fade
+				game.camera.fade(0x000000, 390)
+				setTimeout(() => goToLevel(levelName), 390);
+				setTimeout(() => game.camera.flash(0x000000, 400, true), 400);
+			}
+		})
 	}
 
 	createLights(lightRadius, obscurity) {
@@ -224,4 +233,12 @@ function findObjectsByType(type, map, layer) {
 			return element
 		}
 	})
+}
+
+export function goToLevel(levelName) {
+	game.level = new Level(levels[levelName])
+	Object.assign(game.player.position, {
+		x: game.level.startPosition.x * 16 + 8,
+		y: game.level.startPosition.y * 16 + 8,
+	});
 }

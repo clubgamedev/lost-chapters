@@ -91,7 +91,7 @@ export class Player extends Character {
 			switch (objectInFront.key) {
 				case "runes":
 					game.variants = objectInFront.properties.find(prop => prop.name === "variant").value.split(",");
-                    game.duration = objectInFront.properties.find(prop => prop.name === "duration").value;
+					game.duration = objectInFront.properties.find(prop => prop.name === "duration").value;
 					save();
 					game.state.start("Decryptor");
 					return;

@@ -17,8 +17,8 @@ export function save() {
 
 export function newGame() {
     game.save = {
-        level: "school"
+        level: "school",
+        playerPosition: levels.school.startPosition
     }
-    game.save.playerPosition = levels[game.save.level].startPosition;
     localStorage.setItem("save", JSON.stringify(game.save));
 }

@@ -1,25 +1,21 @@
 import { addSounds, startMusic, sounds } from "../utils/audio"
 import { startDialog } from "../utils/dialogs"
-
 import { Player } from "../characters/Player"
-
-import { Level, levels, caveLevel, forestLevel } from "../levels"
+import { goToLevel } from "../levels"
 
 let hurtFlag
 
 export class GameScene {
 	create() {
 		game.scale.setGameSize(255, 144);
-		game.level = new Level(levels[game.save.level])
-
-		addSounds()
-		startMusic()
 
 		this.spawnPlayer()
-
 		this.bindKeys()
-		this.createCamera()
 		this.createHud()
+
+		goToLevel(game.save.level)
+		startMusic();
+		addSounds()
 
 		const actionKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
 		actionKey.onDown.add(() => {
@@ -32,13 +28,9 @@ export class GameScene {
 		game.lucidityBar.fixedToCamera = true
 	}
 
-	createCamera() {
-		game.camera.follow(game.player)
-	}
-
 	spawnPlayer() {
 		game.player = new Player(game, game.save.playerPosition)
-		game.groups.characters.add(game.player)
+		game.camera.follow(game.player)
 	}
 
 	bindKeys() {
@@ -70,7 +62,6 @@ export class GameScene {
 			game.physics.arcade.overlap(game.player, game.groups.enemies, this.hurtPlayer, null, this)
 			game.physics.arcade.overlap(game.player, game.groups.loot, this.lootManager, null, this)
 			game.physics.arcade.overlap(game.player, game.groups.triggers, this.onTrigger, null, this)
-			game.physics.arcade.overlap(game.player, game.level.exit, this.onExitReached, null, this)
 		}
 
 		game.player.move(game.input.keyboard.keys)
