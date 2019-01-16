@@ -45,6 +45,7 @@ export class LoadingScene {
 		game.load.spritesheet('cultist', 'assets/characters/cultist.png', 32, 32, 9);
 
 		game.load.spritesheet("runes", 'assets/decryptor/runes.png', 16, 16, 8);
+		game.load.spritesheet("chaudron", 'assets/alchemy/chaudron.png', 32, 32, 2);
 		game.load.spritesheet("fire", 'assets/environment/fireplace.png', 16, 20, 12);
 
 		game.load.spritesheet("lucidity-bar", 'assets/ui/lucidity-bar.png', 24, 8, 16);

@@ -3,6 +3,7 @@ import { Treant } from "./characters/Treant"
 import { Cultist } from "./characters/Cultist"
 import { Character, CHARACTER_STATE } from "./characters/Character"
 import { Runes } from "./items/Runes";
+import { Chaudron } from "./items/Chaudron";
 import { Fire } from "./effects/Fire";
 import RenderGroup from "./utils/RenderGroup";
 import { initLights, updateLights } from "./utils/Light";
@@ -75,7 +76,7 @@ export class Level {
 		this.createLights(lightRadius, obscurity)
 	}
 
-	createTileMap(tilemap, tilesets) {
+	createTileMap (tilemap, tilesets) {
 		//tilemap
 		this.tilemap = game.add.tilemap(tilemap)
 		this.tilemap.addTilesetImage("collisions")
@@ -102,7 +103,7 @@ export class Level {
 		// this.layer.visible = false;
 	}
 
-	createGroups() {
+	createGroups () {
 		game.groups = {}
 
 		game.groups.render = new RenderGroup(game);
@@ -125,7 +126,7 @@ export class Level {
 		game.groups.triggers.enableBody = true
 	}
 
-	createEnemies() {
+	createEnemies () {
 		const enemies = { mole: Mole, treant: Treant, cultist: Cultist };
 		Object.entries(enemies).forEach(([enemyType, Constructor]) => {
 			findObjectsByType(enemyType, this.tilemap, "Object Layer").forEach(enemy => {
@@ -139,7 +140,7 @@ export class Level {
 		})
 	}
 
-	createPNJ() {
+	createPNJ () {
 		const characters = ["franck", "augustin", "michel", "michelle", "indiana", "anna"];
 		characters.forEach((characterName) => {
 			findObjectsByType(characterName, this.tilemap, "Object Layer").forEach(character => {
@@ -151,8 +152,8 @@ export class Level {
 		})
 	}
 
-	createObjects() {
-		const objects = { runes: Runes };
+	createObjects () {
+		const objects = { runes: Runes, chaudron: Chaudron };
 		Object.entries(objects).forEach(([objectType, Constructor]) => {
 			findObjectsByType(objectType, this.tilemap, "Object Layer").forEach(object => {
 				let sprite = new Constructor({ x: object.x / 16, y: object.y / 16 }, object.properties)
@@ -161,7 +162,7 @@ export class Level {
 		})
 	}
 
-	createTriggers() {
+	createTriggers () {
 		const tps = findObjectsByType("teleport", this.tilemap, "Object Layer")
 		tps.forEach(tp => {
 			let trigger = game.add.sprite(tp.x, tp.y, "exit")
@@ -183,13 +184,13 @@ export class Level {
 		})
 	}
 
-	createExit({ x, y }) {
+	createExit ({ x, y }) {
 		this.exit = game.add.sprite(x * 16, y * 16, "exit")
 		this.exit.alpha = 0
 		game.physics.arcade.enable(this.exit)
 	}
 
-	createLights(lightRadius, obscurity) {
+	createLights (lightRadius, obscurity) {
 		initLights(lightRadius, obscurity);
 		const lightSources = { fire: Fire };
 
@@ -201,18 +202,18 @@ export class Level {
 		})
 	}
 
-	update() {
+	update () {
 		updateLights();
 		if (game.music && game.music._sound) {
 			let t = game.time.totalElapsedSeconds();
-			game.music._sound.playbackRate.value = 1 + Math.sin(t) * (16 - game.player.lucidity) * 0.1;
+			game.music._sound.playbackRate.value = 1 + Math.sin(t) * Math.max(0, 10 - game.player.lucidity) * 0.01;
 		}
 	}
 
 
 }
 // find objects in a Tiled layer that containt a property called "type" equal to a certain value
-function findObjectsByType(type, map, layer) {
+function findObjectsByType (type, map, layer) {
 	return map.objects[layer].filter(element => {
 		if (element.type === type) {
 			//Phaser uses top left, Tiled bottom left so we have to adjust the y position
