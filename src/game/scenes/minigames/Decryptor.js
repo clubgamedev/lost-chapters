@@ -68,8 +68,9 @@ function loadZodiacs() {
     game.load.image("taurus", "assets/decryptor/taurus.png");
     game.load.image("virgo", "assets/decryptor/virgo.png");
     game.load.image("bottomBar", "assets/decryptor/bottom_bar.png");
-    game.load.image("backgroundTipsCave", "assets/decryptor/background_tips_cave.png")
-    game.load.image("particle_blue", "assets/decryptor/particle_blue.png")
+    game.load.image("backgroundTipsCave", "assets/decryptor/background_tips_cave.png");
+    game.load.image("particle_blue", "assets/decryptor/particle_blue.png");
+    game.load.spritesheet("sunburn", "assets/decryptor/sunburn_spritesheet.png", 100, 100, 61);
 
 }
 
@@ -111,8 +112,11 @@ export class DecryptorScene {
         //gameObjects.push(foundSound);
         errorSound = game.sound.add('element_error');
         //gameObjects.push(errorSound);
+
+
         createScreenTips();
         createElements();
+        activeElement(elementsToFind[gameState.elementIndex].display);
 
         countDown = game.time.create(false);
         countDown.add(Phaser.Timer.SECOND * (game.duration ? game.duration : 30), gameOver, this);
@@ -164,8 +168,6 @@ export class DecryptorScene {
     }
 }
 
-
-
 function constructMapActionZodiacs() {
     let actionArrayRemained = actionArray.slice();
     let zodiacsArrayRemained = zodiacsArray.slice();
@@ -210,7 +212,16 @@ function createElements() {
         let action = actionArray[Math.floor(Math.random() * MAX_NB_BUTTONS)];
         let elementPlace = new Phaser.Graphics(game, 0, game.height - downScreenHeight);
         elementPlace.drawRect(i * game.width / 8 + 15, (downScreenHeight - 60) / 2, 70, 60);
+
         let zodiacImage = game.add.image(i * game.width / 8 + 20, (downScreenHeight - 50) / 2, mapActionZodiacs.get(action));
+
+        let sunburn = game.add.sprite(zodiacImage.x - zodiacImage.width*80/100, zodiacImage.y - zodiacImage.height, "sunburn");
+        sunburn.scale.set(1.5);
+        sunburn.alpha = 0;
+        let anim = sunburn.animations.add('burn');
+        anim.play(60, true);
+        elementPlace.addChild(sunburn);
+
         gameObjects.push(zodiacImage);
         elementPlace.addChild(zodiacImage);
 
@@ -353,11 +364,10 @@ function testKeyPressWithElement(keyPress, element) {
         foundSound.play();
         foundSound._sound.playbackRate.value = playbackRateValue;
         playbackRateValue += 0.1;
-        let tween = game.add.tween(element.display)
-            .to( { y : element.display.y + 10, alpha : 0 }, 500, Phaser.Easing.Linear.None);
-            tween.onComplete.add(()=>{element.display.destroy()}, this);
-            tween.start();
+        zoomAndDeleteElementToFind(element);
         gameState.elementIndex++;
+        activeElement(elementsToFind[gameState.elementIndex].display);
+
         if (game.variants.indexOf(DecryptorConfig.SCREEN_SHUFFLE) > -1) {
             emptyScreenTips();
             createScreenTips();
@@ -380,4 +390,29 @@ function testKeyPressWithElement(keyPress, element) {
             gameOver();
         }
     }
+}
+
+function activeElement(elementDisplay) {
+    var percentZoom = 20;
+    elementDisplay.children[0].alpha = 1;
+    elementDisplay.children[1].scale.set(1+(percentZoom/100), 1+(percentZoom/100));
+    elementDisplay.children[1].x -= (elementDisplay.children[1].width * percentZoom / 200);
+    elementDisplay.children[1].y -= (elementDisplay.children[1].height * percentZoom / 200);
+
+}
+
+function zoomAndDeleteElementToFind(element) {
+
+    let tween = game.add.tween(element.display.children[1])
+        .to({
+            alpha: 0,
+            x: 0,
+            y: -game.height,
+            z: 1000,
+            width: element.display.children[1].width * 10,
+            height: element.display.children[1].height * 10
+        }, 500, Phaser.Easing.Linear.None);
+    tween.onComplete.add(()=>{element.display.destroy()}, this);
+    tween.start();
+    element.display.children[0].destroy();
 }
