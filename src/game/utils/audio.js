@@ -26,12 +26,14 @@ export function addSounds() {
 }
 
 export function startMusic() {
-    game.music = game.add.audio("music");
-    game.music.loop = true;
-    game.music.play();
+    if (!game.music || !game.music.isPlaying) {
+        game.music = game.add.audio("music");
+        game.music.loop = true;
+        game.music.play();
 
-    //game.music.onPlay.add(() => addEffects());
-    game.onExit = () => game.music.stop();
+        //game.music.onPlay.add(() => addEffects());
+        game.onExit = () => game.music.stop();
+    }
 }
 
 export function addEffects() {
