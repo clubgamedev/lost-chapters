@@ -1,5 +1,5 @@
 import { shuffleArray } from "../../utils/array";
-import { startDialog } from "../../utils/dialogs";
+import { startDialog } from "../../utils/dialog";
 
 let countDown;
 let timerText;
@@ -11,18 +11,18 @@ let MAX_NB_BUTTONS = 8;
 let actionArray = ["u", "d", "l", "r", "1", "2", "3", "4"];
 let zodiacsArray = ["aquarius", "aries", "cancer", "capricorn", "gemini", "leo", "libra", "pisces", "sagittarius", "scorpio", "taurus", "virgo"];
 let mapActionSprite = {
-    "u" : "arrowUp.png",
-    "d" : "arrowDown.png",
-    "l" : "arrowLeft.png",
-    "r" : "arrowRight.png",
-    "1" : "buttonA.png",
-    "2" : "buttonB.png",
-    "3" : "buttonX.png",
-    "4" : "buttonY.png",
-    "lt" : "upLeft.png",
-    "rt" : "upRight.png",
-    "lb" : "downLeft.png",
-    "rb" : "downRight.png"
+    "u": "arrowUp.png",
+    "d": "arrowDown.png",
+    "l": "arrowLeft.png",
+    "r": "arrowRight.png",
+    "1": "buttonA.png",
+    "2": "buttonB.png",
+    "3": "buttonX.png",
+    "4": "buttonY.png",
+    "lt": "upLeft.png",
+    "rt": "upRight.png",
+    "lb": "downLeft.png",
+    "rb": "downRight.png"
 };
 let tricksArray = ["lt", "rt", "lb", "rb"];
 
@@ -107,7 +107,7 @@ export class DecryptorScene {
         tipsPlaces = createPlaces();
         this.createCountdownBar();
         particleInitialized = false;
-        playbackRateValue=1;
+        playbackRateValue = 1;
         foundSound = game.sound.add('element_found');
         //gameObjects.push(foundSound);
         errorSound = game.sound.add('element_error');
@@ -215,7 +215,7 @@ function createElements() {
 
         let zodiacImage = game.add.image(i * game.width / 8 + 20, (downScreenHeight - 50) / 2, mapActionZodiacs.get(action));
 
-        let sunburn = game.add.sprite(zodiacImage.x - zodiacImage.width*80/100, zodiacImage.y - zodiacImage.height, "sunburn");
+        let sunburn = game.add.sprite(zodiacImage.x - zodiacImage.width * 80 / 100, zodiacImage.y - zodiacImage.height, "sunburn");
         sunburn.scale.set(1.5);
         sunburn.alpha = 0;
         let anim = sunburn.animations.add('burn');
@@ -258,7 +258,7 @@ function createScreenTips() {
         let place = tipsPlaces[i];
 
         let TmpImg = game.cache.getImage(zodiac);
-        if(!particleInitialized) {
+        if (!particleInitialized) {
             let emitter = game.add.emitter(place.x + place.width / 2, place.y + place.height / 2 - ((50 * scaleButtonImage) / 2) + 10);
             emitter.width = TmpImg.width - 10;
             emitter.makeParticles('particle_blue');
@@ -273,12 +273,12 @@ function createScreenTips() {
 
         let zodiacImage = game.add.sprite(place.width / 2 - TmpImg.width / 2, place.height / 2 - (TmpImg.height / 2 + ((50 * scaleButtonImage) / 2)), zodiac);
         game.add.tween(zodiacImage)
-            .to( { y: zodiacImage.y + 10 }, 1500, Phaser.Easing.Linear.None)
+            .to({ y: zodiacImage.y + 10 }, 1500, Phaser.Easing.Linear.None)
             .yoyo(true)
             .loop()
             .start();
         gameObjects.push(zodiacImage);
-        let actionImage = game.add.sprite(place.width / 2 - (50*0.75/2), place.height - (50*scaleButtonImage), 'game_buttons');
+        let actionImage = game.add.sprite(place.width / 2 - (50 * 0.75 / 2), place.height - (50 * scaleButtonImage), 'game_buttons');
         actionImage.frameName = mapActionSprite[action];
         actionImage.scale.setTo(scaleButtonImage, scaleButtonImage);
         place.addChild(actionImage);
@@ -321,7 +321,7 @@ function createPlaces() {
 function gameOver(youWon) {
     if (youWon) {
         //TODO : ecran et son de victoire
-    }else{
+    } else {
         //TODO : ecran et son de défaite
     }
     game.state.start('MainGame');
@@ -358,8 +358,8 @@ function clearSprites() {
 }
 
 function testKeyPressWithElement(keyPress, element) {
-    console.log("keyPress : " , keyPress);
-    console.log("keyActionForElement : " , keyAction[element.action]);
+    console.log("keyPress : ", keyPress);
+    console.log("keyActionForElement : ", keyAction[element.action]);
     if (keyAction[element.action].indexOf(keyPress) > -1) {
         foundSound.play();
         foundSound._sound.playbackRate.value = playbackRateValue;
@@ -377,16 +377,16 @@ function testKeyPressWithElement(keyPress, element) {
             refreshActionsElements();
             createScreenTips();
         }
-    }else{
+    } else {
         let duration = countDown.duration;
         game.camera.shake(0.01, 250);
         game.camera.flash(0xcc0000, 500);
-        if(duration>5000){
+        if (duration > 5000) {
             errorSound.play();
             countDown.removeAll();
             countDown.add(duration - (Phaser.Timer.SECOND * 5), gameOver, this);
             console.log('Lose 5 seconds');
-        }else{
+        } else {
             gameOver();
         }
     }
@@ -395,7 +395,7 @@ function testKeyPressWithElement(keyPress, element) {
 function activeElement(elementDisplay) {
     var percentZoom = 20;
     elementDisplay.children[0].alpha = 1;
-    elementDisplay.children[1].scale.set(1+(percentZoom/100), 1+(percentZoom/100));
+    elementDisplay.children[1].scale.set(1 + (percentZoom / 100), 1 + (percentZoom / 100));
     elementDisplay.children[1].x -= (elementDisplay.children[1].width * percentZoom / 200);
     elementDisplay.children[1].y -= (elementDisplay.children[1].height * percentZoom / 200);
 
@@ -412,7 +412,7 @@ function zoomAndDeleteElementToFind(element) {
             width: element.display.children[1].width * 10,
             height: element.display.children[1].height * 10
         }, 500, Phaser.Easing.Linear.None);
-    tween.onComplete.add(()=>{element.display.destroy()}, this);
+    tween.onComplete.add(() => { element.display.destroy() }, this);
     tween.start();
     element.display.children[0].destroy();
 }

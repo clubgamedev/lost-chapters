@@ -1,5 +1,5 @@
 import { Character, CHARACTER_STATE } from "./Character"
-import { talkTo, nextLine } from "../utils/dialogs";
+import { talkTo, nextLine } from "../utils/dialog";
 import { save } from "../save";
 
 export class Player extends Character {

@@ -1,5 +1,5 @@
 import { addSounds, startMusic, sounds } from "../utils/audio"
-import { startDialog } from "../utils/dialogs"
+import { startDialog } from "../utils/dialog"
 import { Player } from "../characters/Player"
 import { goToLevel } from "../levels"
 

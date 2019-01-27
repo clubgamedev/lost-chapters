@@ -9,7 +9,8 @@ export class LoadingScene {
 		game.load.image("enter", "assets/sprites/press-enter-text.png");
 		game.load.image("instructions", "assets/sprites/instructions.png");
 		game.load.image("gameover", "assets/sprites/game-over.png");
-		game.load.image("dialog-box", "assets/sprites/dialog-box.png");
+		game.load.image("dialog-box", "assets/ui/dialog-box.png");
+		game.load.image("dialog-choice-box", "assets/ui/dialog-choice-box.png");
 
 		// tileset
 		game.load.image("tileset_forest", "assets/environment/forest_tileset.png");
