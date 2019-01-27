@@ -11,11 +11,12 @@ export class GameScene {
 
 		this.spawnPlayer()
 		this.bindKeys()
-		this.createHud()
 
 		goToLevel(game.save.level)
 		startMusic();
 		addSounds()
+
+		this.createHud()
 
 		const actionKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
 		actionKey.onDown.add(() => {
