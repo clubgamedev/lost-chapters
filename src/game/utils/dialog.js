@@ -44,8 +44,8 @@ export function nextLine() {
         line = game.dialog.lines.shift()
     }
 
-    if (line.choice) {
-        startChoice(line.choice)
+    if (Object.getPrototypeOf(line) === Object.prototype) {
+        startChoice(line)
     } else {
         game.dialog.textSprite.text = line;
     }

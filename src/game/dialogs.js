@@ -20,11 +20,9 @@ export const dialogs = {
             "Déjà à l'époque on me trouvait bavard et peu charismatique...",
             "Eh tu m'écoutes ?",
             {
-                choice: {
-                    "Oui": () => ["Menteur !"],
-                    "Non": () => ["Ben va te faire voir !"],
-                    "Je m'en fous": () => ["Comment ça tu t'en fous ? Mais il faut bien tester les dialogues !"],
-                }
+                "Oui": () => "Menteur !",
+                "Non": () => "Ben va te faire voir !",
+                "Je m'en fous": () => ["Comment ça tu t'en fous ?", "Mais il faut bien tester les dialogues !"]
             },
             "Ayé j'ai fini de parler"
         ]
