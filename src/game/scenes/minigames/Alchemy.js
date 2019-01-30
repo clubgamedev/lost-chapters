@@ -1,11 +1,14 @@
 import { positionIngredientInventory1, positionIngredientInventory2, positionIngredientInventory3, arrayPositionIngredientOnTheMap, positionPotions } from "./alchemy/positions.js";
 import { allPotions } from "./alchemy/potions.js";
 
-var ingredients;
-var potionsRandom = [];
-
-var platforms, marmite;
-var arrayItemSelected = [];
+let platforms, ingredients, materials,
+    marmite, corbeille,
+    arrayItemSelected = [],
+    potionsRandom = [],
+    potions,
+    itemSelected,
+    player,
+    keys = {};
 
 var arrayNameIngredients = ['CrochetsDeSerpent', 'CireBougieNoir', 'CuirDeBumslangWikiputer', 'OeufDeDragon',
     'epineDePoissonDiable', 'Herbicide', 'foieDeDragon', 'jusDeSauterelle',
@@ -14,11 +17,9 @@ var arrayNameIngredients = ['CrochetsDeSerpent', 'CireBougieNoir', 'CuirDeBumsla
 var arrayNamePotions = ["potionContreMauvaisOeil", "PotionDeBeaute", "potionDeGuerison", "potionDePoison",
     "potionDePuissance", "PotionDeVieillessement", "PotionSommeilSansReve", "potionVision"];
 
-var ingredientsOnThMap = arrayNameIngredients.slice();
-
+let ingredientsOnThMap = arrayNameIngredients.slice();
 let ingredientsGenerationInterval;
 
-var potions, itemSelected, materials, player;
 
 export class AlchemyScene {
     preload () {
@@ -77,6 +78,16 @@ export class AlchemyScene {
 
         game.add.sprite(500, 660, 'stockage');
 
+        materials = game.add.group();
+        materials.enableBody = true;
+
+        corbeille = game.add.sprite(500, 570, 'corbeille');
+        corbeille.scale = 2;
+        materials.add(corbeille)
+
+        marmite = game.add.sprite(600, 520, 'marmite');
+        materials.add(marmite)
+
         ingredients = game.add.group();
         ingredients.enableBody = true;
 
@@ -84,26 +95,25 @@ export class AlchemyScene {
         potions.enableBody = true;
 
         itemSelected = game.add.group();
-        itemSelected.enableBody = true;
-
-        materials = game.add.group();
-        materials.enableBody = true;
 
         spawnElements(ingredients, arrayPositionIngredientOnTheMap, arrayNameIngredients);
-        materials.create(600, 520, 'marmite');
-        materials.create(500, 570, 'corbeille');
 
-        marmite = game.add.sprite(600, 520, 'marmite');
-        player = game.add.sprite(32, game.world.height - 300, 'dude');
+        player = game.add.sprite(32, game.world.height - 500, 'michel');
 
         game.physics.arcade.enable(player);
 
-        player.body.bounce.y = 0.2;
-        player.body.gravity.y = 300;
+        player.anchor.setTo(0.5)
+        player.body.setSize(16, 26, 8, 5)
+        player.body.gravity.y = 1400;
         player.body.collideWorldBounds = true;
 
-        player.animations.add('left', [0, 1, 2, 3], 10, true);
-        player.animations.add('right', [5, 6, 7, 8], 10, true);
+        player.width = 128;
+        player.height = 128;
+
+        player.animations.add("idle", [3], 0, true)
+        player.animations.add('left', [7, 6, 8, 6], 10, true);
+        player.animations.add('right', [7, 6, 8, 6], 10, true);
+        player.animations.play('idle');
 
         marmite.animations.add('enter', [0, 1, 2], 10, true);
 
@@ -114,36 +124,41 @@ export class AlchemyScene {
         potionsRandom = generatePotions();
 
         spawnElements(potions, positionPotions, potionsRandom);
+
+        keys.left = game.input.keyboard.addKey(Phaser.Keyboard.LEFT);
+        keys.right = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
+        keys.jump = game.input.keyboard.addKey(Phaser.Keyboard.UP);
+        keys.pick = game.input.keyboard.addKey(Phaser.Keyboard.DOWN);
     }
 
     update () {
+
         game.physics.arcade.collide(player, platforms);
         game.physics.arcade.collide(ingredients, platforms);
-        game.physics.arcade.collide(marmite, platforms);
-
-        game.physics.arcade.overlap(player, ingredients, chooseingredient, null, this);
-        game.physics.arcade.overlap(player, materials, chooseingredient, null, this);
 
         player.body.velocity.x = 0;
+        player.scale.x = Math.abs(player.scale.x)
 
-        if (game.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
-            player.body.velocity.x = -150;
+        if (keys.left.isDown) {
+            player.body.velocity.x = -300;
             player.animations.play('left');
-            if (game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
-                player.body.velocity.y = 1610;
-            }
-        } else if (game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
-            player.body.velocity.x = 150;
+        } else if (keys.right.isDown) {
+            player.body.velocity.x = 300;
+            player.scale.x *= -1
             player.animations.play('right');
-            if (game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
-                player.body.velocity.y = 1500;
-            }
-        } else if (game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
-            player.body.velocity.y = 1610;
-        }
-        else {
+        } else if(player.body.velocity.y === 0){
             player.animations.stop();
-            player.frame = 4;
+            player.animations.play('idle');
+        }
+
+        if(keys.jump.isDown && player.body.velocity.y === 0){
+            player.body.velocity.y = -750;
+        }
+
+        if(keys.pick.isDown){
+            game.physics.arcade.overlap(player, ingredients, pickIngredient, null, this);
+            game.physics.arcade.overlap(player, marmite, putInMarmite, null, this);
+            game.physics.arcade.overlap(player, corbeille, putInCorbeille, null, this);
         }
     }
 
@@ -156,59 +171,53 @@ export class AlchemyScene {
     }
 }
 
+function putInCorbeille(){
+    itemSelected.callAll('kill');
+    arrayItemSelected = [];
+    ingredientsOnThMap = arrayNameIngredients.slice();
+    ingredients.callAll('kill');
+    spawnElements(ingredients, arrayPositionIngredientOnTheMap, arrayNameIngredients);
+}
 
 
-
-function chooseingredient (player, item) {
-    if (game.input.keyboard.justPressed(Phaser.Keyboard.ENTER)) {
-        switch (item.key) {
-            case 'CrochetsDeSerpent':
-                addItemInInventory('CrochetsDeSerpent');
-                item.kill();
-                break;
-            case 'CireBougieNoir':
-                addItemInInventory('CireBougieNoir');
-                item.kill();
-                break;
-            case 'CuirDeBumslangWikiputer':
-                addItemInInventory('CuirDeBumslangWikiputer');
-                item.kill();
-                break;
-            case 'OeufDeDragon':
-                addItemInInventory('OeufDeDragon');
-                item.kill();
-                break;
-            case 'epineDePoissonDiable':
-                addItemInInventory('epineDePoissonDiable');
-                item.kill();
-                break;
-            case 'Herbicide':
-                addItemInInventory('Herbicide');
-                item.kill();
-                break;
-            case 'foieDeDragon':
-                addItemInInventory('foieDeDragon');
-                item.kill();
-                break;
-            case 'jusDeSauterelle':
-                addItemInInventory('jusDeSauterelle');
-                item.kill();
-                break;
-            case 'plumeJobarbille':
-                addItemInInventory('plumeJobarbille');
-                item.kill();
-                break;
-            case 'marmite':
-                animationMarmite();
-                break;
-            case 'corbeille':
-                itemSelected.callAll('kill');
-                arrayItemSelected = [];
-                ingredientsOnThMap = arrayNameIngredients.slice();
-                ingredients.callAll('kill');
-                spawnElements(ingredients, arrayPositionIngredientOnTheMap, arrayNameIngredients);
-                break;
-        }
+function pickIngredient (player, item) {
+    switch (item.key) {
+        case 'CrochetsDeSerpent':
+            addItemInInventory('CrochetsDeSerpent');
+            item.kill();
+            break;
+        case 'CireBougieNoir':
+            addItemInInventory('CireBougieNoir');
+            item.kill();
+            break;
+        case 'CuirDeBumslangWikiputer':
+            addItemInInventory('CuirDeBumslangWikiputer');
+            item.kill();
+            break;
+        case 'OeufDeDragon':
+            addItemInInventory('OeufDeDragon');
+            item.kill();
+            break;
+        case 'epineDePoissonDiable':
+            addItemInInventory('epineDePoissonDiable');
+            item.kill();
+            break;
+        case 'Herbicide':
+            addItemInInventory('Herbicide');
+            item.kill();
+            break;
+        case 'foieDeDragon':
+            addItemInInventory('foieDeDragon');
+            item.kill();
+            break;
+        case 'jusDeSauterelle':
+            addItemInInventory('jusDeSauterelle');
+            item.kill();
+            break;
+        case 'plumeJobarbille':
+            addItemInInventory('plumeJobarbille');
+            item.kill();
+            break;
     }
 }
 
@@ -231,7 +240,7 @@ function addItemInInventory (item) {
     }
 }
 
-function animationMarmite () {
+function putInMarmite () {
     marmite.animations.play('enter');
     setTimeout(() => {
         marmite.animations.stop();
@@ -257,14 +266,13 @@ function generateOtherPositionIngredient (groupIngredients) {
     groupIngredients.callAll('kill');
 
     for (let i = 0; i <= 8; i++) {
+        let  randomNumberPosition = 0,
+            randomNumberIngredient = 0;
         if (limit > 0) {
             randomNumberPosition = Math.floor(Math.random() * (limit - 0 + 1));
             randomNumberIngredient = Math.floor(Math.random() * (limit - 0 + 1));
         }
-        else {
-            randomNumberPosition = 0;
-            randomNumberIngredient = 0;
-        }
+
         groupIngredients.create(arrayPositionIngredientOnTheMapTmp[randomNumberPosition].x, arrayPositionIngredientOnTheMapTmp[randomNumberPosition].y, arrayNameIngredientsTmp[randomNumberIngredient]);
         arrayPositionIngredientOnTheMapTmp[randomNumberPosition] = undefined;
         arrayNameIngredientsTmp[randomNumberIngredient] = undefined;
