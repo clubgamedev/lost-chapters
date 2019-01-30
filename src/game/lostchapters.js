@@ -1,13 +1,13 @@
 /* global Phaser illuminated game */
 
+import { loadSave } from "./save";
 import { BootScene } from "./scenes/BootScene"
 import { LoadingScene } from "./scenes/LoadingScene"
 import { MenuScene } from "./scenes/MenuScene"
 import { GameScene } from "./scenes/GameScene"
 import { GameOverScene } from "./scenes/GameOverScene"
 import { DecryptorScene } from "./scenes/minigames/Decryptor";
-
-import { loadSave } from "./save";
+import { AlchemyScene } from "./scenes/minigames/Alchemy";
 
 const gameWidth = 255
 const gameHeight = 144
@@ -20,6 +20,7 @@ export function startGame() {
 	game.state.add("MainGame", GameScene)
 	game.state.add("GameOver", GameOverScene)
 	game.state.add("Decryptor", DecryptorScene);
+	game.state.add("Alchemy", AlchemyScene)
 
 	loadSave();
 

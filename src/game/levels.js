@@ -3,6 +3,7 @@ import { Treant } from "./characters/Treant"
 import { Cultist } from "./characters/Cultist"
 import { Character, CHARACTER_STATE } from "./characters/Character"
 import { Runes } from "./items/Runes";
+import { Chaudron } from "./items/Chaudron";
 import { Fire } from "./effects/Fire";
 import RenderGroup from "./utils/RenderGroup";
 import { initLights, updateLights } from "./utils/Light";
@@ -151,7 +152,7 @@ export class Level {
 	}
 
 	createObjects() {
-		const objects = { runes: Runes };
+		const objects = { runes: Runes, chaudron: Chaudron };
 		Object.entries(objects).forEach(([objectType, Constructor]) => {
 			findObjectsByType(objectType, this.tilemap, "Object Layer").forEach(object => {
 				let sprite = new Constructor({ x: object.x / 16, y: object.y / 16 }, object.properties)
@@ -242,3 +243,4 @@ export function goToLevel(levelName) {
 		y: game.level.startPosition.y * 16 + 8,
 	});
 }
+

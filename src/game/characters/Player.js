@@ -95,6 +95,12 @@ export class Player extends Character {
 					save();
 					game.state.start("Decryptor");
 					return;
+
+				case "chaudron":
+					save();
+					game.state.start("Alchemy");
+					return;
+
 			}
 		}
 	}
