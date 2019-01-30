@@ -71,7 +71,6 @@ function loadZodiacs() {
     game.load.image("backgroundTipsCave", "assets/decryptor/background_tips_cave.png");
     game.load.image("particle_blue", "assets/decryptor/particle_blue.png");
     game.load.spritesheet("sunburn", "assets/decryptor/sunburn_spritesheet.png", 100, 100, 61);
-
 }
 
 function loadSounds() {
@@ -114,8 +113,8 @@ export class DecryptorScene {
         //gameObjects.push(errorSound);
 
 
-        createScreenTips();
-        createElements();
+        createElementsWithButtons();
+        createElementsToDecrypt();
         activeElement(elementsToFind[gameState.elementIndex].display);
 
         countDown = game.time.create(false);
@@ -124,6 +123,7 @@ export class DecryptorScene {
 
         game.input.gamepad.start();
         game.input.gamepad.onDownCallback = function (e) {
+
             testKeyPressWithElement(e.keyCode, elementsToFind[gameState.elementIndex]);
         };
         game.input.gamepad.onAxisCallback = function (e) {
@@ -147,9 +147,7 @@ export class DecryptorScene {
     }
 
     update() {
-        if (gameState.elementIndex === 8) {
-            gameOver(true);
-        }
+
     }
 
     render() {
@@ -204,7 +202,7 @@ function shuffleMapActionZodiacs() {
     });
 }
 
-function createElements() {
+function createElementsToDecrypt() {
     bottomBar = game.add.image(0, game.height - downScreenHeight, "bottomBar");
     gameObjects.push(bottomBar);
 
@@ -251,7 +249,20 @@ function findActionForZodiac(zodiacToFind) {
     return result;
 }
 
-function createScreenTips() {
+function addParticlesToElement(place, scaleButtonImage, imageWidth) {
+    let emitter = game.add.emitter(place.x + place.width / 2, place.y + place.height / 2 - ((50 * scaleButtonImage) / 2) + 10);
+    emitter.width = imageWidth - 10;
+    emitter.makeParticles('particle_blue');
+    emitter.setRotation(0, 0);
+    emitter.setAlpha(0, 1);
+    emitter.setScale(0.5, 1, 0.5, 1);
+    emitter.setXSpeed(0, 0);
+    emitter.setYSpeed(50, 100);
+    emitter.start(false, 300, 100, 0);
+    gameObjects.push(emitter);
+}
+
+function createElementsWithButtons() {
     let i = 0;
     mapActionZodiacs.forEach((zodiac, action) => {
         let scaleButtonImage = 0.75;
@@ -259,29 +270,21 @@ function createScreenTips() {
 
         let TmpImg = game.cache.getImage(zodiac);
         if(!particleInitialized) {
-            let emitter = game.add.emitter(place.x + place.width / 2, place.y + place.height / 2 - ((50 * scaleButtonImage) / 2) + 10);
-            emitter.width = TmpImg.width - 10;
-            emitter.makeParticles('particle_blue');
-            emitter.setRotation(0, 0);
-            emitter.setAlpha(0, 1);
-            emitter.setScale(0.5, 1, 0.5, 1);
-            emitter.setXSpeed(0, 0);
-            emitter.setYSpeed(50, 100);
-            emitter.start(false, 300, 100, 0);
-            gameObjects.push(emitter);
+            addParticlesToElement(place, scaleButtonImage, TmpImg.width);
         }
 
-        let zodiacImage = game.add.sprite(place.width / 2 - TmpImg.width / 2, place.height / 2 - (TmpImg.height / 2 + ((50 * scaleButtonImage) / 2)), zodiac);
-        game.add.tween(zodiacImage)
-            .to( { y: zodiacImage.y + 10 }, 1500, Phaser.Easing.Linear.None)
-            .yoyo(true)
-            .loop()
-            .start();
-        gameObjects.push(zodiacImage);
         let actionImage = game.add.sprite(place.width / 2 - (50*0.75/2), place.height - (50*scaleButtonImage), 'game_buttons');
         actionImage.frameName = mapActionSprite[action];
         actionImage.scale.setTo(scaleButtonImage, scaleButtonImage);
         place.addChild(actionImage);
+
+        let zodiacImage = game.add.sprite(place.width / 2 - TmpImg.width / 2, place.height / 2 - (TmpImg.height / 2 + ((50 * scaleButtonImage) / 2)), zodiac);
+        game.add.tween(zodiacImage)
+            .to( { y: zodiacImage.y + 15 }, 1000, Phaser.Easing.Linear.None)
+            .yoyo(true)
+            .loop()
+            .start();
+        gameObjects.push(zodiacImage);
         if (game.variants.indexOf(DecryptorConfig.BLINK) > -1 || game.variants.indexOf(DecryptorConfig.ALEA_BLINK) > -1) {
             let duration = game.variants.indexOf(DecryptorConfig.ALEA_BLINK) > -1 ? Math.random() * 800 + 100 : 800;
             zodiacImage.alpha = 1;
@@ -319,11 +322,17 @@ function createPlaces() {
 }
 
 function gameOver(youWon) {
+    countDown.stop();
     if (youWon) {
-        //TODO : ecran et son de victoire
+        createWinningScreen();
     }else{
-        //TODO : ecran et son de défaite
+        createLosingScreen();
     }
+    game.input.gamepad.onDownCallback = function(){quitGame(youWon)};
+    game.input.keyboard.onDownCallback = function(){quitGame(youWon)};
+}
+
+function quitGame(youWon){
     game.state.start('MainGame');
     setTimeout(() => {
         if (youWon) {
@@ -333,7 +342,6 @@ function gameOver(youWon) {
         }
 
     }, 500);
-
 }
 
 function clearScreenTips() {
@@ -366,16 +374,20 @@ function testKeyPressWithElement(keyPress, element) {
         playbackRateValue += 0.1;
         zoomAndDeleteElementToFind(element);
         gameState.elementIndex++;
-        activeElement(elementsToFind[gameState.elementIndex].display);
+        if(gameState.elementIndex === MAX_NB_BUTTONS){
+            gameOver(true);
+        }else {
+            activeElement(elementsToFind[gameState.elementIndex].display);
 
-        if (game.variants.indexOf(DecryptorConfig.SCREEN_SHUFFLE) > -1) {
-            emptyScreenTips();
-            createScreenTips();
-        } else if (game.variants.indexOf(DecryptorConfig.ACTION_SHUFFLE) > -1) {
-            emptyScreenTips();
-            shuffleMapActionZodiacs();
-            refreshActionsElements();
-            createScreenTips();
+            if (game.variants.indexOf(DecryptorConfig.SCREEN_SHUFFLE) > -1) {
+                emptyScreenTips();
+                createElementsWithButtons();
+            } else if (game.variants.indexOf(DecryptorConfig.ACTION_SHUFFLE) > -1) {
+                emptyScreenTips();
+                shuffleMapActionZodiacs();
+                refreshActionsElements();
+                createElementsWithButtons();
+            }
         }
     }else{
         let duration = countDown.duration;
@@ -415,4 +427,32 @@ function zoomAndDeleteElementToFind(element) {
     tween.onComplete.add(()=>{element.display.destroy()}, this);
     tween.start();
     element.display.children[0].destroy();
+}
+
+function createWinningScreen() {
+    createMiddleText("Hum, je vois...", 0xFFFFFF, 0x000000);
+}
+
+function createLosingScreen() {
+    createMiddleText("Incompréhensible...", 0x000000, "#e32020");
+}
+
+function createMiddleText(textToDisplay, backgroundColor, textColor) {
+    let middleText = game.add.graphics(-game.width, game.height / 3);
+    middleText.beginFill(backgroundColor, 0.75);
+    middleText.drawRect(0, 0, game.width, game.height / 3);
+    middleText.endFill();
+    gameObjects.push(middleText);
+
+    let textSprite = game.add.text(0, 0, textToDisplay, {
+        font: "60px Alagard",
+        fill: textColor,
+        boundsAlignH: "center",
+        boundsAlignV: "middle"
+    });
+    textSprite.setTextBounds(0, 0, middleText.width, middleText.height);
+    middleText.addChild(textSprite);
+    gameObjects.push(textSprite);
+
+    game.add.tween(middleText).to({x : 0}, 750, Phaser.Easing.Linear.None).start();
 }
