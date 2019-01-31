@@ -1,5 +1,5 @@
 import { shuffleArray } from "../../utils/array";
-import { startDialog } from "../../utils/dialogs";
+import { startDialog } from "../../utils/dialog";
 
 let countDown;
 let timerText;
