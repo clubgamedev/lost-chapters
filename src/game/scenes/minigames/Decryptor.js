@@ -1,5 +1,5 @@
 import { shuffleArray } from "../../utils/array";
-import { startDialog } from "../../utils/dialog";
+import { startDialog } from "../../utils/dialogs";
 
 let countDown;
 let timerText;
@@ -11,18 +11,18 @@ let MAX_NB_BUTTONS = 8;
 let actionArray = ["u", "d", "l", "r", "1", "2", "3", "4"];
 let zodiacsArray = ["aquarius", "aries", "cancer", "capricorn", "gemini", "leo", "libra", "pisces", "sagittarius", "scorpio", "taurus", "virgo"];
 let mapActionSprite = {
-    "u": "arrowUp.png",
-    "d": "arrowDown.png",
-    "l": "arrowLeft.png",
-    "r": "arrowRight.png",
-    "1": "buttonA.png",
-    "2": "buttonB.png",
-    "3": "buttonX.png",
-    "4": "buttonY.png",
-    "lt": "upLeft.png",
-    "rt": "upRight.png",
-    "lb": "downLeft.png",
-    "rb": "downRight.png"
+    "u" : "arrowUp.png",
+    "d" : "arrowDown.png",
+    "l" : "arrowLeft.png",
+    "r" : "arrowRight.png",
+    "1" : "buttonA.png",
+    "2" : "buttonB.png",
+    "3" : "buttonX.png",
+    "4" : "buttonY.png",
+    "lt" : "upLeft.png",
+    "rt" : "upRight.png",
+    "lb" : "downLeft.png",
+    "rb" : "downRight.png"
 };
 let tricksArray = ["lt", "rt", "lb", "rb"];
 
@@ -71,7 +71,6 @@ function loadZodiacs() {
     game.load.image("backgroundTipsCave", "assets/decryptor/background_tips_cave.png");
     game.load.image("particle_blue", "assets/decryptor/particle_blue.png");
     game.load.spritesheet("sunburn", "assets/decryptor/sunburn_spritesheet.png", 100, 100, 61);
-
 }
 
 function loadSounds() {
@@ -107,15 +106,15 @@ export class DecryptorScene {
         tipsPlaces = createPlaces();
         this.createCountdownBar();
         particleInitialized = false;
-        playbackRateValue = 1;
+        playbackRateValue=1;
         foundSound = game.sound.add('element_found');
         //gameObjects.push(foundSound);
         errorSound = game.sound.add('element_error');
         //gameObjects.push(errorSound);
 
 
-        createScreenTips();
-        createElements();
+        createElementsWithButtons();
+        createElementsToDecrypt();
         activeElement(elementsToFind[gameState.elementIndex].display);
 
         countDown = game.time.create(false);
@@ -124,6 +123,7 @@ export class DecryptorScene {
 
         game.input.gamepad.start();
         game.input.gamepad.onDownCallback = function (e) {
+
             testKeyPressWithElement(e.keyCode, elementsToFind[gameState.elementIndex]);
         };
         game.input.gamepad.onAxisCallback = function (e) {
@@ -147,9 +147,7 @@ export class DecryptorScene {
     }
 
     update() {
-        if (gameState.elementIndex === 8) {
-            gameOver(true);
-        }
+
     }
 
     render() {
@@ -204,7 +202,7 @@ function shuffleMapActionZodiacs() {
     });
 }
 
-function createElements() {
+function createElementsToDecrypt() {
     bottomBar = game.add.image(0, game.height - downScreenHeight, "bottomBar");
     gameObjects.push(bottomBar);
 
@@ -215,7 +213,7 @@ function createElements() {
 
         let zodiacImage = game.add.image(i * game.width / 8 + 20, (downScreenHeight - 50) / 2, mapActionZodiacs.get(action));
 
-        let sunburn = game.add.sprite(zodiacImage.x - zodiacImage.width * 80 / 100, zodiacImage.y - zodiacImage.height, "sunburn");
+        let sunburn = game.add.sprite(zodiacImage.x - zodiacImage.width*80/100, zodiacImage.y - zodiacImage.height, "sunburn");
         sunburn.scale.set(1.5);
         sunburn.alpha = 0;
         let anim = sunburn.animations.add('burn');
@@ -251,37 +249,42 @@ function findActionForZodiac(zodiacToFind) {
     return result;
 }
 
-function createScreenTips() {
+function addParticlesToElement(place, scaleButtonImage, imageWidth) {
+    let emitter = game.add.emitter(place.x + place.width / 2, place.y + place.height / 2 - ((50 * scaleButtonImage) / 2) + 10);
+    emitter.width = imageWidth - 10;
+    emitter.makeParticles('particle_blue');
+    emitter.setRotation(0, 0);
+    emitter.setAlpha(0, 1);
+    emitter.setScale(0.5, 1, 0.5, 1);
+    emitter.setXSpeed(0, 0);
+    emitter.setYSpeed(50, 100);
+    emitter.start(false, 300, 100, 0);
+    gameObjects.push(emitter);
+}
+
+function createElementsWithButtons() {
     let i = 0;
     mapActionZodiacs.forEach((zodiac, action) => {
         let scaleButtonImage = 0.75;
         let place = tipsPlaces[i];
 
         let TmpImg = game.cache.getImage(zodiac);
-        if (!particleInitialized) {
-            let emitter = game.add.emitter(place.x + place.width / 2, place.y + place.height / 2 - ((50 * scaleButtonImage) / 2) + 10);
-            emitter.width = TmpImg.width - 10;
-            emitter.makeParticles('particle_blue');
-            emitter.setRotation(0, 0);
-            emitter.setAlpha(0, 1);
-            emitter.setScale(0.5, 1, 0.5, 1);
-            emitter.setXSpeed(0, 0);
-            emitter.setYSpeed(50, 100);
-            emitter.start(false, 300, 100, 0);
-            gameObjects.push(emitter);
+        if(!particleInitialized) {
+            addParticlesToElement(place, scaleButtonImage, TmpImg.width);
         }
+
+        let actionImage = game.add.sprite(place.width / 2 - (50*0.75/2), place.height - (50*scaleButtonImage), 'game_buttons');
+        actionImage.frameName = mapActionSprite[action];
+        actionImage.scale.setTo(scaleButtonImage, scaleButtonImage);
+        place.addChild(actionImage);
 
         let zodiacImage = game.add.sprite(place.width / 2 - TmpImg.width / 2, place.height / 2 - (TmpImg.height / 2 + ((50 * scaleButtonImage) / 2)), zodiac);
         game.add.tween(zodiacImage)
-            .to({ y: zodiacImage.y + 10 }, 1500, Phaser.Easing.Linear.None)
+            .to( { y: zodiacImage.y + 15 }, 1000, Phaser.Easing.Linear.None)
             .yoyo(true)
             .loop()
             .start();
         gameObjects.push(zodiacImage);
-        let actionImage = game.add.sprite(place.width / 2 - (50 * 0.75 / 2), place.height - (50 * scaleButtonImage), 'game_buttons');
-        actionImage.frameName = mapActionSprite[action];
-        actionImage.scale.setTo(scaleButtonImage, scaleButtonImage);
-        place.addChild(actionImage);
         if (game.variants.indexOf(DecryptorConfig.BLINK) > -1 || game.variants.indexOf(DecryptorConfig.ALEA_BLINK) > -1) {
             let duration = game.variants.indexOf(DecryptorConfig.ALEA_BLINK) > -1 ? Math.random() * 800 + 100 : 800;
             zodiacImage.alpha = 1;
@@ -319,11 +322,17 @@ function createPlaces() {
 }
 
 function gameOver(youWon) {
+    countDown.stop();
     if (youWon) {
-        //TODO : ecran et son de victoire
-    } else {
-        //TODO : ecran et son de défaite
+        createWinningScreen();
+    }else{
+        createLosingScreen();
     }
+    game.input.gamepad.onDownCallback = function(){quitGame(youWon)};
+    game.input.keyboard.onDownCallback = function(){quitGame(youWon)};
+}
+
+function quitGame(youWon){
     game.state.start('MainGame');
     setTimeout(() => {
         if (youWon) {
@@ -333,7 +342,6 @@ function gameOver(youWon) {
         }
 
     }, 500);
-
 }
 
 function clearScreenTips() {
@@ -358,35 +366,39 @@ function clearSprites() {
 }
 
 function testKeyPressWithElement(keyPress, element) {
-    console.log("keyPress : ", keyPress);
-    console.log("keyActionForElement : ", keyAction[element.action]);
+    console.log("keyPress : " , keyPress);
+    console.log("keyActionForElement : " , keyAction[element.action]);
     if (keyAction[element.action].indexOf(keyPress) > -1) {
         foundSound.play();
         foundSound._sound.playbackRate.value = playbackRateValue;
         playbackRateValue += 0.1;
         zoomAndDeleteElementToFind(element);
         gameState.elementIndex++;
-        activeElement(elementsToFind[gameState.elementIndex].display);
+        if(gameState.elementIndex === MAX_NB_BUTTONS){
+            gameOver(true);
+        }else {
+            activeElement(elementsToFind[gameState.elementIndex].display);
 
-        if (game.variants.indexOf(DecryptorConfig.SCREEN_SHUFFLE) > -1) {
-            emptyScreenTips();
-            createScreenTips();
-        } else if (game.variants.indexOf(DecryptorConfig.ACTION_SHUFFLE) > -1) {
-            emptyScreenTips();
-            shuffleMapActionZodiacs();
-            refreshActionsElements();
-            createScreenTips();
+            if (game.variants.indexOf(DecryptorConfig.SCREEN_SHUFFLE) > -1) {
+                emptyScreenTips();
+                createElementsWithButtons();
+            } else if (game.variants.indexOf(DecryptorConfig.ACTION_SHUFFLE) > -1) {
+                emptyScreenTips();
+                shuffleMapActionZodiacs();
+                refreshActionsElements();
+                createElementsWithButtons();
+            }
         }
-    } else {
+    }else{
         let duration = countDown.duration;
         game.camera.shake(0.01, 250);
         game.camera.flash(0xcc0000, 500);
-        if (duration > 5000) {
+        if(duration>5000){
             errorSound.play();
             countDown.removeAll();
             countDown.add(duration - (Phaser.Timer.SECOND * 5), gameOver, this);
             console.log('Lose 5 seconds');
-        } else {
+        }else{
             gameOver();
         }
     }
@@ -395,7 +407,7 @@ function testKeyPressWithElement(keyPress, element) {
 function activeElement(elementDisplay) {
     var percentZoom = 20;
     elementDisplay.children[0].alpha = 1;
-    elementDisplay.children[1].scale.set(1 + (percentZoom / 100), 1 + (percentZoom / 100));
+    elementDisplay.children[1].scale.set(1+(percentZoom/100), 1+(percentZoom/100));
     elementDisplay.children[1].x -= (elementDisplay.children[1].width * percentZoom / 200);
     elementDisplay.children[1].y -= (elementDisplay.children[1].height * percentZoom / 200);
 
@@ -412,7 +424,35 @@ function zoomAndDeleteElementToFind(element) {
             width: element.display.children[1].width * 10,
             height: element.display.children[1].height * 10
         }, 500, Phaser.Easing.Linear.None);
-    tween.onComplete.add(() => { element.display.destroy() }, this);
+    tween.onComplete.add(()=>{element.display.destroy()}, this);
     tween.start();
     element.display.children[0].destroy();
+}
+
+function createWinningScreen() {
+    createMiddleText("Hum, je vois...", 0xFFFFFF, 0x000000);
+}
+
+function createLosingScreen() {
+    createMiddleText("Incompréhensible...", 0x000000, "#e32020");
+}
+
+function createMiddleText(textToDisplay, backgroundColor, textColor) {
+    let middleText = game.add.graphics(-game.width, game.height / 3);
+    middleText.beginFill(backgroundColor, 0.75);
+    middleText.drawRect(0, 0, game.width, game.height / 3);
+    middleText.endFill();
+    gameObjects.push(middleText);
+
+    let textSprite = game.add.text(0, 0, textToDisplay, {
+        font: "60px Alagard",
+        fill: textColor,
+        boundsAlignH: "center",
+        boundsAlignV: "middle"
+    });
+    textSprite.setTextBounds(0, 0, middleText.width, middleText.height);
+    middleText.addChild(textSprite);
+    gameObjects.push(textSprite);
+
+    game.add.tween(middleText).to({x : 0}, 750, Phaser.Easing.Linear.None).start();
 }
