@@ -1,5 +1,6 @@
 import { shuffleArray } from "../../utils/array";
 import { startDialog } from "../../utils/dialog";
+import {createParticlesEmitter} from "../../effects/particles";
 
 let countDown;
 let timerText;
@@ -249,19 +250,6 @@ function findActionForZodiac(zodiacToFind) {
     return result;
 }
 
-function addParticlesToElement(place, scaleButtonImage, imageWidth) {
-    let emitter = game.add.emitter(place.x + place.width / 2, place.y + place.height / 2 - ((50 * scaleButtonImage) / 2) + 10);
-    emitter.width = imageWidth - 10;
-    emitter.makeParticles('particle_blue');
-    emitter.setRotation(0, 0);
-    emitter.setAlpha(0, 1);
-    emitter.setScale(0.5, 1, 0.5, 1);
-    emitter.setXSpeed(0, 0);
-    emitter.setYSpeed(50, 100);
-    emitter.start(false, 300, 100, 0);
-    gameObjects.push(emitter);
-}
-
 function createElementsWithButtons() {
     let i = 0;
     mapActionZodiacs.forEach((zodiac, action) => {
@@ -270,7 +258,11 @@ function createElementsWithButtons() {
 
         let TmpImg = game.cache.getImage(zodiac);
         if(!particleInitialized) {
-            addParticlesToElement(place, scaleButtonImage, TmpImg.width);
+            let position = {
+                x : place.x + place.width / 2,
+                y : place.y + place.height / 2 - ((50 * scaleButtonImage) / 2) + 10
+            };
+            gameObjects.push(createParticlesEmitter(position, TmpImg.width - 10, 'particle_blue'));
         }
 
         let actionImage = game.add.sprite(place.width / 2 - (50*0.75/2), place.height - (50*scaleButtonImage), 'game_buttons');
