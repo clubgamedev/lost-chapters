@@ -193,7 +193,10 @@ export class Level {
 				let levelName = exit.properties.find(prop => prop.name === "level").value;
 				exitSprite.destroy(); // to avoid infinite loop during camera fade
 				game.camera.fade(0x000000, 390)
-				setTimeout(() => goToLevel(levelName), 390);
+				setTimeout(() => {
+					goToLevel(levelName)
+					positionPlayerAtStartOfLevel();
+				}, 390);
 				setTimeout(() => game.camera.flash(0x000000, 400, true), 400);
 			}
 		})
@@ -238,9 +241,11 @@ function findObjectsByType(type, map, layer) {
 
 export function goToLevel(levelName) {
 	game.level = new Level(levels[levelName])
+}
+
+export function positionPlayerAtStartOfLevel() {
 	Object.assign(game.player.position, {
 		x: game.level.startPosition.x * 16 + 8,
 		y: game.level.startPosition.y * 16 + 8,
 	});
 }
-
