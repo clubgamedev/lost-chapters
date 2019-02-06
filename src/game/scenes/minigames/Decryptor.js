@@ -69,7 +69,8 @@ function loadZodiacs() {
     game.load.image("taurus", "assets/decryptor/taurus.png");
     game.load.image("virgo", "assets/decryptor/virgo.png");
     game.load.image("bottomBar", "assets/decryptor/bottom_bar.png");
-    game.load.image("backgroundTipsCave", "assets/decryptor/background_tips_cave.png");
+    game.load.image("backgroundTipsStars", "assets/decryptor/star_background.png");
+    game.load.image("backgroundCave", "assets/decryptor/cave_background.png");
     game.load.image("particle_blue", "assets/decryptor/particle_blue.png");
     game.load.spritesheet("sunburn", "assets/decryptor/sunburn_spritesheet.png", 100, 100, 61);
 }
@@ -138,9 +139,10 @@ export class DecryptorScene {
     }
 
     createCountdownBar() {
-        let backgroupCave = game.add.image(0, 0, 'backgroundTipsCave');
-        gameObjects.push(backgroupCave);
-        countdownBar = game.add.graphics(0, game.height - downScreenHeight);
+        let background = game.add.image(0, 0, 'backgroundTipsStars');
+        background.scale.set(1.5);
+        gameObjects.push(background);
+        countdownBar = game.add.graphics(0, game.height - downScreenHeight + 20);
         countdownBar.beginFill(0xcc0000, 0.2);
         countdownBar.drawRect(0, 0, game.width, 1);
         countdownBar.endFill();
@@ -152,8 +154,8 @@ export class DecryptorScene {
     }
 
     render() {
-        countdownBar.y = (countDown.duration / 1000 / game.duration) * (game.height - downScreenHeight);
-        countdownBar.height = (game.height - downScreenHeight) - countdownBar.y;
+        countdownBar.y = (countDown.duration / 1000 / game.duration) * (game.height - downScreenHeight + 20);
+        countdownBar.height = (game.height - downScreenHeight + 20) - countdownBar.y;
     }
 
     shutdown() {
@@ -204,7 +206,8 @@ function shuffleMapActionZodiacs() {
 }
 
 function createElementsToDecrypt() {
-    bottomBar = game.add.image(0, game.height - downScreenHeight, "bottomBar");
+    bottomBar = game.add.image(0, game.height - downScreenHeight, "backgroundCave");
+    bottomBar.scale.set(4);
     gameObjects.push(bottomBar);
 
     for (let i = 0; i < MAX_NB_BUTTONS; i++) {
