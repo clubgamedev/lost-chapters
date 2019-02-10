@@ -53,6 +53,7 @@ export class LoadingScene {
 
 		// images
 		game.load.image("exit", "assets/environment/exit-open.png");
+		game.load.image("arbre", "assets/escape_game/chalet.png");
 
 		// audio
 		loadAudio();

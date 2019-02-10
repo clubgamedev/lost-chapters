@@ -4,6 +4,7 @@ import { Cultist } from "./characters/Cultist"
 import { Character, CHARACTER_STATE } from "./characters/Character"
 import { Runes } from "./items/Runes";
 import { Chaudron } from "./items/Chaudron";
+import { Chalet } from './items/Chalet';
 import { Fire } from "./effects/Fire";
 import RenderGroup from "./utils/RenderGroup";
 import { initLights, updateLights } from "./utils/Light";
@@ -152,7 +153,7 @@ export class Level {
 	}
 
 	createObjects() {
-		const objects = { runes: Runes, chaudron: Chaudron };
+		const objects = { runes: Runes, chaudron: Chaudron, chalet : Chalet };
 		Object.entries(objects).forEach(([objectType, Constructor]) => {
 			findObjectsByType(objectType, this.tilemap, "Object Layer").forEach(object => {
 				let sprite = new Constructor({ x: object.x / 16, y: object.y / 16 }, object.properties)

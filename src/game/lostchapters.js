@@ -8,6 +8,7 @@ import { GameScene } from "./scenes/GameScene"
 import { GameOverScene } from "./scenes/GameOverScene"
 import { DecryptorScene } from "./scenes/minigames/Decryptor";
 import { AlchemyScene } from "./scenes/minigames/Alchemy";
+import { EscapeGameScene } from "./scenes/minigames/EscapeGame";
 
 const gameWidth = 255
 const gameHeight = 144
@@ -21,6 +22,7 @@ export function startGame() {
 	game.state.add("GameOver", GameOverScene)
 	game.state.add("Decryptor", DecryptorScene);
 	game.state.add("Alchemy", AlchemyScene)
+	game.state.add("EscapeGame", EscapeGameScene);
 
 	loadSave();
 
