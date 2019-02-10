@@ -299,6 +299,18 @@
                  "width":16,
                  "x":268.020213172534,
                  "y":111.325661386895
+                }, 
+                {
+                 "gid":8,
+                 "height":16,
+                 "id":29,
+                 "name":"",
+                 "rotation":0,
+                 "type":"chalet",
+                 "visible":true,
+                 "width":16,
+                 "x":176.042320454991,
+                 "y":240.781679369098
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -306,8 +318,8 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":8,
- "nextobjectid":29,
+ "nextlayerid":9,
+ "nextobjectid":30,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.2.2",
