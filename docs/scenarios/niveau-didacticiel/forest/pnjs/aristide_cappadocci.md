@@ -18,6 +18,15 @@ Nous comptons sur vous l'ami ! Les mots de R'lyeh se doivent de résonner au tra
     ---
     <Justement, rappelez-moi ces fameux mots ?>
 
+    Vous les rappeler... Je vois. Pouvez-vous me rappeler exactement qui vous envoie nous rejoindre ?
+
+        ---
+        <Lise Fressac voyons !>
+
+        ---
+        <C'est Paul. Duvivier.>
+
+        ---
 
     ---
     <Nos 4 compagnons sont donc déjà prêts ?>
