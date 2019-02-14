@@ -71,6 +71,7 @@ function loadZodiacs() {
     game.load.image("bottomBar", "assets/decryptor/bottom_bar.png");
     game.load.image("backgroundTipsStars", "assets/decryptor/star_background.png");
     game.load.image("backgroundCave", "assets/decryptor/cave_background.png");
+    game.load.image("backgroundForest", "assets/decryptor/forest_background.png");
     game.load.image("particle_blue", "assets/decryptor/particle_blue.png");
     game.load.spritesheet("sunburn", "assets/decryptor/sunburn_spritesheet.png", 100, 100, 61);
 }
@@ -206,7 +207,17 @@ function shuffleMapActionZodiacs() {
 }
 
 function createElementsToDecrypt() {
-    bottomBar = game.add.image(0, game.height - downScreenHeight, "backgroundCave");
+    switch (game.level.name) {
+        case "cave":
+            bottomBar = game.add.image(0, game.height - downScreenHeight, "backgroundCave");
+            break;
+        case "forest":
+            bottomBar = game.add.image(0, game.height - downScreenHeight, "backgroundForest");
+            break;
+        default:
+            bottomBar = game.add.image(0, game.height - downScreenHeight - 21, "backgroundForest");
+            break;
+    }
     bottomBar.scale.set(4);
     gameObjects.push(bottomBar);
 
