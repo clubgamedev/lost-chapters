@@ -47,11 +47,22 @@ export const autelLevel = {
 	obscurity: 1
 }
 
+export const sanctuaireLevel = {
+	name: "Le Sanctuaire",
+	tilemap: "map_sanctuary",
+	tilesets: ["tileset_forest", "tileset_outside"],
+	startPosition: { x: 1, y: 21 },
+	exitPosition: { x: 49, y: 23 },
+	lightRadius: 150,
+	obscurity: 1
+}
+
 export const levels = {
 	forest: forestLevel,
 	cave: caveLevel,
 	autel: autelLevel,
-	school: schoolLevel
+	school: schoolLevel,
+	sanctuaire: sanctuaireLevel
 }
 
 export class Level {
