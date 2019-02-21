@@ -73,6 +73,7 @@ function loadZodiacs() {
     game.load.image("backgroundCave", "assets/decryptor/cave_background.png");
     game.load.image("backgroundForest", "assets/decryptor/forest_background.png");
     game.load.image("backgroundScroll", "assets/decryptor/scroll_background.png");
+    game.load.image("backgroundTipsBook", "assets/decryptor/book_background.png");
     game.load.image("particle_blue", "assets/decryptor/particle_blue.png");
     game.load.spritesheet("sunburn", "assets/decryptor/sunburn_spritesheet.png", 100, 100, 61);
 }
@@ -141,8 +142,30 @@ export class DecryptorScene {
     }
 
     createCountdownBar() {
-        let background = game.add.image(0, 0, 'backgroundTipsStars');
-        background.scale.set(1.5);
+        let background;
+        switch (game.save.level) {
+            case "forest":
+            case "sanctuaire":
+                background = game.add.sprite(0, 0, 'backgroundTipsStars');
+                background.scale.set(1.5);
+                break;
+            case "school":
+                background = game.add.sprite(0, 0, 'backgroundTipsBook');
+                background.tint = 0x696969;
+                background.scale.set(4.8);
+                break;
+            case "cave":
+                background = game.add.sprite(0, 0, 'backgroundTipsStars');
+                background.scale.set(1.5);
+                break;
+            default:
+                background = game.add.sprite(0, 0, 'backgroundTipsBook');
+                background.tint = 0x696969;
+                background.scale.set(4.8);
+                break;
+
+
+        }
         gameObjects.push(background);
         countdownBar = game.add.graphics(0, game.height - downScreenHeight + 20);
         countdownBar.beginFill(0xcc0000, 0.2);
@@ -208,15 +231,21 @@ function shuffleMapActionZodiacs() {
 }
 
 function createElementsToDecrypt() {
-    switch (game.level.name) {
+    switch (game.save.level) {
         case "cave":
             bottomBar = game.add.image(0, game.height - downScreenHeight, "backgroundCave");
             break;
         case "forest":
+        case "sanctuaire":
             bottomBar = game.add.image(0, game.height - downScreenHeight - 21, "backgroundForest");
             break;
+        case "school":
+            bottomBar = game.add.sprite(0, game.height - downScreenHeight - 10, "backgroundScroll");
+            bottomBar.tint = 0xD8D8D8;
+            break;
         default:
-            bottomBar = game.add.image(0, game.height - downScreenHeight - 10, "backgroundScroll");
+            bottomBar = game.add.sprite(0, game.height - downScreenHeight - 10, "backgroundScroll");
+            bottomBar.tint = 0xD8D8D8;
             break;
     }
     bottomBar.scale.set(4);
@@ -231,7 +260,7 @@ function createElementsToDecrypt() {
 
         let zodiacImage = game.add.image(i * game.width / 10 + (game.width / 10), (downScreenHeight - 25) / 2, mapActionZodiacs.get(action));
 
-        let sunburn = game.add.sprite(zodiacImage.x - zodiacImage.width + 10, zodiacImage.y - zodiacImage.height, "sunburn");
+        let sunburn = game.add.sprite(zodiacImage.x - zodiacImage.width + 15, zodiacImage.y - zodiacImage.height, "sunburn");
         sunburn.scale.set(sunburnScale);
         sunburn.alpha = 0;
         let anim = sunburn.animations.add('burn');
