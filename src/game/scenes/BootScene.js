@@ -7,7 +7,9 @@ export class BootScene {
         game.scale.pageAlignHorizontally = true;
         game.scale.pageAlignVertically = true;
         game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+        Phaser.Canvas.setImageRenderingCrisp(game.canvas);
         game.renderer.renderSession.roundPixels = true; // blurring off
+        //game.renderer.renderSession.scaleMode =  PIXI.scaleModes.DEFAULT;
         this.game.state.start("Preload");
     }
 }
