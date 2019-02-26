@@ -19,7 +19,7 @@ export class LoadingScene {
 		game.load.image("tileset_cave", "assets/environment/cave_tileset.png");
 		game.load.image("tileset_dungeon", "assets/environment/dungeon_tileset.png");
 		game.load.image("collisions", "assets/environment/collisions.png");
-		game.load.tilemap("map_forest", "assets/maps/forest.json", null, Phaser.Tilemap.TILED_JSON);
+		//game.load.tilemap("map_forest", "assets/maps/forest.json", null, Phaser.Tilemap.TILED_JSON);
 		game.load.tilemap("map_cave", "assets/maps/terrier.json", null, Phaser.Tilemap.TILED_JSON);
 		game.load.tilemap("map_autel", "assets/maps/autel.json", null, Phaser.Tilemap.TILED_JSON);
 		game.load.tilemap("map_school", "assets/maps/universite.json", null, Phaser.Tilemap.TILED_JSON);

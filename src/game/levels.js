@@ -6,26 +6,27 @@ import { Runes } from "./items/Runes";
 import { Chaudron } from "./items/Chaudron";
 import { Fire } from "./effects/Fire";
 import RenderGroup from "./utils/RenderGroup";
-import { initLights, updateLights } from "./utils/Light";
+import { initLights, updateLights, clearLights } from "./utils/Light";
 
 export const schoolLevel = {
 	name: "L'Université",
 	tilemap: "map_school",
 	tilesets: ["tileset_inside"],
-	startPosition: { x: 84, y: 98 },
+	startPosition: { x: 84, y: 97 },
 	exitPosition: { x: 0, y: 0 },
 	lightRadius: 100,
 	obscurity: 1
 }
-
+/*
 export const forestLevel = {
 	name: "La forêt",
 	tilemap: "map_forest",
 	tilesets: ["tileset_forest"],
 	startPosition: { x: 47, y: 31 },
 	exitPosition: { x: 46, y: 27 },
-	lightRadius: 120
-}
+	lightRadius: 120,
+	fog: true
+}*/
 
 export const caveLevel = {
 	name: "Le Terrier",
@@ -51,14 +52,15 @@ export const sanctuaireLevel = {
 	name: "Le Sanctuaire",
 	tilemap: "map_sanctuary",
 	tilesets: ["tileset_forest", "tileset_outside"],
-	startPosition: { x: 1, y: 21 },
+	startPosition: { x: 3, y: 21 },
 	exitPosition: { x: 49, y: 23 },
 	lightRadius: 150,
-	obscurity: 1
+	obscurity: 1,
+	fog: true
 }
 
 export const levels = {
-	forest: forestLevel,
+	//forest: forestLevel,
 	cave: caveLevel,
 	autel: autelLevel,
 	school: schoolLevel,
@@ -72,7 +74,9 @@ export class Level {
 		tilesets,
 		startPosition,
 		lightRadius,
-		obscurity
+		obscurity,
+		hue,
+		fog
 	}) {
 		this.name = name
 		this.startPosition = startPosition
@@ -82,7 +86,7 @@ export class Level {
 		this.createPNJ();
 		this.createObjects();
 		this.createTriggers();
-		this.createLights(lightRadius, obscurity)
+		this.createLights(lightRadius, obscurity, hue, fog)
 	}
 
 	createTileMap(tilemap, tilesets) {
@@ -213,8 +217,8 @@ export class Level {
 		})
 	}
 
-	createLights(lightRadius, obscurity) {
-		initLights(lightRadius, obscurity);
+	createLights(lightRadius, obscurity, hue, fog) {
+		initLights(lightRadius, obscurity, hue, fog);
 		const lightSources = { fire: Fire };
 
 		Object.entries(lightSources).forEach(([objectType, Constructor]) => {
@@ -231,6 +235,10 @@ export class Level {
 			let t = game.time.totalElapsedSeconds();
 			game.music._sound.playbackRate.value = 1 + Math.sin(t) * (16 - game.player.lucidity) * 0.1;
 		}
+	}
+
+	exit() {
+		clearLights();
 	}
 
 
@@ -251,6 +259,7 @@ function findObjectsByType(type, map, layer) {
 }
 
 export function goToLevel(levelName) {
+	if (game.level) game.level.exit();
 	game.level = new Level(levels[levelName])
 }
 

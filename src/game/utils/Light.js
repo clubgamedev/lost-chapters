@@ -11,7 +11,7 @@ export class Light {
     }
 }
 
-export function initLights(lightRadius, obscurity = 0.75) {
+export function initLights(lightRadius, obscurity = 0.75, hue, fog) {
     let shadowTexture = game.add.bitmapData(game.width, game.height)
     shadowTexture.radius = 90
     let sprite = game.add.image(0, 0, shadowTexture)
@@ -29,15 +29,30 @@ export function initLights(lightRadius, obscurity = 0.75) {
 
     game.cameraLight = new Light(game.camera, lightRadius, "white", 0);
 
-    const frag = new HueRotate(game);
-    //here you would have to pass  display size. the angle you provide determines the new color
-    frag.init(game.width, game.height, sprite, Phaser.Math.degToRad(180));
-    game.hueFilter = new Phaser.Filter(game, frag.uniforms, frag.fragmentSrc);
+    if (hue) {
+        const frag = new HueRotate(game);
+        // the angle you provide determines the new color
+        frag.init(game.width, game.height, sprite, Phaser.Math.degToRad(180));
+        game.hueFilter = new Phaser.Filter(game, frag.uniforms, frag.fragmentSrc);
+        game.world.filters = [game.hueFilter]
+    }
 
-    game.fogFilter = new FogFilter(game);
+    if (fog) {
+        game.fogFilter = new FogFilter(game);
+        filterSprite.filters = [game.fogFilter]
+    }
+}
 
-    game.world.filters = [game.hueFilter]
-    filterSprite.filters = [game.fogFilter]
+export function clearLights() {
+    game.light.sprite.destroy();
+    game.light.filterSprite.destroy();
+
+    game.world.filters = null
+    game.hueFilter && game.hueFilter.destroy();
+    delete game.hueFilter;
+
+    game.fogFilter && game.fogFilter.destroy();
+    delete game.fogFilter;
 }
 
 export function updateLights() {
@@ -87,6 +102,6 @@ export function updateLights() {
 
 
     game.light.shadowTexture.dirty = true
-    game.hueFilter.update();
-    game.fogFilter.update();
+    game.hueFilter && game.hueFilter.update();
+    game.fogFilter && game.fogFilter.update();
 }
