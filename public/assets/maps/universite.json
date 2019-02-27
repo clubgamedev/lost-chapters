@@ -597,6 +597,18 @@
                  "width":16,
                  "x":80.0624999999998,
                  "y":1519.9375
+                }, 
+                {
+                 "gid":7,
+                 "height":16,
+                 "id":72,
+                 "name":"",
+                 "rotation":0,
+                 "type":"chaudron",
+                 "visible":true,
+                 "width":16,
+                 "x":1337.21575984991,
+                 "y":957.968730456535
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -605,10 +617,10 @@
          "y":0
         }],
  "nextlayerid":20,
- "nextobjectid":72,
+ "nextobjectid":73,
  "orientation":"orthogonal",
  "renderorder":"right-down",
- "tiledversion":"1.2.2",
+ "tiledversion":"1.2.0",
  "tileheight":16,
  "tilesets":[
         {
