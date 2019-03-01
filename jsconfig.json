@@ -1,7 +1,12 @@
 {
     "exclude": [
         "node_modules/**/*"
-    ],"files": [
-        "defs/*.d.ts"
+    ],
+    "include": [
+        "defs/phaser.d.ts",
+        "defs/pixi.d.ts",
+        "defs/phaser_box2.d.ts",
+        "defs/box2d.d.ts",
+        "defs/p2.d.ts",
     ]
 }
