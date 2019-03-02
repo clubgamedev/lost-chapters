@@ -8,7 +8,7 @@ export class Player extends Character {
 		this.type = "player"
 		this.lucidity = 16
 		this.movesBeforeTp = 0;
-		this.body.setSize(10, 10, 11, 20)
+		this.body.setSize(10, 13, 11, 19)
 		this.body.moves = true;
 		this.watchingPoint = this.worldPosition;
 	}

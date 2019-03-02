@@ -102,6 +102,7 @@ export class Level {
 		this.layer = this.tilemap.createLayer("Tile Layer")
 		this.layer2 = this.tilemap.createLayer("Tile Layer 2")
 		this.layer3 = this.tilemap.createLayer("Tile Layer 3")
+		this.layerFront = this.tilemap.createLayer("Front Tile Layer")
 
 		// collisions
 		this.tilemap.setCollision(1, true, this.layer_collisions)
@@ -109,6 +110,7 @@ export class Level {
 		this.layer.resizeWorld()
 		this.layer2.resizeWorld()
 		this.layer3.resizeWorld()
+		this.layerFront.resizeWorld()
 		this.layer_collisions.resizeWorld()
 
 		// this.layer_collisions.visible = true;
@@ -116,28 +118,44 @@ export class Level {
 		// this.layer.visible = false;
 	}
 
+	clearTileMap() {
+		this.tilemap.destroy()
+		this.layer.destroy()
+		this.layer2.destroy()
+		this.layer3.destroy()
+		this.layerFront.destroy()
+		this.layer_collisions.destroy()
+	}
+
 	createGroups() {
+		if (game.groups && game.groups.render) {
+			let toRemove = game.groups.render;
+			setTimeout(() => toRemove.destroy(), 100); // good enough
+		}
+
 		game.groups = {}
 
 		game.groups.render = new RenderGroup(game);
 
-		game.groups.characters = game.add.group(game.groups.render);
+		game.groups.lights = game.add.group(game.groups.render, "lights");
+
+		game.groups.characters = game.add.group(game.groups.render, "characters");
 		game.groups.characters.enableBody = true
 		game.groups.characters.add(game.player)
 
-		game.groups.enemies = game.add.group(game.groups.characters)
-		game.groups.pnj = game.add.group(game.groups.characters)
+		game.groups.enemies = game.add.group(game.groups.characters, "enemies")
+		game.groups.pnj = game.add.group(game.groups.characters, "pnj")
 
-		game.groups.loot = game.add.group(game.groups.render)
+		game.groups.loot = game.add.group(game.groups.render, "loot")
 		game.groups.loot.enableBody = true
 
-		game.groups.objects = game.add.group(game.groups.render)
+		game.groups.objects = game.add.group(game.groups.render, "objects")
 		game.groups.objects.enableBody = true
 
-		game.groups.lights = game.add.group(game.groups.render);
-
-		game.groups.triggers = game.add.group(game.groups.render);
+		game.groups.triggers = game.add.group(game.groups.render, "triggers");
 		game.groups.triggers.enableBody = true
+
+		this.layerFront.bringToTop();
 	}
 
 	createEnemies() {
@@ -238,6 +256,7 @@ export class Level {
 	}
 
 	exit() {
+		this.clearTileMap();
 		clearLights();
 	}
 
