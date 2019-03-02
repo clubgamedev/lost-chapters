@@ -1,9 +1,29 @@
 <template>
   <div id="app">
     <h1>Lost Chapters</h1>
-    <router-view/>
+    <main>
+      <Game :importGame="importGame"/>
+    </main>
   </div>
 </template>
+
+<script>
+import Game from "@/components/Game.vue";
+
+export default {
+  name: "App",
+  components: {
+    Game
+  },
+  data() {
+    return {
+      importGame: () =>
+        import(/* webpackChunkName: "game" */ "@/game/lostchapters.js")
+    };
+  }
+};
+</script>
+
 
 <style>
 body {
