@@ -3,6 +3,9 @@ import { loadSave } from "../../save";
 
 export class EscapeGameScene {
 
+    digicodeBigGroup;
+    isDigicodePointerOut = true;
+
     preload() {
         game.load.image('etablie', 'assets/escape/etablie.png');
         game.load.image('potfleur', 'assets/escape/potfleur.png');
@@ -21,6 +24,7 @@ export class EscapeGameScene {
         game.load.spritesheet('digicode_btn7', 'assets/escape/digicode/digicode_btn7.png', 5, 8, 2);
         game.load.spritesheet('digicode_btn8', 'assets/escape/digicode/digicode_btn8.png', 5, 8, 2);
         game.load.spritesheet('digicode_btn9', 'assets/escape/digicode/digicode_btn9.png', 5, 8, 2);
+        game.load.spritesheet('bouton_poussoir', 'assets/escape/bouton_poussoir.png', 24, 27, 2);
     }
 
     create() {
@@ -30,44 +34,44 @@ export class EscapeGameScene {
         etablie.inputEnabled = true;
         etablie.events.onInputDown.add(() => {
             if (this.isDigicodePointerOut) {
-                this.digicodeGroup.visible = false;
+                this.digicodeBigGroup.visible = false;
             }
         });
 
         game.add.image(200, 11, 'potfleur');
-
-        let digicode = game.add.image(495, 342, 'digicode');
-        digicode.inputEnabled = true;
-        digicode.events.onInputDown.add(() => this.digicodeGroup.visible = true);
+        this.createBoutonPoussoir();
         this.createDigicode();
 
         const startKey = game.input.keyboard.addKey(Phaser.Keyboard.ESC);
         startKey.onDown.add(this.quitGame, this);
     }
 
-    digicodeGroup;
-    isDigicodePointerOut = false;
+    createBoutonPoussoir() {
+        let bouton = game.add.image(125, 340, 'bouton_poussoir');
+    }
 
     createDigicode() {
-        let digicodeX = 450;
-        let digicodeY = 250;
+        let digicode = game.add.image(495, 342, 'digicode');
+        digicode.inputEnabled = true;
+        digicode.events.onInputDown.add(() => this.digicodeBigGroup.visible = true);
+
+        let digicodeBigX = 450;
+        let digicodeBigY = 250;
         let scale = 4;
 
-        this.digicodeGroup = game.add.group()
-        this.digicodeGroup.inputEnableChildren = true;
-        this.digicodeGroup.onChildInputOut.add(() => this.isDigicodePointerOut = true);
-        this.digicodeGroup.onChildInputOver.add(() => this.isDigicodePointerOut = false);
+        this.digicodeBigGroup = game.add.group()
+        this.digicodeBigGroup.inputEnableChildren = true;
+        this.digicodeBigGroup.onChildInputOut.add(() => this.isDigicodePointerOut = true);
+        this.digicodeBigGroup.onChildInputOver.add(() => this.isDigicodePointerOut = false);
 
-        this.digicodeGroup.create(digicodeX, digicodeY, "digicode_boite").scale.setTo(scale, scale);
-        this.digicodeGroup.create(digicodeX + 3 * scale, digicodeY + 17 * scale, "digicode_cable", 0);
-        // image.scale.setTo(scale, scale);
-        // image.events.onInputDown.add(() => {console.log("click on image")});
-        this.digicodeGroup.create(digicodeX + 3 * scale, digicodeY + 41 * scale, "digicode_ledbot", 0).scale.setTo(scale, scale);
-        this.digicodeGroup.create(digicodeX + 11 * scale, digicodeY + 41 * scale, "digicode_ledbot", 0).scale.setTo(scale, scale);
-        this.digicodeGroup.create(digicodeX + 19 * scale, digicodeY + 41 * scale, "digicode_ledbot", 0).scale.setTo(scale, scale);
-        this.digicodeGroup.create(digicodeX + 27 * scale, digicodeY + 41 * scale, "digicode_ledbot", 0).scale.setTo(scale, scale);
-        this.digicodeGroup.create(digicodeX + 3 * scale, digicodeY + 8 * scale, "digicode_ledonoff", 0).scale.setTo(scale, scale);
-        this.digicodeGroup.create(digicodeX + 10 * scale, digicodeY + 8 * scale, "digicode_btn1", 0).scale.setTo(scale, scale);
+        this.digicodeBigGroup.create(digicodeBigX, digicodeBigY, "digicode_boite").scale.setTo(scale, scale);
+        this.digicodeBigGroup.create(digicodeBigX + 3 * scale, digicodeBigY + 17 * scale, "digicode_cable", 0).scale.setTo(scale, scale);
+        this.digicodeBigGroup.create(digicodeBigX + 3 * scale, digicodeBigY + 41 * scale, "digicode_ledbot", 0).scale.setTo(scale, scale);
+        this.digicodeBigGroup.create(digicodeBigX + 11 * scale, digicodeBigY + 41 * scale, "digicode_ledbot", 0).scale.setTo(scale, scale);
+        this.digicodeBigGroup.create(digicodeBigX + 19 * scale, digicodeBigY + 41 * scale, "digicode_ledbot", 0).scale.setTo(scale, scale);
+        this.digicodeBigGroup.create(digicodeBigX + 27 * scale, digicodeBigY + 41 * scale, "digicode_ledbot", 0).scale.setTo(scale, scale);
+        this.digicodeBigGroup.create(digicodeBigX + 3 * scale, digicodeBigY + 8 * scale, "digicode_ledonoff", 0).scale.setTo(scale, scale);
+        this.digicodeBigGroup.create(digicodeBigX + 10 * scale, digicodeBigY + 8 * scale, "digicode_btn1", 0).scale.setTo(scale, scale);
 
         // let btn1 = this.digicodeGroup.create(DIGICODE_X + 10, DIGICODE_Y + 8, "digicode_btn1", 0);
         // let btn1 = this.digicodeGroup.create(DIGICODE_X - 50, DIGICODE_Y - 50, "digicode_btn1", 0);
@@ -76,15 +80,15 @@ export class EscapeGameScene {
         // btn1.events.onInputDown.add(() => {btn1.frame = 1;});
         // btn1.events.onInputUp.add(() => {btn1.frame = 0;});
 
-        this.digicodeGroup.create(digicodeX + 17 * scale, digicodeY + 8 * scale, "digicode_btn2", 0).scale.setTo(scale, scale);
-        this.digicodeGroup.create(digicodeX + 24 * scale, digicodeY + 8 * scale, "digicode_btn3", 0).scale.setTo(scale, scale);
-        this.digicodeGroup.create(digicodeX + 10 * scale, digicodeY + 19 * scale, "digicode_btn4", 0).scale.setTo(scale, scale);
-        this.digicodeGroup.create(digicodeX + 17 * scale, digicodeY + 19 * scale, "digicode_btn5", 0).scale.setTo(scale, scale);
-        this.digicodeGroup.create(digicodeX + 24 * scale, digicodeY + 19 * scale, "digicode_btn6", 0).scale.setTo(scale, scale);
-        this.digicodeGroup.create(digicodeX + 10 * scale, digicodeY + 30 * scale, "digicode_btn7", 0).scale.setTo(scale, scale);
-        this.digicodeGroup.create(digicodeX + 17 * scale, digicodeY + 30 * scale, "digicode_btn8", 0).scale.setTo(scale, scale);
-        this.digicodeGroup.create(digicodeX + 24 * scale, digicodeY + 30 * scale, "digicode_btn9", 0).scale.setTo(scale, scale);
-        this.digicodeGroup.visible = false;
+        this.digicodeBigGroup.create(digicodeBigX + 17 * scale, digicodeBigY + 8 * scale, "digicode_btn2", 0).scale.setTo(scale, scale);
+        this.digicodeBigGroup.create(digicodeBigX + 24 * scale, digicodeBigY + 8 * scale, "digicode_btn3", 0).scale.setTo(scale, scale);
+        this.digicodeBigGroup.create(digicodeBigX + 10 * scale, digicodeBigY + 19 * scale, "digicode_btn4", 0).scale.setTo(scale, scale);
+        this.digicodeBigGroup.create(digicodeBigX + 17 * scale, digicodeBigY + 19 * scale, "digicode_btn5", 0).scale.setTo(scale, scale);
+        this.digicodeBigGroup.create(digicodeBigX + 24 * scale, digicodeBigY + 19 * scale, "digicode_btn6", 0).scale.setTo(scale, scale);
+        this.digicodeBigGroup.create(digicodeBigX + 10 * scale, digicodeBigY + 30 * scale, "digicode_btn7", 0).scale.setTo(scale, scale);
+        this.digicodeBigGroup.create(digicodeBigX + 17 * scale, digicodeBigY + 30 * scale, "digicode_btn8", 0).scale.setTo(scale, scale);
+        this.digicodeBigGroup.create(digicodeBigX + 24 * scale, digicodeBigY + 30 * scale, "digicode_btn9", 0).scale.setTo(scale, scale);
+        this.digicodeBigGroup.visible = false;
     }
 
     quitGame() {
