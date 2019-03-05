@@ -44,11 +44,18 @@ let errorSound;
 let foundSound;
 let playbackRateValue;
 
+let MAX_HEALTH = 100;
+let health = MAX_HEALTH;
+let ennemyHealth = MAX_HEALTH;
+let healthInfoText = {};
+let nbHitsToWin = 4;
+
 let DecryptorConfig = {
     BLINK: "blink",
     ALEA_BLINK: "alea_blink",
     SCREEN_SHUFFLE: "screen_shuffle",
-    ACTION_SHUFFLE: "action_shuffle"
+    ACTION_SHUFFLE: "action_shuffle",
+    BATTLE: "battle"
 };
 
 function loadActions() {
@@ -110,25 +117,28 @@ export class DecryptorScene {
 
         tipsPlaces = createPlaces();
         this.createCountdownBar();
+        this.createBackground();
         particleInitialized = false;
         playbackRateValue = 1;
         foundSound = game.sound.add('element_found');
-        //gameObjects.push(foundSound);
         errorSound = game.sound.add('element_error');
-        //gameObjects.push(errorSound);
-
 
         createElementsWithButtons();
+        createElementsToDecryptBackground();
         createElementsToDecrypt();
+
+        if (game.variants.indexOf(DecryptorConfig.BATTLE) > -1) {
+            createHealthInfo();
+        }
+
         activeElement(elementsToFind[gameState.elementIndex].display);
 
         countDown = game.time.create(false);
-        countDown.add(Phaser.Timer.SECOND * (game.duration ? game.duration : 30), gameOver, this);
+        countDown.add(Phaser.Timer.SECOND * (game.duration ? game.duration : 30), timerOver, this);
         countDown.start();
 
         game.input.gamepad.start();
         game.input.gamepad.onDownCallback = function (e) {
-
             testKeyPressWithElement(e.keyCode, elementsToFind[gameState.elementIndex]);
         };
         game.input.gamepad.onAxisCallback = function (e) {
@@ -141,7 +151,7 @@ export class DecryptorScene {
         };
     }
 
-    createCountdownBar() {
+    createBackground() {
         let background;
         switch (game.save.level) {
             case "forest":
@@ -167,6 +177,10 @@ export class DecryptorScene {
 
         }
         gameObjects.push(background);
+    }
+
+    createCountdownBar() {
+
         countdownBar = game.add.graphics(0, game.height - downScreenHeight + 20);
         countdownBar.beginFill(0xcc0000, 0.2);
         countdownBar.drawRect(0, 0, game.width, 1);
@@ -175,7 +189,9 @@ export class DecryptorScene {
     }
 
     update() {
-
+        healthInfoText.health.width = health / MAX_HEALTH * (game.width / 2 - 50);
+        healthInfoText.ennemyHealth.width = ennemyHealth / MAX_HEALTH * (game.width / 2 - 50);
+        healthInfoText.ennemyHealth.x = game.width / 2 + ((MAX_HEALTH - ennemyHealth) / 100 * (game.width / 2 - 50));
     }
 
     render() {
@@ -192,6 +208,28 @@ export class DecryptorScene {
         game.input.gamepad.onDownCallback = null;
         game.input.gamepad.onAxisCallback = null;
     }
+}
+
+function createHealthInfo() {
+    let textStyle = {fill: 'white', font: '18px Alagard', boundsAlignH: 'center', boundsAlignV: 'center'};
+    let textHealth = game.add.text(0, 0, "You", textStyle);
+    textHealth.setTextBounds(0, 0, 50, 20);
+    let healthBar = game.add.graphics(50, 0);
+    healthBar.beginFill(0xe32020, 1);
+    healthBar.drawRect(0, 0, game.width / 2 - 50, 15);
+    healthBar.endFill();
+
+    let textEnnemyHealth = game.add.text(game.width - 50, 0, "Him", textStyle);
+    textEnnemyHealth.setTextBounds(0, 0, 50, 20);
+    let ennemyHealthBar = game.add.graphics(game.width / 2, 0);
+    ennemyHealthBar.beginFill(0xe32020, 1);
+    ennemyHealthBar.drawRect(0, 0, game.width / 2 - 50, 15);
+    ennemyHealthBar.endFill();
+
+    healthInfoText = {
+        'health': healthBar,
+        'ennemyHealth': ennemyHealthBar
+    };
 }
 
 function constructMapActionZodiacs() {
@@ -230,7 +268,7 @@ function shuffleMapActionZodiacs() {
     });
 }
 
-function createElementsToDecrypt() {
+function createElementsToDecryptBackground() {
     switch (game.save.level) {
         case "cave":
             bottomBar = game.add.image(0, game.height - downScreenHeight, "backgroundCave");
@@ -250,7 +288,10 @@ function createElementsToDecrypt() {
     }
     bottomBar.scale.set(4);
     gameObjects.push(bottomBar);
+}
 
+function createElementsToDecrypt() {
+    elementsToFind = [];
     let sunburnScale = 1.5;
 
     for (let i = 0; i < MAX_NB_BUTTONS; i++) {
@@ -359,12 +400,12 @@ function createPlaces() {
     return tipsPlaces;
 }
 
-function gameOver(youWon) {
+function gameOver(youWon, message) {
     countDown.stop();
     if (youWon) {
-        createWinningScreen();
+        createWinningScreen(message);
     } else {
-        createLosingScreen();
+        createLosingScreen(message);
     }
     game.input.gamepad.onDownCallback = function () {
         quitGame(youWon)
@@ -372,6 +413,42 @@ function gameOver(youWon) {
     game.input.keyboard.onDownCallback = function () {
         quitGame(youWon)
     };
+}
+
+function decryptOver() {
+    playbackRateValue = 1;
+    if (game.variants.indexOf(DecryptorConfig.BATTLE) > -1) {
+        gameState.elementIndex = 0;
+        ennemyHealth -= MAX_HEALTH / nbHitsToWin;
+        if (ennemyHealth <= 0) {
+            gameOver(true, "Requiescat in pace");
+        } else {
+            emptyScreenTips();
+            constructMapActionZodiacs();
+            refreshActionsElements();
+            createElementsWithButtons();
+            createElementsToDecrypt();
+            activeElement(elementsToFind[gameState.elementIndex].display);
+        }
+    } else {
+        gameOver(true);
+    }
+}
+
+function timerOver() {
+    if (game.variants.indexOf(DecryptorConfig.BATTLE) > -1) {
+        game.camera.shake(0.01, 250);
+        game.camera.flash(0xcc0000, 500);
+        health -= 25;
+        if (health <= 0) {
+            gameOver(false, "La fin est proche");
+        } else {
+            countDown.removeAll();
+            countDown.add(Phaser.Timer.SECOND * (game.duration ? game.duration : 30), timerOver, this);
+        }
+    } else {
+        gameOver(false);
+    }
 }
 
 function quitGame(youWon) {
@@ -417,7 +494,7 @@ function testKeyPressWithElement(keyPress, element) {
         zoomAndDeleteElementToFind(element);
         gameState.elementIndex++;
         if (gameState.elementIndex === MAX_NB_BUTTONS) {
-            gameOver(true);
+            decryptOver();
         } else {
             activeElement(elementsToFind[gameState.elementIndex].display);
 
@@ -438,10 +515,9 @@ function testKeyPressWithElement(keyPress, element) {
         if (duration > 5000) {
             errorSound.play();
             countDown.removeAll();
-            countDown.add(duration - (Phaser.Timer.SECOND * 5), gameOver, this);
-            console.log('Lose 5 seconds');
+            countDown.add(duration - (Phaser.Timer.SECOND * 5), timerOver, this);
         } else {
-            gameOver();
+            timerOver();
         }
     }
 }
@@ -475,12 +551,12 @@ function zoomAndDeleteElementToFind(element) {
     element.display.children[0].destroy();
 }
 
-function createWinningScreen() {
-    createMiddleText("Hum, je vois...", 0xFFFFFF, 0x000000);
+function createWinningScreen(message) {
+    createMiddleText(message ? message : "Hum, je vois...", 0xFFFFFF, 0x000000);
 }
 
-function createLosingScreen() {
-    createMiddleText("Incompréhensible...", 0x000000, "#e32020");
+function createLosingScreen(message) {
+    createMiddleText(message ? message : "Incompréhensible...", 0x000000, "#e32020");
 }
 
 function createMiddleText(textToDisplay, backgroundColor, textColor) {
