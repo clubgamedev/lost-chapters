@@ -5,13 +5,15 @@ export class EscapeGameScene {
 
     digicodeBigGroup;
     isDigicodePointerOut = true;
+    boutonPoussoirClickCount = 0;
 
     preload() {
         game.load.image('etablie', 'assets/escape/etablie.png');
         game.load.image('potfleur', 'assets/escape/potfleur.png');
-        game.load.image('potfleur_casse', 'assets/escape/potfleur_casse.png');
+        game.load.image('roue', 'assets/escape/roue.png');
         game.load.image('digicode', 'assets/escape/digicode/digicode.png');
         game.load.image('digicode_boite', 'assets/escape/digicode/digicode_boite.png');
+
         game.load.spritesheet('digicode_cable', 'assets/escape/digicode/digicode_cable.png', 3, 19, 2);
         game.load.spritesheet('digicode_ledbot', 'assets/escape/digicode/digicode_ledbot.png', 4, 5, 2);
         game.load.spritesheet('digicode_ledonoff', 'assets/escape/digicode/digicode_ledonoff.png', 4, 5, 2);
@@ -40,14 +42,33 @@ export class EscapeGameScene {
 
         game.add.image(200, 11, 'potfleur');
         this.createBoutonPoussoir();
-        this.createDigicode();
 
         const startKey = game.input.keyboard.addKey(Phaser.Keyboard.ESC);
         startKey.onDown.add(this.quitGame, this);
     }
 
+    boutonPoussoir;
+
     createBoutonPoussoir() {
-        let bouton = game.add.image(125, 340, 'bouton_poussoir');
+        this.boutonPoussoir = game.add.image(125, 340, 'bouton_poussoir', 0);
+        this.boutonPoussoir.inputEnabled = true;
+        this.boutonPoussoir.events.onInputDown.add(() => this.onBoutonPoussoirClicked());
+        this.boutonPoussoir.events.onInputUp.add(() => this.boutonPoussoir.frame = 0);
+    }
+
+    onBoutonPoussoirClicked() {
+        this.boutonPoussoir.frame = 1;
+        this.boutonPoussoirClickCount++;
+
+        switch (this.boutonPoussoirClickCount) {
+            case 1 :
+            this.createDigicode();
+            break;
+
+            case 3:
+            this.createRoue();
+            break;
+        }
     }
 
     createDigicode() {
@@ -60,6 +81,7 @@ export class EscapeGameScene {
         let scale = 4;
 
         this.digicodeBigGroup = game.add.group()
+        this.digicodeBigGroup.visible = false;
         this.digicodeBigGroup.inputEnableChildren = true;
         this.digicodeBigGroup.onChildInputOut.add(() => this.isDigicodePointerOut = true);
         this.digicodeBigGroup.onChildInputOver.add(() => this.isDigicodePointerOut = false);
@@ -88,7 +110,11 @@ export class EscapeGameScene {
         this.digicodeBigGroup.create(digicodeBigX + 10 * scale, digicodeBigY + 30 * scale, "digicode_btn7", 0).scale.setTo(scale, scale);
         this.digicodeBigGroup.create(digicodeBigX + 17 * scale, digicodeBigY + 30 * scale, "digicode_btn8", 0).scale.setTo(scale, scale);
         this.digicodeBigGroup.create(digicodeBigX + 24 * scale, digicodeBigY + 30 * scale, "digicode_btn9", 0).scale.setTo(scale, scale);
-        this.digicodeBigGroup.visible = false;
+    }
+
+    createRoue() {
+        this.roue = game.add.image(568, 102, 'roue');
+        
     }
 
     quitGame() {
