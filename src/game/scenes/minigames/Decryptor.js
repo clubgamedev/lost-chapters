@@ -1,6 +1,6 @@
-import {shuffleArray} from "../../utils/array";
-import {startDialog} from "../../utils/dialog";
-import {createParticlesEmitter} from "../../effects/particles";
+import { shuffleArray } from "../../utils/array";
+import { startDialog } from "../../utils/dialog";
+import { createParticlesEmitter } from "../../effects/particles";
 
 let countDown;
 let timerText;
@@ -45,8 +45,8 @@ let foundSound;
 let playbackRateValue;
 
 let MAX_HEALTH = 100;
-let health = MAX_HEALTH;
-let ennemyHealth = MAX_HEALTH;
+let health;
+let ennemyHealth;
 let healthInfoText = {};
 let nbHitsToWin = 4;
 
@@ -83,6 +83,7 @@ function loadZodiacs() {
     game.load.image("backgroundTipsBook", "assets/decryptor/book_background.png");
     game.load.image("particle_blue", "assets/decryptor/particle_blue.png");
     game.load.spritesheet("sunburn", "assets/decryptor/sunburn_spritesheet.png", 100, 100, 61);
+    game.load.image("skull", "assets/decryptor/skull.png");
 }
 
 function loadSounds() {
@@ -138,15 +139,15 @@ export class DecryptorScene {
         countDown.start();
 
         game.input.gamepad.start();
-        game.input.gamepad.onDownCallback = function (e) {
+        game.input.gamepad.onDownCallback = function(e) {
             testKeyPressWithElement(e.keyCode, elementsToFind[gameState.elementIndex]);
         };
-        game.input.gamepad.onAxisCallback = function (e) {
+        game.input.gamepad.onAxisCallback = function(e) {
             testKeyPressWithElement(e.keyCode, elementsToFind[gameState.elementIndex]);
         };
 
         game.input.keyboard.addKeyCapture([Phaser.Keyboard.A, Phaser.Keyboard.B, Phaser.Keyboard.X, Phaser.Keyboard.Y, Phaser.Keyboard.SPACEBAR, Phaser.Keyboard.ONE, Phaser.Keyboard.TWO, Phaser.Keyboard.THREE, Phaser.Keyboard.FOUR, Phaser.Keyboard.CONTROL, Phaser.Keyboard.ALT, Phaser.Keyboard.ENTER, Phaser.Keyboard.UP, Phaser.Keyboard.DOWN, Phaser.Keyboard.LEFT, Phaser.Keyboard.RIGHT])
-        game.input.keyboard.onDownCallback = function (e) {
+        game.input.keyboard.onDownCallback = function(e) {
             testKeyPressWithElement(e.keyCode, elementsToFind[gameState.elementIndex]);
         };
     }
@@ -190,8 +191,11 @@ export class DecryptorScene {
 
     update() {
         healthInfoText.health.width = health / MAX_HEALTH * (game.width / 2 - 50);
+        healthInfoText.health.x = 50 + ((MAX_HEALTH - health) / 100 * (game.width / 2 - 50));
+        healthInfoText.textHealth.x = ((MAX_HEALTH - health) / 100 * (game.width / 2 - 50));
+
         healthInfoText.ennemyHealth.width = ennemyHealth / MAX_HEALTH * (game.width / 2 - 50);
-        healthInfoText.ennemyHealth.x = game.width / 2 + ((MAX_HEALTH - ennemyHealth) / 100 * (game.width / 2 - 50));
+        healthInfoText.textEnnemyHealth.x = game.width / 2 + ennemyHealth / MAX_HEALTH * (game.width / 2 - 50) + 5;
     }
 
     render() {
@@ -211,24 +215,37 @@ export class DecryptorScene {
 }
 
 function createHealthInfo() {
-    let textStyle = {fill: 'white', font: '18px Alagard', boundsAlignH: 'center', boundsAlignV: 'center'};
+    health = MAX_HEALTH;
+    ennemyHealth = MAX_HEALTH;
+    let textStyle = { fill: 'white', font: '18px Alagard', boundsAlignH: 'center', boundsAlignV: 'center' };
     let textHealth = game.add.text(0, 0, "You", textStyle);
     textHealth.setTextBounds(0, 0, 50, 20);
+    gameObjects.push(textHealth);
     let healthBar = game.add.graphics(50, 0);
     healthBar.beginFill(0xe32020, 1);
     healthBar.drawRect(0, 0, game.width / 2 - 50, 15);
     healthBar.endFill();
+    gameObjects.push(healthBar);
 
     let textEnnemyHealth = game.add.text(game.width - 50, 0, "Him", textStyle);
     textEnnemyHealth.setTextBounds(0, 0, 50, 20);
+    gameObjects.push(textEnnemyHealth);
     let ennemyHealthBar = game.add.graphics(game.width / 2, 0);
     ennemyHealthBar.beginFill(0xe32020, 1);
     ennemyHealthBar.drawRect(0, 0, game.width / 2 - 50, 15);
     ennemyHealthBar.endFill();
+    gameObjects.push(ennemyHealthBar);
+
+    let skullScale = 2;
+    let skull = game.add.image(game.width / 2 - skullScale * 6, 0, 'skull');
+    skull.scale.set(skullScale);
+    gameObjects.push(skull);
 
     healthInfoText = {
         'health': healthBar,
-        'ennemyHealth': ennemyHealthBar
+        'textHealth': textHealth,
+        'ennemyHealth': ennemyHealthBar,
+        'textEnnemyHealth': textEnnemyHealth
     };
 }
 
@@ -359,7 +376,7 @@ function createElementsWithButtons() {
 
         let zodiacImage = game.add.sprite(place.width / 2 - TmpImg.width / 2, place.height / 2 - (TmpImg.height / 2 + ((50 * scaleButtonImage) / 2)), zodiac);
         game.add.tween(zodiacImage)
-            .to({y: zodiacImage.y + 15}, 1000, Phaser.Easing.Linear.None)
+            .to({ y: zodiacImage.y + 15 }, 1000, Phaser.Easing.Linear.None)
             .yoyo(true)
             .loop()
             .start();
@@ -368,7 +385,7 @@ function createElementsWithButtons() {
             let duration = game.variants.indexOf(DecryptorConfig.ALEA_BLINK) > -1 ? Math.random() * 800 + 100 : 800;
             zodiacImage.alpha = 1;
             game.add.tween(zodiacImage)
-                .to({alpha: 0}, duration, Phaser.Easing.Cubic.InOut)
+                .to({ alpha: 0 }, duration, Phaser.Easing.Cubic.InOut)
                 .yoyo(true)
                 .loop()
                 .start()
@@ -407,10 +424,10 @@ function gameOver(youWon, message) {
     } else {
         createLosingScreen(message);
     }
-    game.input.gamepad.onDownCallback = function () {
+    game.input.gamepad.onDownCallback = function() {
         quitGame(youWon)
     };
-    game.input.keyboard.onDownCallback = function () {
+    game.input.keyboard.onDownCallback = function() {
         quitGame(youWon)
     };
 }
@@ -485,8 +502,6 @@ function clearSprites() {
 }
 
 function testKeyPressWithElement(keyPress, element) {
-    console.log("keyPress : ", keyPress);
-    console.log("keyActionForElement : ", keyAction[element.action]);
     if (keyAction[element.action].indexOf(keyPress) > -1) {
         foundSound.play();
         foundSound._sound.playbackRate.value = playbackRateValue;
@@ -576,5 +591,5 @@ function createMiddleText(textToDisplay, backgroundColor, textColor) {
     middleText.addChild(textSprite);
     gameObjects.push(textSprite);
 
-    game.add.tween(middleText).to({x: 0}, 750, Phaser.Easing.Linear.None).start();
+    game.add.tween(middleText).to({ x: 0 }, 750, Phaser.Easing.Linear.None).start();
 }

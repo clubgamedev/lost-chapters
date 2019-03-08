@@ -2,6 +2,12 @@
     "exclude": [
         "node_modules/**/*"
     ],"files": [
-        "defs/*.d.ts"
+        "defs/phaser.d.ts",
+        "defs/box2d.d.ts",
+        "defs/p2.d.ts",
+        "defs/phaser_box2d.d.ts",
+        "defs/phaser.comments.d.ts",
+        "defs/pixi.comments.d.ts",
+        "defs/pixi.d.ts",
     ]
 }
