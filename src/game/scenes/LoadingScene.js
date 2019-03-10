@@ -11,6 +11,7 @@ export class LoadingScene {
 		game.load.image("gameover", "assets/sprites/game-over.png");
 		game.load.image("dialog-box", "assets/ui/dialog-box.png");
 		game.load.image("dialog-choice-box", "assets/ui/dialog-choice-box.png");
+		game.load.image("book-bg", "assets/ui/book.png");
 
 		// tileset
 		game.load.image("tileset_forest", "assets/environment/forest_tileset.png");

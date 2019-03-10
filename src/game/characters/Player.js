@@ -1,6 +1,7 @@
 import { Character, CHARACTER_STATE } from "./Character"
 import { talkTo, nextLine } from "../utils/dialog";
 import { save } from "../save";
+import { readBook, nextPage } from "../utils/book";
 
 export class Player extends Character {
 	constructor(game, startPosition) {
@@ -19,7 +20,7 @@ export class Player extends Character {
 		// coordonnées du point ciblé
 		this.watchingPoint = {
 			x: this.worldPosition.x,
-			y: this.worldPosition.y
+			y: this.worldPosition.y + 3
 		};
 
 		switch (this.state) {
@@ -43,7 +44,7 @@ export class Player extends Character {
 	}
 
 	move(keys) {
-		if (game.dialog) return; // can't move while talking
+		if (game.dialog || game.book) return; // can't move while talking
 		super.move(keys);
 		const isMoving = (keys.up.isDown || keys.right.isDown || keys.down.isDown || keys.left.isDown);
 		if (isMoving && this.movesBeforeTp > 0) this.movesBeforeTp--;
@@ -56,6 +57,7 @@ export class Player extends Character {
 
 	doAction() {
 		if (game.dialog) return nextLine();
+		if (game.book) return nextPage();
 
 		let { x, y } = this.watchingPoint;
 		let pnjInFront = game.groups.pnj.children.find(obj => obj instanceof Phaser.Sprite && obj.getBounds().contains(x, y));
@@ -88,7 +90,11 @@ export class Player extends Character {
 
 		let objectInFront = game.groups.objects.children.find(obj => obj instanceof Phaser.Sprite && obj.getBounds().contains(x, y));
 		if (objectInFront) {
-			switch (objectInFront.key) {
+			switch (objectInFront.type) {
+				case "book":
+					save();
+					readBook(objectInFront.properties.name);
+					return;
 				case "runes":
 					game.variants = objectInFront.properties.find(prop => prop.name === "variant").value.split(",");
 					game.duration = objectInFront.properties.find(prop => prop.name === "duration").value;
