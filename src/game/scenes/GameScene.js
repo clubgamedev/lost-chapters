@@ -2,6 +2,7 @@ import { addSounds, startMusic, sounds } from "../utils/audio"
 import { startDialog } from "../utils/dialog"
 import { Player } from "../characters/Player"
 import { goToLevel } from "../levels"
+import {save} from "../save";
 
 let hurtFlag
 
@@ -22,6 +23,13 @@ export class GameScene {
 		actionKey.onDown.add(() => {
 			game.player.doAction()
 		})
+
+        /*game.input.keyboard.addKey(Phaser.Keyboard.K).onDown.add(()=> {
+            game.variants = ["action_shuffle", "battle"];
+            game.duration = "30";
+            save();
+            game.state.start("Decryptor");
+		})*/
 	}
 
 	createHud() {
