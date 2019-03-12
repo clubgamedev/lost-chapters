@@ -3,6 +3,7 @@ import { loadSave } from "../../save";
 
 export class EscapeGameScene {
 
+    boutonPoussoir;
     digicodeBigGroup;
     isDigicodePointerOut = true;
     boutonPoussoirClickCount = 0;
@@ -32,22 +33,25 @@ export class EscapeGameScene {
     create() {
         game.scale.setGameSize(800, 450);
         
+        this.createEtablie();
+        this.createPotFleur();
+        this.createBoutonPoussoir();
+        this.enableLeaveSceneAction();
+    }
+
+    createEtablie() {
         let etablie = game.add.image(0, 0, 'etablie');
         etablie.inputEnabled = true;
         etablie.events.onInputDown.add(() => {
-            if (this.isDigicodePointerOut) {
+            if (this.isDigicodePointerOut && this.digicodeBigGroup) {
                 this.digicodeBigGroup.visible = false;
             }
         });
-
-        game.add.image(200, 11, 'potfleur');
-        this.createBoutonPoussoir();
-
-        const startKey = game.input.keyboard.addKey(Phaser.Keyboard.ESC);
-        startKey.onDown.add(this.quitGame, this);
     }
 
-    boutonPoussoir;
+    createPotFleur() {
+        game.add.image(200, 11, 'potfleur');
+    }
 
     createBoutonPoussoir() {
         this.boutonPoussoir = game.add.image(125, 340, 'bouton_poussoir', 0);
@@ -114,11 +118,13 @@ export class EscapeGameScene {
 
     createRoue() {
         this.roue = game.add.image(568, 102, 'roue');
-        
     }
 
-    quitGame() {
-        loadSave();
-        game.state.start('MainGame');
+    enableLeaveSceneAction() {
+        let startKey = game.input.keyboard.addKey(Phaser.Keyboard.ESC);
+        startKey.onDown.add(() => {
+            loadSave();
+            game.state.start('MainGame');
+        });
     }
 }

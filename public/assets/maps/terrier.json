@@ -299,18 +299,6 @@
                  "width":16,
                  "x":268.020213172534,
                  "y":111.325661386895
-                }, 
-                {
-                 "gid":8,
-                 "height":16,
-                 "id":29,
-                 "name":"",
-                 "rotation":0,
-                 "type":"chalet",
-                 "visible":true,
-                 "width":16,
-                 "x":176.042320454991,
-                 "y":239.531679369098
                 }],
          "opacity":1,
          "type":"objectgroup",

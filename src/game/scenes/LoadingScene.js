@@ -55,15 +55,14 @@ export class LoadingScene {
 
 		// images
 		game.load.image("exit", "assets/environment/exit-open.png");
-		game.load.image("chalet", "assets/escape/chalet.png");
 
 		// audio
 		loadAudio();
 	}
 
 	create() {
-		this.game.state.start('EscapeGame');
+		// this.game.state.start('EscapeGame');
 		
-		// this.game.state.start("TitleScreen");
+		this.game.state.start("TitleScreen");
 	}
 }

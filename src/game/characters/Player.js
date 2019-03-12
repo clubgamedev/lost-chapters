@@ -107,7 +107,7 @@ export class Player extends Character {
 					game.state.start("Alchemy");
 					return;
 
-				case 'chalet' :
+				case 'escapeTable' :
 					save();
 					game.state.start('EscapeGame');
 					return;
