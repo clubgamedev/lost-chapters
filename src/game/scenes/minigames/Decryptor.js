@@ -1,6 +1,6 @@
-import { shuffleArray } from "../../utils/array";
-import { startDialog } from "../../utils/dialog";
-import { createParticlesEmitter } from "../../effects/particles";
+import {shuffleArray} from "../../utils/array";
+import {startDialog} from "../../utils/dialog";
+import {createParticlesEmitter} from "../../effects/particles";
 
 let countDown;
 let timerText;
@@ -117,8 +117,11 @@ export class DecryptorScene {
         constructMapActionZodiacs();
 
         tipsPlaces = createPlaces();
-        this.createCountdownBar();
+
         this.createBackground();
+
+        this.createCountdownBar();
+
         particleInitialized = false;
         playbackRateValue = 1;
         foundSound = game.sound.add('element_found');
@@ -128,7 +131,7 @@ export class DecryptorScene {
         createElementsToDecryptBackground();
         createElementsToDecrypt();
 
-        if (game.variants.indexOf(DecryptorConfig.BATTLE) > -1) {
+        if (isModeBattle()) {
             createHealthInfo();
         }
 
@@ -139,15 +142,15 @@ export class DecryptorScene {
         countDown.start();
 
         game.input.gamepad.start();
-        game.input.gamepad.onDownCallback = function(e) {
+        game.input.gamepad.onDownCallback = function (e) {
             testKeyPressWithElement(e.keyCode, elementsToFind[gameState.elementIndex]);
         };
-        game.input.gamepad.onAxisCallback = function(e) {
+        game.input.gamepad.onAxisCallback = function (e) {
             testKeyPressWithElement(e.keyCode, elementsToFind[gameState.elementIndex]);
         };
 
         game.input.keyboard.addKeyCapture([Phaser.Keyboard.A, Phaser.Keyboard.B, Phaser.Keyboard.X, Phaser.Keyboard.Y, Phaser.Keyboard.SPACEBAR, Phaser.Keyboard.ONE, Phaser.Keyboard.TWO, Phaser.Keyboard.THREE, Phaser.Keyboard.FOUR, Phaser.Keyboard.CONTROL, Phaser.Keyboard.ALT, Phaser.Keyboard.ENTER, Phaser.Keyboard.UP, Phaser.Keyboard.DOWN, Phaser.Keyboard.LEFT, Phaser.Keyboard.RIGHT])
-        game.input.keyboard.onDownCallback = function(e) {
+        game.input.keyboard.onDownCallback = function (e) {
             testKeyPressWithElement(e.keyCode, elementsToFind[gameState.elementIndex]);
         };
     }
@@ -181,26 +184,24 @@ export class DecryptorScene {
     }
 
     createCountdownBar() {
-
-        countdownBar = game.add.graphics(0, game.height - downScreenHeight + 20);
-        countdownBar.beginFill(0xcc0000, 0.2);
-        countdownBar.drawRect(0, 0, game.width, 1);
-        countdownBar.endFill();
-        gameObjects.push(countdownBar);
+        if (!isModeBattle()) {
+            countdownBar = game.add.graphics(0, game.height - downScreenHeight + 20);
+            countdownBar.beginFill(0xcc0000, 0.2);
+            countdownBar.drawRect(0, 0, game.width, 1);
+            countdownBar.endFill();
+            gameObjects.push(countdownBar);
+        }
     }
 
     update() {
-        healthInfoText.health.width = health / MAX_HEALTH * (game.width / 2 - 50);
-        healthInfoText.health.x = 50 + ((MAX_HEALTH - health) / 100 * (game.width / 2 - 50));
-        healthInfoText.textHealth.x = ((MAX_HEALTH - health) / 100 * (game.width / 2 - 50));
 
-        healthInfoText.ennemyHealth.width = ennemyHealth / MAX_HEALTH * (game.width / 2 - 50);
-        healthInfoText.textEnnemyHealth.x = game.width / 2 + ennemyHealth / MAX_HEALTH * (game.width / 2 - 50) + 5;
     }
 
     render() {
-        countdownBar.y = (countDown.duration / 1000 / game.duration) * (game.height - downScreenHeight + 20);
-        countdownBar.height = (game.height - downScreenHeight + 20) - countdownBar.y;
+        if (!isModeBattle()) {
+            countdownBar.y = (countDown.duration / 1000 / game.duration) * (game.height - downScreenHeight + 20);
+            countdownBar.height = (game.height - downScreenHeight + 20) - countdownBar.y;
+        }
     }
 
     shutdown() {
@@ -215,26 +216,60 @@ export class DecryptorScene {
 }
 
 function createHealthInfo() {
+    let bgBarGroup = game.add.group();
+    bgBarGroup.z = 1;
+
+    let barGroup = game.add.group();
+    barGroup.z = 2;
+
+    let textBarGroup = game.add.group();
+    textBarGroup.z = 0;
+
     health = MAX_HEALTH;
     ennemyHealth = MAX_HEALTH;
-    let textStyle = { fill: 'white', font: '18px Alagard', boundsAlignH: 'center', boundsAlignV: 'center' };
-    let textHealth = game.add.text(0, 0, "You", textStyle);
-    textHealth.setTextBounds(0, 0, 50, 20);
+
+    let textStyle = {fill: 'white', font: '14px Alagard', boundsAlignV: 'center'};
+
+    textStyle.boundsAlignH = "left";
+    let textHealth = game.add.text(55, 0, "You", textStyle);
+    textHealth.setTextBounds(0, 0, game.width / 2 - 50, 15);
+    textBarGroup.add(textHealth);
     gameObjects.push(textHealth);
+
+    let bgHealthBar = game.add.graphics(50, 0);
+    bgHealthBar.beginFill(0xE3CA45, 1);
+    bgHealthBar.drawRect(0, 0, game.width / 2 - 50, 15);
+    bgHealthBar.endFill();
+    bgBarGroup.add(bgHealthBar);
+    gameObjects.push(bgHealthBar);
+
     let healthBar = game.add.graphics(50, 0);
     healthBar.beginFill(0xe32020, 1);
     healthBar.drawRect(0, 0, game.width / 2 - 50, 15);
     healthBar.endFill();
+    barGroup.add(healthBar);
     gameObjects.push(healthBar);
 
-    let textEnnemyHealth = game.add.text(game.width - 50, 0, "Him", textStyle);
-    textEnnemyHealth.setTextBounds(0, 0, 50, 20);
+    textStyle.boundsAlignH = "right";
+    let textEnnemyHealth = game.add.text(game.width / 2, 0, "Him", textStyle);
+    textEnnemyHealth.setTextBounds(0, 0, game.width / 2 - 55, 15);
+    textBarGroup.add(textEnnemyHealth);
     gameObjects.push(textEnnemyHealth);
+
+    let bgEnnemyHealthBar = game.add.graphics(game.width / 2, 0);
+    bgEnnemyHealthBar.beginFill(0xE3CA45, 1);
+    bgEnnemyHealthBar.drawRect(0, 0, game.width / 2 - 50, 15);
+    bgEnnemyHealthBar.endFill();
+    bgBarGroup.add(bgEnnemyHealthBar);
+    gameObjects.push(bgEnnemyHealthBar);
+
     let ennemyHealthBar = game.add.graphics(game.width / 2, 0);
     ennemyHealthBar.beginFill(0xe32020, 1);
     ennemyHealthBar.drawRect(0, 0, game.width / 2 - 50, 15);
     ennemyHealthBar.endFill();
+    barGroup.add(ennemyHealthBar);
     gameObjects.push(ennemyHealthBar);
+
 
     let skullScale = 2;
     let skull = game.add.image(game.width / 2 - skullScale * 6, 0, 'skull');
@@ -243,8 +278,10 @@ function createHealthInfo() {
 
     healthInfoText = {
         'health': healthBar,
+        'bgHealth': bgHealthBar,
         'textHealth': textHealth,
         'ennemyHealth': ennemyHealthBar,
+        'bgEnnemyHealth': bgEnnemyHealthBar,
         'textEnnemyHealth': textEnnemyHealth
     };
 }
@@ -376,7 +413,7 @@ function createElementsWithButtons() {
 
         let zodiacImage = game.add.sprite(place.width / 2 - TmpImg.width / 2, place.height / 2 - (TmpImg.height / 2 + ((50 * scaleButtonImage) / 2)), zodiac);
         game.add.tween(zodiacImage)
-            .to({ y: zodiacImage.y + 15 }, 1000, Phaser.Easing.Linear.None)
+            .to({y: zodiacImage.y + 15}, 1000, Phaser.Easing.Linear.None)
             .yoyo(true)
             .loop()
             .start();
@@ -385,7 +422,7 @@ function createElementsWithButtons() {
             let duration = game.variants.indexOf(DecryptorConfig.ALEA_BLINK) > -1 ? Math.random() * 800 + 100 : 800;
             zodiacImage.alpha = 1;
             game.add.tween(zodiacImage)
-                .to({ alpha: 0 }, duration, Phaser.Easing.Cubic.InOut)
+                .to({alpha: 0}, duration, Phaser.Easing.Cubic.InOut)
                 .yoyo(true)
                 .loop()
                 .start()
@@ -424,19 +461,20 @@ function gameOver(youWon, message) {
     } else {
         createLosingScreen(message);
     }
-    game.input.gamepad.onDownCallback = function() {
+    game.input.gamepad.onDownCallback = function () {
         quitGame(youWon)
     };
-    game.input.keyboard.onDownCallback = function() {
+    game.input.keyboard.onDownCallback = function () {
         quitGame(youWon)
     };
 }
 
 function decryptOver() {
     playbackRateValue = 1;
-    if (game.variants.indexOf(DecryptorConfig.BATTLE) > -1) {
+    if (isModeBattle()) {
         gameState.elementIndex = 0;
         ennemyHealth -= MAX_HEALTH / nbHitsToWin;
+        updateEnnemyHealthBar();
         if (ennemyHealth <= 0) {
             gameOver(true, "Requiescat in pace");
         } else {
@@ -452,11 +490,47 @@ function decryptOver() {
     }
 }
 
+function updatePlayerHealthBar() {
+    healthInfoText.health.width = health / MAX_HEALTH * (game.width / 2 - 50);
+    healthInfoText.health.x = 50 + ((MAX_HEALTH - health) / 100 * (game.width / 2 - 50));
+    if (health > 0) {
+        healthInfoText.textHealth.x = healthInfoText.health.x + 5;
+        healthInfoText.textHealth.textBounds.width = healthInfoText.health.width;
+    } else {
+        healthInfoText.textHealth.destroy();
+    }
+
+    let tween = game.add.tween(healthInfoText.bgHealth)
+        .to({
+            width: healthInfoText.health.width,
+            x: healthInfoText.health.x
+        }, 1500, Phaser.Easing.Linear.None);
+    tween.start();
+}
+
+function updateEnnemyHealthBar() {
+    let diffWidth = healthInfoText.ennemyHealth.width - ennemyHealth / MAX_HEALTH * (game.width / 2 - 50);
+    healthInfoText.ennemyHealth.width = ennemyHealth / MAX_HEALTH * (game.width / 2 - 50);
+    if (ennemyHealth > 0) {
+        healthInfoText.textEnnemyHealth.x -= diffWidth;
+        healthInfoText.textEnnemyHealth.textBounds.width -= diffWidth;
+    } else {
+        healthInfoText.textEnnemyHealth.destroy();
+    }
+
+    let tweenEnnemy = game.add.tween(healthInfoText.bgEnnemyHealth)
+        .to({
+            width: healthInfoText.ennemyHealth.width
+        }, 1500, Phaser.Easing.Linear.None);
+    tweenEnnemy.start();
+}
+
 function timerOver() {
-    if (game.variants.indexOf(DecryptorConfig.BATTLE) > -1) {
+    if (isModeBattle()) {
         game.camera.shake(0.01, 250);
         game.camera.flash(0xcc0000, 500);
-        health -= 25;
+        health -= MAX_HEALTH / nbHitsToWin;
+        updatePlayerHealthBar();
         if (health <= 0) {
             gameOver(false, "La fin est proche");
         } else {
@@ -591,5 +665,9 @@ function createMiddleText(textToDisplay, backgroundColor, textColor) {
     middleText.addChild(textSprite);
     gameObjects.push(textSprite);
 
-    game.add.tween(middleText).to({ x: 0 }, 750, Phaser.Easing.Linear.None).start();
+    game.add.tween(middleText).to({x: 0}, 750, Phaser.Easing.Linear.None).start();
+}
+
+function isModeBattle() {
+    return game.variants.indexOf(DecryptorConfig.BATTLE) > -1;
 }

@@ -26,11 +26,13 @@ export default {
 
 <style>
 #game {
-  margin: 0 auto;
-  max-width: 120vh;
+ margin: 0 auto;
+  max-width: 80%;
+ 
 }
+/* 
 #game canvas {
   display: block;
   margin: 0 auto;
-}
+} */
 </style>

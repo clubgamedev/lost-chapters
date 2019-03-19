@@ -2,7 +2,7 @@ import { Mole } from "./characters/Mole"
 import { Treant } from "./characters/Treant"
 import { Cultist } from "./characters/Cultist"
 import { Character, CHARACTER_STATE } from "./characters/Character"
-import { Runes, Chaudron, Book } from "./items/"
+import { Runes, Chaudron, Book, EscapeTable } from "./items/"
 import { Fire } from "./effects/Fire";
 import RenderGroup from "./utils/RenderGroup";
 import { initLights, updateLights, clearLights } from "./utils/Light";
@@ -184,7 +184,7 @@ export class Level {
 	}
 
 	createObjects() {
-		const objects = { runes: Runes, chaudron: Chaudron, book: Book };
+		const objects = { runes: Runes, chaudron: Chaudron, book: Book, escapeTable : EscapeTable };
 		Object.entries(objects).forEach(([objectType, Constructor]) => {
 			findObjectsByType(objectType, this.tilemap, "Object Layer").forEach(object => {
 				let sprite = new Constructor({ x: object.x / 16, y: object.y / 16 }, { name: object.name, ...(object.properties || {}) })
