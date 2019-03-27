@@ -48,3 +48,7 @@ export const books = {
         `tiens on va mettre une 3ème page pour voir`
     ]
 }
+
+export const pages = {
+    secret: `Ceci est un parchemin secret, sans roulés sur les bords`
+}

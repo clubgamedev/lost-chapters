@@ -1,12 +1,12 @@
-export class EscapeTable extends Phaser.Sprite {
+export class Page extends Phaser.Sprite {
 
     constructor(position, properties) {
         super(game, position.x * 16, position.y * 16, "runes");
         game.physics.arcade.enable(this);
-        this.body.setSize(20, 20, 0, 0);
-        this.body.moves = false;
         this.alpha = 0;
-        this.type = "escapeTable";
+        this.body.setSize(20, 20, -2, -2);
+        this.body.moves = false;
+        this.type = "page";
         this.properties = properties;
     }
 }

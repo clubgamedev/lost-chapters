@@ -657,6 +657,18 @@
                  "width":16,
                  "x":991.328021503312,
                  "y":975.968513007584
+                }, 
+                {
+                 "gid":7,
+                 "height":16,
+                 "id":76,
+                 "name":"secret",
+                 "rotation":0,
+                 "type":"page",
+                 "visible":true,
+                 "width":16,
+                 "x":608.263709256244,
+                 "y":1439.26736505791
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -665,7 +677,7 @@
          "y":0
         }],
  "nextlayerid":21,
- "nextobjectid":76,
+ "nextobjectid":77,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.2.2",

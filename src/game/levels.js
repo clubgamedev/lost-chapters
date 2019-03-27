@@ -2,7 +2,7 @@ import { Mole } from "./characters/Mole"
 import { Treant } from "./characters/Treant"
 import { Cultist } from "./characters/Cultist"
 import { Character, CHARACTER_STATE } from "./characters/Character"
-import { Runes, Chaudron, Book, EscapeTable } from "./items/"
+import { Runes, Chaudron, Book, Page, EscapeTable } from "./items/"
 import { Fire } from "./effects/Fire";
 import RenderGroup from "./utils/RenderGroup";
 import { initLights, updateLights, clearLights } from "./utils/Light";
@@ -184,7 +184,7 @@ export class Level {
 	}
 
 	createObjects() {
-		const objects = { runes: Runes, chaudron: Chaudron, book: Book, escapeTable : EscapeTable };
+		const objects = { runes: Runes, chaudron: Chaudron, book: Book, escapeTable : EscapeTable, page: Page };
 		Object.entries(objects).forEach(([objectType, Constructor]) => {
 			findObjectsByType(objectType, this.tilemap, "Object Layer").forEach(object => {
 				let sprite = new Constructor({ x: object.x / 16, y: object.y / 16 }, { name: object.name, ...(object.properties || {}) })
@@ -248,6 +248,7 @@ export class Level {
 
 	update() {
 		updateLights();
+		//TODO: faire un setInterval 500ms plutot que de fr ça à chaque frame
 		if (game.music && game.music._sound) {
 			let t = game.time.totalElapsedSeconds();
 			game.music._sound.playbackRate.value = 1 + Math.sin(t) * (16 - game.player.lucidity) * 0.1;
