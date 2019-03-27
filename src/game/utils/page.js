@@ -23,8 +23,6 @@ export function openPage(page) {
     textSprite.text = page
 
     game.page = { page, color, textSprite, bgSprite };
-
-    nextPage();
 }
 
 
