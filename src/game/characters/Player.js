@@ -13,6 +13,13 @@ export class Player extends Character {
 		this.body.setSize(10, 13, 11, 19)
 		this.body.moves = true;
 		this.watchingPoint = this.worldPosition;
+
+
+		this.interactionSprite = this.addChild(game.make.sprite(0, -32, 'interactions'));
+		this.interactionSprite.animations.add("talk", [0, 1, 2, 3], 3, true);
+		this.interactionSprite.animations.add("item", [4, 5, 6, 7], 3, true);
+		this.interactionSprite.visible = false;
+		game.time.events.loop(300, this.checkInFrontOfPlayer, this);
 	}
 
 	update() {
@@ -42,6 +49,24 @@ export class Player extends Character {
 				this.watchingPoint.y += 16
 				break;
 		}
+
+		if (this.state == CHARACTER_STATE.WALKING_RIGHT || this.state == CHARACTER_STATE.RIGHT) {
+			this.interactionSprite.scale.x = -1
+		} else {
+			this.interactionSprite.scale.x = 1
+		}
+	}
+
+
+	checkInFrontOfPlayer() {
+		let { x, y } = this.watchingPoint;
+		let pnjInFront = game.groups.pnj.children.find(obj => obj instanceof Phaser.Sprite && obj.getBounds().contains(x, y));
+		let objectInFront = game.groups.objects.children.find(obj => obj instanceof Phaser.Sprite && obj.getBounds().contains(x, y));
+
+		this.interactionSprite.visible = !game.dialog && !game.book && !game.page && !!(pnjInFront || objectInFront)
+
+		if (pnjInFront) this.interactionSprite.animations.play("talk")
+		else if (objectInFront) this.interactionSprite.animations.play("item")
 	}
 
 	move(keys) {
@@ -59,7 +84,7 @@ export class Player extends Character {
 	doAction() {
 		if (game.dialog) return nextLine();
 		if (game.book) return nextPage();
-		if(game.page) return closePage();
+		if (game.page) return closePage();
 
 		let { x, y } = this.watchingPoint;
 		let pnjInFront = game.groups.pnj.children.find(obj => obj instanceof Phaser.Sprite && obj.getBounds().contains(x, y));
@@ -113,7 +138,7 @@ export class Player extends Character {
 					game.state.start("Alchemy");
 					return;
 
-				case 'escapeTable' :
+				case 'escapeTable':
 					save();
 					game.state.start('EscapeGame');
 					return;

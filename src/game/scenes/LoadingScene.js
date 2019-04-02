@@ -53,6 +53,7 @@ export class LoadingScene {
 		game.load.spritesheet("fire", 'assets/environment/fireplace.png', 16, 20, 12);
 
 		game.load.spritesheet("lucidity-bar", 'assets/ui/lucidity-bar.png', 24, 8, 16);
+		game.load.spritesheet("interactions", 'assets/ui/interactions.png', 24, 24, 8);
 
 		// images
 		game.load.image("exit", "assets/environment/exit-open.png");

@@ -1,4 +1,3 @@
-import { Game } from "phaser-ce";
 import { loadSave } from "../../save";
 
 export class EscapeGameScene {
@@ -32,7 +31,7 @@ export class EscapeGameScene {
 
     create() {
         game.scale.setGameSize(800, 450);
-        
+
         this.createEtablie();
         this.createPotFleur();
         this.createBoutonPoussoir();
@@ -65,13 +64,13 @@ export class EscapeGameScene {
         this.boutonPoussoirClickCount++;
 
         switch (this.boutonPoussoirClickCount) {
-            case 1 :
-            this.createDigicode();
-            break;
+            case 1:
+                this.createDigicode();
+                break;
 
             case 3:
-            this.createRoue();
-            break;
+                this.createRoue();
+                break;
         }
     }
 
