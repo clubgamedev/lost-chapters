@@ -6,6 +6,7 @@ import { Runes, Chaudron, Book, Page, EscapeTable } from "./items/"
 import { Fire } from "./effects/Fire";
 import RenderGroup from "./utils/RenderGroup";
 import { initLights, updateLights, clearLights } from "./utils/Light";
+import { showMiddleText } from "./utils/message"
 
 export const schoolLevel = {
 	name: "L'Université",
@@ -86,6 +87,8 @@ export class Level {
 		this.createObjects();
 		this.createTriggers();
 		this.createLights(lightRadius, obscurity, hue, fog)
+
+		showMiddleText(name);
 	}
 
 	createTileMap(tilemap, tilesets) {

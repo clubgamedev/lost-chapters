@@ -669,6 +669,29 @@
                  "width":16,
                  "x":608.263709256244,
                  "y":1439.26736505791
+                }, 
+                {
+                 "gid":7,
+                 "height":16,
+                 "id":77,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"duration",
+                         "type":"int",
+                         "value":30
+                        }, 
+                        {
+                         "name":"variant",
+                         "type":"string",
+                         "value":"action_shuffle"
+                        }],
+                 "rotation":0,
+                 "type":"runes",
+                 "visible":true,
+                 "width":16,
+                 "x":191.556541019956,
+                 "y":1102.87065779749
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -677,7 +700,7 @@
          "y":0
         }],
  "nextlayerid":21,
- "nextobjectid":77,
+ "nextobjectid":78,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.2.2",
