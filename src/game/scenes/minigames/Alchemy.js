@@ -183,41 +183,39 @@ function putInCorbeille(){
 function pickIngredient (player, item) {
     switch (item.key) {
         case 'CrochetsDeSerpent':
-            addItemInInventory('CrochetsDeSerpent');
-            item.kill();
+            actionOnItem('CrochetsDeSerpent', item)
             break;
         case 'CireBougieNoir':
-            addItemInInventory('CireBougieNoir');
-            item.kill();
+            actionOnItem('CireBougieNoir', item)
             break;
         case 'CuirDeBumslangWikiputer':
-            addItemInInventory('CuirDeBumslangWikiputer');
-            item.kill();
+            actionOnItem('CuirDeBumslangWikiputer', item)
             break;
         case 'OeufDeDragon':
-            addItemInInventory('OeufDeDragon');
-            item.kill();
+            actionOnItem('OeufDeDragon', item)
             break;
         case 'epineDePoissonDiable':
-            addItemInInventory('epineDePoissonDiable');
-            item.kill();
+            actionOnItem('epineDePoissonDiable', item)
             break;
         case 'Herbicide':
-            addItemInInventory('Herbicide');
-            item.kill();
+            actionOnItem('Herbicide', item)
             break;
         case 'foieDeDragon':
-            addItemInInventory('foieDeDragon');
-            item.kill();
+            actionOnItem('foieDeDragon', item)
             break;
         case 'jusDeSauterelle':
-            addItemInInventory('jusDeSauterelle');
-            item.kill();
+            actionOnItem('jusDeSauterelle', item)
             break;
         case 'plumeJobarbille':
-            addItemInInventory('plumeJobarbille');
-            item.kill();
+            actionOnItem('plumeJobarbille', item)
             break;
+    }
+}
+
+function actionOnItem(itemName, item){
+    if(!inventoryIsFull()){
+        addItemInInventory(itemName);
+        item.kill();
     }
 }
 
@@ -293,18 +291,17 @@ function arrayFilterElement (array) {
 }
 
 function deleteItemOnTheMap (item) {
-    if (!inventoryIsFull()) {
-        console.log("[DEBUG]");
-        for (let i = 0; i < ingredientsOnThMap.length; i++) {
-            console.log("delete : " + item);
-            if (ingredientsOnThMap[i] === item) {
-                ingredientsOnThMap[i] = undefined;
-                i = ingredientsOnThMap.length;
-                console.log(item);
-            }
+    
+    console.log("[DEBUG]");
+    for (let i = 0; i < ingredientsOnThMap.length; i++) {
+        console.log("delete : " + item);
+        if (ingredientsOnThMap[i] === item) {
+            ingredientsOnThMap[i] = undefined;
+            i = ingredientsOnThMap.length;
+            console.log(item);
         }
-        ingredientsOnThMap = arrayFilterElement(ingredientsOnThMap);
     }
+    ingredientsOnThMap = arrayFilterElement(ingredientsOnThMap);
 }
 
 function generatePotions () {
@@ -325,7 +322,7 @@ function generatePotions () {
 
 function inventoryIsFull () {
     console.log("[DEBUG] taille : " + arrayItemSelected.length);
-    if (arrayItemSelected.length > 3) {
+    if (arrayItemSelected.length >= 3) {
         console.log("true");
         return true;
     }
