@@ -67,4 +67,18 @@ export const
             x: 165,
             y: 40
         }
+    ],
+    positionPointer = [
+        {
+            x : 18,
+            y : 90
+        },
+        {
+            x : 93,
+            y : 90
+        },
+        {
+            x : 168,
+            y : 90
+        }
     ]

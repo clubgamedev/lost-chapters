@@ -1,4 +1,4 @@
-import { positionIngredientInventory1, positionIngredientInventory2, positionIngredientInventory3, arrayPositionIngredientOnTheMap, positionPotions } from "./alchemy/positions.js";
+import { positionIngredientInventory1, positionIngredientInventory2, positionIngredientInventory3, arrayPositionIngredientOnTheMap, positionPotions, positionPointer } from "./alchemy/positions.js";
 import { allPotions } from "./alchemy/potions.js";
 
 let platforms, ingredients, materials,
@@ -8,6 +8,8 @@ let platforms, ingredients, materials,
     potions,
     itemSelected,
     player,
+    pointerPotion,
+    moreOrLess,
     keys = {};
 
 var arrayNameIngredients = ['CrochetsDeSerpent', 'CireBougieNoir', 'CuirDeBumslangWikiputer', 'OeufDeDragon',
@@ -19,10 +21,12 @@ var arrayNamePotions = ["potionContreMauvaisOeil", "PotionDeBeaute", "potionDeGu
 
 let ingredientsOnThMap = arrayNameIngredients.slice();
 let ingredientsGenerationInterval;
+let pointerPoitionInterval;
 
 
 export class AlchemyScene {
     preload () {
+        game.load.image('pointerPotion', 'assets/alchemy/potions/pointerPotion.png');
         game.load.image('background', 'assets/alchemy/header2.png');
         game.load.image('footer', 'assets/alchemy/footer2.png');
         game.load.image('smallSuspend', 'assets/alchemy/smallSuspend.png');
@@ -96,6 +100,9 @@ export class AlchemyScene {
 
         itemSelected = game.add.group();
 
+        pointerPotion = game.add.group();
+        pointerPotion.create(15, 90, "pointerPotion");
+
         spawnElements(ingredients, arrayPositionIngredientOnTheMap, arrayNameIngredients);
 
         player = game.add.sprite(32, game.world.height - 500, 'michel');
@@ -120,6 +127,15 @@ export class AlchemyScene {
         ingredientsGenerationInterval = setInterval(function () {
             generateOtherPositionIngredient(ingredients);
         }, 5000);
+
+        pointerPoitionInterval = setInterval(() => {
+            displayPointerPotion(pointerPotion, moreOrLess)
+            if(!moreOrLess){
+                pointerPotion.alpha -= 0.7;
+            }else{
+                pointerPotion.alpha += 0.7;
+            }
+        }, 500)
 
         potionsRandom = generatePotions();
 
@@ -170,6 +186,21 @@ export class AlchemyScene {
         clearInterval(ingredientsGenerationInterval)
     }
 }
+
+
+function displayPointerPotion(pointerPotion){
+    if(Math.floor(pointerPotion.alpha) == 1){
+        moreOrLess = false
+        return moreOrLess;
+    }else{
+        if(Math.floor(pointerPotion.alpha) == 0){
+            moreOrLess = true
+            return moreOrLess;
+        }
+    }
+}
+
+
 
 function putInCorbeille(){
     itemSelected.callAll('kill');
@@ -257,7 +288,6 @@ function spawnElements (groupIngredients, arrayPositionIngredientOnTheMap, array
 function generateOtherPositionIngredient (groupIngredients) {
 
     var limit = 8;
-    var randomNumberPosition;
     var arrayPositionIngredientOnTheMapTmp = arrayPositionIngredientOnTheMap.slice();
     var arrayNameIngredientsTmp = ingredientsOnThMap.slice();
 
