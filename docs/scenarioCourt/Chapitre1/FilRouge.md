@@ -1,6 +1,4 @@
 
-
-
 //Intro
 
 Après avoir découvert une litanie étrange, j'ai cherché à en découvrir plus sur elle.
