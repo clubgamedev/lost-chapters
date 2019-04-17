@@ -131,7 +131,7 @@ export class DecryptorScene {
         createElementsToDecryptBackground();
         createElementsToDecrypt();
 
-        if (isModeBattle()) {
+        if (isVariant(DecryptorConfig.BATTLE)) {
             createHealthInfo();
         }
 
@@ -184,7 +184,7 @@ export class DecryptorScene {
     }
 
     createCountdownBar() {
-        if (!isModeBattle()) {
+        if (!isVariant(DecryptorConfig.BATTLE)) {
             countdownBar = game.add.graphics(0, game.height - downScreenHeight + 20);
             countdownBar.beginFill(0xcc0000, 0.2);
             countdownBar.drawRect(0, 0, game.width, 1);
@@ -198,8 +198,8 @@ export class DecryptorScene {
     }
 
     render() {
-        if (!isModeBattle()) {
-            countdownBar.y = (countDown.duration / 1000 / game.duration) * (game.height - downScreenHeight + 20);
+        if (!isVariant(DecryptorConfig.BATTLE)) {
+            countdownBar.y = (countDown.duration / 1000 / (game.duration ? game.duration : 30)) * (game.height - downScreenHeight + 20);
             countdownBar.height = (game.height - downScreenHeight + 20) - countdownBar.y;
         }
     }
@@ -391,6 +391,10 @@ function findActionForZodiac(zodiacToFind) {
     return result;
 }
 
+function isVariant(variantName) {
+    return game.variants && game.variants.indexOf(variantName) > -1;
+}
+
 function createElementsWithButtons() {
     let i = 0;
     mapActionZodiacs.forEach((zodiac, action) => {
@@ -418,8 +422,8 @@ function createElementsWithButtons() {
             .loop()
             .start();
         gameObjects.push(zodiacImage);
-        if (game.variants.indexOf(DecryptorConfig.BLINK) > -1 || game.variants.indexOf(DecryptorConfig.ALEA_BLINK) > -1) {
-            let duration = game.variants.indexOf(DecryptorConfig.ALEA_BLINK) > -1 ? Math.random() * 800 + 100 : 800;
+        if (isVariant(DecryptorConfig.BLINK) || isVariant(DecryptorConfig.ALEA_BLINK)) {
+            let duration = isVariant(DecryptorConfig.ALEA_BLINK) > -1 ? Math.random() * 800 + 100 : 800;
             zodiacImage.alpha = 1;
             game.add.tween(zodiacImage)
                 .to({alpha: 0}, duration, Phaser.Easing.Cubic.InOut)
@@ -471,7 +475,7 @@ function gameOver(youWon, message) {
 
 function decryptOver() {
     playbackRateValue = 1;
-    if (isModeBattle()) {
+    if (isVariant(DecryptorConfig.BATTLE)) {
         gameState.elementIndex = 0;
         ennemyHealth -= MAX_HEALTH / nbHitsToWin;
         updateEnnemyHealthBar();
@@ -526,7 +530,7 @@ function updateEnnemyHealthBar() {
 }
 
 function timerOver() {
-    if (isModeBattle()) {
+    if (isVariant(DecryptorConfig.BATTLE)) {
         game.camera.shake(0.01, 250);
         game.camera.flash(0xcc0000, 500);
         health -= MAX_HEALTH / nbHitsToWin;
@@ -587,10 +591,10 @@ function testKeyPressWithElement(keyPress, element) {
         } else {
             activeElement(elementsToFind[gameState.elementIndex].display);
 
-            if (game.variants.indexOf(DecryptorConfig.SCREEN_SHUFFLE) > -1) {
+            if (isVariant(DecryptorConfig.SCREEN_SHUFFLE)) {
                 emptyScreenTips();
                 createElementsWithButtons();
-            } else if (game.variants.indexOf(DecryptorConfig.ACTION_SHUFFLE) > -1) {
+            } else if (isVariant(DecryptorConfig.ACTION_SHUFFLE)) {
                 emptyScreenTips();
                 shuffleMapActionZodiacs();
                 refreshActionsElements();
@@ -666,8 +670,4 @@ function createMiddleText(textToDisplay, backgroundColor, textColor) {
     gameObjects.push(textSprite);
 
     game.add.tween(middleText).to({x: 0}, 750, Phaser.Easing.Linear.None).start();
-}
-
-function isModeBattle() {
-    return game.variants.indexOf(DecryptorConfig.BATTLE) > -1;
 }

@@ -1,4 +1,4 @@
-import { positionIngredientInventory1, positionIngredientInventory2, positionIngredientInventory3, arrayPositionIngredientOnTheMap, positionPotions } from "./alchemy/positions.js";
+import { positionIngredientInventory1, positionIngredientInventory2, positionIngredientInventory3, arrayPositionIngredientOnTheMap, positionPotions, positionPointer } from "./alchemy/positions.js";
 import { allPotions } from "./alchemy/potions.js";
 
 let platforms, ingredients, materials,
@@ -8,6 +8,8 @@ let platforms, ingredients, materials,
     potions,
     itemSelected,
     player,
+    pointerPotion,
+    moreOrLess,
     keys = {};
 
 var arrayNameIngredients = ['CrochetsDeSerpent', 'CireBougieNoir', 'CuirDeBumslangWikiputer', 'OeufDeDragon',
@@ -19,10 +21,12 @@ var arrayNamePotions = ["potionContreMauvaisOeil", "PotionDeBeaute", "potionDeGu
 
 let ingredientsOnThMap = arrayNameIngredients.slice();
 let ingredientsGenerationInterval;
+let pointerPoitionInterval;
 
 
 export class AlchemyScene {
     preload () {
+        game.load.image('pointerPotion', 'assets/alchemy/potions/pointerPotion.png');
         game.load.image('background', 'assets/alchemy/header2.png');
         game.load.image('footer', 'assets/alchemy/footer2.png');
         game.load.image('smallSuspend', 'assets/alchemy/smallSuspend.png');
@@ -96,6 +100,9 @@ export class AlchemyScene {
 
         itemSelected = game.add.group();
 
+        pointerPotion = game.add.group();
+        pointerPotion.create(15, 90, "pointerPotion");
+
         spawnElements(ingredients, arrayPositionIngredientOnTheMap, arrayNameIngredients);
 
         player = game.add.sprite(32, game.world.height - 500, 'michel');
@@ -120,6 +127,15 @@ export class AlchemyScene {
         ingredientsGenerationInterval = setInterval(function () {
             generateOtherPositionIngredient(ingredients);
         }, 5000);
+
+        pointerPoitionInterval = setInterval(() => {
+            displayPointerPotion(pointerPotion, moreOrLess)
+            if(!moreOrLess){
+                pointerPotion.alpha -= 0.7;
+            }else{
+                pointerPotion.alpha += 0.7;
+            }
+        }, 500)
 
         potionsRandom = generatePotions();
 
@@ -171,6 +187,21 @@ export class AlchemyScene {
     }
 }
 
+
+function displayPointerPotion(pointerPotion){
+    if(Math.floor(pointerPotion.alpha) == 1){
+        moreOrLess = false
+        return moreOrLess;
+    }else{
+        if(Math.floor(pointerPotion.alpha) == 0){
+            moreOrLess = true
+            return moreOrLess;
+        }
+    }
+}
+
+
+
 function putInCorbeille(){
     itemSelected.callAll('kill');
     arrayItemSelected = [];
@@ -183,41 +214,39 @@ function putInCorbeille(){
 function pickIngredient (player, item) {
     switch (item.key) {
         case 'CrochetsDeSerpent':
-            addItemInInventory('CrochetsDeSerpent');
-            item.kill();
+            actionOnItem('CrochetsDeSerpent', item)
             break;
         case 'CireBougieNoir':
-            addItemInInventory('CireBougieNoir');
-            item.kill();
+            actionOnItem('CireBougieNoir', item)
             break;
         case 'CuirDeBumslangWikiputer':
-            addItemInInventory('CuirDeBumslangWikiputer');
-            item.kill();
+            actionOnItem('CuirDeBumslangWikiputer', item)
             break;
         case 'OeufDeDragon':
-            addItemInInventory('OeufDeDragon');
-            item.kill();
+            actionOnItem('OeufDeDragon', item)
             break;
         case 'epineDePoissonDiable':
-            addItemInInventory('epineDePoissonDiable');
-            item.kill();
+            actionOnItem('epineDePoissonDiable', item)
             break;
         case 'Herbicide':
-            addItemInInventory('Herbicide');
-            item.kill();
+            actionOnItem('Herbicide', item)
             break;
         case 'foieDeDragon':
-            addItemInInventory('foieDeDragon');
-            item.kill();
+            actionOnItem('foieDeDragon', item)
             break;
         case 'jusDeSauterelle':
-            addItemInInventory('jusDeSauterelle');
-            item.kill();
+            actionOnItem('jusDeSauterelle', item)
             break;
         case 'plumeJobarbille':
-            addItemInInventory('plumeJobarbille');
-            item.kill();
+            actionOnItem('plumeJobarbille', item)
             break;
+    }
+}
+
+function actionOnItem(itemName, item){
+    if(!inventoryIsFull()){
+        addItemInInventory(itemName);
+        item.kill();
     }
 }
 
@@ -259,7 +288,6 @@ function spawnElements (groupIngredients, arrayPositionIngredientOnTheMap, array
 function generateOtherPositionIngredient (groupIngredients) {
 
     var limit = 8;
-    var randomNumberPosition;
     var arrayPositionIngredientOnTheMapTmp = arrayPositionIngredientOnTheMap.slice();
     var arrayNameIngredientsTmp = ingredientsOnThMap.slice();
 
@@ -293,18 +321,17 @@ function arrayFilterElement (array) {
 }
 
 function deleteItemOnTheMap (item) {
-    if (!inventoryIsFull()) {
-        console.log("[DEBUG]");
-        for (let i = 0; i < ingredientsOnThMap.length; i++) {
-            console.log("delete : " + item);
-            if (ingredientsOnThMap[i] === item) {
-                ingredientsOnThMap[i] = undefined;
-                i = ingredientsOnThMap.length;
-                console.log(item);
-            }
+    
+    console.log("[DEBUG]");
+    for (let i = 0; i < ingredientsOnThMap.length; i++) {
+        console.log("delete : " + item);
+        if (ingredientsOnThMap[i] === item) {
+            ingredientsOnThMap[i] = undefined;
+            i = ingredientsOnThMap.length;
+            console.log(item);
         }
-        ingredientsOnThMap = arrayFilterElement(ingredientsOnThMap);
     }
+    ingredientsOnThMap = arrayFilterElement(ingredientsOnThMap);
 }
 
 function generatePotions () {
@@ -325,7 +352,7 @@ function generatePotions () {
 
 function inventoryIsFull () {
     console.log("[DEBUG] taille : " + arrayItemSelected.length);
-    if (arrayItemSelected.length > 3) {
+    if (arrayItemSelected.length >= 3) {
         console.log("true");
         return true;
     }

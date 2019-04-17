@@ -132,6 +132,24 @@
                  "width":16,
                  "x":307.263360246059,
                  "y":344.409073433295
+                }, 
+                {
+                 "gid":7,
+                 "height":33.8182,
+                 "id":47,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"level",
+                         "type":"string",
+                         "value":"cave"
+                        }],
+                 "rotation":0,
+                 "type":"exit",
+                 "visible":true,
+                 "width":16,
+                 "x":779.96406537504,
+                 "y":384.649510239203
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -140,7 +158,7 @@
          "y":0
         }],
  "nextlayerid":17,
- "nextobjectid":47,
+ "nextobjectid":48,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.2.2",
