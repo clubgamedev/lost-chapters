@@ -1,6 +1,6 @@
 import { dialogs } from "../dialogs"
 
-export function startDialog(lines, color = "#994C4C") {
+export function startDialog(lines, color = "#CC1C00") {
     game.player.stopMoving();
 
     let bgSprite = game.add.sprite(0, game.height - 40, "dialog-box");

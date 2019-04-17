@@ -321,7 +321,7 @@ function arrayFilterElement (array) {
 }
 
 function deleteItemOnTheMap (item) {
-    
+
     console.log("[DEBUG]");
     for (let i = 0; i < ingredientsOnThMap.length; i++) {
         console.log("delete : " + item);
