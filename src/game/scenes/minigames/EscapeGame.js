@@ -1,4 +1,3 @@
-import { Game } from "phaser-ce";
 import { loadSave } from "../../save";
 import { Digicode } from "../../items/escape/Digicode";
 import { BoutonPoussoir } from "../../items/escape/BoutonPoussoir";
@@ -25,11 +24,11 @@ export class EscapeGameScene {
 
     create() {
         game.scale.setGameSize(800, 450);
-        
+
         let etablie = game.add.image(0, 0, 'etablie');
         etablie.inputEnabled = true;
         etablie.events.onInputDown.add(() => this.digicode.clickOut());
-        
+
         // outils
         // game.add.image(104, 70, 'outils1');
         // game.add.image(180, 150, 'outils2');
@@ -45,16 +44,16 @@ export class EscapeGameScene {
     update() {
         this.wheel.update();
     }
- 
+
     onBoutonPoussoirCLicked(count) {
         switch (count) {
-            case 1 :
-            this.digicode.create(495, 342);
-            break;
+            case 1:
+                this.digicode.create(495, 342);
+                break;
 
             case 3:
-            this.wheel.create(568, 102, this.coverSprite);
-            break;
+                this.wheel.create(568, 102, this.coverSprite);
+                break;
         }
     }
 
