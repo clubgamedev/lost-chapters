@@ -1,4 +1,4 @@
-import { positionIngredientInventory1, positionIngredientInventory2, positionIngredientInventory3, arrayPositionIngredientOnTheMap, positionPotions, positionPointer } from "./alchemy/positions.js";
+import { positionIngredientInventory1, positionIngredientInventory2, positionIngredientInventory3, arrayPositionIngredientOnTheMap, positionPotions } from "./alchemy/positions.js";
 import { allPotions } from "./alchemy/potions.js";
 
 let platforms, ingredients, materials,
@@ -9,23 +9,18 @@ let platforms, ingredients, materials,
     itemSelected,
     player,
     pointerPotion,
-    moreOrLess,
     keys = {};
 
 var arrayNameIngredients = ['CrochetsDeSerpent', 'CireBougieNoir', 'CuirDeBumslangWikiputer', 'OeufDeDragon',
     'epineDePoissonDiable', 'Herbicide', 'foieDeDragon', 'jusDeSauterelle',
     'plumeJobarbille'];
 
-var arrayNamePotions = ["potionContreMauvaisOeil", "PotionDeBeaute", "potionDeGuerison", "potionDePoison",
-    "potionDePuissance", "PotionDeVieillessement", "PotionSommeilSansReve", "potionVision"];
-
 let ingredientsOnThMap = arrayNameIngredients.slice();
 let ingredientsGenerationInterval;
-let pointerPoitionInterval;
 
 
 export class AlchemyScene {
-    preload () {
+    preload() {
         game.load.image('pointerPotion', 'assets/alchemy/potions/pointerPotion.png');
         game.load.image('background', 'assets/alchemy/header2.png');
         game.load.image('footer', 'assets/alchemy/footer2.png');
@@ -54,7 +49,7 @@ export class AlchemyScene {
         game.load.spritesheet('marmite', 'assets/alchemy/marmiteGreenSprite.png', 77, 100);
     }
 
-    create () {
+    create() {
         game.scale.setGameSize(1280, 720);
         game.physics.startSystem(Phaser.Physics.ARCADE);
 
@@ -100,8 +95,8 @@ export class AlchemyScene {
 
         itemSelected = game.add.group();
 
-        pointerPotion = game.add.group();
-        pointerPotion.create(15, 90, "pointerPotion");
+        pointerPotion = game.add.sprite(15, 90, "pointerPotion");
+        game.add.tween(pointerPotion).to({ alpha: 0.3 }, 500, Phaser.Easing.Linear.None, true, 0, -1, true);
 
         spawnElements(ingredients, arrayPositionIngredientOnTheMap, arrayNameIngredients);
 
@@ -128,15 +123,6 @@ export class AlchemyScene {
             generateOtherPositionIngredient(ingredients);
         }, 5000);
 
-        pointerPoitionInterval = setInterval(() => {
-            displayPointerPotion(pointerPotion, moreOrLess)
-            if(!moreOrLess){
-                pointerPotion.alpha -= 0.7;
-            }else{
-                pointerPotion.alpha += 0.7;
-            }
-        }, 500)
-
         potionsRandom = generatePotions();
 
         spawnElements(potions, positionPotions, potionsRandom);
@@ -147,7 +133,7 @@ export class AlchemyScene {
         keys.pick = game.input.keyboard.addKey(Phaser.Keyboard.DOWN);
     }
 
-    update () {
+    update() {
 
         game.physics.arcade.collide(player, platforms);
         game.physics.arcade.collide(ingredients, platforms);
@@ -162,47 +148,29 @@ export class AlchemyScene {
             player.body.velocity.x = 300;
             player.scale.x *= -1
             player.animations.play('right');
-        } else if(player.body.velocity.y === 0){
+        } else if (player.body.velocity.y === 0) {
             player.animations.stop();
             player.animations.play('idle');
         }
 
-        if(keys.jump.isDown && player.body.velocity.y === 0){
+        if (keys.jump.isDown && player.body.velocity.y === 0) {
             player.body.velocity.y = -750;
         }
 
-        if(keys.pick.isDown){
+        if (keys.pick.isDown) {
             game.physics.arcade.overlap(player, ingredients, pickIngredient, null, this);
             game.physics.arcade.overlap(player, marmite, putInMarmite, null, this);
             game.physics.arcade.overlap(player, corbeille, putInCorbeille, null, this);
         }
     }
 
-    render () {
-
-    }
-
-    shutdown () {
+    shutdown() {
         clearInterval(ingredientsGenerationInterval)
     }
 }
 
 
-function displayPointerPotion(pointerPotion){
-    if(Math.floor(pointerPotion.alpha) == 1){
-        moreOrLess = false
-        return moreOrLess;
-    }else{
-        if(Math.floor(pointerPotion.alpha) == 0){
-            moreOrLess = true
-            return moreOrLess;
-        }
-    }
-}
-
-
-
-function putInCorbeille(){
+function putInCorbeille() {
     itemSelected.callAll('kill');
     arrayItemSelected = [];
     ingredientsOnThMap = arrayNameIngredients.slice();
@@ -211,7 +179,7 @@ function putInCorbeille(){
 }
 
 
-function pickIngredient (player, item) {
+function pickIngredient(player, item) {
     switch (item.key) {
         case 'CrochetsDeSerpent':
             actionOnItem('CrochetsDeSerpent', item)
@@ -243,14 +211,14 @@ function pickIngredient (player, item) {
     }
 }
 
-function actionOnItem(itemName, item){
-    if(!inventoryIsFull()){
+function actionOnItem(itemName, item) {
+    if (!inventoryIsFull()) {
         addItemInInventory(itemName);
         item.kill();
     }
 }
 
-function addItemInInventory (item) {
+function addItemInInventory(item) {
     if (arrayItemSelected.length == 0) {
         itemSelected.create(positionIngredientInventory1.x, positionIngredientInventory1.y, item);
         arrayItemSelected.push(item);
@@ -269,7 +237,7 @@ function addItemInInventory (item) {
     }
 }
 
-function putInMarmite () {
+function putInMarmite() {
     marmite.animations.play('enter');
     setTimeout(() => {
         marmite.animations.stop();
@@ -277,7 +245,7 @@ function putInMarmite () {
     }, 1000)
 }
 
-function spawnElements (groupIngredients, arrayPositionIngredientOnTheMap, arrayNameIngredients) {
+function spawnElements(groupIngredients, arrayPositionIngredientOnTheMap, arrayNameIngredients) {
 
     for (let i = 0; i < arrayPositionIngredientOnTheMap.length; i++) {
         groupIngredients.create(arrayPositionIngredientOnTheMap[i].x, arrayPositionIngredientOnTheMap[i].y, arrayNameIngredients[i]);
@@ -285,7 +253,7 @@ function spawnElements (groupIngredients, arrayPositionIngredientOnTheMap, array
 
 }
 
-function generateOtherPositionIngredient (groupIngredients) {
+function generateOtherPositionIngredient(groupIngredients) {
 
     var limit = 8;
     var arrayPositionIngredientOnTheMapTmp = arrayPositionIngredientOnTheMap.slice();
@@ -294,7 +262,7 @@ function generateOtherPositionIngredient (groupIngredients) {
     groupIngredients.callAll('kill');
 
     for (let i = 0; i <= 8; i++) {
-        let  randomNumberPosition = 0,
+        let randomNumberPosition = 0,
             randomNumberIngredient = 0;
         if (limit > 0) {
             randomNumberPosition = Math.floor(Math.random() * (limit - 0 + 1));
@@ -312,7 +280,7 @@ function generateOtherPositionIngredient (groupIngredients) {
 
 }
 
-function arrayFilterElement (array) {
+function arrayFilterElement(array) {
     array = array.filter(function (element) {
         return element !== undefined;
     })
@@ -320,7 +288,7 @@ function arrayFilterElement (array) {
     return array;
 }
 
-function deleteItemOnTheMap (item) {
+function deleteItemOnTheMap(item) {
 
     console.log("[DEBUG]");
     for (let i = 0; i < ingredientsOnThMap.length; i++) {
@@ -334,7 +302,7 @@ function deleteItemOnTheMap (item) {
     ingredientsOnThMap = arrayFilterElement(ingredientsOnThMap);
 }
 
-function generatePotions () {
+function generatePotions() {
     var limit = 7;
     var potionsRandom = [];
     var allPotionsTmp = allPotions.slice();
@@ -350,7 +318,7 @@ function generatePotions () {
 
 
 
-function inventoryIsFull () {
+function inventoryIsFull() {
     console.log("[DEBUG] taille : " + arrayItemSelected.length);
     if (arrayItemSelected.length >= 3) {
         console.log("true");
@@ -360,7 +328,7 @@ function inventoryIsFull () {
     return false;
 }
 
-function deleteItemSelected (item) {
+function deleteItemSelected(item) {
     if (!inventoryIsFull()) {
         deleteItemOnTheMap(item.key);
         item.kill();
