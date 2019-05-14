@@ -158,6 +158,9 @@ export class Level {
 		game.groups.triggers.enableBody = true
 
 		this.layerFront.bringToTop();
+
+		game.groups.fx = game.add.group(game.groups.reder, "effects");
+		game.groups.fx.add(game.player.interactionSprite);
 	}
 
 	createEnemies() {
@@ -187,7 +190,7 @@ export class Level {
 	}
 
 	createObjects() {
-		const objects = { runes: Runes, chaudron: Chaudron, book: Book, escapeTable : EscapeTable, page: Page };
+		const objects = { runes: Runes, chaudron: Chaudron, book: Book, escapeTable: EscapeTable, page: Page };
 		Object.entries(objects).forEach(([objectType, Constructor]) => {
 			findObjectsByType(objectType, this.tilemap, "Object Layer").forEach(object => {
 				let sprite = new Constructor({ x: object.x / 16, y: object.y / 16 }, { name: object.name, ...(object.properties || {}) })
