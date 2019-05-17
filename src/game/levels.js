@@ -178,7 +178,7 @@ export class Level {
 	}
 
 	createPNJ() {
-		const characters = ["franck", "augustin", "michel", "michelle", "indiana", "anna"];
+		const characters = ["franck", "augustin", "michel", "michelle", "indiana", "anna", "marie"];
 		characters.forEach((characterName) => {
 			findObjectsByType(characterName, this.tilemap, "Object Layer").forEach(character => {
 				let state = character.properties.find(prop => prop.name === "state").value;
