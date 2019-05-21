@@ -142,7 +142,7 @@
                         {
                          "name":"level",
                          "type":"string",
-                         "value":"cave"
+                         "value":"forest"
                         }],
                  "rotation":0,
                  "type":"exit",
