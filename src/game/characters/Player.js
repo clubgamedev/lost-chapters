@@ -15,7 +15,7 @@ export class Player extends Character {
 		this.watchingPoint = this.worldPosition;
 
 
-		this.interactionSprite = this.addChild(game.make.sprite(0, -32, 'interactions'));
+		this.interactionSprite = game.make.sprite(0, 0, 'interactions');
 		this.interactionSprite.animations.add("talk", [0, 1, 2, 3], 3, true);
 		this.interactionSprite.animations.add("item", [4, 5, 6, 7], 3, true);
 		this.interactionSprite.visible = false;
@@ -50,11 +50,8 @@ export class Player extends Character {
 				break;
 		}
 
-		if (this.state == CHARACTER_STATE.WALKING_RIGHT || this.state == CHARACTER_STATE.RIGHT) {
-			this.interactionSprite.scale.x = -1
-		} else {
-			this.interactionSprite.scale.x = 1
-		}
+		this.interactionSprite.position.x = this.position.x
+		this.interactionSprite.position.y = this.position.y - 32
 	}
 
 

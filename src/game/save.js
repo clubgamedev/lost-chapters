@@ -17,7 +17,7 @@ export function save() {
 
 export function newGame() {
     game.save = {
-        level: "sanctuaire"
+        level: "forest"
     }
     game.save.playerPosition = levels[game.save.level].startPosition;
     localStorage.setItem("save", JSON.stringify(game.save));

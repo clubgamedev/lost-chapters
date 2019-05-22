@@ -13,27 +13,24 @@ export const schoolLevel = {
 	tilemap: "map_school",
 	tilesets: ["tileset_inside"],
 	startPosition: { x: 84, y: 97 },
-	exitPosition: { x: 0, y: 0 },
 	lightRadius: 100,
 	obscurity: 1
 }
-/*
+
 export const forestLevel = {
 	name: "La forêt",
 	tilemap: "map_forest",
-	tilesets: ["tileset_forest"],
-	startPosition: { x: 47, y: 31 },
-	exitPosition: { x: 46, y: 27 },
+	tilesets: ["tileset_forest", "tileset_outside"],
+	startPosition: { x: 4, y: 22 },
 	lightRadius: 120,
 	fog: true
-}*/
+}
 
 export const caveLevel = {
 	name: "Le Terrier",
 	tilemap: "map_cave",
 	tilesets: ["tileset_cave"],
 	startPosition: { x: 10, y: 8 },
-	exitPosition: { x: 50, y: 24 },
 	lightRadius: 80,
 	obscurity: 0.75
 }
@@ -43,7 +40,6 @@ export const autelLevel = {
 	tilemap: "map_autel",
 	tilesets: ["tileset_cave", "tileset_dungeon"],
 	startPosition: { x: 14, y: 29 },
-	exitPosition: { x: 14, y: 8 },
 	lightRadius: 85,
 	obscurity: 1
 }
@@ -53,14 +49,13 @@ export const sanctuaireLevel = {
 	tilemap: "map_sanctuary",
 	tilesets: ["tileset_forest", "tileset_outside"],
 	startPosition: { x: 3, y: 21 },
-	exitPosition: { x: 49, y: 23 },
 	lightRadius: 150,
 	obscurity: 1,
 	fog: true
 }
 
 export const levels = {
-	//forest: forestLevel,
+	forest: forestLevel,
 	cave: caveLevel,
 	autel: autelLevel,
 	school: schoolLevel,
@@ -158,6 +153,9 @@ export class Level {
 		game.groups.triggers.enableBody = true
 
 		this.layerFront.bringToTop();
+
+		game.groups.fx = game.add.group(game.groups.reder, "effects");
+		game.groups.fx.add(game.player.interactionSprite);
 	}
 
 	createEnemies() {
@@ -175,7 +173,7 @@ export class Level {
 	}
 
 	createPNJ() {
-		const characters = ["franck", "augustin", "michel", "michelle", "indiana", "anna"];
+		const characters = ["franck", "augustin", "michel", "michelle", "indiana", "anna", "marie"];
 		characters.forEach((characterName) => {
 			findObjectsByType(characterName, this.tilemap, "Object Layer").forEach(character => {
 				let state = character.properties.find(prop => prop.name === "state").value;
@@ -187,7 +185,7 @@ export class Level {
 	}
 
 	createObjects() {
-		const objects = { runes: Runes, chaudron: Chaudron, book: Book, escapeTable : EscapeTable, page: Page };
+		const objects = { runes: Runes, chaudron: Chaudron, book: Book, escapeTable: EscapeTable, page: Page };
 		Object.entries(objects).forEach(([objectType, Constructor]) => {
 			findObjectsByType(objectType, this.tilemap, "Object Layer").forEach(object => {
 				let sprite = new Constructor({ x: object.x / 16, y: object.y / 16 }, { name: object.name, ...(object.properties || {}) })
