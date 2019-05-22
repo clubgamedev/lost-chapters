@@ -1,0 +1,1 @@
+export const  secret= `Ceci est un parchemin secret, sans roulés sur les bords`
