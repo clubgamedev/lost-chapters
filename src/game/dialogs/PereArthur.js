@@ -12,12 +12,12 @@ export function PereArthur(save){
         ]
     }
     save.haspere_Arthur = true;
-    
+
     if (Game.sanity < 5){
             return [
         "AHHHHHH je te sens prêt à libérer ta condition maudite",
-        "Dans ce monde je me suis libérer de ma condition de simple pion",
-        "Viens et ne laisse plus ce monstre te diriger",			
+        "Dans ce monde je me suis libéré de ma condition de simple pion",
+        "Viens et ne laisse plus ce monstre te diriger",
         {
             "Rejoindre": () => "OUI s'il vous plaît que ce joueur arrête de me contrôler !",
             "Rejoindre": () => "De tout mon être que la folie me sauve de ce joueur",
@@ -26,9 +26,9 @@ export function PereArthur(save){
     ]
     }
     return [
-        "Bonjour ma brebis que veux tu?",
+        "Bonjour brebis égarée, que me veux-tu?",
         {
-            "Où en suis-je dans cet enquête ?": () => "Et tu pense que je m'interesse à ca ?",
+            "Où en suis-je dans cette enquête ?": () => "Et tu penses que je m'interesse à cela ?",
             "Prier": () => "Bien sur, mais à MON prix",
             "Partir": () => "Que la folie te guette"
         }
