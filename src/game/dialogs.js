@@ -18,6 +18,8 @@ import {book_library} from "./books/book_library";
 import {book_franck} from "./books/book_franck";
 
 import {secret} from "./pages/secret";
+import {messagePourMarmiton} from "./pages/messagePourMarmiton";
+import {conseilDeFranck} from "./pages/conseilDeFranck";
 
 
 export const dialogs = {
@@ -43,5 +45,7 @@ export const books = {
 }
 
 export const pages = {
-    secret
+    secret,
+	messagePourMarmiton,
+	conseilDeFranck
 }

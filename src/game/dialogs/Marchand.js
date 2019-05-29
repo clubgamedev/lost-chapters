@@ -1,16 +1,26 @@
 export function Marchand(save) {
+
+	if(save.hasntSellBreloque){
+	    return [
+			"Bonjour cher client",
+			"Nous avons beaucoup d'article pour vous satisfaire",
+			"jetez un oeil et surtout achetez!",        
+			{
+				"une fiole de combat contre une fiole de vue": () => "fct(givePotionCombat) Merci",
+				"une fiole de vue contre une fiole de défense": () => "fct(givePotionCombat) Merci",
+				"une fiole de défense contre une fiole de combat": () => "fct(givePotionCombat) Merci",
+				"3 trois fiole de chaque contre une breloque?": () => "fct(giveBreloque) C'est un article fort intéressant n'est ce pas?"
+			}
+		]
+	}
     return [
-        "Bonjour pouvez vous m’aider a concevoir des potions",
-        "-	Quels potions voulez vous cree ",
-        "	 4 compos",
-        "	Voila ",
-        "Voulez vous m’aider a nouveau",
-        
+        "Bonjour cher client",
+		"Nous avons beaucoup d'article pour vous satisfaire",
+		"jetez un oeil et surtout achetez!",        
         {
-            "Oui": () => "Menteur !",
-            "Non": () => "Ben va te faire voir !",
-            "Je m'en fous": () => ["Comment ça tu t'en fous ?", "Mais il faut bien tester les dialogues !"]
-        },
-        "Ayé j'ai fini de parler"
+            "une fiole de combat contre une fiole de vue": () => "fct(givePotionCombat) Merci",
+            "une fiole de vue contre une fiole de défense": () => "fct(givePotionCombat) Merci",
+            "une fiole de défense contre une fiole de combat": () => "fct(givePotionCombat) Merci"			
+        }
     ]
 }
