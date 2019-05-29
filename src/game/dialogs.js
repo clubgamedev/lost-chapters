@@ -1,5 +1,5 @@
 
-import {franck} from "./dialogs/FranckStart";
+import {franck} from "./dialogs/Franck";
 import {augustin} from "./dialogs/Augustin";
 import {SoeurMarie} from "./dialogs/SoeurMarie";
 import {PereArthur} from "./dialogs/PereArthur";
@@ -26,16 +26,16 @@ export const dialogs = {
 
     franck,
     augustin,
-    SoeurMarie,    
-    PereArthur,   
-    Marchand,   
-    Marmiton,   
-    SbireForest,   
-    SbireGardantGrotte,   
-    SbireMinable,   
+    SoeurMarie,
+    PereArthur,
+    Marchand,
+    Marmiton,
+    SbireForest,
+    SbireGardantGrotte,
+    SbireMinable,
     StudentLambda,
     Therled,
-    GardeDeTherled    
+    GardeDeTherled
 }
 
 export const books = {

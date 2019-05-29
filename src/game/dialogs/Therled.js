@@ -8,9 +8,9 @@ export function Therled(save) {
 
 		if(save.hasBetrayedTherled){
 			return [
-				"Tu te crois malin à vouloir empecher la science d'avancer??",
-				"Allez les mecs donné lui une bonne leçon!"
-				]
+				"Tu penses pouvoir empêcher la science d'avancer ?",
+				"Assez. Saisissez-le !"
+			]
 		}
 		
 		if(save.EndRituel){
@@ -57,19 +57,15 @@ export function Therled(save) {
 				]
 		}
         if (save.hasMetTherled) {
-			save.Rituel=true;
-            return [
-					"Me dérange pas et va à ta place.",
-					"Que le rituel commence."
-					]
+            return "Je ne souhaite pas être dérangé, retourne à ton poste !" ;
         }
         save.hasMetTherled = true;
 		return [
-			"ahhh mais voiçi un candidat idéal pour être mon fidèle",
-			"Donne moi la drogue qu'on commence tout de suite",        
+			"Ahhh mais voiçi un candidat idéal pour être mon fidèle",
+			"Donne moi la drogue que l'on commence tout de suite",
 			{
-				"Donner la drogue": () => "Merci tous à votre place",
-				"Refuser": () => "fct(BetrayedTherled) Ben va te faire voir et meurs!"
+				"Donner la drogue": () => "Bien. Préparez le rituel.",
+				"Refuser": () => "Ben va te faire voir et meurs!"
 			}
 		]
 }
