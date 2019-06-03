@@ -8,20 +8,20 @@ export function openBook(pages) {
     bgSprite.fixedToCamera = true;
 
     let bookFont = {
-        font: "13px Alagard",
+        font: "12px Alagard",
         fill: "black",
         boundsAlignH: "left",
         boundsAlignV: "bottom",
         wordWrap: true,
-        wordWrapWidth: 72
+        wordWrapWidth: 76
     }
 
-    let textSpriteLeft = game.add.text(45, 12, "", bookFont);
+    let textSpriteLeft = game.add.text(44, 12, "", bookFont);
     //textSpriteLeft.setShadow(1, 1, '#280900', 0);
     textSpriteLeft.lineSpacing = -9;
     textSpriteLeft.fixedToCamera = true;
 
-    let textSpriteRight = game.add.text(136, 12, "", bookFont);
+    let textSpriteRight = game.add.text(135, 12, "", bookFont);
     //textSprite2.setShadow(1, 1, '#280900', 0);
     textSpriteRight.lineSpacing = -9;
     textSpriteRight.fixedToCamera = true;

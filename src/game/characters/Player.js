@@ -109,7 +109,8 @@ export class Player extends Character {
 					break;
 			}
 
-			return talkTo(pnjInFront.key);
+			let pnjDialogId = pnjInFront.properties.dialog || pnjInFront.key
+			return talkTo(pnjDialogId);
 		}
 
 		let objectInFront = game.groups.objects.children.find(obj => obj instanceof Phaser.Sprite && obj.getBounds().contains(x, y));

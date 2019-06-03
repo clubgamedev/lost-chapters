@@ -7,6 +7,7 @@ import { Fire } from "./effects/Fire";
 import RenderGroup from "./utils/RenderGroup";
 import { initLights, updateLights, clearLights } from "./utils/Light";
 import { showMiddleText } from "./utils/message"
+import { readBook } from "./utils/book"
 
 export const schoolLevel = {
 	name: "L'Université",
@@ -173,11 +174,12 @@ export class Level {
 	}
 
 	createPNJ() {
-		const characters = ["franck", "augustin", "michel", "michelle", "indiana", "anna", "marie"];
+		const characters = ["michel", "michelle", "franck", "indiana", "anna", "marie", "etudiant", "marmiton", "sbire", "therled"];
 		characters.forEach((characterName) => {
 			findObjectsByType(characterName, this.tilemap, "Object Layer").forEach(character => {
 				let state = character.properties.find(prop => prop.name === "state").value;
 				let pnj = new Character(game, { x: character.x / 16, y: character.y / 16 }, characterName, CHARACTER_STATE[state])
+				pnj.properties = Object.fromEntries((character.properties || []).map(({ name, value }) => [name, value]));
 				pnj.body.setSize(18, 14, 6, 18);
 				game.groups.pnj.add(pnj)
 			})

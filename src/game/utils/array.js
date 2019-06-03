@@ -10,3 +10,7 @@ export function shuffleArray(array) {
         array[j] = temp;
     }
 }
+
+export function pickRandomIn(array) {
+    return array[Math.floor(Math.random() * array.length)]
+}

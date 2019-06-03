@@ -692,6 +692,75 @@
                  "width":16,
                  "x":191.556541019956,
                  "y":1102.87065779749
+                }, 
+                {
+                 "gid":5,
+                 "height":16,
+                 "id":78,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"dialog",
+                         "type":"string",
+                         "value":"etudiant_dortoir"
+                        }, 
+                        {
+                         "name":"state",
+                         "type":"string",
+                         "value":"UP"
+                        }],
+                 "rotation":0,
+                 "type":"etudiant",
+                 "visible":true,
+                 "width":16,
+                 "x":526.666666666667,
+                 "y":1022
+                }, 
+                {
+                 "gid":5,
+                 "height":16,
+                 "id":80,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"dialog",
+                         "type":"string",
+                         "value":"etudiant_salle_a_manger"
+                        }, 
+                        {
+                         "name":"state",
+                         "type":"string",
+                         "value":"UP"
+                        }],
+                 "rotation":0,
+                 "type":"etudiant",
+                 "visible":true,
+                 "width":16,
+                 "x":1343.33333333333,
+                 "y":1276
+                }, 
+                {
+                 "gid":5,
+                 "height":16,
+                 "id":81,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"dialog",
+                         "type":"string",
+                         "value":"etudiant_salle_astronomie"
+                        }, 
+                        {
+                         "name":"state",
+                         "type":"string",
+                         "value":"RIGHT"
+                        }],
+                 "rotation":0,
+                 "type":"etudiant",
+                 "visible":true,
+                 "width":16,
+                 "x":207.333333333333,
+                 "y":782
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -700,10 +769,10 @@
          "y":0
         }],
  "nextlayerid":21,
- "nextobjectid":78,
+ "nextobjectid":82,
  "orientation":"orthogonal",
  "renderorder":"right-down",
- "tiledversion":"1.2.2",
+ "tiledversion":"1.2.4",
  "tileheight":16,
  "tilesets":[
         {

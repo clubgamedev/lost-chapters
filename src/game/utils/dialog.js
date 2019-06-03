@@ -65,13 +65,14 @@ export function endDialog() {
 
 export function startChoice(choice) {
     let options = Object.values(choice);
+    const dialogWidth = 178;
 
-    let bgSprite = game.add.sprite(game.width - 132, game.height - 86, "dialog-choice-box");
-    bgSprite.width = 128;
+    let bgSprite = game.add.sprite(game.width - dialogWidth - 4, game.height - 86, "dialog-choice-box");
+    bgSprite.width = 178;
     bgSprite.height = 8 + 16 * options.length;
     bgSprite.fixedToCamera = true;
 
-    let textSprite = game.add.text(game.width - 116, game.height - 80, Object.keys(choice).join("\n"), {
+    let textSprite = game.add.text(game.width - dialogWidth + 12, game.height - 80, Object.keys(choice).join("\n"), {
         font: "14px Alagard",
         fill: "#994C4C",
         boundsAlignH: "left",
@@ -80,7 +81,7 @@ export function startChoice(choice) {
     textSprite.fixedToCamera = true
     textSprite.lineSpacing = -8
 
-    let selectionSprite = game.add.text(game.width - 128, game.height - 80, "►", {
+    let selectionSprite = game.add.text(game.width - dialogWidth, game.height - 80, "►", {
         font: "12px Alagard",
         fill: "#994c4c",
         boundsAlignH: "left",

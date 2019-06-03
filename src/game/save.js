@@ -1,4 +1,5 @@
 import { levels } from "./levels";
+import { readBook } from "./utils/book"
 
 export function loadSave() {
     if (localStorage.getItem("save") != null) {
@@ -21,4 +22,6 @@ export function newGame() {
     }
     game.save.playerPosition = levels[game.save.level].startPosition;
     localStorage.setItem("save", JSON.stringify(game.save));
+
+    setTimeout(() => readBook("book_intro"), 5000)
 }

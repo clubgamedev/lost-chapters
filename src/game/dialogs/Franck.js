@@ -1,5 +1,5 @@
 
-export function franck (save) {
+export function franck(save) {
     if (!save.hasMetFranck) return franckMeeting(save)
     if (!save.hasDiscoveredTindalos) return franckRappel1(save)
 
@@ -7,7 +7,7 @@ export function franck (save) {
 }
 
 
-function franckMeeting (save) {
+function franckMeeting(save) {
     save.hasMetFranck = true;
     return [
         "Ah, vous voilà !",
@@ -16,9 +16,8 @@ function franckMeeting (save) {
         "Je m'inquiète au sujet d'un de mes étudiants, Therled.",
         {
             "Therled ?": () => [
-                "Oui, l'un de mes étudiants les plus brillants.",
-                "Il est très respecté ici, peut-être dans un sens où je ne l'avais",
-                "pas imaginé..."
+                "Oui, l'un de mes étudiants les plus brillants. Il est très respecté",
+                "ici, peut-être dans un sens où je ne l'avais pas imaginé..."
             ],
             "Où sont les étudiants ? ": () => [
                 "Je l'ignore, c'est bien là le problème.",
@@ -26,11 +25,10 @@ function franckMeeting (save) {
                 "chez eux, par peur de quelque-chose."
             ],
             "Quelle est cette école ?": () => [
-                "C'est une université privée, financée par quelques bienfaiteurs.",
-                "qui s'intéressent à certains domaines, disons... oubliés",
-                "par la science moderne: astrologie, mentalisme, alchimie",
-                "médecine alternative... Rien de sorcier, mais nous",
-                "gardons un esprit assez ouvert."
+                "C'est une université privée, financée par quelques bienfaiteurs qui",
+                "s'intéressent à certains domaines, disons... oubliés par la science",
+                "moderne: astrologie, mentalisme, alchimie, médecine alternative...",
+                "Rien de sorcier, mais nous gardons un esprit assez ouvert."
             ]
         },
         "Il semblerait que Therled ait mené quelques expériences extrascolaires",
@@ -44,28 +42,27 @@ function franckMeeting (save) {
             ],
             "Des psychoquoi ?": () => [
                 "Des drogues, si vous préférez...",
-                "Nous expérimentons certains composés chimiques",
-                "à l'université pour nos recherches. Therled peut",
-                "accéder librement au laboratoire, cela faisait",
-                "partie de ses travaux."
+                "Nous expérimentons certains composés chimiques à l'université",
+                "pour nos recherches. Therled peut accéder librement au",
+                "laboratoire, cela faisait partie de ses travaux."
             ]
         },
-        "Quoiqu'il en soit, il complote quelque-chose, et de nombreux étudiants",
+        "Quoiqu'il en soit, il complote quelque-chose, et des étudiants",
         "manquent à l'appel. J'ai reçu des témoignages selon lesquels des",
         "étudiants auraient été aperçus près de la forêt derrière l'université.",
-        "Il n'y a rien là-bas, à part de vieilles ruines d'un ancien sanctuaire païen",
-        "qui attire quelques illuminés de temps en temps.",
+        "Il n'y a rien là-bas, à part des ruines d'un ancien sanctuaire païen",
+        "qui attirent quelques illuminés de temps en temps.",
         {
 
-            "Je vais aller y jeter un oeil": () => [
-                "Merci et prenez soin de vous."
+            "Je vais aller y enquêter": () => [
+                "Merci, et faites bien attention."
             ]
         }
     ]
 }
 
 
-function franckRappel1 (save) {
+function franckRappel1(save) {
     return [
         "Avez vous réussi à stopper Therled ?",
         {
@@ -76,7 +73,7 @@ function franckRappel1 (save) {
     ]
 }
 
-function franckTindalos (save) {
+function franckTindalos(save) {
     return [
         "Tindalos ? Ça ne peut pas être vrai...",
         {
