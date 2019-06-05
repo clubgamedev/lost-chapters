@@ -100,7 +100,7 @@ export class AlchemyScene {
 
         spawnElements(ingredients, arrayPositionIngredientOnTheMap, arrayNameIngredients);
 
-        player = game.add.sprite(32, game.world.height - 500, 'michel');
+        player = game.add.sprite(32, game.world.height - 500, 'howard');
 
         game.physics.arcade.enable(player);
 

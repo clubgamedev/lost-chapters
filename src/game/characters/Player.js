@@ -6,7 +6,7 @@ import { closePage, readPage } from "../utils/page";
 
 export class Player extends Character {
 	constructor(game, startPosition) {
-		super(game, startPosition, "michel", game.save.playerState)
+		super(game, startPosition, "howard", game.save.playerState)
 		this.type = "player"
 		this.lucidity = 16
 		this.movesBeforeTp = 0;

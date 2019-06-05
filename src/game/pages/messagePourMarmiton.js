@@ -1,1 +1,0 @@
-export const  messagePourMarmiton= `Bonjour Marmiton, pourais tu faire une fausse fiole de sang de tindalos qui protégerais des effets de la drogue de Liao`

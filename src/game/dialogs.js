@@ -5,7 +5,7 @@ import { SoeurMarie } from "./dialogs/SoeurMarie";
 import { PereArthur } from "./dialogs/PereArthur";
 
 import { Marchand } from "./dialogs/Marchand";
-import { Marmiton } from "./dialogs/Marmiton";
+import { Ramsey } from "./dialogs/Ramsey";
 import { SbireForest } from "./dialogs/SbireForest";
 import { SbireGardantGrotte } from "./dialogs/SbireGardantGrotte";
 
@@ -24,7 +24,7 @@ import { book_library } from "./books/book_library";
 import { book_franck } from "./books/book_franck";
 
 import { secret } from "./pages/secret";
-import { messagePourMarmiton } from "./pages/messagePourMarmiton";
+import { messagePourRamsey } from "./pages/messagePourRamsey";
 import { conseilDeFranck } from "./pages/conseilDeFranck";
 
 
@@ -34,7 +34,7 @@ export const dialogs = {
     SoeurMarie,
     PereArthur,
     Marchand,
-    Marmiton,
+    Ramsey,
     SbireForest,
     SbireGardantGrotte,
     SbireMinable,
@@ -54,6 +54,6 @@ export const books = {
 
 export const pages = {
     secret,
-    messagePourMarmiton,
+    messagePourRamsey,
     conseilDeFranck
 }

@@ -40,18 +40,16 @@ export class LoadingScene {
 		);
 
 		// spritesheets
-		game.load.spritesheet('michel', 'assets/characters/michel.png', 32, 32, 9);
+		game.load.spritesheet('howard', 'assets/characters/howard.png', 32, 32, 9);
 		game.load.spritesheet('michelle', 'assets/characters/michelle.png', 32, 32, 9);
 		game.load.spritesheet('franck', 'assets/characters/franck.png', 32, 32, 9);
 		game.load.spritesheet('therled', 'assets/characters/therled.png', 32, 32, 9);
 		game.load.spritesheet('marie', 'assets/characters/marie.png', 32, 32, 9);
 		game.load.spritesheet('augustin', 'assets/characters/augustin.png', 32, 32, 9);
 		game.load.spritesheet('cultist', 'assets/characters/cultist.png', 32, 32, 9);
-		game.load.spritesheet('marmiton', 'assets/characters/marmiton.png', 32, 32, 9);
+		game.load.spritesheet('ramsey', 'assets/characters/ramsey.png', 32, 32, 9);
 		game.load.spritesheet('etudiant', 'assets/characters/etudiant.png', 32, 32, 9);
 		game.load.spritesheet('sbire', 'assets/characters/sbire.png', 32, 32, 9);
-		game.load.spritesheet('indiana', 'assets/characters/indiana.png', 32, 32, 9);
-		game.load.spritesheet('anna', 'assets/characters/anna.png', 32, 32, 9);
 
 		game.load.spritesheet("runes", 'assets/decryptor/runes.png', 16, 16, 8);
 		game.load.spritesheet("chaudron", 'assets/alchemy/chaudron.png', 32, 32, 2);

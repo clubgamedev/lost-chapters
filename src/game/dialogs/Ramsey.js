@@ -1,16 +1,16 @@
 
- export function Marmiton(save) {
+export function Ramsey(save) {
 
-     if (save.hasHelpMarmiton) {
+	if (save.hasHelpedRamsey) {
 		return ["Utilisez cette potion à bon escient",
-				"L'expérience vous a plu, voulez-vous recommencer ?",
-				{
-					"Oui" :() => ["fct(minijeu)"],
-					"Non" : () => ""
-				}
+			"L'expérience vous a plu, voulez-vous recommencer ?",
+			{
+				"Oui": () => ["fct(minijeu)"],
+				"Non": () => ""
+			}
 		]
-	 }
-    return [
+	}
+	return [
 		"Qui êtes vous !?",
 		"Vous ne semblez pas être un de mes étudiants...",
 		{
@@ -19,9 +19,9 @@
 				"Si vous préparez mes potions à ma place, je préparerais la vôtre",
 				"Marché conclu fct(minijeu)"
 			],
-			"Que faites vous ?" :() => "Je prépare des potions, on en manque.",
-			"Partir" : () => ""
+			"Que faites vous ?": () => "Je prépare des potions, on en manque.",
+			"Partir": () => ""
 		}
 
-    ]
+	]
 }
