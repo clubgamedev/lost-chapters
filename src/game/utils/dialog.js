@@ -33,8 +33,6 @@ export function nextLine() {
         line = game.dialog.lines.shift()
     }
 
-    if (!line) return endDialog();
-
     while (typeof line === "function" || Array.isArray(line)) {
         if (typeof line === "function") line = line(game.save)
         if (Array.isArray(line)) {
@@ -42,6 +40,8 @@ export function nextLine() {
             line = game.dialog.lines.shift()
         }
     }
+
+    if (!line) return endDialog();
 
     if (Object.getPrototypeOf(line) === Object.prototype) {
         startChoice(line)
@@ -89,21 +89,18 @@ export function startChoice(choice) {
     selectionSprite.fixedToCamera = true
     window.selectionSprite = selectionSprite
 
-    function onUp() {
-        game.dialog.selectedChoice = (game.dialog.selectedChoice + options.length - 1) % options.length
-        selectionSprite.cameraOffset.y = game.height - 80 + 15 * game.dialog.selectedChoice;
-    }
+    game.controls.UP.onDown(selectChoice)
+    game.controls.DOWN.onDown(selectChoice)
 
-    function onDown() {
-        game.dialog.selectedChoice = (game.dialog.selectedChoice + 1) % options.length
-        selectionSprite.cameraOffset.y = game.height - 80 + 15 * game.dialog.selectedChoice;
-    }
-
-    game.input.keyboard.keys.up.onDown.add(onUp)
-    game.input.keyboard.keys.down.onDown.add(onDown)
-
-    game.dialog.choice = { options, textSprite, bgSprite, selectionSprite, onUp, onDown }
+    game.dialog.choice = { options, textSprite, bgSprite, selectionSprite }
     game.dialog.selectedChoice = 0;
+}
+
+export function selectChoice() {
+    let upOrDown = game.controls.UP.isPressed() ? -1 : +1
+    let nbOptions = game.dialog.choice.options.length
+    game.dialog.selectedChoice = (game.dialog.selectedChoice + nbOptions + upOrDown) % nbOptions
+    game.dialog.choice.selectionSprite.cameraOffset.y = game.height - 80 + 15 * game.dialog.selectedChoice;
 }
 
 export function endChoice() {
@@ -111,8 +108,8 @@ export function endChoice() {
     game.dialog.choice.selectionSprite.destroy();
     game.dialog.choice.textSprite.destroy();
     game.dialog.choice.bgSprite.destroy();
-    game.input.keyboard.keys.up.onDown.remove(game.dialog.choice.onUp)
-    game.input.keyboard.keys.down.onDown.remove(game.dialog.choice.onDown)
+    game.controls.UP.stopListeningOnDown(selectChoice)
+    game.controls.DOWN.stopListeningOnDown(selectChoice)
     delete game.dialog.choice;
     return selectedChoice
 }

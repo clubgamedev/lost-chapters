@@ -63,31 +63,6 @@ export class Character extends Phaser.Sprite {
 		this.animations.add("walk-side", [7, 6, 8, 6], animSpeed, true)
 	}
 
-	move(keys) {
-		const vel = 50
-
-		// capture input
-		if (keys.down.isDown) {
-			this.state = CHARACTER_STATE.WALKING_DOWN
-			this.body.velocity.y = vel
-			this.body.velocity.x = 0
-		} else if (keys.up.isDown) {
-			this.state = CHARACTER_STATE.WALKING_UP
-			this.body.velocity.y = -vel
-			this.body.velocity.x = 0
-		} else if (keys.left.isDown) {
-			this.state = CHARACTER_STATE.WALKING_LEFT
-			this.body.velocity.x = -vel
-			this.body.velocity.y = 0
-		} else if (keys.right.isDown) {
-			this.state = CHARACTER_STATE.WALKING_RIGHT
-			this.body.velocity.x = vel
-			this.body.velocity.y = 0
-		} else {
-			this.stopMoving();
-		}
-	}
-
 	stopMoving() {
 		this.body.velocity.y = 0
 		this.body.velocity.x = 0

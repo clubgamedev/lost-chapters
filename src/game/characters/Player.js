@@ -3,6 +3,9 @@ import { talkTo, nextLine } from "../utils/dialog";
 import { save } from "../save";
 import { readBook, nextPage } from "../utils/book";
 import { closePage, readPage } from "../utils/page";
+import { controls } from "../utils/controls"
+
+const MOVE_SPEED = 50
 
 export class Player extends Character {
 	constructor(game, startPosition) {
@@ -66,10 +69,37 @@ export class Player extends Character {
 		else if (objectInFront) this.interactionSprite.animations.play("item")
 	}
 
-	move(keys) {
-		if (game.dialog || game.book || game.page) return; // can't move while talking or reading
-		super.move(keys);
-		const isMoving = (keys.up.isDown || keys.right.isDown || keys.down.isDown || keys.left.isDown);
+	updateControls() {
+		let isMoving;
+		// can't move while talking or reading
+		let canMove = !game.dialog && !game.book && !game.page && !controls.ACTION.isPressed()
+
+		if (canMove && controls.DOWN.isPressed()) {
+			this.state = CHARACTER_STATE.WALKING_DOWN
+			this.body.velocity.y = MOVE_SPEED
+			this.body.velocity.x = 0
+			isMoving = true
+		}
+		else if (canMove && controls.UP.isPressed()) {
+			this.state = CHARACTER_STATE.WALKING_UP
+			this.body.velocity.y = -MOVE_SPEED
+			this.body.velocity.x = 0
+			isMoving = true
+		} else if (canMove && controls.LEFT.isPressed()) {
+			this.state = CHARACTER_STATE.WALKING_LEFT
+			this.body.velocity.x = -MOVE_SPEED
+			this.body.velocity.y = 0
+			isMoving = true
+		} else if (canMove && controls.RIGHT.isPressed()) {
+			this.state = CHARACTER_STATE.WALKING_RIGHT
+			this.body.velocity.x = MOVE_SPEED
+			this.body.velocity.y = 0
+			isMoving = true;
+		} else {
+			this.stopMoving();
+			isMoving = false;
+		}
+
 		if (isMoving && this.movesBeforeTp > 0) this.movesBeforeTp--;
 
 		if (game.lamp) {

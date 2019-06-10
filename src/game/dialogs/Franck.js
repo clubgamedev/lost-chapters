@@ -52,7 +52,6 @@ function franckMeeting(save) {
         "manquent à l'appel. J'ai reçu des témoignages selon lesquels des",
         "étudiants auraient été aperçus près de la forêt derrière l'Université.",
         "J'espère que les dévots n'ont rien à voir là dedans...",
-        "qui attirent quelques illuminés de temps en temps.",
         rappelQuestions1(),
         "Merci mon ami, et faites bien attention."
     ]

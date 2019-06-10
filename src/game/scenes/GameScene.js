@@ -2,7 +2,8 @@ import { addSounds, startMusic, sounds } from "../utils/audio"
 import { startDialog } from "../utils/dialog"
 import { Player } from "../characters/Player"
 import { goToLevel } from "../levels"
-import {save} from "../save";
+import { save } from "../save";
+import { initControls } from "../utils/controls";
 
 let hurtFlag
 
@@ -11,18 +12,13 @@ export class GameScene {
 		game.scale.setGameSize(255, 144);
 
 		this.spawnPlayer()
-		this.bindKeys()
+		initControls()
 
 		goToLevel(game.save.level)
 		startMusic();
 		addSounds()
 
 		this.createHud()
-
-		const actionKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
-		actionKey.onDown.add(() => {
-			game.player.doAction()
-		})
 
         /*game.input.keyboard.addKey(Phaser.Keyboard.K).onDown.add(()=> {
             game.variants = ["action_shuffle", "battle"];
@@ -42,24 +38,6 @@ export class GameScene {
 		game.camera.follow(game.player)
 	}
 
-	bindKeys() {
-		game.input.keyboard.keys = {
-			left: game.input.keyboard.addKey(Phaser.Keyboard.LEFT),
-			right: game.input.keyboard.addKey(Phaser.Keyboard.RIGHT),
-			down: game.input.keyboard.addKey(Phaser.Keyboard.DOWN),
-			up: game.input.keyboard.addKey(Phaser.Keyboard.UP),
-			action: game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
-		}
-
-		game.input.keyboard.addKeyCapture([
-			Phaser.Keyboard.SPACEBAR,
-			Phaser.Keyboard.LEFT,
-			Phaser.Keyboard.RIGHT,
-			Phaser.Keyboard.DOWN,
-			Phaser.Keyboard.UP
-		])
-	}
-
 	update() {
 		// physics
 		game.physics.arcade.collide(game.player, game.level.layer_collisions)
@@ -73,7 +51,7 @@ export class GameScene {
 			game.physics.arcade.overlap(game.player, game.groups.triggers, this.onTrigger, null, this)
 		}
 
-		game.player.move(game.input.keyboard.keys)
+		game.player.updateControls()
 
 		//this.debugGame();
 		this.hurtManager()
