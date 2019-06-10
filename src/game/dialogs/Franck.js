@@ -1,3 +1,4 @@
+import { exhaustDialog } from "@/game/utils/dialog"
 
 export function franck(save) {
     if (!save.hasMetFranck) return franckMeeting(save)
@@ -13,11 +14,11 @@ function franckMeeting(save) {
         "Ah, vous voilà !",
         "Merci d'être passé me voir aussi vite, mon jeune ami.",
         "J'ai besoin de vos talents d'enquêteur pour une affaire délicate.",
-        "Je m'inquiète au sujet d'un de mes étudiants, Therled.",
-        {
+        "Je m'inquiète au sujet d'un de mes apprentis, Therled.",
+        exhaustDialog({
             "Therled ?": () => [
-                "Oui, l'un de mes étudiants les plus brillants. Il est très respecté",
-                "ici, peut-être dans un sens où je ne l'avais pas imaginé..."
+                "Oui, mon élève le plus brillant. Il est très respecté ici,",
+                "peut-être dans un sens où je ne l'avais pas imaginé..."
             ],
             "Où sont les étudiants ? ": () => [
                 "Je l'ignore, c'est bien là le problème.",
@@ -30,7 +31,7 @@ function franckMeeting(save) {
                 "moderne: astrologie, mentalisme, alchimie, médecine alternative...",
                 "Rien de sorcier, mais nous gardons un esprit assez ouvert."
             ]
-        },
+        }, "Qu'y a-t-il ?"),
         "Il semblerait que Therled ait mené quelques expériences extrascolaires",
         "plutôt douteuses. Je le suspecte de fabriquer en secret des psychotropes",
         "et de les avoir utilisés sur d'autres étudiants.",
@@ -54,7 +55,7 @@ function franckMeeting(save) {
         "qui attirent quelques illuminés de temps en temps.",
         {
 
-            "Je vais aller y enquêter": () => [
+            "J'y vais y enquêter": () => [
                 "Merci, et faites bien attention."
             ]
         }

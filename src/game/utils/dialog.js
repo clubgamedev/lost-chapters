@@ -35,13 +35,12 @@ export function nextLine() {
 
     if (!line) return endDialog();
 
-    if (typeof line === "function") {
-        line = line(game.save)
-    }
-
-    if (Array.isArray(line)) {
-        game.dialog.lines.unshift(...line)
-        line = game.dialog.lines.shift()
+    while (typeof line === "function" || Array.isArray(line)) {
+        if (typeof line === "function") line = line(game.save)
+        if (Array.isArray(line)) {
+            game.dialog.lines.unshift(...line)
+            line = game.dialog.lines.shift()
+        }
     }
 
     if (Object.getPrototypeOf(line) === Object.prototype) {
@@ -116,4 +115,15 @@ export function endChoice() {
     game.input.keyboard.keys.down.onDown.remove(game.dialog.choice.onDown)
     delete game.dialog.choice;
     return selectedChoice
+}
+
+export function exhaustDialog(questions, endDialogChoice) {
+    let choice = {};
+    for (let question in questions) {
+        let remainingQuestions = Object.assign({}, questions)
+        delete remainingQuestions[question];
+        choice[question] = () => [].concat(questions[question]).concat(exhaustDialog(remainingQuestions, endDialogChoice))
+    }
+    choice[endDialogChoice] = () => []; // pass to next line
+    return choice;
 }
