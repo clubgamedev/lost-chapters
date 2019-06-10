@@ -18,12 +18,12 @@ export function openBook(pages) {
 
     let textSpriteLeft = game.add.text(44, 12, "", bookFont);
     //textSpriteLeft.setShadow(1, 1, '#280900', 0);
-    textSpriteLeft.lineSpacing = -9;
+    textSpriteLeft.lineSpacing = -10;
     textSpriteLeft.fixedToCamera = true;
 
     let textSpriteRight = game.add.text(135, 12, "", bookFont);
     //textSprite2.setShadow(1, 1, '#280900', 0);
-    textSpriteRight.lineSpacing = -9;
+    textSpriteRight.lineSpacing = -10;
     textSpriteRight.fixedToCamera = true;
 
     game.book = { pages: [...pages], color, textSpriteLeft, textSpriteRight, bgSprite };

@@ -23,5 +23,5 @@ export function newGame() {
     game.save.playerPosition = levels[game.save.level].startPosition;
     localStorage.setItem("save", JSON.stringify(game.save));
 
-    setTimeout(() => readBook("book_intro"), 5000)
+    setTimeout(() => readBook("book_intro"), 4500)
 }

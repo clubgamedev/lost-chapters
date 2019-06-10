@@ -12,9 +12,9 @@ function franckMeeting(save) {
     save.hasMetFranck = true;
     return [
         "Ah, vous voilà !",
-        "Merci d'être passé me voir aussi vite, mon jeune ami.",
-        "J'ai besoin de vos talents d'enquêteur pour une affaire délicate.",
-        "Je m'inquiète au sujet d'un de mes apprentis, Therled.",
+        "Je suis si content de voir votre visage, mon jeune ami.",
+        "J'ai besoin de vos talents d'enquêteur pour comprendre ce qui se passe ici.",
+        "Vous devez retrouver l'un de mes apprentis, Therled.",
         exhaustDialog({
             "Therled ?": () => [
                 "Oui, mon élève le plus brillant. Il est très respecté ici,",
@@ -50,27 +50,42 @@ function franckMeeting(save) {
         },
         "Quoiqu'il en soit, il complote quelque-chose, et des étudiants",
         "manquent à l'appel. J'ai reçu des témoignages selon lesquels des",
-        "étudiants auraient été aperçus près de la forêt derrière l'université.",
-        "Il n'y a rien là-bas, à part des ruines d'un ancien sanctuaire païen",
+        "étudiants auraient été aperçus près de la forêt derrière l'Université.",
+        "J'espère que les dévots n'ont rien à voir là dedans...",
         "qui attirent quelques illuminés de temps en temps.",
-        {
-
-            "J'y vais y enquêter": () => [
-                "Merci, et faites bien attention."
-            ]
-        }
+        rappelQuestions1(),
+        "Merci mon ami, et faites bien attention."
     ]
 }
+
+const rappelQuestions1 = () => exhaustDialog({
+    "La forêt ?": () => [
+        "Oui, la forêt à l'Est en sortant de l'Université.",
+        "Il n'y a rien là-bas, à part des ruines d'un ancien sanctuaire païen",
+        "qui attirent quelques illuminés de temps en temps.",
+    ],
+    "Des témoignages ?": () => [
+        "Oui, il reste quelques élèves dans l'université.",
+        "Libre à vous de les interroger vous-même."
+    ],
+    "Les dévots ?": () => [
+        "Oui, des religieux qui ont un camp à l'orée du bois.",
+        "Ils se disent membres de l'Eglise, mais cela a tout l'air",
+        "d'une secte. Leur représentant est un vieil homme qu'ils",
+        "appellent Père Arthur. Il voit d'un très mauvais oeil",
+        "l'Université, qu'il accuse de pervertir les esprits.",
+        "Un comble, vous ne trouvez pas ?"
+    ],
+}, "Je vais y enquêter")
 
 
 function franckRappel1(save) {
     return [
-        "Avez vous réussi à stopper Therled ?",
+        "Vous devez faire vite, mon ami.",
         {
-            "Oui": () => "Menteur !",
-            "C'était quoi déjà?": () => ["Vous allez dans ma réserve,", "prendre la drogue Liao etc..."],
-            "Je m'en fous": () => ["Comment ça tu t'en fous ?", "Mais il faut bien tester les dialogues !"]
-        },
+            "Rappelez-moi...": () => rappelQuestions1(),
+            "Comptez sur moi": () => []
+        }
     ]
 }
 
