@@ -1,5 +1,5 @@
 <template>
-  <div id='game'></div>
+  <div id="game"></div>
 </template>
 
 <script>
@@ -26,11 +26,11 @@ export default {
 
 <style>
 #game {
- margin: 0 auto;
-  max-width: 80%;
- 
+  margin: 0 auto;
+  max-width: 1020px;
+  max-height: 620px;
 }
-/* 
+/*
 #game canvas {
   display: block;
   margin: 0 auto;
