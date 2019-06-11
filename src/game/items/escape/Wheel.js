@@ -2,16 +2,20 @@ export class Wheel {
 
     _sprite;
     _clicked = false;
-    // _currentRotation = 0;
     _lastAngle = 0;
-
+    rectangle;
+    spriteToMove;
+    spriteToMoveInitialeWidth;
+    minX;
+    maxX;
 
     constructor() {
-        game.load.image('roue', 'assets/escape/wheel.png');
+        // game.load.image('roue', 'assets/escape/wheel.png');
+        game.load.spritesheet('roue', 'assets/escape/wheel.png', 18, 18, 2);
     }
 
     create(x, y, spriteToMove) {
-        this._sprite = game.add.image(x, y, 'roue');
+        this._sprite = game.add.image(x, y, 'roue', 1);
         this._sprite.anchor.setTo(0.5, 0.5);
         this._sprite.x += this._sprite.width / 2;
         this._sprite.y += this._sprite.height / 2;
@@ -21,17 +25,13 @@ export class Wheel {
         this._sprite.events.onInputUp.add(() => this._clicked = false);
 
         this.spriteToMove = spriteToMove;
-        this.spriteWidth = spriteToMove.width;
+        this.spriteToMoveInitialeWidth = spriteToMove.width;
+        this.minX = spriteToMove.x;
+        this.maxX = spriteToMove.width + spriteToMove.x;
 
         this.rectangle = new Phaser.Rectangle(0, 0, this.spriteToMove.width, this.spriteToMove.height);
         this.spriteToMove.crop(this.rectangle);
     }
-
-    rectangle;
-    spriteToMove;
-    spriteWidth;
-    minX = 94;
-    maxX = 560;
 
     update() {
         if (!this._sprite) return;
@@ -53,7 +53,7 @@ export class Wheel {
 
             this.rectangle.width -= diffx;
             if (this.rectangle.width < 0) this.rectangle.width = 0;
-            if (this.rectangle.width > this.spriteWidth) this.rectangle.width = this.spriteWidth;
+            if (this.rectangle.width > this.spriteToMoveInitialeWidth) this.rectangle.width = this.spriteToMoveInitialeWidth;
 
             this.spriteToMove.updateCrop();
             this._sprite.angle = angle;

@@ -10,8 +10,8 @@ import { DecryptorScene } from "./scenes/minigames/Decryptor";
 import { AlchemyScene } from "./scenes/minigames/Alchemy";
 import { EscapeGameScene } from "./scenes/minigames/EscapeGame";
 
-const gameWidth = 255
-const gameHeight = 144
+export const gameWidth = 255
+export const gameHeight = 144
 
 export function startGame() {
 	game = new Phaser.Game(gameWidth, gameHeight, Phaser.AUTO, "game", null, true, false)

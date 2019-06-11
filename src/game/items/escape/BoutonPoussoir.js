@@ -4,7 +4,7 @@ export class BoutonPoussoir {
     boutonPoussoir;
 
     constructor() {
-        game.load.spritesheet('bouton_poussoir', 'assets/escape/bouton_poussoir.png', 24, 27, 2);
+        game.load.spritesheet('bouton_poussoir', 'assets/escape/bouton_poussoir.png', 16, 16, 2);
     }
 
     create(x, y, callback) {
