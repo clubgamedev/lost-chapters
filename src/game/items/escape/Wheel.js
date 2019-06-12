@@ -45,21 +45,39 @@ export class Wheel {
 
         // Permet d'éviter les comportements bizarres lorsque l'ancien angle est par ex à -3XX alors que le nouveau est à moins de 10
         if (Math.abs(angle - this._lastAngle) < 30) {
-            let diffx = (angle - this._lastAngle) / 3;
-
-            this.spriteToMove.x += diffx;
-            if (this.spriteToMove.x < this.minX) this.spriteToMove.x = this.minX;
-            if (this.spriteToMove.x > this.maxX) this.spriteToMove.x = this.maxX;
-
-            this.rectangle.width -= diffx;
-            if (this.rectangle.width < 0) this.rectangle.width = 0;
-            if (this.rectangle.width > this.spriteToMoveInitialeWidth) this.rectangle.width = this.spriteToMoveInitialeWidth;
-
-            this.spriteToMove.updateCrop();
-            this._sprite.angle = angle;
+            this._updateSpriteToMove(angle);
+            this._updateSprite(angle);
         }
 
         this._lastAngle = angle;
+    }
+
+    _updateSpriteToMove(angle) {
+        let diffx = (angle - this._lastAngle) / 3;
+
+        this.spriteToMove.x += diffx;
+        if (this.spriteToMove.x < this.minX) this.spriteToMove.x = this.minX;
+        if (this.spriteToMove.x > this.maxX) this.spriteToMove.x = this.maxX;
+
+        this.rectangle.width -= diffx;
+        if (this.rectangle.width < 0) this.rectangle.width = 0;
+        if (this.rectangle.width > this.spriteToMoveInitialeWidth) this.rectangle.width = this.spriteToMoveInitialeWidth;
+
+        this.spriteToMove.updateCrop();
+    }
+
+    _updateSprite(angle) {
+        if ((angle >= 0 && angle <= 45) || 
+            (angle >= 90 && angle <= 135) || 
+            (angle >= 180 && angle <= 225) ||
+            (angle >= 270 && angle <= 315)
+            )  {
+            this._sprite.frame = 1;
+        } else {
+            this._sprite.frame = 0;
+        }
+
+        console.log(angle);
     }
 
 }
