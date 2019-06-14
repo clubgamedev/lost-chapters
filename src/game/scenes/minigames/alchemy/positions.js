@@ -52,33 +52,4 @@ export const
             x: 650,
             y: 285
         }
-    ],
-
-    positionPotions = [
-        {
-            x: 15,
-            y: 40
-        },
-        {
-            x: 90,
-            y: 40
-        },
-        {
-            x: 165,
-            y: 40
-        }
-    ],
-    positionPointer = [
-        {
-            x : 18,
-            y : 90
-        },
-        {
-            x : 93,
-            y : 90
-        },
-        {
-            x : 168,
-            y : 90
-        }
     ]

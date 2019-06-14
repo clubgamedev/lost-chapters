@@ -1,22 +1,25 @@
 export const allPotions = [
     {
-        name : "potionContreMauvaisOeil",
+        displayName: "Potion de force",
+        name : "potionDeForce",
         ingredients : [
-            "CireBougieNoir",
-            "CrochetsDeSerpent",
-            "CuirDeBumslangWikiputer"
+            "cireBougieNoir",
+            "crochetsDeSerpent",
+            "cuirDeBumslangWikiputer"
         ]
     },
     {
-        name : "PotionDeBeaute",
+        displayName: "Potion de lucidité",
+        name : "potionDeLucidite",
         ingredients : [
-            "OeufDeDragon",
+            "oeufDeDragon",
             "epineDePoissonDiable",
-            "Herbicide"
+            "herbicide"
         ]
     },
     {
-        name : "potionDeGuerison",
+        displayName: "Potion de protection",
+        name : "potionDeProtection",
         ingredients : [
             "foieDeDragon",
             "jusDeSauterelle",
@@ -24,43 +27,12 @@ export const allPotions = [
         ]
     },
     {
-        name : "potionDePoison",
+        displayName: "Fiole de sang",
+        name : "fioleDeSang",
         ingredients : [
-            "CuirDeBumslangWikiputer",
-            "Herbicide",
-            "plumeJobarbille"
-        ]
-    },
-    {
-        name : "potionDePuissance",
-        ingredients : [
-            "CrochetsDeSerpent",
-            "epineDePoissonDiable",
+            "crochetsDeSerpent",
+            "foieDeDragon",
             "jusDeSauterelle"
         ]
-    },
-    {
-        name : "PotionDeVieillessement",
-        ingredients : [
-            "CireBougieNoir",
-            "OeufDeDragon",
-            "foieDeDragon"
-        ]
-    },
-    {
-        name : "PotionSommeilSansReve",
-        ingredients : [
-            "plumeJobarbille",
-            "epineDePoissonDiable",
-            "CireBougieNoir"
-        ]
-    },
-    {
-        name : "potionVision",
-        ingredients : [
-            "CrochetsDeSerpent",
-            "OeufDeDragon",
-            "Herbicide"
-        ]
     }
-]
+];

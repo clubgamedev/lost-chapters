@@ -20,12 +20,10 @@ export class GameScene {
 
 		this.createHud()
 
-        /*game.input.keyboard.addKey(Phaser.Keyboard.K).onDown.add(()=> {
-            game.variants = ["action_shuffle", "battle"];
-            game.duration = "30";
+        game.input.keyboard.addKey(Phaser.Keyboard.K).onDown.add(()=> {
             save();
-            game.state.start("Decryptor");
-		})*/
+            game.state.start("Alchemy");
+		});
 	}
 
 	createHud() {
