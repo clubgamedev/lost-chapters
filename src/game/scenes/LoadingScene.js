@@ -2,12 +2,21 @@ import { loadAudio } from "../utils/audio"
 
 export class LoadingScene {
 	preload() {
+
+		const loadingText = game.add.text(game.world.centerX, game.world.height - 20, "Chargement...", {
+			font: "16px Alagard",
+			fill: "white",
+			align: "center"
+		})
+		loadingText.anchor.set(0.5);
+
 		const loadingBar = this.add.sprite(0, game.height / 2 - 10, "loading");
 		game.load.setPreloadSprite(loadingBar);
 		// load title screen
 		game.load.image("title-bg", "assets/sprites/title-screen.png");
 		game.load.image("enter", "assets/sprites/press-enter-text.png");
 		game.load.image("instructions", "assets/sprites/instructions.png");
+		game.load.image("credits", "assets/sprites/credits.png");
 		game.load.image("gameover", "assets/sprites/game-over.png");
 		game.load.image("dialog-box", "assets/ui/dialog-box.png");
 		game.load.image("dialog-choice-box", "assets/ui/dialog-choice-box.png");

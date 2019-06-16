@@ -19,11 +19,6 @@ export class GameScene {
 		addSounds()
 
 		this.createHud()
-
-        game.input.keyboard.addKey(Phaser.Keyboard.K).onDown.add(()=> {
-            save();
-            game.state.start("Alchemy");
-		});
 	}
 
 	createHud() {

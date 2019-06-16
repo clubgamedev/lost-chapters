@@ -54,17 +54,21 @@ export function initControls() {
         game.input.keyboard.addKeyCapture([control.keyCode])
         control.key = game.input.keyboard.addKey(control.keyCode)
         control.button = game.input.gamepad.pad1.getButton(control.buttonCode)
-        control.onDown = callback => {
-            control.key.onDown.add(callback)
-            if (control.button) control.button.onDown.add(callback)
+        control.onDown = (callback, ctx) => {
+            control.key.onDown.add(callback, ctx)
+            if (control.button) control.button.onDown.add(callback, ctx)
         }
-        control.stopListeningOnDown = callback => {
-            control.key.onDown.remove(callback)
-            if (control.button) control.button.onDown.remove(callback)
+        control.onceDown = (callback, ctx) => {
+            control.key.onDown.addOnce(callback, ctx)
+            if (control.button) control.button.onDown.addOnce(callback, ctx)
+        }
+        control.stopListeningOnDown = (callback, ctx) => {
+            control.key.onDown.remove(callback, ctx)
+            if (control.button) control.button.onDown.remove(callback, ctx)
         }
     }
 
-    controls.ACTION.key.onDown.add(() => game.player.doAction())
+    controls.ACTION.key.onDown.add(() => game.player && game.player.doAction())
     console.log("Keyboard controls ready")
 }
 
@@ -73,7 +77,7 @@ export function initGamepadControls() {
         control.button = game.input.gamepad.pad1.getButton(control.buttonCode)
     }
 
-    controls.ACTION.button.onDown.add(() => game.player.doAction())
+    controls.ACTION.button.onDown.add(() => game.player && game.player.doAction())
     console.log("Gamepad controls ready")
 }
 

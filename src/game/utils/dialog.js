@@ -1,7 +1,7 @@
 import { dialogs } from "../dialogs"
 
 export function startDialog(lines, color = "#CC1C00") {
-    game.player.stopMoving();
+    game.player && game.player.stopMoving();
 
     let bgSprite = game.add.sprite(0, game.height - 40, "dialog-box");
     bgSprite.fixedToCamera = true;
@@ -73,7 +73,7 @@ export function startChoice(choice) {
 
     let textSprite = game.add.text(game.width - dialogWidth + 12, game.height - 80, Object.keys(choice).join("\n"), {
         font: "14px Alagard",
-        fill: "#994C4C",
+        fill: "#B23535",
         boundsAlignH: "left",
         boundsAlignV: "bottom"
     });
@@ -82,12 +82,11 @@ export function startChoice(choice) {
 
     let selectionSprite = game.add.text(game.width - dialogWidth, game.height - 80, "►", {
         font: "12px Alagard",
-        fill: "#994c4c",
+        fill: "#B23535",
         boundsAlignH: "left",
         boundsAlignV: "bottom"
     })
     selectionSprite.fixedToCamera = true
-    window.selectionSprite = selectionSprite
 
     game.controls.UP.onDown(selectChoice)
     game.controls.DOWN.onDown(selectChoice)
