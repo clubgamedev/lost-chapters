@@ -15,8 +15,10 @@ export function startDialog(lines, color = "#CC1C00") {
         wordWrapWidth: 245
     });
     //textSprite.setShadow(1, 1, '#280900', 0);
-    textSprite.lineSpacing = -9;
+    textSprite.lineSpacing = -10;
     textSprite.fixedToCamera = true;
+    textSprite.stroke = '#000000';
+    textSprite.strokeThickness = 1;
 
     game.dialog = { lines: [...lines], color, textSprite, bgSprite };
 
@@ -78,7 +80,9 @@ export function startChoice(choice) {
         boundsAlignV: "bottom"
     });
     textSprite.fixedToCamera = true
-    textSprite.lineSpacing = -8
+    textSprite.lineSpacing = -9;
+    textSprite.stroke = '#000000';
+    textSprite.strokeThickness = 1;
 
     let selectionSprite = game.add.text(game.width - dialogWidth, game.height - 80, "►", {
         font: "12px Alagard",
@@ -87,6 +91,8 @@ export function startChoice(choice) {
         boundsAlignV: "bottom"
     })
     selectionSprite.fixedToCamera = true
+    selectionSprite.stroke = '#000000';
+    selectionSprite.strokeThickness = 1;
 
     game.controls.UP.onDown(selectChoice)
     game.controls.DOWN.onDown(selectChoice)
@@ -99,7 +105,7 @@ export function selectChoice() {
     let upOrDown = game.controls.UP.isPressed() ? -1 : +1
     let nbOptions = game.dialog.choice.options.length
     game.dialog.selectedChoice = (game.dialog.selectedChoice + nbOptions + upOrDown) % nbOptions
-    game.dialog.choice.selectionSprite.cameraOffset.y = game.height - 80 + 15 * game.dialog.selectedChoice;
+    game.dialog.choice.selectionSprite.cameraOffset.y = game.height - 80 + 14 * game.dialog.selectedChoice;
 }
 
 export function endChoice() {
