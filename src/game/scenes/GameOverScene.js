@@ -10,9 +10,7 @@ export class GameOverScene {
         this.pressEnter.anchor.setTo(0.5);
         blinkText(this.pressEnter);
 
-        const startKey = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
-        startKey.onDown.add(this.startGame, this);
-        this.state = 1;
+        game.controls.ACTION.onPress(this.startGame, this, true);
     }
 
     startGame() {

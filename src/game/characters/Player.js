@@ -6,6 +6,7 @@ import { closePage, readPage } from "../utils/page";
 import { controls } from "../utils/controls"
 
 const MOVE_SPEED = 50
+let ACTION_DELAY;
 
 export class Player extends Character {
 	constructor(game, startPosition) {
@@ -109,6 +110,8 @@ export class Player extends Character {
 	}
 
 	doAction() {
+		if (ACTION_DELAY) return;
+		ACTION_DELAY = setTimeout(() => ACTION_DELAY = null, 250)
 		if (game.dialog) return nextLine();
 		if (game.book) return nextPage();
 		if (game.page) return closePage();

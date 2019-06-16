@@ -5,14 +5,6 @@ export class MenuScene {
     create() {
         game.add.tileSprite(0, 0, game.width, game.height, "title-bg");
 
-        /*this.pressEnter = game.add.image(game.width / 2, game.height - 20, "enter");
-        this.pressEnter.anchor.setTo(0.5);
-        blinkText(this.pressEnter);
-
-        const startKey = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
-        startKey.onDown.add(this.startGame, this);
-        this.state = 1;*/
-
         initControls()
         this.showMenu()
     }
@@ -26,18 +18,18 @@ export class MenuScene {
             "Controls": () => {
                 this.instructions = game.add.image(game.width / 2, game.height / 2, "instructions");
                 this.instructions.anchor.setTo(0.5);
-                game.controls.ACTION.onceDown(() => {
+                game.controls.ACTION.onPress(() => {
                     this.instructions.destroy()
                     this.showMenu()
-                })
+                }, this, true)
             },
             "Credits": () => {
                 this.credits = game.add.image(game.width / 2, game.height / 2, "credits");
                 this.credits.anchor.setTo(0.5);
-                game.controls.ACTION.onceDown(() => {
+                game.controls.ACTION.onPress(() => {
                     this.credits.destroy()
                     this.showMenu()
-                })
+                }, this, true)
             }
         }
 
@@ -64,9 +56,9 @@ export class MenuScene {
         selectionSprite.stroke = '#000000';
         selectionSprite.strokeThickness = 2;
 
-        game.controls.UP.onDown(this.selectChoice, this)
-        game.controls.DOWN.onDown(this.selectChoice, this)
-        game.controls.ACTION.onDown(this.validateChoice, this)
+        game.controls.UP.onPress(this.selectChoice, this)
+        game.controls.DOWN.onPress(this.selectChoice, this)
+        game.controls.ACTION.onPress(this.validateChoice, this)
 
         this.menu = { options, textSprite, selectionSprite }
         this.selectedChoice = 0;
@@ -83,9 +75,9 @@ export class MenuScene {
         let selectedChoice = this.menu.options[this.selectedChoice]
         this.menu.selectionSprite.destroy();
         this.menu.textSprite.destroy();
-        game.controls.UP.stopListeningOnDown(this.selectChoice, this)
-        game.controls.DOWN.stopListeningOnDown(this.selectChoice, this)
-        game.controls.ACTION.stopListeningOnDown(this.validateChoice, this)
+        game.controls.UP.resetEvents()
+        game.controls.DOWN.resetEvents()
+        game.controls.ACTION.resetEvents()
         delete this.menu;
         selectedChoice()
     }

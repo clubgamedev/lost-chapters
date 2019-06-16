@@ -6,7 +6,7 @@ export function startDialog(lines, color = "#CC1C00") {
     let bgSprite = game.add.sprite(0, game.height - 40, "dialog-box");
     bgSprite.fixedToCamera = true;
 
-    let textSprite = game.add.text(8, game.height - 34, "", {
+    let textSprite = game.add.text(8, game.height - 35, "", {
         font: "14px Alagard",
         fill: color,
         boundsAlignH: "left",
@@ -94,8 +94,8 @@ export function startChoice(choice) {
     selectionSprite.stroke = '#000000';
     selectionSprite.strokeThickness = 1;
 
-    game.controls.UP.onDown(selectChoice)
-    game.controls.DOWN.onDown(selectChoice)
+    game.controls.UP.onPress(selectChoice)
+    game.controls.DOWN.onPress(selectChoice)
 
     game.dialog.choice = { options, textSprite, bgSprite, selectionSprite }
     game.dialog.selectedChoice = 0;
@@ -113,8 +113,8 @@ export function endChoice() {
     game.dialog.choice.selectionSprite.destroy();
     game.dialog.choice.textSprite.destroy();
     game.dialog.choice.bgSprite.destroy();
-    game.controls.UP.stopListeningOnDown(selectChoice)
-    game.controls.DOWN.stopListeningOnDown(selectChoice)
+    game.controls.UP.resetEvents()
+    game.controls.DOWN.resetEvents()
     delete game.dialog.choice;
     return selectedChoice
 }
