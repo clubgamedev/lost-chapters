@@ -3,7 +3,7 @@ export const controls = {
         keyCode: Phaser.Keyboard.UP,
         buttonCode: Phaser.Gamepad.XBOX360_DPAD_UP,
         isPressed() {
-            return (game.input.gamepad.pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_Y) < -0.1)
+            return (getStickDirection() === "up")
                 || (controls.UP.button && controls.UP.button.isDown)
                 || controls.UP.key.isDown
         }
@@ -12,7 +12,7 @@ export const controls = {
         keyCode: Phaser.Keyboard.DOWN,
         buttonCode: Phaser.Gamepad.XBOX360_DPAD_DOWN,
         isPressed() {
-            return (game.input.gamepad.pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_Y) > 0.4)
+            return (getStickDirection() === "down")
                 || (controls.DOWN.button && controls.DOWN.button.isDown)
                 || controls.DOWN.key.isDown
         }
@@ -21,7 +21,7 @@ export const controls = {
         keyCode: Phaser.Keyboard.LEFT,
         buttonCode: Phaser.Gamepad.XBOX360_DPAD_LEFT,
         isPressed() {
-            return (game.input.gamepad.pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X) < -0.4)
+            return (getStickDirection() === "left")
                 || (controls.LEFT.button && controls.LEFT.button.isDown)
                 || controls.LEFT.key.isDown
         }
@@ -30,7 +30,7 @@ export const controls = {
         keyCode: Phaser.Keyboard.RIGHT,
         buttonCode: Phaser.Gamepad.XBOX360_DPAD_RIGHT,
         isPressed() {
-            return (game.input.gamepad.pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X) > 0.4)
+            return (getStickDirection() === "right")
                 || (controls.RIGHT.button && controls.RIGHT.button.isDown)
                 || controls.RIGHT.key.isDown
         }
@@ -42,6 +42,21 @@ export const controls = {
             return (controls.ACTION.button && controls.ACTION.button.isDown)
                 || controls.ACTION.key.isDown
         }
+    }
+}
+
+export function getStickDirection() {
+    let axisX = game.input.gamepad.pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X),
+        axisY = game.input.gamepad.pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_Y),
+        THRESHOLD = 0.5
+    if (Math.abs(axisX) > Math.abs(axisY)) {
+        if (axisX > THRESHOLD) return "right"
+        if (axisX < -THRESHOLD) return "left"
+        return null
+    } else {
+        if (axisY > THRESHOLD) return "down"
+        if (axisY < -THRESHOLD) return "up"
+        return null
     }
 }
 
@@ -67,7 +82,6 @@ export function initControls() {
         }
     }
 
-    controls.ACTION.onPress(() => game.player && game.player.doAction())
     console.log("Keyboard controls ready")
 }
 

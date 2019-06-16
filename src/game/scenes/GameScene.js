@@ -3,7 +3,6 @@ import { startDialog } from "../utils/dialog"
 import { Player } from "../characters/Player"
 import { goToLevel } from "../levels"
 import { save } from "../save";
-import { initControls } from "../utils/controls";
 
 let hurtFlag
 
@@ -12,7 +11,7 @@ export class GameScene {
 		game.scale.setGameSize(255, 144);
 
 		this.spawnPlayer()
-		initControls()
+		game.controls.ACTION.onPress(() => game.player && game.player.doAction())
 
 		goToLevel(game.save.level)
 		startMusic();
