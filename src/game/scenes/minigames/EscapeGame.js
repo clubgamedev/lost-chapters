@@ -33,7 +33,9 @@ export class EscapeGameScene {
         game.add.image(130, 8, 'potfleur', 0);
         this.coverSprite = game.add.image(44, 27, 'cover');
         this.boutonPoussoir.create(105, 98, (count) => this.onBoutonPoussoirCLicked(count));
-        // this.wheel.create(151, 85, this.coverSprite);
+        
+        
+        this.wheel.create(151, 85, this.coverSprite);
 
         this.enableLeaveSceneAction();
     }
