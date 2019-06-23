@@ -3,7 +3,7 @@ import { Digicode } from "../../items/escape/Digicode";
 import { PushButton } from "../../items/escape/PushButton";
 import { Wheel } from "../../items/escape/Wheel";
 import { gameWidth, gameHeight } from "../../lostchapters";
-import { Plant } from "../../items/escape/plant";
+import { Plant } from "../../items/escape/Plant";
 
 export class EscapeGameScene {
 
@@ -37,7 +37,6 @@ export class EscapeGameScene {
         this.pushButton.create(105, 98, (count) => this.onPushButtonClicked(count));
         
         this.wheel.create(151, 85, this);
-
         this.enableLeaveSceneAction();
     }
 
