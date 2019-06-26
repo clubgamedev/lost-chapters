@@ -44,8 +44,8 @@ function franckMeeting(save) {
             "Des psychoquoi ?": () => [
                 "Des drogues, si vous préférez...",
                 "Nous expérimentons certains composés chimiques à l'université",
-                "pour nos recherches. Therled peut accéder librement au",
-                "laboratoire, cela faisait partie de ses travaux."
+                "pour nos recherches. Therled peut accéder librement au laboratoire,",
+                "cela faisait partie de ses travaux..."
             ]
         },
         "Quoiqu'il en soit, il complote quelque-chose, et des étudiants",
@@ -64,16 +64,15 @@ const rappelQuestions1 = () => exhaustDialog({
         "qui attirent quelques illuminés de temps en temps.",
     ],
     "Des témoignages ?": () => [
-        "Oui, il reste quelques élèves dans l'université.",
+        "Il reste quelques élèves dans l'Université.",
         "Libre à vous de les interroger vous-même."
     ],
     "Les dévots ?": () => [
-        "Oui, des religieux qui ont un camp à l'orée du bois.",
-        "Ils se disent membres de l'Eglise, mais cela a tout l'air",
-        "d'une secte. Leur représentant est un vieil homme qu'ils",
-        "appellent Père Arthur. Il voit d'un très mauvais oeil",
-        "l'Université, qu'il accuse de pervertir les esprits.",
-        "Un comble, vous ne trouvez pas ?"
+        "Des religieux qui ont un camp à l'orée du bois.",
+        "Ils se disent membres de l'Eglise, mais cela a tout l'air d'une secte.",
+        "Leur représentant est un vieil homme qu'ils appellent Père Arthur.",
+        "Il voit d'un très mauvais oeil l'Université, qu'il accuse",
+        "de pervertir les esprits. Un comble, vous ne trouvez pas ?"
     ],
 }, "Je vais y enquêter")
 

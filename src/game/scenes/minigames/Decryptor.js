@@ -1,6 +1,6 @@
-import {shuffleArray} from "../../utils/array";
-import {startDialog} from "../../utils/dialog";
-import {createParticlesEmitter} from "../../effects/particles";
+import { shuffleArray } from "../../utils/array";
+import { startDialog } from "../../utils/dialog";
+import { createParticlesEmitter } from "../../effects/particles";
 
 let countDown;
 let timerText;
@@ -228,7 +228,7 @@ function createHealthInfo() {
     health = MAX_HEALTH;
     ennemyHealth = MAX_HEALTH;
 
-    let textStyle = {fill: 'white', font: '14px Alagard', boundsAlignV: 'center'};
+    let textStyle = { fill: 'white', font: '14px Alagard', boundsAlignV: 'center' };
 
     textStyle.boundsAlignH = "left";
     let textHealth = game.add.text(55, 0, "You", textStyle);
@@ -417,7 +417,7 @@ function createElementsWithButtons() {
 
         let zodiacImage = game.add.sprite(place.width / 2 - TmpImg.width / 2, place.height / 2 - (TmpImg.height / 2 + ((50 * scaleButtonImage) / 2)), zodiac);
         game.add.tween(zodiacImage)
-            .to({y: zodiacImage.y + 15}, 1000, Phaser.Easing.Linear.None)
+            .to({ y: zodiacImage.y + 15 }, 1000, Phaser.Easing.Linear.None)
             .yoyo(true)
             .loop()
             .start();
@@ -426,7 +426,7 @@ function createElementsWithButtons() {
             let duration = isVariant(DecryptorConfig.ALEA_BLINK) > -1 ? Math.random() * 800 + 100 : 800;
             zodiacImage.alpha = 1;
             game.add.tween(zodiacImage)
-                .to({alpha: 0}, duration, Phaser.Easing.Cubic.InOut)
+                .to({ alpha: 0 }, duration, Phaser.Easing.Cubic.InOut)
                 .yoyo(true)
                 .loop()
                 .start()
@@ -550,9 +550,9 @@ function quitGame(youWon) {
     game.state.start('MainGame');
     setTimeout(() => {
         if (youWon) {
-            startDialog(["More knowledge !"], "lightblue");
+            startDialog(["More knowledge !"], { color: "lightblue", speaker: "myself" });
         } else {
-            startDialog(["Too late..."], "#aaa");
+            startDialog(["Too late..."], { color: "#aaa", speaker: "myself" });
         }
 
     }, 500);
@@ -669,5 +669,5 @@ function createMiddleText(textToDisplay, backgroundColor, textColor) {
     middleText.addChild(textSprite);
     gameObjects.push(textSprite);
 
-    game.add.tween(middleText).to({x: 0}, 750, Phaser.Easing.Linear.None).start();
+    game.add.tween(middleText).to({ x: 0 }, 750, Phaser.Easing.Linear.None).start();
 }

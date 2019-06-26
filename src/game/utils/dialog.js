@@ -1,6 +1,11 @@
+import baragouin from "baragouin"
 import { dialogs } from "../dialogs"
 
-export function startDialog(lines, color = "#CC1C00") {
+export function startDialog(lines, params = {}) {
+    let { color, speaker } = params = Object.assign({ color: "#CC1C00" }, params)
+    let voice = Object.assign(voicesByActor[speaker], params)
+    voice.emotion = (voice.emotion || 30) + (16 - game.player.lucidity) * 4
+
     game.player && game.player.stopMoving();
 
     let bgSprite = game.add.sprite(0, game.height - 40, "dialog-box");
@@ -20,13 +25,18 @@ export function startDialog(lines, color = "#CC1C00") {
     textSprite.stroke = '#000000';
     textSprite.strokeThickness = 1;
 
-    game.dialog = { lines: [...lines], color, textSprite, bgSprite };
+    game.dialog = { lines: [...lines], speaker, voice, color, textSprite, bgSprite };
 
     nextLine();
 }
 
 export function nextLine() {
     if (!game.dialog) return;
+    if (game.dialog.speech) {
+        game.dialog.speech.stop();
+        delete game.dialog.speech;
+        return;
+    }
 
     let line;
     if (game.dialog.choice) {
@@ -48,12 +58,12 @@ export function nextLine() {
     if (Object.getPrototypeOf(line) === Object.prototype) {
         startChoice(line)
     } else {
-        game.dialog.textSprite.text = line;
+        sayLine(line)
     }
 }
 
 export function talkTo(name) {
-    startDialog(dialogs[name](game.save));
+    startDialog(dialogs[name](game.save), { speaker: name });
 }
 
 export function endDialog() {
@@ -67,13 +77,14 @@ export function endDialog() {
 export function startChoice(choice) {
     let options = Object.values(choice);
     const dialogWidth = 178;
+    let topY = game.height - 44 - 14 * options.length
 
-    let bgSprite = game.add.sprite(game.width - dialogWidth - 4, game.height - 86, "dialog-choice-box");
+    let bgSprite = game.add.sprite(game.width - dialogWidth - 4, topY, "dialog-choice-box");
     bgSprite.width = 178;
-    bgSprite.height = 8 + 16 * options.length;
+    bgSprite.height = 12 + 14 * options.length;
     bgSprite.fixedToCamera = true;
 
-    let textSprite = game.add.text(game.width - dialogWidth + 12, game.height - 80, Object.keys(choice).join("\n"), {
+    let textSprite = game.add.text(game.width - dialogWidth + 12, topY + 4, Object.keys(choice).join("\n"), {
         font: "14px Alagard",
         fill: "#B23535",
         boundsAlignH: "left",
@@ -84,7 +95,7 @@ export function startChoice(choice) {
     textSprite.stroke = '#000000';
     textSprite.strokeThickness = 1;
 
-    let selectionSprite = game.add.text(game.width - dialogWidth, game.height - 80, "►", {
+    let selectionSprite = game.add.text(game.width - dialogWidth, topY + 4, "►", {
         font: "12px Alagard",
         fill: "#B23535",
         boundsAlignH: "left",
@@ -105,7 +116,7 @@ export function selectChoice() {
     let upOrDown = game.controls.UP.isPressed() ? -1 : +1
     let nbOptions = game.dialog.choice.options.length
     game.dialog.selectedChoice = (game.dialog.selectedChoice + nbOptions + upOrDown) % nbOptions
-    game.dialog.choice.selectionSprite.cameraOffset.y = game.height - 80 + 14 * game.dialog.selectedChoice;
+    game.dialog.choice.selectionSprite.cameraOffset.y = game.height - 40 - 14 * (nbOptions - game.dialog.selectedChoice);
 }
 
 export function endChoice() {
@@ -128,4 +139,29 @@ export function exhaustDialog(questions, endDialogChoice) {
     }
     choice[endDialogChoice] = () => []; // pass to next line
     return choice;
+}
+
+export function sayLine(line) {
+    game.dialog.speech = baragouin(line, Object.assign({
+        onNote(text) {
+            game.dialog.textSprite.text = text;
+        },
+        onEnd(text) {
+            game.dialog.textSprite.text = text;
+            delete game.dialog.speech
+        }
+    }, game.dialog.voice));
+
+}
+
+export const voicesByActor = {
+    franck: {
+        emotion: 25,
+        pitch: 25,
+        speed: 35,
+        resonance: 10
+    },
+    myself: {
+        volume: 0 //intense thinking
+    }
 }
