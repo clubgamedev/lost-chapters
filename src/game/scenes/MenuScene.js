@@ -11,11 +11,11 @@ export class MenuScene {
 
     showMenu() {
         let menu = {
-            "New game": () => {
+            "Nouvelle partie": () => {
                 newGame();
                 requestAnimationFrame(() => this.game.state.start("MainGame"));
             },
-            "Controls": () => {
+            "Contrôles": () => {
                 this.instructions = game.add.image(game.width / 2, game.height / 2, "instructions");
                 this.instructions.anchor.setTo(0.5);
                 game.controls.ACTION.onPress(() => {
@@ -23,7 +23,7 @@ export class MenuScene {
                     this.showMenu()
                 }, this, true)
             },
-            "Credits": () => {
+            "Crédits": () => {
                 this.credits = game.add.image(game.width / 2, game.height / 2, "credits");
                 this.credits.anchor.setTo(0.5);
                 game.controls.ACTION.onPress(() => {
