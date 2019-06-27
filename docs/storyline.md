@@ -75,17 +75,20 @@ niveau autel
 
 therled et d'autres cultistes sont affairés au rituel. vous vous melez à eux, le rituel commence
 therled verse dans des fioles de liao des gouttes de sang de tindalos, les distribue et tout le monde en boit
-> si vous n'avez pas la fausse fiole de sang
+## si vous n'avez pas la fausse fiole de sang
 le liao vous fait tomber la lucidité au minimum
 vous voyez une apparition d'un chien de tindalos, vous et les autres cultistes êtes trop terrorisés pour bouger
-BAD ENDING:
+> BAD ENDING:
 therled récite son parchemin d'invocation, mais cela a pour effet de libérer le chien qui le tue aussitôt.
 Fondu au blanc, et écran de gameover avec le journal de franck expliquant que le chien a tué Howard ainsi que tous les étudiants au terrier, et que Arthur s'est sacrifié pour renvoyer le chien dans sa dimension avant qu'il ne fasse plus de victimes. Franck est contraint de fermer l'université, game over
-> si vous avez la fausse fiole de sang
+
+## si vous avez la fausse fiole de sang
 vous buvez la fausse fiole pour ne pas subir les effets du liao. les autres cultistes sont terrorisés par quelque-chose, les yeux rivés dans la même direction. Si vous avez une lucidité basse, vous voyez aussi le chien, mais si elle est supérieure à 1, vous pouvez encore vous déplacer
     > si vous avez le parchemin trafiqué, vous profitez de la confusion pour l'intervertir avec le parchemin sur la table d'autel
     > sinon, le chien finit par être visible après que therled ait prononcé l'incantation, bad ending
 le parchemin interverti, therled prononce le bannissement, cela fonctionne et le chien retourne dans l'ombre, mais therled en perd la vie. On apprend qu'un bannissement requiert un sacrifice, pour répondre à la soif de sang tindalos.
+
+> "GOOD" ENDING:
 dialogue "C'est terminé", les autres cultistes trop terrorisés/défoncés pour intervenir
 Fondu au blanc, écran de gameover avec le journal de howard expliquant qu'il a brûlé les chapitres perdus. Franck détruit les stocks de Liao pendant que Ramsey soigne les étudiants des effets de la drogue. Arthur a disparu de la circulation, et le corps de Marie a été retrouvé près de son camp. Howard finit en s'adressant à feu Marie, se demandant si elle savait que celui qui prononcerait l'incantion perdrait la vie.
 
