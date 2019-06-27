@@ -2,22 +2,33 @@ import { addSounds, startMusic, sounds } from "../utils/audio"
 import { startDialog } from "../utils/dialog"
 import { Player } from "../characters/Player"
 import { goToLevel } from "../levels"
-import { save } from "../save";
+import { openBook } from "../utils/book";
 
 let hurtFlag
 
 export class GameScene {
 	create() {
 		game.scale.setGameSize(255, 144);
-
 		this.spawnPlayer()
 		game.controls.ACTION.onPress(() => game.player && game.player.doAction())
 
-		goToLevel(game.save.level)
+		if (!game.save.hasReadIntro) {
+			game.paused = true;
+			openBook("book_intro").then(() => {
+				game.save.hasReadIntro = true;
+				this.startGame();
+			})
+		} else {
+			this.startGame();
+		}
+	}
+
+	startGame() {
 		startMusic();
 		addSounds()
 
 		this.createHud()
+		goToLevel(game.save.level)
 	}
 
 	createHud() {
@@ -31,6 +42,8 @@ export class GameScene {
 	}
 
 	update() {
+		if (!game.level) return;
+
 		// physics
 		game.physics.arcade.collide(game.player, game.level.layer_collisions)
 		game.physics.arcade.collide(game.player, game.groups.pnj)

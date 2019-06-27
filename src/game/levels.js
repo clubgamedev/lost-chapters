@@ -7,7 +7,6 @@ import { Fire } from "./effects/Fire";
 import RenderGroup from "./utils/RenderGroup";
 import { initLights, updateLights, clearLights } from "./utils/Light";
 import { showMiddleText } from "./utils/message"
-import { readBook } from "./utils/book"
 
 export const schoolLevel = {
 	name: "L'Université",

@@ -1,7 +1,9 @@
 import { books } from "../dialogs"
 
-export function openBook(pages) {
-    game.player.stopMoving();
+export function openBook(bookName) {
+    let pages = books[bookName]
+    if (game.player) game.player.stopMoving();
+    game.paused = true;
 
     let bgSprite = game.add.sprite(35, 4, "book-bg");
     let color = "black"
@@ -29,6 +31,10 @@ export function openBook(pages) {
     game.book = { pages: [...pages], color, textSpriteLeft, textSpriteRight, bgSprite };
 
     nextPage();
+
+    return new Promise((resolve) => {
+        game.book.onClose = resolve
+    });
 }
 
 export function nextPage() {
@@ -44,15 +50,14 @@ export function nextPage() {
 
 }
 
-export function readBook(name) {
-    openBook(books[name]);
-}
 
 export function closeBook() {
     if (game.book) {
         game.book.textSpriteLeft.destroy();
         game.book.textSpriteRight.destroy();
         game.book.bgSprite.destroy();
+        game.book.onClose();
         delete game.book;
+        game.paused = false;
     }
 }

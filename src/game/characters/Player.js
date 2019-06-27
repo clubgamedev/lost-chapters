@@ -1,7 +1,7 @@
 import { Character, CHARACTER_STATE } from "./Character"
 import { talkTo, nextLine } from "../utils/dialog";
 import { save } from "../save";
-import { readBook, nextPage } from "../utils/book";
+import { openBook, nextPage } from "../utils/book";
 import { closePage, readPage } from "../utils/page";
 import { controls } from "../utils/controls"
 
@@ -151,7 +151,7 @@ export class Player extends Character {
 			switch (objectInFront.type) {
 				case "book":
 					save();
-					readBook(objectInFront.properties.name);
+					openBook(objectInFront.properties.name);
 					return;
 				case "page":
 					save();
