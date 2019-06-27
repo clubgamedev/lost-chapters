@@ -158,8 +158,8 @@ export class Player extends Character {
 					readPage(objectInFront.properties.name);
 					return;
 				case "runes":
-					game.variants = objectInFront.properties.find(prop => prop.name === "variant").value.split(",");
-					game.duration = objectInFront.properties.find(prop => prop.name === "duration").value;
+					game.variants = objectInFront.properties.variant.split(",");
+					game.duration = objectInFront.properties.duration.value;
 					save();
 					game.state.start("Decryptor");
 					return;

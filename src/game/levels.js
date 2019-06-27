@@ -165,9 +165,7 @@ export class Level {
 		const enemies = { mole: Mole, treant: Treant, cultist: Cultist };
 		Object.entries(enemies).forEach(([enemyType, Constructor]) => {
 			findObjectsByType(enemyType, this.tilemap, "Object Layer").forEach(enemy => {
-				let verticalMove = enemy.properties && enemy.properties.some(
-					prop => prop.name === "vertical" && prop.value === true
-				)
+				let verticalMove = enemy.properties && enemy.properties.vertical === true
 				game.groups.enemies.add(
 					new Constructor({ x: enemy.x / 16, y: enemy.y / 16 }, verticalMove)
 				)
@@ -179,9 +177,9 @@ export class Level {
 		const characters = ["howard", "franck", "marie", "etudiant", "ramsey", "sbire", "therled"];
 		characters.forEach((characterName) => {
 			findObjectsByType(characterName, this.tilemap, "Object Layer").forEach(character => {
-				let state = character.properties.find(prop => prop.name === "state").value;
+				let state = character.properties.state;
 				let pnj = new Character(game, { x: character.x / 16, y: character.y / 16 }, characterName, CHARACTER_STATE[state])
-				pnj.properties = Object.fromEntries((character.properties || []).map(({ name, value }) => [name, value]));
+				pnj.properties = character.properties;
 				pnj.body.setSize(18, 14, 6, 18);
 				game.groups.pnj.add(pnj)
 			})
@@ -208,8 +206,8 @@ export class Level {
 			game.groups.triggers.add(trigger)
 			trigger.action = () => {
 				if (game.player.movesBeforeTp > 0) return;
-				let destinationId = tp.properties.find(prop => prop.name === "to").value;
-				let destination = tps.find(x => x.properties.find(prop => prop.name === "from").value === destinationId);
+				let destinationId = tp.properties.to;
+				let destination = tps.find(x => x.properties.from === destinationId);
 				if (destination) {
 					game.player.movesBeforeTp = 50;
 					game.camera.flash("black")
@@ -227,7 +225,7 @@ export class Level {
 			exitSprite.height = exit.height;
 			game.groups.triggers.add(exitSprite)
 			exitSprite.action = () => {
-				let levelName = exit.properties.find(prop => prop.name === "level").value;
+				let levelName = exit.properties.level;
 				exitSprite.destroy(); // to avoid infinite loop during camera fade
 				game.camera.fade(0x000000, 390)
 				setTimeout(() => {
@@ -277,6 +275,11 @@ function findObjectsByType(type, map, layer) {
 			//console.log("Found " + element.type);
 			//element.y -= map.tileHeight
 			element.y -= element.height;
+			if (element.properties) {
+				Object.values(element.properties).forEach(prop => {
+					element.properties[prop.name] = prop.value
+				})
+			}
 			return element
 		}
 	})

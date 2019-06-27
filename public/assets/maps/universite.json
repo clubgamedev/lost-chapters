@@ -674,20 +674,9 @@
                  "gid":7,
                  "height":16,
                  "id":77,
-                 "name":"",
-                 "properties":[
-                        {
-                         "name":"duration",
-                         "type":"int",
-                         "value":30
-                        }, 
-                        {
-                         "name":"variant",
-                         "type":"string",
-                         "value":"action_shuffle"
-                        }],
+                 "name":"book_alphabet",
                  "rotation":0,
-                 "type":"runes",
+                 "type":"book",
                  "visible":true,
                  "width":16,
                  "x":191.556541019956,
@@ -783,7 +772,7 @@
                  "visible":true,
                  "width":16,
                  "x":191,
-                 "y":1054
+                 "y":1058
                 }],
          "opacity":1,
          "type":"objectgroup",

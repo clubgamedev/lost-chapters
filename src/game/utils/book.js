@@ -2,6 +2,7 @@ import { books } from "../dialogs"
 
 export function openBook(bookName) {
     let pages = books[bookName]
+    if (!pages) return;
     if (game.player) game.player.stopMoving();
     game.paused = true;
 
