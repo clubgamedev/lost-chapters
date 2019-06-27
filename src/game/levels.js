@@ -4,6 +4,7 @@ import { Cultist } from "./characters/Cultist"
 import { Character, CHARACTER_STATE } from "./characters/Character"
 import { Runes, Chaudron, Book, Page, EscapeTable } from "./items/"
 import { Fire } from "./effects/Fire";
+import { AmbientLight } from "./effects/AmbientLight";
 import RenderGroup from "./utils/RenderGroup";
 import { initLights, updateLights, clearLights } from "./utils/Light";
 import { showMiddleText } from "./utils/message"
@@ -238,7 +239,7 @@ export class Level {
 
 	createLights(lightRadius, obscurity, hue, fog) {
 		initLights(lightRadius, obscurity, hue, fog);
-		const lightSources = { fire: Fire };
+		const lightSources = { fire: Fire, light: AmbientLight };
 
 		Object.entries(lightSources).forEach(([objectType, Constructor]) => {
 			findObjectsByType(objectType, this.tilemap, "Object Layer").forEach(lightSource => {
