@@ -8,18 +8,8 @@ export default {
   props: {
     importGame: Function
   },
-  data() {
-    return {
-      game: null
-    };
-  },
   mounted() {
-    this.importGame().then(module => {
-      this.game = module.startGame();
-    });
-  },
-  destroyed() {
-    this.game.onExit && this.game.onExit();
+    this.importGame().then(module => module.startGame());
   }
 };
 </script>
