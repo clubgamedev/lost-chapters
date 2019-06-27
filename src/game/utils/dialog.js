@@ -3,7 +3,7 @@ import { dialogs } from "../dialogs"
 
 export function startDialog(lines, params = {}) {
     let { color, speaker } = params = Object.assign({ color: "#CC1C00" }, params)
-    let voice = Object.assign(voicesByActor[speaker], params)
+    let voice = Object.assign({}, voicesByActor[speaker], params)
     voice.emotion = (voice.emotion || 30) + (16 - game.player.lucidity) * 4
 
     game.player && game.player.stopMoving();

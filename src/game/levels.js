@@ -153,10 +153,12 @@ export class Level {
 		game.groups.triggers = game.add.group(game.groups.render, "triggers");
 		game.groups.triggers.enableBody = true
 
-		this.layerFront.bringToTop();
+		game.groups.lights = game.add.group(undefined, "lights");
 
-		game.groups.fx = game.add.group(game.groups.reder, "effects");
+		game.groups.fx = game.add.group(undefined, "effects");
 		game.groups.fx.add(game.player.interactionSprite);
+
+		game.groups.hud = game.add.group(undefined, "hud");
 	}
 
 	createEnemies() {

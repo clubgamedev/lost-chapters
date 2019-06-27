@@ -18,11 +18,13 @@ export function initLights(lightRadius, obscurity = 0.75, hue, fog) {
     sprite.width = game.width + 10
     sprite.height = game.height + 10
     sprite.blendMode = Phaser.blendModes.MULTIPLY
+    game.groups.lights.add(sprite)
 
     let filterSprite = game.add.image(0, 0, shadowTexture)
     filterSprite.width = game.width + 10
     filterSprite.height = game.height + 10
     filterSprite.blendMode = Phaser.blendModes.MULTIPLY
+    game.groups.lights.add(filterSprite)
 
     game.light = { sprite, shadowTexture, obscurity, filterSprite }
     game.lights = [];

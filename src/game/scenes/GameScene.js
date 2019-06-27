@@ -1,8 +1,9 @@
 import { addSounds, startMusic, sounds } from "../utils/audio"
-import { startDialog } from "../utils/dialog"
 import { Player } from "../characters/Player"
 import { goToLevel } from "../levels"
 import { openBook } from "../utils/book";
+import { startDialog } from "../utils/dialog"
+import { updateHud } from "../utils/hud"
 
 let hurtFlag
 
@@ -26,14 +27,8 @@ export class GameScene {
 	startGame() {
 		startMusic();
 		addSounds()
-
-		this.createHud()
 		goToLevel(game.save.level)
-	}
-
-	createHud() {
-		game.lucidityBar = game.add.sprite(10, 5, "lucidity-bar");
-		game.lucidityBar.fixedToCamera = true
+		updateHud()
 	}
 
 	spawnPlayer() {
@@ -64,6 +59,7 @@ export class GameScene {
 		game.level.update()
 
 		game.groups.render.sort('y', Phaser.Group.SORT_ASCENDING); // depth sort
+		updateHud()
 	}
 
 	onExitReached() {
@@ -80,7 +76,6 @@ export class GameScene {
 			case "gem":
 				if (player.lucidity < 16) {
 					player.lucidity++
-					this.updateHud()
 				}
 				startDialog([
 					"Vous avez trouvé une gemme"
@@ -103,7 +98,6 @@ export class GameScene {
 
 		game.player.alpha = 0.5
 		game.player.lucidity--
-		this.updateHud()
 
 		sounds.HURT.play()
 		if (game.player.lucidity < 1) {
@@ -114,10 +108,6 @@ export class GameScene {
 	gameOver() {
 		game.music.stop()
 		game.state.start("GameOver")
-	}
-
-	updateHud() {
-		game.lucidityBar.frame = 16 - game.player.lucidity;
 	}
 
 	hurtManager() {

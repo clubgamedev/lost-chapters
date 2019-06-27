@@ -17,7 +17,15 @@ export function save() {
 
 export function newGame() {
     game.save = {
-        level: "school"
+        level: "school",
+        inventory: {
+            "potionDeForce": 1,
+            "potionDeProtection": 2,
+            "potionDeLucidite": 3,
+            "fioleDeSang": 1,
+            "parchemin": 1,
+            "cape": 1
+        }
     }
     game.save.playerPosition = levels[game.save.level].startPosition;
     localStorage.setItem("save", JSON.stringify(game.save));
