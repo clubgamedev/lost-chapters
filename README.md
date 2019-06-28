@@ -1,4 +1,6 @@
-# lost-chapters
+# Lost Chapters
+
+Video-game based on Lovecraft universe developed by some french amateurs.
 
 ## Project setup
 ```
@@ -15,17 +17,8 @@ npm run serve
 npm run build
 ```
 
-### Run your tests
-```
-npm run test
-```
-
 ### Lints and fixes files
 ```
 npm run lint
 ```
 
-### Run your unit tests
-```
-npm run test:unit
-```
