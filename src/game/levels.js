@@ -153,6 +153,8 @@ export class Level {
 		game.groups.triggers = game.add.group(game.groups.render, "triggers");
 		game.groups.triggers.enableBody = true
 
+		this.layerFront.bringToTop();
+
 		game.groups.lights = game.add.group(undefined, "lights");
 
 		game.groups.fx = game.add.group(undefined, "effects");
