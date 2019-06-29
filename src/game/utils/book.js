@@ -1,10 +1,9 @@
-import { books } from "../dialogs"
+import { books } from "../books"
 
 export function openBook(bookName) {
     let pages = books[bookName]
     if (!pages) return;
     if (game.player) game.player.stopMoving();
-    game.paused = true;
 
     let bgSprite = game.add.sprite(35, 4, "book-bg");
     let color = "black"
@@ -59,6 +58,5 @@ export function closeBook() {
         game.book.bgSprite.destroy();
         game.book.onClose();
         delete game.book;
-        game.paused = false;
     }
 }

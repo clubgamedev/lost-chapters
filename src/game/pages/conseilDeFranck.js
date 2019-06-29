@@ -1,1 +1,0 @@
-export const  conseilDeFranck= `Tu dois t`

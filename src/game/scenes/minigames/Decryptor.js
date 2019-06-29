@@ -1,11 +1,13 @@
 import { shuffleArray } from "../../utils/array";
-import { startDialog } from "../../utils/dialog";
+import { talkToMyself } from "../../utils/dialog";
+import { dialogs } from "../../dialogs"
+import { save, loadSave } from "../../save"
 import { createParticlesEmitter } from "../../effects/particles";
 
 let countDown;
 let timerText;
-
 let keyAction;
+let duration, variants;
 
 let elementsToFind = [];
 let MAX_NB_BUTTONS = 8;
@@ -75,7 +77,6 @@ function loadZodiacs() {
     game.load.image("scorpio", "assets/decryptor/scorpio.png");
     game.load.image("taurus", "assets/decryptor/taurus.png");
     game.load.image("virgo", "assets/decryptor/virgo.png");
-    game.load.image("bottomBar", "assets/decryptor/bottom_bar.png");
     game.load.image("backgroundTipsStars", "assets/decryptor/star_background.png");
     game.load.image("backgroundCave", "assets/decryptor/cave_background.png");
     game.load.image("backgroundForest", "assets/decryptor/forest_background.png");
@@ -111,6 +112,9 @@ export class DecryptorScene {
     }
 
     create() {
+        duration = game.decryptor.duration || 30;
+        variants = game.decryptor.variants || [];
+
         game.scale.setGameSize(800, 450);
 
         downScreenHeight = game.height / 5;
@@ -138,7 +142,7 @@ export class DecryptorScene {
         activeElement(elementsToFind[gameState.elementIndex].display);
 
         countDown = game.time.create(false);
-        countDown.add(Phaser.Timer.SECOND * (game.duration ? game.duration : 30), timerOver, this);
+        countDown.add(Phaser.Timer.SECOND * duration, timerOver, this);
         countDown.start();
 
         game.input.gamepad.start();
@@ -199,7 +203,7 @@ export class DecryptorScene {
 
     render() {
         if (!isVariant(DecryptorConfig.BATTLE)) {
-            countdownBar.y = (countDown.duration / 1000 / (game.duration ? game.duration : 30)) * (game.height - downScreenHeight + 20);
+            countdownBar.y = (countDown.duration / 1000 / duration) * (game.height - downScreenHeight + 20);
             countdownBar.height = (game.height - downScreenHeight + 20) - countdownBar.y;
         }
     }
@@ -392,7 +396,7 @@ function findActionForZodiac(zodiacToFind) {
 }
 
 function isVariant(variantName) {
-    return game.variants && game.variants.indexOf(variantName) > -1;
+    return variants.includes(variantName);
 }
 
 function createElementsWithButtons() {
@@ -539,7 +543,7 @@ function timerOver() {
             gameOver(false, "La fin est proche");
         } else {
             countDown.removeAll();
-            countDown.add(Phaser.Timer.SECOND * (game.duration ? game.duration : 30), timerOver, this);
+            countDown.add(Phaser.Timer.SECOND * duration, timerOver, this);
         }
     } else {
         gameOver(false);
@@ -547,14 +551,21 @@ function timerOver() {
 }
 
 function quitGame(youWon) {
+    if (youWon) {
+        game.save.translationsFound.push(game.decryptor.translation)
+        save();
+    }
+    loadSave();
     game.state.start('MainGame');
+
     setTimeout(() => {
         if (youWon) {
-            startDialog(["More knowledge !"], { color: "lightblue", speaker: "myself" });
+            let translation = dialogs[game.decryptor.translation](game.save)
+            talkToMyself(["Ça y est, j'ai trouvé !", ...translation, "Intéressant..."]);
         } else {
-            startDialog(["Too late..."], { color: "#aaa", speaker: "myself" });
+            talkToMyself(["Je me suis encore trompé...", "Bon, recommençons depuis le début !"]);
         }
-
+        delete game.decryptor;
     }, 500);
 }
 

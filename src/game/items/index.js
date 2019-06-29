@@ -1,7 +1,6 @@
-import { Runes } from "./Runes";
-import { Chaudron } from "./Chaudron";
-import { Book } from "./Book";
-import { Page } from "./Page";
-
-export { Runes, Chaudron, Book, Page }
-export * from './EscapeTable';
+export { Runes } from "./Runes";
+export { Chaudron } from "./Chaudron";
+export { Book } from "./Book";
+export { Page } from "./Page";
+export { Description } from "./Description";
+export { EscapeTable } from './EscapeTable';

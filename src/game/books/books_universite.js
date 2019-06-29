@@ -1,3 +1,19 @@
+export const book_library = [
+    `Il était une fois un game developper qui devait tester le screen du bouquin`,
+    `Il lui fallait plusieurs pages pour tester quoi.`,
+    `Tant qu'à faire il testait aussi les accents et caractères bizarres`,
+    `genre @#{] [*% ù^^ £µ! §]}`,
+    `tiens on va mettre une 3ème page pour voir`
+]
+
+export const book_lune_rouge = [
+    `La Lune rouge est un phénomène optique de dispersion de la lumière qui se produit durant les éclipses de Lune.`,
+    `Quand la Terre cache le Soleil à la Lune, des rayons de lumière traversent les cieux et frôlent l'horizon.`,
+    `Ils en ressortent courbés et rouges, donnant un angle inédit et un reflet différent aux choses qu'ils éclairent.`,
+    `Dans de nombreux cultes à travers le Monde, la lune apparaît rouge quand les dieux ont soif de sang.`,
+    `Les dieux plient la lumière du Soleil pour l'emprisonner, et la libère lorsqu'un sacrifice leur a été offert.`
+]
+
 export const book_franck = [
     `1971, 13 sept.
 

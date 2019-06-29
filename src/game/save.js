@@ -8,8 +8,8 @@ export function loadSave() {
 
 export function save() {
     game.save.playerPosition = {
-        x: ((game.player.worldPosition.x - 8) / 16),
-        y: ((game.player.worldPosition.y + 8) / 16)
+        x: ((game.player.position.x - 8) / 16),
+        y: ((game.player.position.y - 8) / 16)
     };
     game.save.playerState = game.player.state;
     localStorage.setItem("save", JSON.stringify(game.save));
@@ -25,7 +25,14 @@ export function newGame() {
             "fioleDeSang": 1,
             "parchemin": 1,
             "cape": 1
-        }
+        },
+        hasReadIntro: false,
+        hasDiscoveredTindalos: false,
+        hasDiscoveredAlphabet: false,
+        hasDiscoveredSecretPassage: false,
+        hasDiscoveredCodeEtabli: false,
+        hasFalsifiedScroll: false,
+        translationsFound: []
     }
     game.save.playerPosition = levels[game.save.level].startPosition;
     localStorage.setItem("save", JSON.stringify(game.save));

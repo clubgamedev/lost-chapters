@@ -16,6 +16,7 @@ export class GameScene {
 		if (!game.save.hasReadIntro) {
 			game.paused = true;
 			openBook("book_intro").then(() => {
+				game.paused = false;
 				game.save.hasReadIntro = true;
 				this.startGame();
 			})

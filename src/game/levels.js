@@ -2,7 +2,7 @@ import { Mole } from "./characters/Mole"
 import { Treant } from "./characters/Treant"
 import { Cultist } from "./characters/Cultist"
 import { Character, CHARACTER_STATE } from "./characters/Character"
-import { Runes, Chaudron, Book, Page, EscapeTable } from "./items/"
+import { Runes, Chaudron, Book, Page, Description, EscapeTable } from "./items/"
 import { Fire } from "./effects/Fire";
 import { AmbientLight } from "./effects/AmbientLight";
 import RenderGroup from "./utils/RenderGroup";
@@ -189,7 +189,7 @@ export class Level {
 	}
 
 	createObjects() {
-		const objects = { runes: Runes, chaudron: Chaudron, book: Book, escapeTable: EscapeTable, page: Page };
+		const objects = { runes: Runes, chaudron: Chaudron, book: Book, escapeTable: EscapeTable, page: Page, description: Description };
 		Object.entries(objects).forEach(([objectType, Constructor]) => {
 			findObjectsByType(objectType, this.tilemap, "Object Layer").forEach(object => {
 				let sprite = new Constructor({ x: object.x / 16, y: object.y / 16 }, { name: object.name, ...(object.properties || {}) })
@@ -279,7 +279,7 @@ function findObjectsByType(type, map, layer) {
 			element.y -= element.height;
 			if (element.properties) {
 				Object.values(element.properties).forEach(prop => {
-					element.properties[prop.name] = prop.value
+					if (prop && prop.name) element.properties[prop.name] = prop.value
 				})
 			}
 			return element

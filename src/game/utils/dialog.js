@@ -28,6 +28,9 @@ export function startDialog(lines, params = {}) {
     game.dialog = { lines: [...lines], speaker, voice, color, textSprite, bgSprite };
 
     nextLine();
+    return new Promise(resolve => {
+        game.dialog.onEnd = resolve;
+    })
 }
 
 export function nextLine() {
@@ -63,13 +66,18 @@ export function nextLine() {
 }
 
 export function talkTo(name) {
-    startDialog(dialogs[name](game.save), { speaker: name });
+    return startDialog(dialogs[name](game.save), { speaker: name });
+}
+
+export function talkToMyself(lines) {
+    return startDialog(lines, { speaker: "myself", color: "#B25323", skipSpeech: true });
 }
 
 export function endDialog() {
     if (game.dialog) {
         game.dialog.textSprite.destroy();
         game.dialog.bgSprite.destroy();
+        game.dialog.onEnd && game.dialog.onEnd();
         delete game.dialog;
     }
 }
@@ -142,6 +150,11 @@ export function exhaustDialog(questions, endDialogChoice) {
 }
 
 export function sayLine(line) {
+    if (game.dialog.voice.skipSpeech) {
+        game.dialog.textSprite.text = line;
+        return;
+    }
+
     game.dialog.speech = baragouin(line, Object.assign({
         onNote(text) {
             game.dialog.textSprite.text = text;
@@ -151,7 +164,6 @@ export function sayLine(line) {
             delete game.dialog.speech
         }
     }, game.dialog.voice));
-
 }
 
 export const voicesByActor = {

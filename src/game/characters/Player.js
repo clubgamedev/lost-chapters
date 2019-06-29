@@ -1,9 +1,10 @@
 import { Character, CHARACTER_STATE } from "./Character"
-import { talkTo, nextLine } from "../utils/dialog";
 import { save } from "../save";
 import { openBook, nextPage } from "../utils/book";
 import { closePage, readPage } from "../utils/page";
 import { controls } from "../utils/controls"
+import { talkTo, nextLine, talkToMyself } from "../utils/dialog";
+import { dialogs } from "../dialogs"
 
 const MOVE_SPEED = 50
 let ACTION_DELAY;
@@ -17,7 +18,6 @@ export class Player extends Character {
 		this.body.setSize(10, 13, 11, 19)
 		this.body.moves = true;
 		this.watchingPoint = this.worldPosition;
-
 
 		this.interactionSprite = game.make.sprite(0, 0, 'interactions');
 		this.interactionSprite.animations.add("talk", [0, 1, 2, 3], 3, true);
@@ -157,13 +157,20 @@ export class Player extends Character {
 					save();
 					readPage(objectInFront.properties.name);
 					return;
-				case "runes":
-					game.variants = objectInFront.properties.variant.split(",");
-					game.duration = objectInFront.properties.duration.value;
-					save();
-					game.state.start("Decryptor");
+				case "description":
+					talkToMyself(dialogs[objectInFront.properties.name](game.save));
 					return;
-
+				case "runes":
+					let { variant, duration, translation } = objectInFront.properties
+					if (!game.save.hasDiscoveredAlphabet) {
+						return talkToMyself(dialogs.runes_inconnues(game.save))
+					} else if (game.save.translationsFound.includes(translation)) {
+						return talkToMyself(dialogs[translation](game.save))
+					} else {
+						game.decryptor = { variants: variant.split(","), duration, translation }
+						save();
+						return game.state.start("Decryptor");
+					}
 				case "chaudron":
 					save();
 					game.state.start("Alchemy");
