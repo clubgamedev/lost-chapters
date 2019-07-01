@@ -48,6 +48,7 @@ export class BookRecipes {
         this.bookRecipes.width = this.thumbWidth * (game.height / this.bookRecipes.height);
         this.bookRecipes.height = game.height - this.bookRecipes.y;
         this.bookRecipes.x = game.width / 2 - this.bookRecipes.width / 2;
+        this.bookRecipes.bringToTop();
         this.isOpened = true;
 
         this.displayPotionsList();

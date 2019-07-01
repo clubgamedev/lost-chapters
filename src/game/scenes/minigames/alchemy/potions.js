@@ -1,38 +1,24 @@
+import {Potion} from "./Potion";
+
 export const allPotions = [
-    {
-        displayName: "Potion de force",
-        name : "potionDeForce",
-        ingredients : [
-            "cireBougieNoir",
-            "crochetsDeSerpent",
-            "cuirDeBumslangWikiputer"
-        ]
-    },
-    {
-        displayName: "Potion de lucidité",
-        name : "potionDeLucidite",
-        ingredients : [
-            "oeufDeDragon",
-            "epineDePoissonDiable",
-            "herbicide"
-        ]
-    },
-    {
-        displayName: "Potion de protection",
-        name : "potionDeProtection",
-        ingredients : [
-            "foieDeDragon",
-            "jusDeSauterelle",
-            "plumeJobarbille"
-        ]
-    },
-    {
-        displayName: "Fiole de sang",
-        name : "fioleDeSang",
-        ingredients : [
-            "crochetsDeSerpent",
-            "foieDeDragon",
-            "jusDeSauterelle"
-        ]
-    }
+    new Potion("Potion de force", "potionDeForce",[
+        "cireBougieNoir",
+        "crochetsDeSerpent",
+        "cuirDeBumslangWikiputer"
+    ]),
+    new Potion("Potion de lucidité", "potionDeLucidite",[
+        "oeufDeDragon",
+        "epineDePoissonDiable",
+        "herbicide"
+    ]),
+    new Potion("Potion de protection", "potionDeProtection",[
+        "foieDeDragon",
+        "jusDeSauterelle",
+        "plumeJobarbille"
+    ]),
+    new Potion("Fiole de sang", "fioleDeSang",[
+        "crochetsDeSerpent",
+        "foieDeDragon",
+        "jusDeSauterelle"
+    ])
 ];

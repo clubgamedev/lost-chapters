@@ -242,6 +242,21 @@ function putInMarmite() {
         marmite.animations.stop();
         marmite.frame = 0;
     }, 1000)
+
+    createPotionWithIngredients();
+}
+
+function createPotionWithIngredients(){
+    let potionCreated;
+    allPotions.forEach(potion => {
+        if (potion.cookPotion(arrayItemSelected)) {
+            potionCreated = potion;
+        }
+    });
+    if (potionCreated) {
+        console.log("Potion " + potionCreated.displayName + " created !");
+        //displayNewPotionCreated !
+    }
 }
 
 function spawnElements(groupIngredients, arrayPositionIngredientOnTheMap, arrayNameIngredients) {
