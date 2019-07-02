@@ -11,13 +11,15 @@ export class Potion{
     }
 
     cookPotion(ingredientsInMarmite) {
-        let ingredientsFound = [];
+        if(ingredientsInMarmite && ingredientsInMarmite.length>0) {
+            let ingredientsFound = [];
 
-        ingredientsInMarmite.forEach(ingredient => {
-            if(this.ingredients.indexOf(ingredient) !== -1 && ingredientsFound.indexOf(ingredient) === -1){
-                ingredientsFound.push(ingredient);
-            }
-        });
-        return ingredientsFound.length === ingredientsInMarmite.length;
+            ingredientsInMarmite.forEach(ingredient => {
+                if (this.ingredients.indexOf(ingredient) !== -1 && ingredientsFound.indexOf(ingredient) === -1) {
+                    ingredientsFound.push(ingredient);
+                }
+            });
+            return ingredientsFound.length === ingredientsInMarmite.length;
+        }
     }
 }

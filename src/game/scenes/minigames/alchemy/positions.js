@@ -52,4 +52,4 @@ export const
             x: 650,
             y: 285
         }
-    ]
+    ];

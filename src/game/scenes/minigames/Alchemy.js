@@ -2,6 +2,7 @@ import { positionIngredientInventory1, positionIngredientInventory2, positionIng
 import { allPotions } from "./alchemy/potions.js";
 import {BookRecipes} from "./alchemy/BookRecipes";
 import {PieProgress} from "./alchemy/PieProgress";
+import { showMiddleText } from "../../utils/message"
 
 let platforms, ingredients, materials,
     marmite, corbeille,
@@ -218,18 +219,18 @@ function pickIngredient(player, item) {
 }
 
 function addItemInInventory(item) {
-    if (arrayItemSelected.length == 0) {
+    if (arrayItemSelected.length === 0) {
         itemSelected.create(positionIngredientInventory1.x, positionIngredientInventory1.y, item);
-        arrayItemSelected.push(item);
+        arrayItemSelected[0] = item;
         deleteItemOnTheMap(item);
     }
-    else if (arrayItemSelected.length == 1) {
+    else if (arrayItemSelected.length === 1) {
         itemSelected.create(positionIngredientInventory2.x, positionIngredientInventory2.y, item);
-        arrayItemSelected.push(item);
+        arrayItemSelected[1] = item;
         deleteItemOnTheMap(item);
-    } else if (arrayItemSelected.length == 2) {
+    } else if (arrayItemSelected.length === 2) {
         itemSelected.create(positionIngredientInventory3.x, positionIngredientInventory3.y, item);
-        arrayItemSelected.push(item);
+        arrayItemSelected[2] = item;
         deleteItemOnTheMap(item);
     } else {
         console.log("Inventory full");
@@ -244,6 +245,7 @@ function putInMarmite() {
     }, 1000)
 
     createPotionWithIngredients();
+    putInCorbeille();
 }
 
 function createPotionWithIngredients(){
@@ -255,13 +257,19 @@ function createPotionWithIngredients(){
     });
     if (potionCreated) {
         console.log("Potion " + potionCreated.displayName + " created !");
-        //displayNewPotionCreated !
+        showMiddleText(potionCreated.displayName + " créée !",0x000000, "#FFFFFF", 1500, "40px");
+        displayPotionCreated(potionCreated);
     }
+}
+
+function displayPotionCreated(potionCreated) {
+    let potionSprite = game.add.sprite(120, 10, potionCreated.name);
+    potionSprite.scale.setTo(1.5);
 }
 
 function spawnElements(groupIngredients, arrayPositionIngredientOnTheMap, arrayNameIngredients) {
     for (let i = 0; i < arrayPositionIngredientOnTheMap.length; i++) {
-        game.add.sprite()
+        //game.add.sprite()
         groupIngredients.create(arrayPositionIngredientOnTheMap[i].x, arrayPositionIngredientOnTheMap[i].y, arrayNameIngredients[i]);
     }
 }
@@ -329,11 +337,4 @@ function inventoryIsFull() {
     }
     console.log("false");
     return false;
-}
-
-function deleteItemSelected(item) {
-    if (!inventoryIsFull()) {
-        deleteItemOnTheMap(item.key);
-        item.kill();
-    }
 }
