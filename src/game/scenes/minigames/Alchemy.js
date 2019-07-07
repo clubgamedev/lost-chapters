@@ -1,7 +1,7 @@
 import { positionIngredientInventory1, positionIngredientInventory2, positionIngredientInventory3, arrayPositionIngredientOnTheMap } from "./alchemy/positions.js";
 import { allPotions } from "./alchemy/potions.js";
-import {BookRecipes} from "./alchemy/BookRecipes";
-import {PieProgress} from "./alchemy/PieProgress";
+import { BookRecipes } from "./alchemy/BookRecipes";
+import { PieProgress } from "./alchemy/PieProgress";
 import { showMiddleText } from "../../utils/message"
 
 let platforms, ingredients, materials,
@@ -16,9 +16,8 @@ let platforms, ingredients, materials,
     countDownRepop,
     repopTimersBar;
 
-var arrayNameIngredients = ['crochetsDeSerpent', 'cireBougieNoir', 'cuirDeBumslangWikiputer', 'oeufDeDragon',
-    'epineDePoissonDiable', 'herbicide', 'foieDeDragon', 'jusDeSauterelle',
-    'plumeJobarbille'];
+var arrayNameIngredients = ['crochetsDeSerpent', 'cireBougieNoir', 'ecorceDeBouleau', 'oeufDeCorbeau',
+    'epineDePoissonDiable', 'vieilleGnole', 'foieDeCerf', 'jusDeSauterelle', 'plumeJobarbille'];
 
 let ingredientsOnThMap = arrayNameIngredients.slice();
 let ingredientsGenerationInterval;
@@ -36,13 +35,13 @@ export class AlchemyScene {
 
         game.load.image('cireBougieNoir', 'assets/alchemy/ingredients/CireBougieNoir.png');
         game.load.image('crochetsDeSerpent', 'assets/alchemy/ingredients/CrochetsDeSerpent.png');
-        game.load.image('cuirDeBumslangWikiputer', 'assets/alchemy/ingredients/CuirDeBumslangWikiputer.png');
+        game.load.image('ecorceDeBouleau', 'assets/alchemy/ingredients/EcorceDeBouleau.png');
 
-        game.load.image('oeufDeDragon', 'assets/alchemy/ingredients/OeufDeDragon.png');
+        game.load.image('oeufDeCorbeau', 'assets/alchemy/ingredients/OeufDeCorbeau.png');
         game.load.image('epineDePoissonDiable', 'assets/alchemy/ingredients/epineDePoissonDiable.png');
-        game.load.image('herbicide', 'assets/alchemy/ingredients/Herbicide.png');
+        game.load.image('vieilleGnole', 'assets/alchemy/ingredients/VieilleGnole.png');
 
-        game.load.image('foieDeDragon', 'assets/alchemy/ingredients/foieDeDragon.png');
+        game.load.image('foieDeCerf', 'assets/alchemy/ingredients/foieDeCerf.png');
         game.load.image('jusDeSauterelle', 'assets/alchemy/ingredients/jusDeSauterelle.png');
         game.load.image('plumeJobarbille', 'assets/alchemy/ingredients/plumeJobarbille.png');
 
@@ -248,7 +247,7 @@ function putInMarmite() {
     putInCorbeille();
 }
 
-function createPotionWithIngredients(){
+function createPotionWithIngredients() {
     let potionCreated;
     allPotions.forEach(potion => {
         if (potion.cookPotion(arrayItemSelected)) {
@@ -257,7 +256,7 @@ function createPotionWithIngredients(){
     });
     if (potionCreated) {
         console.log("Potion " + potionCreated.displayName + " created !");
-        showMiddleText(potionCreated.displayName + " créée !",0x000000, "#FFFFFF", 1500, "40px");
+        showMiddleText(potionCreated.displayName + " créée !", 0x000000, "#FFFFFF", 1500, "40px");
         displayPotionCreated(potionCreated);
     }
 }

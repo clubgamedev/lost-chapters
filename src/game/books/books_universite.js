@@ -1,9 +1,8 @@
 export const book_library = [
-    `Il était une fois un game developper qui devait tester le screen du bouquin`,
-    `Il lui fallait plusieurs pages pour tester quoi.`,
-    `Tant qu'à faire il testait aussi les accents et caractères bizarres`,
-    `genre @#{] [*% ù^^ £µ! §]}`,
-    `tiens on va mettre une 3ème page pour voir`
+    `Université Miskatonic
+
+Servir l'Homme dans sa quête vers l'Omnisicence`,
+    `TODO: background sur l'université, ses fondateurs, ses membres etc...`
 ]
 
 export const book_lune_rouge = [
@@ -30,7 +29,7 @@ Therled agit bizarrement, plus que d'habitude. Il m'évite et passe ses nuits da
 Consigne de verrouiller le labo la nuit.`,
     `1971, 13 oct.
 
-Cinq élèves manquent à l'appel. J'ai interrogé les autres, ils sont paniqués ou semblent cacher quelque-chose.`,
+Cinq élèves manquent à l'appel. J'ai interrogé les autres, ils sont effrayés ou semblent cacher quelque-chose.`,
     `La serrure du labo a été forcée, la ligne de téléphone a été coupée.`,
     `Je crains que la secte les ait kidnappé. Est-ce qu'ils sont au courant pour la drogue ?`,
     `Therled leur aurait-il volé leur secret ? Que se passe-t-il ?`,

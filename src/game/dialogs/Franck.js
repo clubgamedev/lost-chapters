@@ -114,7 +114,7 @@ function franckTindalos(save) {
                 "Ces démons proviennent sans aucun doute de l'imagination de fanatiques.",
             ],
             "Ils existent ?": () => [
-                "Pour ceux qui y croient, sans aucun doute."
+                "Pour tous ceux qui veulent bien y croire, bien sûr."
             ]
         },
         "Dans les temps anciens, certains prêtres consommaient une drogue, le Liao,",

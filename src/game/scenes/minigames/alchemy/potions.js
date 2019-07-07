@@ -1,24 +1,24 @@
-import {Potion} from "./Potion";
+import { Potion } from "./Potion";
 
 export const allPotions = [
-    new Potion("Potion de force", "potionDeForce",[
+    new Potion("Psycho-stimulant", "potionDeForce", [
         "cireBougieNoir",
         "crochetsDeSerpent",
-        "cuirDeBumslangWikiputer"
+        "ecorceDeBouleau"
     ]),
-    new Potion("Potion de lucidité", "potionDeLucidite",[
-        "oeufDeDragon",
+    new Potion("Tranquilisant", "potionDeLucidite", [
+        "oeufDeCorbeau",
         "epineDePoissonDiable",
-        "herbicide"
+        "vieilleGnole"
     ]),
-    new Potion("Potion de protection", "potionDeProtection",[
-        "foieDeDragon",
+    new Potion("Potion du dévot", "potionDeProtection", [
+        "foieDeCerf",
         "jusDeSauterelle",
-        "plumeJobarbille"
+        "plumeDeCorneille"
     ]),
-    new Potion("Fiole de sang", "fioleDeSang",[
+    new Potion("Fiole de sang", "fioleDeSang", [
         "crochetsDeSerpent",
-        "foieDeDragon",
+        "foieDeCerf",
         "jusDeSauterelle"
     ])
 ];

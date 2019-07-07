@@ -5,7 +5,7 @@ export function openPage(page) {
 
     if (typeof page === "string") page = { text: page }
 
-    page.before = page.before || Promise.resolve
+    page.before = page.before || (() => Promise.resolve())
 
     page.before().then(() => {
         let bgSprite = game.add.sprite(35, 4, "page-bg");
