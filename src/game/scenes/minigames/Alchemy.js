@@ -65,7 +65,7 @@ export class AlchemyScene {
         platforms = game.add.group();
         platforms.enableBody = true;
 
-        var footer = platforms.create(0, 610, 'footer');
+        var footer = platforms.create(0, 605, 'footer');
         footer.body.immovable = true;
 
         var smallSuspend = platforms.create(350, 370, 'smallSuspend');
