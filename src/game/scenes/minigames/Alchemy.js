@@ -14,7 +14,8 @@ let platforms, ingredients, materials,
     keys = {},
     repopTiming,
     countDownRepop,
-    repopTimersBar;
+    repopTimersBar,
+    potionsCreated = [];
 
 var arrayNameIngredients = ['crochetsDeSerpent', 'cireBougieNoir', 'ecorceDeBouleau', 'oeufDeCorbeau',
     'epineDePoissonDiable', 'vieilleGnole', 'foieDeCerf', 'jusDeSauterelle', 'plumeJobarbille'];
@@ -243,8 +244,10 @@ function putInMarmite() {
         marmite.frame = 0;
     }, 1000)
 
-    createPotionWithIngredients();
-    putInCorbeille();
+    if (arrayItemSelected !== null && arrayItemSelected.length > 0) {
+        createPotionWithIngredients();
+        putInCorbeille();
+    }
 }
 
 function createPotionWithIngredients() {
@@ -256,13 +259,16 @@ function createPotionWithIngredients() {
     });
     if (potionCreated) {
         console.log("Potion " + potionCreated.displayName + " created !");
-        showMiddleText(potionCreated.displayName + " créée !", 0x000000, "#FFFFFF", 1500, "40px");
+        showMiddleText(potionCreated.displayName + " créée !",0x000000, "#FFFFFF", 1500, "50px");
         displayPotionCreated(potionCreated);
+    }else{
+        showMiddleText("Recette inconnue !",0xe30027, "#FFFFFF", 1500, "40px");
     }
 }
 
 function displayPotionCreated(potionCreated) {
-    let potionSprite = game.add.sprite(120, 10, potionCreated.name);
+    potionsCreated.push(potionCreated);
+    let potionSprite = game.add.sprite(120 + 70 * potionsCreated.length, 10, potionCreated.name);
     potionSprite.scale.setTo(1.5);
 }
 
