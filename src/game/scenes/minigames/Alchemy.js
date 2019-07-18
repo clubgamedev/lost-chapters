@@ -14,11 +14,11 @@ let platforms, ingredients, materials,
     keys = {},
     repopTiming,
     countDownRepop,
-    repopTimersBar,
+    ingredientsSpawned = new Map(),
     potionsCreated = [];
 
 var arrayNameIngredients = ['crochetsDeSerpent', 'cireBougieNoir', 'ecorceDeBouleau', 'oeufDeCorbeau',
-    'epineDePoissonDiable', 'vieilleGnole', 'foieDeCerf', 'jusDeSauterelle', 'plumeJobarbille'];
+    'epineDePoissonDiable', 'vieilleGnole', 'foieDeCerf', 'jusDeSauterelle', 'plumeDeCorneille'];
 
 let ingredientsOnThMap = arrayNameIngredients.slice();
 let ingredientsGenerationInterval;
@@ -44,7 +44,7 @@ export class AlchemyScene {
 
         game.load.image('foieDeCerf', 'assets/alchemy/ingredients/foieDeCerf.png');
         game.load.image('jusDeSauterelle', 'assets/alchemy/ingredients/jusDeSauterelle.png');
-        game.load.image('plumeJobarbille', 'assets/alchemy/ingredients/plumeJobarbille.png');
+        game.load.image('plumeDeCorneille', 'assets/alchemy/ingredients/plumeDeCorneille.png');
 
         game.load.image('potionDeForce', 'assets/alchemy/potions/potionDeForce.png');
         game.load.image('fioleDeSang', 'assets/alchemy/potions/fioleDeSang.png');
@@ -120,18 +120,9 @@ export class AlchemyScene {
         player.animations.add('right', [7, 6, 8, 6], 10, true);
         player.animations.play('idle');
 
-        repopTimersBar = game.add.group();
-
-        arrayPositionIngredientOnTheMap.forEach(position => {
-            //repopTiming = game.add.graphics(position.x, position.y+50);
-            repopTiming = new PieProgress(game, position.x + 30, position.y + 50, 1, 0xFFFFFF);
-            repopTimersBar.add(repopTiming);
-        });
-
         countDownRepop = game.time.create(false);
         countDownRepop.add(Phaser.Timer.SECOND * 4, generateOtherPositionIngredient, this);
         countDownRepop.start();
-
 
         this.bookRecipes = new BookRecipes();
         this.bookRecipes.create(10, 10);
@@ -195,9 +186,9 @@ export class AlchemyScene {
     }
 
     render() {
-        repopTimersBar.children.forEach(bar => {
-            bar.updateProgress(countDownRepop.duration / 4000);
-        });
+        for(const ingredient of ingredientsSpawned.values()){
+            ingredient.repopTimer.updateProgress(countDownRepop.duration / 4000);
+        }
     }
 }
 
@@ -207,6 +198,7 @@ function putInCorbeille() {
     arrayItemSelected = [];
     ingredientsOnThMap = arrayNameIngredients.slice();
     ingredients.callAll('kill');
+    clearSpawnedIngredients();
     spawnElements(ingredients, arrayPositionIngredientOnTheMap, arrayNameIngredients);
 }
 
@@ -274,8 +266,18 @@ function displayPotionCreated(potionCreated) {
 
 function spawnElements(groupIngredients, arrayPositionIngredientOnTheMap, arrayNameIngredients) {
     for (let i = 0; i < arrayPositionIngredientOnTheMap.length; i++) {
-        //game.add.sprite()
-        groupIngredients.create(arrayPositionIngredientOnTheMap[i].x, arrayPositionIngredientOnTheMap[i].y, arrayNameIngredients[i]);
+        ingredientsSpawned.set(arrayNameIngredients[i],{
+            sprite : groupIngredients.create(arrayPositionIngredientOnTheMap[i].x, arrayPositionIngredientOnTheMap[i].y, arrayNameIngredients[i]),
+            repopTimer : new PieProgress(game, arrayPositionIngredientOnTheMap[i].x + 30, arrayPositionIngredientOnTheMap[i].y + 50, 1, 0xFFFFFF)
+        });
+    }
+}
+
+function clearSpawnedIngredients() {
+    for (const [key, ingredient] of ingredientsSpawned) {
+        ingredient.repopTimer.destroy();
+        ingredient.sprite.destroy();
+        ingredientsSpawned.delete(key);
     }
 }
 
@@ -286,6 +288,7 @@ function generateOtherPositionIngredient() {
     var arrayNameIngredientsTmp = ingredientsOnThMap.slice();
 
     ingredients.callAll('kill');
+    clearSpawnedIngredients();
 
     for (let i = 0; i <= 8; i++) {
         let randomNumberPosition = 0,
@@ -295,7 +298,13 @@ function generateOtherPositionIngredient() {
             randomNumberIngredient = Math.floor(Math.random() * (limit - 0 + 1));
         }
 
-        ingredients.create(arrayPositionIngredientOnTheMapTmp[randomNumberPosition].x, arrayPositionIngredientOnTheMapTmp[randomNumberPosition].y, arrayNameIngredientsTmp[randomNumberIngredient]);
+        if(arrayNameIngredientsTmp[randomNumberIngredient]) {
+            ingredientsSpawned.set(arrayNameIngredientsTmp[randomNumberIngredient], {
+                sprite: ingredients.create(arrayPositionIngredientOnTheMapTmp[randomNumberPosition].x, arrayPositionIngredientOnTheMapTmp[randomNumberPosition].y, arrayNameIngredientsTmp[randomNumberIngredient]),
+                repopTimer: new PieProgress(game, arrayPositionIngredientOnTheMapTmp[randomNumberPosition].x + 30, arrayPositionIngredientOnTheMapTmp[randomNumberPosition].y + 50, 1, 0xFFFFFF)
+            });
+        }
+        //ingredients.create(arrayPositionIngredientOnTheMapTmp[randomNumberPosition].x, arrayPositionIngredientOnTheMapTmp[randomNumberPosition].y, arrayNameIngredientsTmp[randomNumberIngredient]);
         arrayPositionIngredientOnTheMapTmp[randomNumberPosition] = undefined;
         arrayNameIngredientsTmp[randomNumberIngredient] = undefined;
 
@@ -306,9 +315,9 @@ function generateOtherPositionIngredient() {
 
     countDownRepop.removeAll();
     countDownRepop.add(Phaser.Timer.SECOND * 4, generateOtherPositionIngredient, this);
-    repopTimersBar.children.forEach(bar => {
-        bar.updateProgress(100);
-    });
+    for(const ingredient of ingredientsSpawned.values()){
+        ingredient.repopTimer.updateProgress(100);
+    }
 }
 
 function arrayFilterElement(array) {
@@ -326,6 +335,7 @@ function deleteItemOnTheMap(item) {
         console.log("delete : " + item);
         if (ingredientsOnThMap[i] === item) {
             ingredientsOnThMap[i] = undefined;
+            ingredientsSpawned.get(item).repopTimer.destroy();
             i = ingredientsOnThMap.length;
             console.log(item);
         }
