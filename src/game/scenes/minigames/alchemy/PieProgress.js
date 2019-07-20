@@ -22,11 +22,15 @@ export class PieProgress extends Phaser.Graphics {
         _progressVal = Phaser.Math.clamp(_progressVal, 0.00001, 0.99999);
         this.graphics.clear();
         this.graphics.lineStyle(this.lineWidth, this.color);
-        this.graphics.alpha = 0.5;
         this.graphics.arc(0, 0, this.radius, Phaser.Math.degToRad(270), Phaser.Math.degToRad(Math.round(_progressVal * 360 + 270)%360), false);
     }
 
     preUpdate() {
         super.preUpdate();
+    }
+
+    destroy() {
+        this.graphics.alpha = 0;
+        super.destroy();
     }
 }
