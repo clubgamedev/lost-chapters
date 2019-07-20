@@ -229,7 +229,8 @@ function createHealthInfo() {
     let textBarGroup = game.add.group();
     textBarGroup.z = 0;
 
-    health = MAX_HEALTH;
+    //  battle: commencer avec malus de lucidité si barre de lucidité faible avant combat
+    health = Math.round(MAX_HEALTH * (0.5 + 0.5 * game.player.lucidity / 16));
     ennemyHealth = MAX_HEALTH;
 
     let textStyle = { fill: 'white', font: '14px Alagard', boundsAlignV: 'center' };
@@ -561,7 +562,7 @@ function quitGame(youWon) {
     setTimeout(() => {
         if (youWon) {
             let translation = dialogs[game.decryptor.translation](game.save)
-            talkToMyself(["Ça y est, j'ai trouvé !", ...translation, "Intéressant..."]);
+            talkToMyself(["Ça y est, j'ai trouvé !", ...translation.map(part => `"${part}"`), "Intéressant..."]);
         } else {
             talkToMyself(["Je me suis encore trompé...", "Bon, recommençons depuis le début !"]);
         }

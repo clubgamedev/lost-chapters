@@ -18,8 +18,9 @@ export class LoadingScene {
 		game.load.image("instructions", "assets/sprites/instructions.png");
 		game.load.image("credits", "assets/sprites/credits.png");
 		game.load.image("gameover", "assets/sprites/game-over.png");
-		game.load.image("dialog-box", "assets/ui/dialog-box.png");
+		game.load.image("dialog-box", "assets/ui/dialog-box2.png");
 		game.load.image("dialog-choice-box", "assets/ui/dialog-choice-box.png");
+		game.load.image("dialog-myself-box", "assets/ui/dialog-myself-box.png");
 		game.load.image("book-bg", "assets/ui/book.png");
 		game.load.image("page-bg", "assets/ui/page.png");
 
