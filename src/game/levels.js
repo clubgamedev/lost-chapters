@@ -79,7 +79,7 @@ export class Level {
 		this.createTileMap(tilemap, tilesets)
 		this.createGroups()
 		this.createEnemies()
-		this.createPNJ();
+		this.createCharacters();
 		this.createObjects();
 		this.createTriggers();
 		this.createLights(lightRadius, obscurity, hue, fog)
@@ -175,16 +175,14 @@ export class Level {
 		})
 	}
 
-	createPNJ() {
-		const characters = ["howard", "franck", "marie", "etudiant", "ramsey", "sbire", "therled"];
-		characters.forEach((characterName) => {
-			findObjectsByType(characterName, this.tilemap, "Object Layer").forEach(character => {
-				let state = character.properties.state;
-				let pnj = new Character(game, { x: character.x / 16, y: character.y / 16 }, characterName, CHARACTER_STATE[state])
-				pnj.properties = character.properties;
-				pnj.body.setSize(18, 14, 6, 18);
-				game.groups.pnj.add(pnj)
-			})
+	createCharacters() {
+		findObjectsByType("character", this.tilemap, "Object Layer").forEach(character => {
+			let characterName = character.name;
+			let state = character.properties.state;
+			let pnj = new Character(game, { x: character.x / 16, y: character.y / 16 }, characterName, CHARACTER_STATE[state])
+			pnj.properties = character.properties;
+			pnj.body.setSize(18, 14, 6, 18);
+			game.groups.pnj.add(pnj)
 		})
 	}
 

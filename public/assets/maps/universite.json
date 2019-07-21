@@ -83,7 +83,7 @@
                  "gid":5,
                  "height":16,
                  "id":42,
-                 "name":"",
+                 "name":"franck",
                  "properties":[
                         {
                          "name":"state",
@@ -91,7 +91,7 @@
                          "value":"RIGHT"
                         }],
                  "rotation":0,
-                 "type":"franck",
+                 "type":"character",
                  "visible":true,
                  "width":16,
                  "x":1055.91666666667,
@@ -686,7 +686,7 @@
                  "gid":5,
                  "height":16,
                  "id":78,
-                 "name":"",
+                 "name":"etudiant",
                  "properties":[
                         {
                          "name":"dialog",
@@ -699,7 +699,7 @@
                          "value":"UP"
                         }],
                  "rotation":0,
-                 "type":"etudiant",
+                 "type":"character",
                  "visible":true,
                  "width":16,
                  "x":526.666666666667,
@@ -709,7 +709,7 @@
                  "gid":5,
                  "height":16,
                  "id":80,
-                 "name":"",
+                 "name":"etudiant",
                  "properties":[
                         {
                          "name":"dialog",
@@ -722,7 +722,7 @@
                          "value":"UP"
                         }],
                  "rotation":0,
-                 "type":"etudiant",
+                 "type":"character",
                  "visible":true,
                  "width":16,
                  "x":1343.33333333333,
