@@ -5,6 +5,7 @@ import { closePage, readPage } from "../utils/page";
 import { controls } from "../utils/controls"
 import { talkTo, nextLine, talkToMyself } from "../utils/dialog";
 import { dialogs } from "../dialogs"
+import { pickLoot } from "../items/loot";
 
 const MOVE_SPEED = 50
 let ACTION_DELAY;
@@ -159,6 +160,9 @@ export class Player extends Character {
 					return;
 				case "description":
 					talkToMyself(dialogs[objectInFront.properties.name](game.save));
+					return;
+				case "loot":
+					pickLoot(objectInFront);
 					return;
 				case "runes":
 					let { variant, duration, translation } = objectInFront.properties

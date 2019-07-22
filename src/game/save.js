@@ -19,12 +19,26 @@ export function newGame() {
     game.save = {
         level: "school",
         inventory: {
-            "potionDeForce": 1,
-            "potionDeProtection": 2,
-            "potionDeLucidite": 3,
-            "fioleDeSang": 1,
-            "parchemin": 1,
-            "cape": 1
+            potionDeForce: 1,
+            potionDeProtection: 2,
+            potionDeLucidite: 3,
+            fioleDeSang: 1,
+            parchemin: 1,
+            cape: 1
+        },
+        loot: {
+            recettePotionDeForce: false,
+            recettePotionDeProtection: false,
+            recettePotionDeLucidite: false,
+            cireBougieNoir: false,
+            crochetsDeSerpent: false,
+            ecorceDeBouleau: false,
+            oeufDeCorbeau: false,
+            epineDePoissonDiable: false,
+            vieilleGnole: false,
+            foieDeCerf: false,
+            jusDeSauterelle: false,
+            plumeDeCorneille: false,
         },
         hasReadIntro: false,
         hasDiscoveredTindalos: false,

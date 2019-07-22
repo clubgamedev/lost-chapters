@@ -62,7 +62,7 @@ export class LoadingScene {
 		game.load.spritesheet('sbire', 'assets/characters/sbire.png', 32, 32, 9);
 
 		game.load.spritesheet("runes", 'assets/decryptor/runes.png', 16, 16, 8);
-		game.load.spritesheet("chaudron", 'assets/alchemy/chaudron.png', 32, 32, 2);
+		game.load.spritesheet("chaudron", 'assets/alchemy/marmiteGreenSprite.png', 77, 100, 3);
 		game.load.spritesheet("fire", 'assets/environment/fireplace.png', 16, 20, 12);
 
 		game.load.spritesheet("lucidity-bar", 'assets/ui/lucidity-bar.png', 24, 8, 16);
@@ -79,6 +79,7 @@ export class LoadingScene {
 		game.load.image('potionDeProtection', 'assets/items/potionDeProtection.png');
 		game.load.image('parchemin', 'assets/items/parchemin.png');
 		game.load.image('cape', 'assets/items/cape.png');
+		game.load.image('foieDeCerf', 'assets/items/foieDeCerf.png');
 
 		// audio
 		loadAudio();

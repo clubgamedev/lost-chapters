@@ -53,7 +53,7 @@ export class AlchemyScene {
 
         game.load.image('corbeille', 'assets/alchemy/corbeille.png');
         game.load.image('book', 'assets/ui/book.png');
-        game.load.spritesheet('marmite', 'assets/alchemy/marmiteGreenSprite.png', 77, 100);
+        game.load.spritesheet('marmite', 'assets/alchemy/marmiteGreenSprite.png', 77, 100, 3);
     }
 
     create() {
@@ -186,7 +186,7 @@ export class AlchemyScene {
     }
 
     render() {
-        for(const ingredient of ingredientsSpawned.values()){
+        for (const ingredient of ingredientsSpawned.values()) {
             ingredient.repopTimer.updateProgress(countDownRepop.duration / 4000);
         }
     }
@@ -251,10 +251,10 @@ function createPotionWithIngredients() {
     });
     if (potionCreated) {
         console.log("Potion " + potionCreated.displayName + " created !");
-        showMiddleText(potionCreated.displayName + " créée !",0x000000, "#FFFFFF", 1500, "50px");
+        showMiddleText(potionCreated.displayName + " créée !", 0x000000, "#FFFFFF", 1500, "50px");
         displayPotionCreated(potionCreated);
-    }else{
-        showMiddleText("Recette inconnue !",0xe30027, "#FFFFFF", 1500, "40px");
+    } else {
+        showMiddleText("Recette inconnue !", 0xe30027, "#FFFFFF", 1500, "40px");
     }
 }
 
@@ -266,9 +266,9 @@ function displayPotionCreated(potionCreated) {
 
 function spawnElements(groupIngredients, arrayPositionIngredientOnTheMap, arrayNameIngredients) {
     for (let i = 0; i < arrayPositionIngredientOnTheMap.length; i++) {
-        ingredientsSpawned.set(arrayNameIngredients[i],{
-            sprite : groupIngredients.create(arrayPositionIngredientOnTheMap[i].x, arrayPositionIngredientOnTheMap[i].y, arrayNameIngredients[i]),
-            repopTimer : new PieProgress(game, arrayPositionIngredientOnTheMap[i].x + 30, arrayPositionIngredientOnTheMap[i].y + 50, 1, 0xFFFFFF)
+        ingredientsSpawned.set(arrayNameIngredients[i], {
+            sprite: groupIngredients.create(arrayPositionIngredientOnTheMap[i].x, arrayPositionIngredientOnTheMap[i].y, arrayNameIngredients[i]),
+            repopTimer: new PieProgress(game, arrayPositionIngredientOnTheMap[i].x + 30, arrayPositionIngredientOnTheMap[i].y + 50, 1, 0xFFFFFF)
         });
     }
 }
@@ -298,7 +298,7 @@ function generateOtherPositionIngredient() {
             randomNumberIngredient = Math.floor(Math.random() * (limit - 0 + 1));
         }
 
-        if(arrayNameIngredientsTmp[randomNumberIngredient]) {
+        if (arrayNameIngredientsTmp[randomNumberIngredient]) {
             ingredientsSpawned.set(arrayNameIngredientsTmp[randomNumberIngredient], {
                 sprite: ingredients.create(arrayPositionIngredientOnTheMapTmp[randomNumberPosition].x, arrayPositionIngredientOnTheMapTmp[randomNumberPosition].y, arrayNameIngredientsTmp[randomNumberIngredient]),
                 repopTimer: new PieProgress(game, arrayPositionIngredientOnTheMapTmp[randomNumberPosition].x + 30, arrayPositionIngredientOnTheMapTmp[randomNumberPosition].y + 50, 1, 0xFFFFFF)
@@ -315,7 +315,7 @@ function generateOtherPositionIngredient() {
 
     countDownRepop.removeAll();
     countDownRepop.add(Phaser.Timer.SECOND * 4, generateOtherPositionIngredient, this);
-    for(const ingredient of ingredientsSpawned.values()){
+    for (const ingredient of ingredientsSpawned.values()) {
         ingredient.repopTimer.updateProgress(100);
     }
 }

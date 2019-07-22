@@ -2,7 +2,7 @@ import { Mole } from "./characters/Mole"
 import { Treant } from "./characters/Treant"
 import { Cultist } from "./characters/Cultist"
 import { Character, CHARACTER_STATE } from "./characters/Character"
-import { Runes, Chaudron, Book, Page, Description, EscapeTable } from "./items/"
+import { Runes, Chaudron, Book, Page, Description, EscapeTable, Loot } from "./items/"
 import { Fire } from "./effects/Fire";
 import { AmbientLight } from "./effects/AmbientLight";
 import RenderGroup from "./utils/RenderGroup";
@@ -144,9 +144,6 @@ export class Level {
 		game.groups.enemies = game.add.group(game.groups.characters, "enemies")
 		game.groups.pnj = game.add.group(game.groups.characters, "pnj")
 
-		game.groups.loot = game.add.group(game.groups.render, "loot")
-		game.groups.loot.enableBody = true
-
 		game.groups.objects = game.add.group(game.groups.render, "objects")
 		game.groups.objects.enableBody = true
 
@@ -187,7 +184,15 @@ export class Level {
 	}
 
 	createObjects() {
-		const objects = { runes: Runes, chaudron: Chaudron, book: Book, escapeTable: EscapeTable, page: Page, description: Description };
+		const objects = {
+			runes: Runes,
+			chaudron: Chaudron,
+			escapeTable: EscapeTable,
+			book: Book,
+			page: Page,
+			description: Description,
+			loot: Loot
+		};
 		Object.entries(objects).forEach(([objectType, Constructor]) => {
 			findObjectsByType(objectType, this.tilemap, "Object Layer").forEach(object => {
 				let sprite = new Constructor({ x: object.x / 16, y: object.y / 16 }, { name: object.name, ...(object.properties || {}) })
