@@ -121,7 +121,7 @@ export class AlchemyScene {
         player.animations.play('idle');
 
         countDownRepop = game.time.create(false);
-        countDownRepop.add(Phaser.Timer.SECOND * 4, generateOtherPositionIngredient, this);
+        countDownRepop.add(Phaser.Timer.SECOND * 5, generateOtherPositionIngredient, this);
         countDownRepop.start();
 
         this.bookRecipes = new BookRecipes();
