@@ -79,7 +79,7 @@
                          "value":"TOP"
                         }],
                  "rotation":0,
-                 "type":"",
+                 "type":"character",
                  "visible":true,
                  "width":16,
                  "x":319.5,
@@ -89,7 +89,7 @@
                  "gid":5,
                  "height":16,
                  "id":44,
-                 "name":"indiana",
+                 "name":"arthur",
                  "properties":[
                         {
                          "name":"state",
@@ -97,7 +97,7 @@
                          "value":"TOP"
                         }],
                  "rotation":0,
-                 "type":"",
+                 "type":"character",
                  "visible":true,
                  "width":16,
                  "x":503,
@@ -161,7 +161,7 @@
  "nextobjectid":48,
  "orientation":"orthogonal",
  "renderorder":"right-down",
- "tiledversion":"1.2.3",
+ "tiledversion":"1.2.4",
  "tileheight":16,
  "tilesets":[
         {

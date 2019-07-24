@@ -1,4 +1,4 @@
-export function PereArthur(save){
+export function arthur(save) {
     if (save.haspere_Arthur) {
         return [
             "MEEERRCCIIIIIIII de m'avoir ramené mes ....",
@@ -13,17 +13,17 @@ export function PereArthur(save){
     }
     save.haspere_Arthur = true;
 
-    if (Game.sanity < 5){
-            return [
-        "AHHHHHH je te sens prêt à libérer ta condition maudite",
-        "Dans ce monde je me suis libéré de ma condition de simple pion",
-        "Viens et ne laisse plus ce monstre te diriger",
-        {
-            "Rejoindre": () => "OUI s'il vous plaît que ce joueur arrête de me contrôler !",
-            "Rejoindre": () => "De tout mon être que la folie me sauve de ce joueur",
-            "Rejoindre": () => ".... ...."
-        }
-    ]
+    if (game.player.lucidity < 5) {
+        return [
+            "AHHHHHH je te sens prêt à libérer ta condition maudite",
+            "Dans ce monde je me suis libéré de ma condition de simple pion",
+            "Viens et ne laisse plus ce monstre te diriger",
+            {
+                "Rejoindre": () => "OUI s'il vous plaît que ce joueur arrête de me contrôler !",
+                "Rejoindre": () => "De tout mon être que la folie me sauve de ce joueur",
+                "Rejoindre": () => ".... ...."
+            }
+        ]
     }
     return [
         "Bonjour brebis égarée, que me veux-tu?",

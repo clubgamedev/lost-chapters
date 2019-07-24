@@ -9,8 +9,8 @@ L'analyse du labo a révélé 3 ingrédients:
 
 Cette potion aurait des vertus apaisantes, mais le goût est atroce.`,
     after() {
-        if (!game.save.recetteProtection) {
-            game.save.recetteProtection = true;
+        if (!game.save.loot.recettePotionDeLucidite) {
+            game.save.loot.recettePotionDeLucidite = true;
             talkToMyself([
                 "Pourquoi les dévots buvaient ce remède de sorcière ?",
                 "Je vais noter les ingrédients au cas où ça serait important."

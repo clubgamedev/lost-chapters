@@ -1,7 +1,7 @@
 import { franck } from "./Franck";
 import { augustin } from "./Augustin";
-import { SoeurMarie } from "./SoeurMarie";
-import { PereArthur } from "./PereArthur";
+import { marie } from "./SoeurMarie";
+import { arthur } from "./PereArthur";
 
 import { Marchand } from "./Marchand";
 import { Ramsey } from "./Ramsey";
@@ -23,8 +23,8 @@ import * as descriptions from "./descriptions";
 export const dialogs = {
     franck,
     augustin,
-    SoeurMarie,
-    PereArthur,
+    marie,
+    arthur,
     Marchand,
     Ramsey,
     SbireForest,

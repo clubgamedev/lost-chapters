@@ -2,7 +2,6 @@ import { addSounds, startMusic, sounds } from "../utils/audio"
 import { Player } from "../characters/Player"
 import { goToLevel } from "../levels"
 import { openBook } from "../utils/book";
-import { startDialog } from "../utils/dialog"
 import { updateHud } from "../utils/hud"
 
 let hurtFlag
@@ -48,7 +47,6 @@ export class GameScene {
 		if (game.player.alive) {
 			//overlaps
 			game.physics.arcade.overlap(game.player, game.groups.enemies, this.hurtPlayer, null, this)
-			game.physics.arcade.overlap(game.player, game.groups.loot, this.lootManager, null, this)
 			game.physics.arcade.overlap(game.player, game.groups.triggers, this.onTrigger, null, this)
 		}
 
@@ -70,24 +68,6 @@ export class GameScene {
 
 	onTrigger(player, trigger) {
 		trigger.action();
-	}
-
-	lootManager(player, loot) {
-		switch (loot.type) {
-			case "gem":
-				if (player.lucidity < 16) {
-					player.lucidity++
-				}
-				startDialog([
-					"Vous avez trouvé une gemme"
-				])
-			case "coin":
-				break;
-
-		}
-
-		sounds.ITEM.play()
-		loot.kill()
 	}
 
 	hurtPlayer() {
@@ -127,7 +107,6 @@ export class GameScene {
 		game.groups.enemies.forEachAlive(this.renderGroup, this)
 		game.groups.pnj.forEachAlive(this.renderGroup, this)
 		game.groups.objects.forEachAlive(this.renderGroup, this)
-		game.groups.loot.forEachAlive(this.renderGroup, this)
 		game.groups.triggers.forEachAlive(this.renderGroup, this)
 	}
 
