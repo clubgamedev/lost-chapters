@@ -437,6 +437,88 @@
                  "width":16,
                  "x":335.5,
                  "y":271.375
+                }, 
+                {
+                 "gid":3,
+                 "height":16,
+                 "id":44,
+                 "name":"start1",
+                 "properties":[
+                        {
+                         "name":"id",
+                         "type":"int",
+                         "value":1
+                        }],
+                 "rotation":0,
+                 "type":"start",
+                 "visible":true,
+                 "width":16,
+                 "x":161.333333333333,
+                 "y":168.666666666667
+                }, 
+                {
+                 "gid":3,
+                 "height":16,
+                 "id":45,
+                 "name":"start2",
+                 "properties":[
+                        {
+                         "name":"id",
+                         "type":"int",
+                         "value":2
+                        }],
+                 "rotation":0,
+                 "type":"start",
+                 "visible":true,
+                 "width":16,
+                 "x":800.666666666667,
+                 "y":437.333333333333
+                }, 
+                {
+                 "gid":7,
+                 "height":14.4848666666667,
+                 "id":46,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"level",
+                         "type":"string",
+                         "value":"forest"
+                        }, 
+                        {
+                         "name":"start",
+                         "type":"int",
+                         "value":2
+                        }],
+                 "rotation":0,
+                 "type":"exit",
+                 "visible":true,
+                 "width":39.3333333333333,
+                 "x":150,
+                 "y":139.757566666667
+                }, 
+                {
+                 "gid":7,
+                 "height":14.4849,
+                 "id":47,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"level",
+                         "type":"string",
+                         "value":"autel"
+                        }, 
+                        {
+                         "name":"start",
+                         "type":"int",
+                         "value":1
+                        }],
+                 "rotation":0,
+                 "type":"exit",
+                 "visible":true,
+                 "width":39.3333,
+                 "x":787.666683333333,
+                 "y":396.090883333333
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -445,7 +527,7 @@
          "y":0
         }],
  "nextlayerid":9,
- "nextobjectid":44,
+ "nextobjectid":48,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.2.4",

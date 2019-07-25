@@ -184,5 +184,11 @@ export const voicesByActor = {
     },
     myself: {
         volume: 0 //intense thinking
+    },
+    afraid: {
+        emotion: 90,
+        pitch: 40,
+        speed: 10,
+        resonance: 50
     }
 }

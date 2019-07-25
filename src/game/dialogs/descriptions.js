@@ -32,3 +32,7 @@ export const runes_inconnues = save => ([
 export const traduction_tableau = save => ([
     `Que tout le monde se rassemble au terrier`
 ])
+
+export const panneau_sanctuaire = save => ([
+    `Le chemin ne sera ouvert qu'à ceux qui ont bravé leurs peurs`
+])

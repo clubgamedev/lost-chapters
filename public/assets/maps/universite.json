@@ -556,6 +556,11 @@
                          "name":"level",
                          "type":"string",
                          "value":"sanctuaire"
+                        }, 
+                        {
+                         "name":"start",
+                         "type":"int",
+                         "value":1
                         }],
                  "rotation":0,
                  "type":"exit",
@@ -792,6 +797,24 @@
                  "width":16,
                  "x":1407.36363636364,
                  "y":911.484848484848
+                }, 
+                {
+                 "gid":3,
+                 "height":16,
+                 "id":88,
+                 "name":"start1",
+                 "properties":[
+                        {
+                         "name":"id",
+                         "type":"int",
+                         "value":1
+                        }],
+                 "rotation":0,
+                 "type":"start",
+                 "visible":true,
+                 "width":16,
+                 "x":1343.25,
+                 "y":1556.5
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -800,7 +823,7 @@
          "y":0
         }],
  "nextlayerid":21,
- "nextobjectid":88,
+ "nextobjectid":89,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.2.4",

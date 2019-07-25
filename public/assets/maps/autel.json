@@ -264,6 +264,47 @@
                  "width":16,
                  "x":342.666666666667,
                  "y":230
+                }, 
+                {
+                 "gid":3,
+                 "height":16,
+                 "id":41,
+                 "name":"start1",
+                 "properties":[
+                        {
+                         "name":"id",
+                         "type":"int",
+                         "value":1
+                        }],
+                 "rotation":0,
+                 "type":"start",
+                 "visible":true,
+                 "width":16,
+                 "x":223.333333333333,
+                 "y":453
+                }, 
+                {
+                 "gid":7,
+                 "height":14.4849,
+                 "id":42,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"level",
+                         "type":"string",
+                         "value":"cave"
+                        }, 
+                        {
+                         "name":"start",
+                         "type":"int",
+                         "value":2
+                        }],
+                 "rotation":0,
+                 "type":"exit",
+                 "visible":true,
+                 "width":47.6666333333333,
+                 "x":208.000016666667,
+                 "y":479.090883333333
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -272,10 +313,10 @@
          "y":0
         }],
  "nextlayerid":13,
- "nextobjectid":41,
+ "nextobjectid":43,
  "orientation":"orthogonal",
  "renderorder":"right-down",
- "tiledversion":"1.2.2",
+ "tiledversion":"1.2.4",
  "tileheight":16,
  "tilesets":[
         {

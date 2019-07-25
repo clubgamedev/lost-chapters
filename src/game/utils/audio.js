@@ -10,10 +10,7 @@ export function loadAudio() {
         "assets/sound/slash.mp3"
     ]);
     game.load.audio("item", ["assets/sound/item.ogg", "assets/sound/item.mp3"]);
-    game.load.audio("enemy-death", [
-        "assets/sound/enemy-death.ogg",
-        "assets/sound/enemy-death.mp3"
-    ]);
+    game.load.audio("hallucination", ["assets/sound/hallucination.wav"])
 }
 
 export function addSounds() {
@@ -21,7 +18,8 @@ export function addSounds() {
         HURT: game.add.audio("hurt"),
         ITEM: game.add.audio("item"),
         ENEMY_DEATH: game.add.audio("enemy-death"),
-        SLASH: game.add.audio("slash")
+        SLASH: game.add.audio("slash"),
+        HALLUCINATION: game.add.audio("hallucination")
     })
 }
 

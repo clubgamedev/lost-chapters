@@ -5,6 +5,7 @@ import { Character, CHARACTER_STATE } from "./characters/Character"
 import { Runes, Chaudron, Book, Page, Description, EscapeTable, Loot } from "./items/"
 import { Fire } from "./effects/Fire";
 import { AmbientLight } from "./effects/AmbientLight";
+import { Hallucination } from "./effects/Hallucination";
 import RenderGroup from "./utils/RenderGroup";
 import { initLights, updateLights, clearLights } from "./utils/Light";
 import { showMiddleText } from "./utils/message"
@@ -13,7 +14,6 @@ export const schoolLevel = {
 	name: "L'Université",
 	tilemap: "map_school",
 	tilesets: ["tileset_inside"],
-	startPosition: { x: 84, y: 97 },
 	lightRadius: 100,
 	obscurity: 1
 }
@@ -22,7 +22,6 @@ export const forestLevel = {
 	name: "La forêt",
 	tilemap: "map_forest",
 	tilesets: ["tileset_forest", "tileset_outside"],
-	startPosition: { x: 4, y: 22 },
 	lightRadius: 120,
 	fog: true
 }
@@ -31,7 +30,6 @@ export const caveLevel = {
 	name: "Le Terrier",
 	tilemap: "map_cave",
 	tilesets: ["tileset_cave"],
-	startPosition: { x: 10, y: 8 },
 	lightRadius: 80,
 	obscurity: 0.75
 }
@@ -40,7 +38,6 @@ export const autelLevel = {
 	name: "L'autel",
 	tilemap: "map_autel",
 	tilesets: ["tileset_cave", "tileset_dungeon"],
-	startPosition: { x: 14, y: 29 },
 	lightRadius: 85,
 	obscurity: 1
 }
@@ -49,7 +46,6 @@ export const sanctuaireLevel = {
 	name: "Le Sanctuaire",
 	tilemap: "map_sanctuary",
 	tilesets: ["tileset_forest", "tileset_outside"],
-	startPosition: { x: 3, y: 21 },
 	lightRadius: 150,
 	obscurity: 1,
 	fog: true
@@ -68,14 +64,12 @@ export class Level {
 		name,
 		tilemap,
 		tilesets,
-		startPosition,
 		lightRadius,
 		obscurity,
 		hue,
 		fog
 	}) {
 		this.name = name
-		this.startPosition = startPosition
 		this.createTileMap(tilemap, tilesets)
 		this.createGroups()
 		this.createEnemies()
@@ -191,7 +185,8 @@ export class Level {
 			book: Book,
 			page: Page,
 			description: Description,
-			loot: Loot
+			loot: Loot,
+			hallucination: Hallucination
 		};
 		Object.entries(objects).forEach(([objectType, Constructor]) => {
 			findObjectsByType(objectType, this.tilemap, "Object Layer").forEach(object => {
@@ -233,9 +228,9 @@ export class Level {
 				let levelName = exit.properties.level;
 				exitSprite.destroy(); // to avoid infinite loop during camera fade
 				game.camera.fade(0x000000, 390)
+				console.log("exit", exit.properties)
 				setTimeout(() => {
-					goToLevel(levelName)
-					positionPlayerAtStartOfLevel();
+					goToLevel(levelName, exit.properties.start)
 				}, 390);
 				setTimeout(() => game.camera.flash(0x000000, 400, true), 400);
 			}
@@ -259,7 +254,7 @@ export class Level {
 		//TODO: faire un setInterval 500ms plutot que de fr ça à chaque frame
 		if (game.music && game.music._sound) {
 			let t = game.time.totalElapsedSeconds();
-			game.music._sound.playbackRate.value = 1 + Math.sin(t) * (16 - game.player.lucidity) * 0.1;
+			game.music._sound.playbackRate.value = 1 + Math.sin(t) * (16 - game.player.lucidity) * 0.005;
 		}
 	}
 
@@ -290,14 +285,17 @@ function findObjectsByType(type, map, layer) {
 	})
 }
 
-export function goToLevel(levelName) {
+export function goToLevel(levelName, startId) {
 	if (game.level) game.level.exit();
 	game.level = new Level(levels[levelName])
+	positionPlayerAtStartOfLevel(startId);
 }
 
-export function positionPlayerAtStartOfLevel() {
+export function positionPlayerAtStartOfLevel(id = 1) {
+	console.log("positionatstart", id, game.level.name);
+	let startPosition = findObjectsByType("start", game.level.tilemap, "Object Layer").find(el => el.properties.id === id)
 	Object.assign(game.player.position, {
-		x: game.level.startPosition.x * 16 + 8,
-		y: game.level.startPosition.y * 16 + 8,
+		x: startPosition.x + 8,
+		y: startPosition.y,
 	});
 }

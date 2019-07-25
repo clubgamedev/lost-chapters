@@ -62,15 +62,18 @@ export class LoadingScene {
 		game.load.spritesheet('sbire', 'assets/characters/sbire.png', 32, 32, 9);
 
 		game.load.spritesheet("runes", 'assets/decryptor/runes.png', 16, 16, 8);
-		game.load.spritesheet("chaudron", 'assets/alchemy/marmiteGreenSprite.png', 77, 100, 3);
+		game.load.spritesheet("chaudron", 'assets/alchemy/marmite.png', 32, 32, 4);
 		game.load.spritesheet("fire", 'assets/environment/fireplace.png', 16, 20, 12);
 
 		game.load.spritesheet("lucidity-bar", 'assets/ui/lucidity-bar.png', 24, 8, 16);
 		game.load.spritesheet("interactions", 'assets/ui/interactions.png', 24, 24, 8);
+		game.load.spritesheet("fake_tree", "assets/environment/fake_tree.png", 96, 128, 2);
 
 		// images
 		game.load.image("exit", "assets/environment/exit-open.png");
+
 		game.load.image("chalet", "assets/escape/chalet.png");
+
 
 		// items
 		game.load.image('potionDeForce', 'assets/items/potionDeForce.png');

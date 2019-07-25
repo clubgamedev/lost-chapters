@@ -76,7 +76,12 @@
                         {
                          "name":"level",
                          "type":"string",
-                         "value":"school"
+                         "value":"sanctuaire"
+                        }, 
+                        {
+                         "name":"start",
+                         "type":"int",
+                         "value":2
                         }],
                  "rotation":0,
                  "type":"exit",
@@ -95,13 +100,18 @@
                          "name":"level",
                          "type":"string",
                          "value":"cave"
+                        }, 
+                        {
+                         "name":"start",
+                         "type":"int",
+                         "value":1
                         }],
                  "rotation":0,
                  "type":"exit",
                  "visible":true,
                  "width":30.25,
-                 "x":3018,
-                 "y":1245.0909
+                 "x":3017.33333333333,
+                 "y":1245.75756666667
                 }, 
                 {
                  "gid":7,
@@ -309,6 +319,24 @@
                  "width":27,
                  "x":2558,
                  "y":225.590666666667
+                }, 
+                {
+                 "gid":3,
+                 "height":16,
+                 "id":60,
+                 "name":"start1",
+                 "properties":[
+                        {
+                         "name":"id",
+                         "type":"int",
+                         "value":1
+                        }],
+                 "rotation":0,
+                 "type":"start",
+                 "visible":true,
+                 "width":16,
+                 "x":58,
+                 "y":380
                 }],
          "opacity":0.52,
          "type":"objectgroup",
@@ -317,10 +345,10 @@
          "y":0
         }],
  "nextlayerid":27,
- "nextobjectid":60,
+ "nextobjectid":61,
  "orientation":"orthogonal",
  "renderorder":"right-down",
- "tiledversion":"1.2.3",
+ "tiledversion":"1.2.4",
  "tileheight":16,
  "tilesets":[
         {

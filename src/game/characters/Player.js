@@ -6,13 +6,14 @@ import { controls } from "../utils/controls"
 import { talkTo, nextLine, talkToMyself } from "../utils/dialog";
 import { dialogs } from "../dialogs"
 import { pickLoot } from "../items/loot";
+import { hallucinations } from "../effects/Hallucination";
 
 const MOVE_SPEED = 50
 let ACTION_DELAY;
 
 export class Player extends Character {
-	constructor(game, startPosition) {
-		super(game, startPosition, "howard", game.save.playerState)
+	constructor(game) {
+		super(game, { x: 0, y: 0 }, "howard", game.save.playerState)
 		this.type = "player"
 		this.lucidity = 16
 		this.movesBeforeTp = 0;
@@ -185,6 +186,9 @@ export class Player extends Character {
 					game.state.start('EscapeGame');
 					return;
 
+				case "hallucination":
+					hallucinations[objectInFront.properties.name](objectInFront);
+					return;
 			}
 		}
 	}

@@ -1,8 +1,8 @@
 import { Character } from "./Character"
 
 export class Cultist extends Character {
-	constructor(startPosition, verticalMove) {
-		super(game, startPosition, "cultist");
+	constructor(position, verticalMove) {
+		super(game, position, "cultist");
 		this.type = "cultist"
 		this.anchor.setTo(0.5)
 		game.physics.arcade.enable(this)

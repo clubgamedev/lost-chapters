@@ -1,8 +1,9 @@
 import { addSounds, startMusic, sounds } from "../utils/audio"
 import { Player } from "../characters/Player"
-import { goToLevel } from "../levels"
+import { goToLevel, positionPlayerAtStartOfLevel } from "../levels"
 import { openBook } from "../utils/book";
 import { updateHud } from "../utils/hud"
+import { save } from "../save"
 
 let hurtFlag
 
@@ -29,10 +30,11 @@ export class GameScene {
 		addSounds()
 		goToLevel(game.save.level)
 		updateHud()
+		save()
 	}
 
 	spawnPlayer() {
-		game.player = new Player(game, game.save.playerPosition)
+		game.player = new Player(game)
 		game.camera.follow(game.player)
 	}
 
@@ -42,6 +44,7 @@ export class GameScene {
 		// physics
 		game.physics.arcade.collide(game.player, game.level.layer_collisions)
 		game.physics.arcade.collide(game.player, game.groups.pnj)
+		game.physics.arcade.collide(game.player, game.groups.objects)
 		game.physics.arcade.collide(game.groups.enemies, game.level.layer_collisions)
 
 		if (game.player.alive) {
@@ -67,7 +70,7 @@ export class GameScene {
 	}
 
 	onTrigger(player, trigger) {
-		trigger.action();
+		if (!game.level.loading) trigger.action();
 	}
 
 	hurtPlayer() {
