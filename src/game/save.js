@@ -39,6 +39,7 @@ export function newGame() {
             plumeDeCorneille: false,
         },
         hasReadIntro: false,
+        hasMetFranck: false,
         hasDiscoveredTindalos: false,
         hasDiscoveredAlphabet: false,
         hasDiscoveredSecretPassage: false,
