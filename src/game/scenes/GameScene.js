@@ -47,7 +47,7 @@ export class GameScene {
 		game.physics.arcade.collide(game.player, game.groups.objects)
 		game.physics.arcade.collide(game.groups.enemies, game.level.layer_collisions)
 
-		if (game.player.alive && !game.isLoadingLevel) {
+		if (game.player.alive && !game.disableTriggers) {
 			//overlaps
 			game.physics.arcade.overlap(game.player, game.groups.enemies, this.hurtPlayer, null, this)
 			game.physics.arcade.overlap(game.player, game.groups.triggers, this.onTrigger, null, this)

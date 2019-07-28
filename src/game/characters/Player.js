@@ -74,8 +74,9 @@ export class Player extends Character {
 
 	updateControls() {
 		let isMoving;
+
 		// can't move while talking or reading
-		let canMove = !game.dialog && !game.book && !game.page && !controls.ACTION.isPressed()
+		let canMove = !game.dialog && !game.book && !game.page && !controls.ACTION.isPressed() && !this.isForceMoving
 
 		if (canMove && controls.DOWN.isPressed()) {
 			this.state = CHARACTER_STATE.WALKING_DOWN
@@ -98,7 +99,7 @@ export class Player extends Character {
 			this.body.velocity.x = MOVE_SPEED
 			this.body.velocity.y = 0
 			isMoving = true;
-		} else {
+		} else if (!this.isForceMoving) {
 			this.stopMoving();
 			isMoving = false;
 		}
@@ -109,6 +110,40 @@ export class Player extends Character {
 			game.lamp.x = this.x
 			game.lamp.y = this.y
 		}
+	}
+
+	forceMove(direction, duration = 500) {
+		this.isForceMoving = true;
+		switch (direction) {
+			case "DOWN":
+				this.state = CHARACTER_STATE.WALKING_DOWN
+				this.body.velocity.y = MOVE_SPEED
+				this.body.velocity.x = 0;
+				break;
+			case "UP":
+				this.state = CHARACTER_STATE.WALKING_UP
+				this.body.velocity.y = -MOVE_SPEED
+				this.body.velocity.x = 0
+				break;
+			case "LEFT":
+				this.state = CHARACTER_STATE.WALKING_LEFT
+				this.body.velocity.x = -MOVE_SPEED
+				this.body.velocity.y = 0
+				break;
+			case "RIGHT":
+				this.state = CHARACTER_STATE.WALKING_RIGHT
+				this.body.velocity.x = MOVE_SPEED
+				this.body.velocity.y = 0
+				break;
+		}
+
+		return new Promise(resolve => {
+			setTimeout(() => {
+				this.stopMoving()
+				this.isForceMoving = false;
+				resolve();
+			}, duration)
+		})
 	}
 
 	doAction() {

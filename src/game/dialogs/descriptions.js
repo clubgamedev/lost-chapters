@@ -36,3 +36,17 @@ export const traduction_tableau = save => ([
 export const panneau_sanctuaire = save => ([
     `Le chemin ne sera ouvert qu'à ceux qui ont bravé leurs peurs`
 ])
+
+export const panneau_entree_universite = save => ([
+    `🠈 Université Miskatonic`
+])
+
+export const lockedExits = {
+    sanctuaire: {
+        backDirection: "UP",
+        backDuration: 500,
+        message: [
+            `Je ne peux pas partir maintenant, il faut que je parle à Franck.`
+        ]
+    }
+}

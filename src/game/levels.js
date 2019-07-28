@@ -9,6 +9,8 @@ import { Hallucination } from "./effects/Hallucination";
 import RenderGroup from "./utils/RenderGroup";
 import { initLights, updateLights, clearLights } from "./utils/Light";
 import { showMiddleText } from "./utils/message"
+import { talkToMyself } from "./utils/dialog"
+import { lockedExits } from "./dialogs/descriptions";
 
 export const schoolLevel = {
 	name: "L'Université",
@@ -225,14 +227,22 @@ export class Level {
 			exitSprite.height = exit.height;
 			game.groups.triggers.add(exitSprite)
 			exitSprite.action = () => {
-				game.isLoadingLevel = true;  // to avoid triggers while changing level
+				if (exit.properties.unlocked && !game.save[exit.properties.unlocked]) {
+					game.disableTriggers = true;
+					let { backDirection, backDuration, message } = lockedExits[exit.properties.level]
+					return talkToMyself(message)
+						.then(() => game.player.forceMove(backDirection, backDuration))
+						.then(() => { game.disableTriggers = false; })
+				}
+
+				game.disableTriggers = true;  // to avoid triggers while changing level
 				let levelName = exit.properties.level;
 				game.camera.fade(0x000000, 400)
 				setTimeout(() => {
 					goToLevel(levelName, exit.properties.start)
 					setTimeout(() => {
 						game.camera.flash(0x000000, 400, true)
-						game.isLoadingLevel = false;
+						game.disableTriggers = false;
 					}, 10);
 				}, 400);
 			}
