@@ -1,6 +1,6 @@
 import { addSounds, startMusic, sounds } from "../utils/audio"
 import { Player } from "../characters/Player"
-import { goToLevel, positionPlayerAtStartOfLevel } from "../levels"
+import { goToLevel } from "../levels"
 import { openBook } from "../utils/book";
 import { updateHud } from "../utils/hud"
 import { save } from "../save"
@@ -47,7 +47,7 @@ export class GameScene {
 		game.physics.arcade.collide(game.player, game.groups.objects)
 		game.physics.arcade.collide(game.groups.enemies, game.level.layer_collisions)
 
-		if (game.player.alive) {
+		if (game.player.alive && !game.isLoadingLevel) {
 			//overlaps
 			game.physics.arcade.overlap(game.player, game.groups.enemies, this.hurtPlayer, null, this)
 			game.physics.arcade.overlap(game.player, game.groups.triggers, this.onTrigger, null, this)
@@ -64,13 +64,8 @@ export class GameScene {
 		updateHud()
 	}
 
-	onExitReached() {
-		game.state.start("GameOver")
-		game.music.stop()
-	}
-
 	onTrigger(player, trigger) {
-		if (!game.level.loading) trigger.action();
+		trigger.action();
 	}
 
 	hurtPlayer() {

@@ -225,14 +225,16 @@ export class Level {
 			exitSprite.height = exit.height;
 			game.groups.triggers.add(exitSprite)
 			exitSprite.action = () => {
+				game.isLoadingLevel = true;  // to avoid triggers while changing level
 				let levelName = exit.properties.level;
-				exitSprite.destroy(); // to avoid infinite loop during camera fade
-				game.camera.fade(0x000000, 390)
-				console.log("exit", exit.properties)
+				game.camera.fade(0x000000, 400)
 				setTimeout(() => {
 					goToLevel(levelName, exit.properties.start)
-				}, 390);
-				setTimeout(() => game.camera.flash(0x000000, 400, true), 400);
+					setTimeout(() => {
+						game.camera.flash(0x000000, 400, true)
+						game.isLoadingLevel = false;
+					}, 10);
+				}, 400);
 			}
 		})
 	}
@@ -286,13 +288,14 @@ function findObjectsByType(type, map, layer) {
 }
 
 export function goToLevel(levelName, startId) {
-	if (game.level) game.level.exit();
+	if (game.level) {
+		game.level.exit();
+	}
 	game.level = new Level(levels[levelName])
 	positionPlayerAtStartOfLevel(startId);
 }
 
 export function positionPlayerAtStartOfLevel(id = 1) {
-	console.log("positionatstart", id, game.level.name);
 	let startPosition = findObjectsByType("start", game.level.tilemap, "Object Layer").find(el => el.properties.id === id)
 	Object.assign(game.player.position, {
 		x: startPosition.x + 8,
