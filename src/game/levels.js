@@ -1,5 +1,5 @@
-import { Mole } from "./characters/Mole"
-import { Treant } from "./characters/Treant"
+import { Rat } from "./characters/Rat"
+import { Spider } from "./characters/Spider"
 import { Cultist } from "./characters/Cultist"
 import { Character, CHARACTER_STATE } from "./characters/Character"
 import { Runes, Chaudron, Book, Page, Description, EscapeTable, Loot } from "./items/"
@@ -155,7 +155,7 @@ export class Level {
 	}
 
 	createEnemies() {
-		const enemies = { mole: Mole, treant: Treant, cultist: Cultist };
+		const enemies = { rat: Rat, spider: Spider, cultist: Cultist };
 		Object.entries(enemies).forEach(([enemyType, Constructor]) => {
 			findObjectsByType(enemyType, this.tilemap, "Object Layer").forEach(enemy => {
 				let verticalMove = enemy.properties && enemy.properties.vertical === true

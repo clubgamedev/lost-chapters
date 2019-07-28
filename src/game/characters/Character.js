@@ -10,6 +10,7 @@ export const CHARACTER_STATE = {
 }
 
 export class Character extends Phaser.Sprite {
+
 	constructor(game, position, sprite, startState = CHARACTER_STATE.DOWN) {
 		super(game, position.x * 16, position.y * 16, sprite, startState)
 		this.type = "character"
@@ -54,7 +55,7 @@ export class Character extends Phaser.Sprite {
 	}
 
 	addAnimations() {
-		const animSpeed = 8
+		let animSpeed = 8;
 		this.animations.add("idle-front", [3], 0, true)
 		this.animations.add("idle-back", [0], 0, true)
 		this.animations.add("idle-side", [6], 0, true)

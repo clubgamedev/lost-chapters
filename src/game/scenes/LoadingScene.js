@@ -37,18 +37,6 @@ export class LoadingScene {
 		game.load.tilemap("map_school", "assets/maps/universite.json", null, Phaser.Tilemap.TILED_JSON);
 		game.load.tilemap("map_sanctuary", "assets/maps/sanctuaire.json", null, Phaser.Tilemap.TILED_JSON);
 
-		// atlas
-		game.load.atlasJSONArray(
-			"atlas",
-			"assets/atlas/atlas.png",
-			"assets/atlas/atlas.json"
-		);
-		game.load.atlasJSONArray(
-			"atlas-props",
-			"assets/atlas/atlas-props.png",
-			"assets/atlas/atlas-props.json"
-		);
-
 		// spritesheets
 		game.load.spritesheet('howard', 'assets/characters/howard.png', 32, 32, 9);
 		game.load.spritesheet('michelle', 'assets/characters/michelle.png', 32, 32, 9);
@@ -60,6 +48,8 @@ export class LoadingScene {
 		game.load.spritesheet('ramsey', 'assets/characters/ramsey.png', 32, 32, 9);
 		game.load.spritesheet('etudiant', 'assets/characters/etudiant.png', 32, 32, 9);
 		game.load.spritesheet('sbire', 'assets/characters/sbire.png', 32, 32, 9);
+		game.load.spritesheet('rat', 'assets/characters/rat.png', 32, 32, 9);
+		game.load.spritesheet('spider', 'assets/characters/spider.png', 32, 32, 9);
 
 		game.load.spritesheet("runes", 'assets/decryptor/runes.png', 16, 16, 8);
 		game.load.spritesheet("chaudron", 'assets/alchemy/marmite.png', 32, 32, 4);

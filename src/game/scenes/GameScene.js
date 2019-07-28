@@ -56,7 +56,6 @@ export class GameScene {
 		game.player.updateControls()
 
 		//this.debugGame();
-		this.hurtManager()
 
 		game.level.update()
 
@@ -73,7 +72,6 @@ export class GameScene {
 			return
 		}
 		hurtFlag = true
-		this.game.time.reset()
 
 		game.player.alpha = 0.5
 		game.player.lucidity--
@@ -81,19 +79,17 @@ export class GameScene {
 		sounds.HURT.play()
 		if (game.player.lucidity < 1) {
 			this.gameOver()
+		} else {
+			setTimeout(() => {
+				hurtFlag = false
+				game.player.alpha = 1
+			}, 2000)
 		}
 	}
 
 	gameOver() {
 		game.music.stop()
 		game.state.start("GameOver")
-	}
-
-	hurtManager() {
-		if (hurtFlag && this.game.time.totalElapsedSeconds() > 2) {
-			hurtFlag = false
-			game.player.alpha = 1
-		}
 	}
 
 	debugGame() {
