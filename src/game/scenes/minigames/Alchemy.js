@@ -38,7 +38,7 @@ export class AlchemyScene {
         game.load.image('footer', 'assets/alchemy/footer2.png');
         game.load.image('smallSuspend', 'assets/alchemy/smallSuspend.png');
         game.load.image('bigSuspend', 'assets/alchemy/bigSuspend.png');
-        game.load.image('stockage', 'assets/alchemy/stockage.png');
+        game.load.image('stockage', 'assets/alchemy/stockage_bis.png');
 
         game.load.image('cireBougieNoir', 'assets/alchemy/ingredients/CireBougieNoir.png');
         game.load.image('crochetsDeSerpent', 'assets/alchemy/ingredients/CrochetsDeSerpent.png');
@@ -90,7 +90,8 @@ export class AlchemyScene {
         var bigSuspend3 = platforms.create(1090, 440, 'bigSuspend');
         bigSuspend3.body.immovable = true;
 
-        game.add.sprite(500, 660, 'stockage');
+        let stockage = game.add.sprite(500, 645, 'stockage');
+        stockage.scale.set(1.2);
 
         materials = game.add.group();
         materials.enableBody = true;
@@ -144,8 +145,6 @@ export class AlchemyScene {
 
         this.bookRecipes = new BookRecipes();
         this.bookRecipes.create(10, 10);
-
-
 
         game.input.keyboard.addKeyCapture([Phaser.Keyboard.LEFT, Phaser.Keyboard.RIGHT, Phaser.Keyboard.UP, Phaser.Keyboard.DOWN, Phaser.Keyboard.SPACEBAR, Phaser.Keyboard.TAB]);
 
