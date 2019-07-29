@@ -212,6 +212,10 @@ export class Level {
 				let destination = tps.find(x => x.properties.from === destinationId);
 				if (destination) {
 					game.player.movesBeforeTp = 50;
+					game.camera.setPosition(
+						destination.x + destination.width / 2 + (destination.properties.camera_dx || 0) - game.camera.view.width / 2,
+						destination.y + destination.height / 2 - 8 + (destination.properties.camera_dy || 0) - game.camera.view.height / 2
+					);
 					game.camera.flash("black")
 					game.player.position.x = destination.x + destination.width / 2;
 					game.player.position.y = destination.y + destination.height / 2 - 8;
@@ -241,10 +245,26 @@ export class Level {
 				setTimeout(() => {
 					goToLevel(levelName, exit.properties.start)
 					setTimeout(() => {
+						game.camera.follow(game.player);
 						game.camera.flash(0x000000, 400, true)
 						game.disableTriggers = false;
 					}, 10);
 				}, 400);
+			}
+		})
+
+		const triggers = findObjectsByType("trigger", this.tilemap, "Object Layer")
+		triggers.forEach(trigger => {
+			let sprite = game.add.sprite(trigger.x, trigger.y, "collisions")
+			sprite.alpha = 0;
+			sprite.width = trigger.width;
+			sprite.height = trigger.height;
+			game.groups.triggers.add(sprite)
+			sprite.action = () => {
+				switch (trigger.properties.action) {
+					case "camera_follow": game.camera.follow(game.player); break;
+					case "camera_unfollow": game.camera.unfollow(); break;
+				}
 			}
 		})
 	}

@@ -18,11 +18,6 @@ export class LoadingScene {
 		game.load.image("instructions", "assets/sprites/instructions.png");
 		game.load.image("credits", "assets/sprites/credits.png");
 		game.load.image("gameover", "assets/sprites/game-over.png");
-		game.load.image("dialog-box", "assets/ui/dialog-box2.png");
-		game.load.image("dialog-choice-box", "assets/ui/dialog-choice-box.png");
-		game.load.image("dialog-myself-box", "assets/ui/dialog-myself-box.png");
-		game.load.image("book-bg", "assets/ui/book.png");
-		game.load.image("page-bg", "assets/ui/page.png");
 
 		// tileset
 		game.load.image("tileset_forest", "assets/environment/forest_tileset.png");
@@ -30,7 +25,6 @@ export class LoadingScene {
 		game.load.image("tileset_outside", "assets/environment/outside_tileset.png");
 		game.load.image("tileset_cave", "assets/environment/cave_tileset.png");
 		game.load.image("tileset_dungeon", "assets/environment/dungeon_tileset.png");
-		game.load.image("collisions", "assets/environment/collisions.png");
 		game.load.tilemap("map_forest", "assets/maps/forest.json", null, Phaser.Tilemap.TILED_JSON);
 		game.load.tilemap("map_cave", "assets/maps/terrier.json", null, Phaser.Tilemap.TILED_JSON);
 		game.load.tilemap("map_autel", "assets/maps/autel.json", null, Phaser.Tilemap.TILED_JSON);
@@ -59,11 +53,16 @@ export class LoadingScene {
 		game.load.spritesheet("interactions", 'assets/ui/interactions.png', 24, 24, 8);
 		game.load.spritesheet("fake_tree", "assets/environment/fake_tree.png", 96, 128, 2);
 
+		game.load.spritesheet("collisions", "assets/environment/collisions.png", 16, 16, 8);
+
 		// images
+		game.load.image("dialog-box", "assets/ui/dialog-box2.png");
+		game.load.image("dialog-choice-box", "assets/ui/dialog-choice-box.png");
+		game.load.image("dialog-myself-box", "assets/ui/dialog-myself-box.png");
+		game.load.image("book-bg", "assets/ui/book.png");
+		game.load.image("page-bg", "assets/ui/page.png");
 		game.load.image("exit", "assets/environment/exit-open.png");
-
 		game.load.image("chalet", "assets/escape/chalet.png");
-
 
 		// items
 		game.load.image('potionDeForce', 'assets/items/potionDeForce.png');
