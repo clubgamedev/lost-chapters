@@ -1,8 +1,10 @@
 import { positionIngredientInventory1, positionIngredientInventory2, positionIngredientInventory3, arrayPositionIngredientOnTheMap } from "./alchemy/positions.js";
 import { allPotions } from "./alchemy/potions.js";
 import { BookRecipes } from "./alchemy/BookRecipes";
-import { PieProgress } from "./alchemy/PieProgress";
+import { CircleProgress } from "./alchemy/CircleProgress";
 import { showMiddleText } from "../../utils/message"
+import {loadSave} from "../../save";
+import {PieProgress} from "./alchemy/PieProgress";
 
 let platforms, ingredients, materials,
     marmite, corbeille,
@@ -14,8 +16,12 @@ let platforms, ingredients, materials,
     keys = {},
     repopTiming,
     countDownRepop,
+    repopTimeInSeconds = 5,
     ingredientsSpawned = new Map(),
-    potionsCreated = [];
+    potionsCreated = [],
+    gameOverCooldown,
+    gameOverPieProgress,
+    gameOverTimeInSeconds = 20;
 
 var arrayNameIngredients = ['crochetsDeSerpent', 'cireBougieNoir', 'ecorceDeBouleau', 'oeufDeCorbeau',
     'epineDePoissonDiable', 'vieilleGnole', 'foieDeCerf', 'jusDeSauterelle', 'plumeDeCorneille'];
@@ -53,6 +59,7 @@ export class AlchemyScene {
 
         game.load.image('corbeille', 'assets/alchemy/corbeille.png');
         game.load.image('book', 'assets/ui/book.png');
+        game.load.image('clock', 'assets/alchemy/clock_bis.png');
         game.load.spritesheet('marmite', 'assets/alchemy/marmiteGreenSprite.png', 77, 100, 3);
     }
 
@@ -115,21 +122,29 @@ export class AlchemyScene {
         player.width = 128;
         player.height = 128;
 
-        player.animations.add("idle", [3], 0, true)
+        player.animations.add("idle", [3], 0, true);
         player.animations.add('left', [7, 6, 8, 6], 10, true);
         player.animations.add('right', [7, 6, 8, 6], 10, true);
         player.animations.play('idle');
 
         countDownRepop = game.time.create(false);
-        countDownRepop.add(Phaser.Timer.SECOND * 5, generateOtherPositionIngredient, this);
+        countDownRepop.add(Phaser.Timer.SECOND * repopTimeInSeconds, generateOtherPositionIngredient, this);
         countDownRepop.start();
 
-        this.bookRecipes = new BookRecipes();
-        this.bookRecipes.create(10, 10);
+        let clockSprite = game.add.sprite(game.width - 70, 10, 'clock');
+        clockSprite.scale.set(2, 2);
+        gameOverCooldown = game.time.create(true);
+        gameOverCooldown.add(Phaser.Timer.SECOND * gameOverTimeInSeconds, gameOver, this);
+        gameOverCooldown.start();
+        gameOverPieProgress = new PieProgress(game, game.width - 70 + (clockSprite.width/2), 10 + clockSprite.height/2, 3, "#37cf23");
 
         spawnElements(ingredients, arrayPositionIngredientOnTheMap, arrayNameIngredients);
 
         marmite.animations.add('enter', [0, 1, 2], 10, true);
+
+        this.bookRecipes = new BookRecipes();
+        this.bookRecipes.create(10, 10);
+
 
 
         game.input.keyboard.addKeyCapture([Phaser.Keyboard.LEFT, Phaser.Keyboard.RIGHT, Phaser.Keyboard.UP, Phaser.Keyboard.DOWN, Phaser.Keyboard.SPACEBAR, Phaser.Keyboard.TAB]);
@@ -182,13 +197,21 @@ export class AlchemyScene {
     }
 
     shutdown() {
-        //clearInterval(ingredientsGenerationInterval)
+        itemSelected.callAll('kill');
+        arrayItemSelected = [];
+        ingredientsOnThMap = arrayNameIngredients.slice();
+        ingredients.callAll('kill');
+        clearSpawnedIngredients();
+        countDownRepop.destroy();
+        gameOverCooldown.destroy();
+        potionsCreated = [];
     }
 
     render() {
         for (const ingredient of ingredientsSpawned.values()) {
-            ingredient.repopTimer.updateProgress(countDownRepop.duration / 4000);
+            ingredient.repopTimer.updateProgress(countDownRepop.duration / (repopTimeInSeconds * 1000));
         }
+        gameOverPieProgress.updateProgress(1 - gameOverCooldown.duration / (gameOverTimeInSeconds * 1000));
     }
 }
 
@@ -268,7 +291,7 @@ function spawnElements(groupIngredients, arrayPositionIngredientOnTheMap, arrayN
     for (let i = 0; i < arrayPositionIngredientOnTheMap.length; i++) {
         ingredientsSpawned.set(arrayNameIngredients[i], {
             sprite: groupIngredients.create(arrayPositionIngredientOnTheMap[i].x, arrayPositionIngredientOnTheMap[i].y, arrayNameIngredients[i]),
-            repopTimer: new PieProgress(game, arrayPositionIngredientOnTheMap[i].x + 30, arrayPositionIngredientOnTheMap[i].y + 50, 1, 0xFFFFFF)
+            repopTimer: new CircleProgress(game, arrayPositionIngredientOnTheMap[i].x + 30, arrayPositionIngredientOnTheMap[i].y + 50, 1, 0xFFFFFF)
         });
     }
 }
@@ -301,10 +324,9 @@ function generateOtherPositionIngredient() {
         if (arrayNameIngredientsTmp[randomNumberIngredient]) {
             ingredientsSpawned.set(arrayNameIngredientsTmp[randomNumberIngredient], {
                 sprite: ingredients.create(arrayPositionIngredientOnTheMapTmp[randomNumberPosition].x, arrayPositionIngredientOnTheMapTmp[randomNumberPosition].y, arrayNameIngredientsTmp[randomNumberIngredient]),
-                repopTimer: new PieProgress(game, arrayPositionIngredientOnTheMapTmp[randomNumberPosition].x + 30, arrayPositionIngredientOnTheMapTmp[randomNumberPosition].y + 50, 1, 0xFFFFFF)
+                repopTimer: new CircleProgress(game, arrayPositionIngredientOnTheMapTmp[randomNumberPosition].x + 30, arrayPositionIngredientOnTheMapTmp[randomNumberPosition].y + 50, 1, 0xFFFFFF)
             });
         }
-        //ingredients.create(arrayPositionIngredientOnTheMapTmp[randomNumberPosition].x, arrayPositionIngredientOnTheMapTmp[randomNumberPosition].y, arrayNameIngredientsTmp[randomNumberIngredient]);
         arrayPositionIngredientOnTheMapTmp[randomNumberPosition] = undefined;
         arrayNameIngredientsTmp[randomNumberIngredient] = undefined;
 
@@ -314,10 +336,11 @@ function generateOtherPositionIngredient() {
     }
 
     countDownRepop.removeAll();
-    countDownRepop.add(Phaser.Timer.SECOND * 4, generateOtherPositionIngredient, this);
+    countDownRepop.add(Phaser.Timer.SECOND * repopTimeInSeconds, generateOtherPositionIngredient, this);
     for (const ingredient of ingredientsSpawned.values()) {
         ingredient.repopTimer.updateProgress(100);
     }
+    this.bookRecipes.bringToTop();
 }
 
 function arrayFilterElement(array) {
@@ -329,8 +352,6 @@ function arrayFilterElement(array) {
 }
 
 function deleteItemOnTheMap(item) {
-
-    console.log("[DEBUG]");
     for (let i = 0; i < ingredientsOnThMap.length; i++) {
         console.log("delete : " + item);
         if (ingredientsOnThMap[i] === item) {
@@ -352,4 +373,16 @@ function inventoryIsFull() {
     }
     console.log("false");
     return false;
+}
+
+function gameOver() {
+    showMiddleText("Le temps est écoulé");
+    potionsCreated.forEach(potion => {
+        if(game.save.inventory[potion.name]) {
+            game.save.inventory[potion.name]++;
+        }else{
+            game.save.inventory[potion.name] = 1;
+        }
+    });
+    game.state.start('MainGame');
 }

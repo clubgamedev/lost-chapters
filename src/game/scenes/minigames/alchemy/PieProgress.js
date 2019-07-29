@@ -1,36 +1,37 @@
-export class PieProgress extends Phaser.Graphics {
+export class PieProgress {
     graphics;
-    lineWidth = 5;
     radius = 34;
-    color;
+    anchor;
+    sprite;
 
     constructor(_game, _x, _y, _size, _color) {
-        super(_game, _x ,_y);
-        this.graphics = this.game.add.graphics(_x, _y);
-        //  Our first arc will be a line only
-        this.color = _color;
-        this.graphics.lineStyle(this.lineWidth, _color);
-        // graphics.arc(0, 0, 135, game.math.degToRad(0), game.math.degToRad(90), false);
+        this.radius = _size * 8;
+        this.color = _color || "#fff";
+        this.bmp = game.add.bitmapData(this.radius * 2, this.radius * 2);
+        this.sprite = game.add.sprite(_x, _y, this.bmp);
+
+        //Phaser.Sprite.call(this, _game, _x, _y, this.bmp);
+        this.sprite.anchor.set(0.5);
+        this.sprite.angle = -90;
+        //this.sprite.size = _size;
+        this.sprite.alpha = 0.5;
         this.updateProgress(1);
-        this.graphics.alpha = 0.5;
-        this.radius = _size * 8 ;
-        //this.graphics.scale.x = -1;
     }
 
     updateProgress(_progress) {
-        let _progressVal = Phaser.Math.clamp(_progress, 0, 1);
-        _progressVal = Phaser.Math.clamp(_progressVal, 0.00001, 0.99999);
-        this.graphics.clear();
-        this.graphics.lineStyle(this.lineWidth, this.color);
-        this.graphics.arc(0, 0, this.radius, Phaser.Math.degToRad(270), Phaser.Math.degToRad(Math.round(_progressVal * 360 + 270)%360), false);
-    }
-
-    preUpdate() {
-        super.preUpdate();
+        this.bmp.clear();
+        this.bmp.ctx.fillStyle = this.color;
+        this.bmp.ctx.beginPath();
+        this.bmp.ctx.arc(this.radius, this.radius, this.radius, 0, (Math.PI * 2) * Phaser.Math.clamp(_progress, 0.00001, 0.99999), true);
+        this.bmp.ctx.lineTo(this.radius, this.radius);
+        this.bmp.ctx.closePath();
+        this.bmp.ctx.fill();
+        this.bmp.dirty = true;
     }
 
     destroy() {
-        this.graphics.alpha = 0;
-        super.destroy();
+        this.bmp.alpha = 0;
+        this.bmp.destroy();
+        this.sprite.destroy();
     }
 }

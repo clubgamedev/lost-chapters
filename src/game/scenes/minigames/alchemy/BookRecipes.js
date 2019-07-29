@@ -107,4 +107,9 @@ export class BookRecipes {
     hidePotionsList() {
         this.recipesList.forEach(potionSprite => potionSprite.destroy());
     }
+
+    bringToTop() {
+        this.bookRecipes.bringToTop();
+        this.recipesList.forEach(sprite => sprite.bringToTop());
+    }
 }
