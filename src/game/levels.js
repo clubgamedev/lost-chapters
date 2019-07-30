@@ -162,7 +162,7 @@ export class Level {
 			findObjectsByType(enemyType, this.tilemap, "Object Layer").forEach(enemy => {
 				let verticalMove = enemy.properties && enemy.properties.vertical === true
 				game.groups.enemies.add(
-					new Constructor({ x: enemy.x / 16, y: enemy.y / 16 }, verticalMove)
+					new Constructor({ x: enemy.x / 16, y: (enemy.y - 8) / 16 }, verticalMove)
 				)
 			})
 		})
@@ -192,7 +192,15 @@ export class Level {
 		};
 		Object.entries(objects).forEach(([objectType, Constructor]) => {
 			findObjectsByType(objectType, this.tilemap, "Object Layer").forEach(object => {
-				let sprite = new Constructor({ x: object.x / 16, y: object.y / 16 }, { name: object.name, ...(object.properties || {}) })
+				let sprite = new Constructor({
+					x: object.x / 16,
+					y: object.y / 16
+				}, {
+						width: object.width,
+						height: object.height,
+						name: object.name,
+						...(object.properties || {})
+					})
 				game.groups.objects.add(sprite)
 			})
 		})

@@ -6,7 +6,7 @@ export class Cultist extends Character {
 		this.type = "cultist"
 		this.anchor.setTo(0.5)
 		game.physics.arcade.enable(this)
-		this.body.setSize(18, 14, 6, 18)
+		this.body.setSize(16, 14, 7, 18)
 		this.body.moves = true;
 		this.body.bounce.x = 1
 		this.body.bounce.y = 1

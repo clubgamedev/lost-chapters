@@ -5,6 +5,7 @@ import { closePage, readPage } from "../utils/page";
 import { controls } from "../utils/controls"
 import { talkTo, nextLine, talkToMyself } from "../utils/dialog";
 import { dialogs } from "../dialogs"
+import { readDescription } from "../dialogs/descriptions";
 import { pickLoot } from "../items/loot";
 import { hallucinations } from "../effects/Hallucination";
 
@@ -195,7 +196,7 @@ export class Player extends Character {
 					readPage(objectInFront.properties.name);
 					return;
 				case "description":
-					talkToMyself(dialogs[objectInFront.properties.name](game.save));
+					readDescription(objectInFront.properties.name);
 					return;
 				case "loot":
 					pickLoot(objectInFront);

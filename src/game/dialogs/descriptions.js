@@ -1,3 +1,20 @@
+import { sounds } from "../utils/audio";
+import { talkToMyself } from "../utils/dialog";
+import { dialogs } from "../dialogs/";
+
+export function readDescription(name) {
+    let description = dialogs[name]
+
+    if (typeof description === "function") description = { action: description }
+
+    description.before = description.before || (() => Promise.resolve())
+    description.after = description.after || (() => Promise.resolve())
+
+    description.before()
+        .then(() => talkToMyself(description.action(game.save)))
+        .then(() => description.after())
+}
+
 export const croquis_astro = save => ([
     `C'est une pile de croquis astronomiques incompréhensibles.`,
     `Il semble que les étudiants se soient beaucoup intéressés à la Lune.`
@@ -40,6 +57,86 @@ export const panneau_sanctuaire = save => ([
 export const panneau_entree_universite = save => ([
     `🠈 Université Miskatonic`
 ])
+
+export const charnier = save => ([
+    `Un charnier, ici ? L'odeur est atroce...`
+])
+
+export const charnier2 = save => ([
+    `Parmi les cadavres d'animaux, je crois voir des ossements humains !`,
+    `Mon esprit doit me jouer des tours...`
+])
+
+export const precipice = save => ([
+    `L'éboulement est récent. Je ne passerais pas par là...`
+])
+
+export const trou_grotte = {
+    action() {
+        if (game.save.planquesFound.includes("trou_grotte")) {
+            return [
+                `Ces planques doivent servir à cacher la drogue des cultistes...`
+            ]
+        } else {
+            return [
+                `Il y a un seau suspendu dans ce trou... Je peux le remonter.`,
+                `Il contient quelques potions au contenu verdâtre.`
+            ]
+        }
+    },
+    after() {
+        if (game.save.planquesFound.includes("trou_grotte")) return;
+        game.save.inventory.potionDeLucidite += 2;
+        sounds.ITEM.play();
+        game.save.planquesFound.push("trou_grotte");
+    }
+}
+
+export const mare_grotte = {
+    action() {
+        if (game.save.planquesFound.includes("mare_grotte")) {
+            return [
+                `Les cultistes utilisent ces stimulants pour mieux percevoir les signes runiques.`
+            ]
+        } else {
+            return [
+                `Une potion bleutée est à moitié ensevelie au fond de l'eau.`,
+                `Elle porte une étiquette délavée: "Psycho-stimulant"`
+            ]
+        }
+    },
+    after() {
+        if (game.save.planquesFound.includes("mare_grotte")) return;
+        game.save.inventory.potionDeForce += 1;
+        sounds.ITEM.play();
+        game.save.planquesFound.push("mare_grotte");
+    }
+}
+
+export const tombe_grotte = {
+    action() {
+        if (game.save.planquesFound.includes("tombe_grotte")) {
+            return [
+                `D'après ce que m'a dit soeur Marie, cette potion des dévots`,
+                `sert à sceller les signes runiques pour éloigner le mal.`,
+                `On dirait que ça n'a pas marché pour cette pauvre femme.`
+            ]
+        } else {
+            return [
+                `Quelle horreur ! C'est une tombe fraîchement creusée !`,
+                `Une victime gît au fond. Elle porte les vêtements des dévots à l'orée`,
+                `de la forêt, ainsi qu'une fiole rosée autour du cou.`,
+                `Je vais la récupérer. Elle n'en aura plus besoin...`
+            ]
+        }
+    },
+    after() {
+        if (game.save.planquesFound.includes("tombe_grotte")) return;
+        game.save.inventory.potionDeProtection += 1;
+        sounds.ITEM.play();
+        game.save.planquesFound.push("tombe_grotte");
+    }
+}
 
 export const lockedExits = {
     sanctuaire: {

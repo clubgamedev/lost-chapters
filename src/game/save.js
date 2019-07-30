@@ -15,11 +15,11 @@ export function save() {
 
 export function newGame() {
     game.save = {
-        level: "school",
+        level: "cave",
         inventory: {
-            potionDeForce: 1,
-            potionDeProtection: 2,
-            potionDeLucidite: 3,
+            potionDeForce: 0,
+            potionDeProtection: 0,
+            potionDeLucidite: 0,
             fioleDeSang: 1,
             parchemin: 1,
             cape: 1
@@ -45,6 +45,7 @@ export function newGame() {
         hasDiscoveredSecretPassage: false,
         hasDiscoveredCodeEtabli: false,
         hasFalsifiedScroll: false,
+        planquesFound: [],
         translationsFound: []
     }
 }
