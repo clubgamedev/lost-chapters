@@ -55,7 +55,7 @@ export const panneau_sanctuaire = save => ([
 ])
 
 export const panneau_entree_universite = save => ([
-    `🠈 Université Miskatonic`
+    `Université Miskatonic`
 ])
 
 export const charnier = save => ([

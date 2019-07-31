@@ -15,7 +15,7 @@ export function save() {
 
 export function newGame() {
     game.save = {
-        level: "cave",
+        level: "forest",
         inventory: {
             potionDeForce: 0,
             potionDeProtection: 0,
