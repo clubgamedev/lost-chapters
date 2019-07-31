@@ -1,22 +1,24 @@
 export class PushButton {
 
-    _pushButtonClickCount = 0;
-    _sprite;
+    callback;
+    pushButtonClickCount = 0;
+    sprite;
 
-    constructor() {
+    constructor(callback) {
         game.load.spritesheet('bouton_poussoir', 'assets/escape/bouton_poussoir.png', 16, 16, 2);
+        this.callback = callback;
     }
 
-    create(x, y, callback) {
-        this._sprite = game.add.image(x, y, 'bouton_poussoir', 0);
-        this._sprite.inputEnabled = true;
+    create(x, y) {
+        this.sprite = game.add.image(x, y, 'bouton_poussoir', 0);
+        this.sprite.inputEnabled = true;
 
-        this._sprite.events.onInputDown.add(() => {
-            this._sprite.frame = 1;
-            this._pushButtonClickCount++;
-            callback(this._pushButtonClickCount);
+        this.sprite.events.onInputDown.add(() => {
+            this.sprite.frame = 1;
+            this.pushButtonClickCount++;
+            this.callback(this.pushButtonClickCount);
         });
 
-        this._sprite.events.onInputUp.add(() => this._sprite.frame = 0);
+        this.sprite.events.onInputUp.add(() => this.sprite.frame = 0);
     }
 }

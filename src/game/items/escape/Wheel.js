@@ -96,7 +96,7 @@ export class Wheel {
             this.countShake++;
             
             if (this.countShake == 2) {
-                this._plant.fall();
+                this._plant.isFalling = true;
             }
         }
     }
