@@ -15,6 +15,7 @@ export class Character extends Phaser.Sprite {
 		super(game, position.x * 16, position.y * 16, sprite, startState)
 		this.type = "character"
 		this.state = startState;
+		this.tint = ;
 		this.x += 8;
 		this.y += 8;
 		this.anchor.setTo(0.5)

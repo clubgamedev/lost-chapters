@@ -25,7 +25,8 @@ export const forestLevel = {
 	tilemap: "map_forest",
 	tilesets: ["tileset_forest", "tileset_outside"],
 	lightRadius: 120,
-	fog: true
+	fog: true,
+	tint: 0xA080B0
 }
 
 export const caveLevel = {
@@ -33,7 +34,8 @@ export const caveLevel = {
 	tilemap: "map_cave",
 	tilesets: ["tileset_cave"],
 	lightRadius: 80,
-	obscurity: 0.75
+	obscurity: 0.75,
+	tint: 0xD0B090
 }
 
 export const autelLevel = {
@@ -41,7 +43,8 @@ export const autelLevel = {
 	tilemap: "map_autel",
 	tilesets: ["tileset_cave", "tileset_dungeon"],
 	lightRadius: 85,
-	obscurity: 1
+	obscurity: 1,
+	tint: 0xFFE0C0
 }
 
 export const sanctuaireLevel = {
@@ -68,6 +71,7 @@ export class Level {
 		tilesets,
 		lightRadius,
 		obscurity,
+		tint,
 		hue,
 		fog
 	}) {
@@ -78,7 +82,7 @@ export class Level {
 		this.createCharacters();
 		this.createObjects();
 		this.createTriggers();
-		this.createLights(lightRadius, obscurity, hue, fog)
+		this.createLights(lightRadius, obscurity, hue, fog, tint)
 
 		showMiddleText(name);
 	}
@@ -277,8 +281,9 @@ export class Level {
 		})
 	}
 
-	createLights(lightRadius, obscurity, hue, fog) {
+	createLights(lightRadius, obscurity, hue, fog, tint) {
 		initLights(lightRadius, obscurity, hue, fog);
+		game.player.tint = tint || 0xFFFFFF;
 		const lightSources = { fire: Fire, light: AmbientLight };
 
 		Object.entries(lightSources).forEach(([objectType, Constructor]) => {
