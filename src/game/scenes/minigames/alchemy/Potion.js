@@ -19,7 +19,7 @@ export class Potion{
                     ingredientsFound.push(ingredient);
                 }
             });
-            return ingredientsFound.length === ingredientsInMarmite.length;
+            return ingredientsFound.length === this.ingredients.length;
         }
     }
 }

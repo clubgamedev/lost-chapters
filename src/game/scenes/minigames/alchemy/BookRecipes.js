@@ -8,11 +8,16 @@ export class BookRecipes {
     thumbHeight;
     originalX;
 
+    bookOpenSound;
+    bookCloseSound;
+
     thumbText;
     recipesList=[];
 
 
-    constructor(){
+    constructor(bookOpenSound, bookCloseSound){
+        this.bookOpenSound = bookOpenSound;
+        this.bookCloseSound = bookCloseSound;
         game.load.image("book-bg", "assets/ui/book.png");
     }
 
@@ -40,6 +45,7 @@ export class BookRecipes {
     }
 
     open() {
+        this.bookOpenSound.play();
         this.bookRecipes.children[0].x = 5;
         this.bookRecipes.children[0].y = 5;
         this.bookRecipes.children[0].scale.setTo(0.1,0.1);
@@ -55,6 +61,7 @@ export class BookRecipes {
     }
 
     close() {
+        this.bookCloseSound.play();
         this.bookRecipes.width = this.thumbWidth;
         this.bookRecipes.height = this.thumbHeight;
         this.bookRecipes.x = this.originalX;

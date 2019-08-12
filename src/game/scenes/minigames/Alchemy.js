@@ -30,6 +30,7 @@ let ingredientsOnThMap = arrayNameIngredients.slice();
 let ingredientsGenerationInterval;
 let bookRecipes;
 let isTabDown = false;
+let pickSound, cookSuccessSound, cookFailSound, bookOpenSound, bookCloseSound;
 
 
 export class AlchemyScene {
@@ -61,11 +62,23 @@ export class AlchemyScene {
         game.load.image('book', 'assets/ui/book.png');
         game.load.image('clock', 'assets/alchemy/clock_bis.png');
         game.load.spritesheet('marmite', 'assets/alchemy/marmiteGreenSprite.png', 77, 100, 3);
+
+        game.load.audio('pick', 'assets/alchemy/sounds/pick.wav');
+        game.load.audio('cook_fail', 'assets/alchemy/sounds/cook_fail.wav');
+        game.load.audio('cook_success', 'assets/alchemy/sounds/cook_success.wav');
+        game.load.audio('book_open', 'assets/alchemy/sounds/book_open.mp3');
+        game.load.audio('book_close', 'assets/alchemy/sounds/book_close.mp3');
     }
 
     create() {
         game.scale.setGameSize(1280, 720);
         game.physics.startSystem(Phaser.Physics.ARCADE);
+
+        pickSound = game.sound.add('pick');
+        cookSuccessSound = game.sound.add('cook_success');
+        cookFailSound = game.sound.add('cook_fail');
+        bookOpenSound = game.sound.add('book_open');
+        bookCloseSound = game.sound.add('book_close');
 
         let background = game.add.sprite(0, 0, 'background');
 
@@ -143,7 +156,7 @@ export class AlchemyScene {
 
         marmite.animations.add('enter', [0, 1, 2], 10, true);
 
-        this.bookRecipes = new BookRecipes();
+        this.bookRecipes = new BookRecipes(bookOpenSound, bookCloseSound);
         this.bookRecipes.create(10, 10);
 
         game.input.keyboard.addKeyCapture([Phaser.Keyboard.LEFT, Phaser.Keyboard.RIGHT, Phaser.Keyboard.UP, Phaser.Keyboard.DOWN, Phaser.Keyboard.SPACEBAR, Phaser.Keyboard.TAB]);
@@ -227,6 +240,7 @@ function putInCorbeille() {
 
 function pickIngredient(player, item) {
     if (!inventoryIsFull()) {
+        pickSound.play();
         addItemInInventory(item.key);
         item.kill();
     }
@@ -275,8 +289,11 @@ function createPotionWithIngredients() {
         console.log("Potion " + potionCreated.displayName + " created !");
         showMiddleText(potionCreated.displayName + " créée !", 0x000000, "#FFFFFF", 1500, "50px");
         displayPotionCreated(potionCreated);
+        cookSuccessSound.play();
     } else {
+
         showMiddleText("Recette inconnue !", 0xe30027, "#FFFFFF", 1500, "40px");
+        cookFailSound.play();
     }
 }
 
