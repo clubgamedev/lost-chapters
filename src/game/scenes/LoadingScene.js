@@ -78,8 +78,6 @@ export class LoadingScene {
 	}
 
 	create() {
-		// this.game.state.start('EscapeGame');
-
 		this.game.state.start("TitleScreen");
 	}
 }

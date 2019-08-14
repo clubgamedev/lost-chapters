@@ -1,106 +1,109 @@
 import { loadSave } from "../../save";
 import { Digicode } from "../../items/escape/Digicode";
-import { BoutonPoussoir } from "../../items/escape/BoutonPoussoir";
+import { PushButton } from "../../items/escape/PushButton";
 import { Wheel } from "../../items/escape/Wheel";
+import { gameWidth, gameHeight } from "../../lostchapters";
+import { Plant } from "../../items/escape/Plant"
+import { Tool } from "../../items/escape/Tool"
+import { ButtonGrid } from "../../items/escape/ButtonGrid";
+import { Scie } from "../../items/escape/Scie";
+import { Cable } from "../../items/escape/Cable";
 
 export class EscapeGameScene {
 
+    plant;
+    pushButton;
     digicode;
-    boutonPoussoir;
     wheel;
+    tool;
+    buttonGrid;
+    scie;
+    cable;
     coverSprite;
+    circuitSprite;
+    feuilleSprite;
+    tableau;
 
     preload() {
         game.load.image('etablie', 'assets/escape/etablie.png');
-        game.load.image('potfleur', 'assets/escape/potfleur.png');
         game.load.image('cover', 'assets/escape/cover.png');
-        game.load.image('outils1', 'assets/escape/outils_1.png');
-        game.load.image('outils2', 'assets/escape/outils_2.png');
+        game.load.image('feuilles', 'assets/escape/feuilles.png');
+        game.load.spritesheet('circuit', 'assets/escape/circuit.png', 51, 36, 2);
+        game.load.spritesheet('tableau', 'assets/escape/tableau.png', 48, 42, 5);
+        game.load.image('screen2', 'assets/escape/ecran_2.png');
+        game.load.image('screen3', 'assets/escape/ecran_3.png');
+        game.load.image('screen9', 'assets/escape/ecran_9.png');
 
-        this.boutonPoussoir = new BoutonPoussoir();
+        this.tool = new Tool(() => this.onToolActivate());
+        this.plant = new Plant(this.tool);
+        this.pushButton = new PushButton((count) => this.onPushButtonClicked(count));
         this.digicode = new Digicode();
         this.wheel = new Wheel();
+        this.buttonGrid = new ButtonGrid(() => this.onButtonGridCodeValid());
+        this.cable = new Cable(this.digicode);
+        this.scie = new Scie(this.cable);
     }
-
+    
     create() {
-        game.scale.setGameSize(800, 450);
+        game.scale.setGameSize(gameWidth, gameHeight);
+        game.add.image(0, 0, 'etablie');
 
-        let etablie = game.add.image(0, 0, 'etablie');
-        etablie.inputEnabled = true;
-        etablie.events.onInputDown.add(() => this.digicode.clickOut());
+        this.digicode.create(197, 34);
+        this.plant.create(130, 8);
+        this.pushButton.create(105, 98);
+        this.buttonGrid.create(99, 59);
+        this.scie.create(52, 82);
 
-        // outils
-        // game.add.image(104, 70, 'outils1');
-        // game.add.image(180, 150, 'outils2');
-
-        game.add.image(200, 11, 'potfleur');
-        this.coverSprite = game.add.image(94, 63, 'cover');
-        this.boutonPoussoir.create(125, 340, (count) => this.onBoutonPoussoirCLicked(count));
-        this.wheel.create(568, 102, this.coverSprite);
+        this.circuitSprite = game.add.image(48, 39, 'circuit', 0);
+        this.feuilleSprite = game.add.image(120, 90, 'feuilles');
+        this.coverSprite = game.add.image(44, 27, 'cover');
+        this.tableau = game.add.image(189, 28, 'tableau');
+        this.tableau.animations.add('open');
 
         this.enableLeaveSceneAction();
     }
 
     update() {
         this.wheel.update();
+        this.plant.update();
+        this.tool.update();
+        this.cable.update();
     }
 
-    onBoutonPoussoirCLicked(count) {
+    onPushButtonClicked(count) {
         switch (count) {
             case 1:
-                this.digicode.create(495, 342);
+                this.wheel.create(151, 85, this);
+                // TODO Supprimer
+                this.scie.openScie();
+                // TODO Supprimer
+                this.scie.activate();
                 break;
 
-            case 3:
-                this.wheel.create(568, 102, this.coverSprite);
+            case 2:
+                this.tableau.animations.play('open', 10, false);
+                break;
+
+            case 5:
+                this.scie.openScie();
+                break;
+
+            case 10:
+                this.scie.activate();
                 break;
         }
     }
 
-    // createDigicode() {
-    //     let digicode = game.add.image(495, 342, 'digicode');
-    //     digicode.inputEnabled = true;
-    //     digicode.events.onInputDown.add(() => this.digicodeBigGroup.visible = true);
+    onToolActivate() {
+        this.circuitEnabled = true;
+        this.circuitSprite.frame = 1;
+        game.add.image(72, 57, 'screen9');
+    }
 
-    //     let digicodeBigX = 450;
-    //     let digicodeBigY = 250;
-    //     let scale = 4;
-
-    //     this.digicodeBigGroup = game.add.group()
-    //     this.digicodeBigGroup.visible = false;
-    //     this.digicodeBigGroup.inputEnableChildren = true;
-    //     this.digicodeBigGroup.onChildInputOut.add(() => this.isDigicodePointerOut = true);
-    //     this.digicodeBigGroup.onChildInputOver.add(() => this.isDigicodePointerOut = false);
-
-    //     this.digicodeBigGroup.create(digicodeBigX, digicodeBigY, "digicode_boite").scale.setTo(scale, scale);
-    //     this.digicodeBigGroup.create(digicodeBigX + 3 * scale, digicodeBigY + 17 * scale, "digicode_cable", 0).scale.setTo(scale, scale);
-    //     this.digicodeBigGroup.create(digicodeBigX + 3 * scale, digicodeBigY + 41 * scale, "digicode_ledbot", 0).scale.setTo(scale, scale);
-    //     this.digicodeBigGroup.create(digicodeBigX + 11 * scale, digicodeBigY + 41 * scale, "digicode_ledbot", 0).scale.setTo(scale, scale);
-    //     this.digicodeBigGroup.create(digicodeBigX + 19 * scale, digicodeBigY + 41 * scale, "digicode_ledbot", 0).scale.setTo(scale, scale);
-    //     this.digicodeBigGroup.create(digicodeBigX + 27 * scale, digicodeBigY + 41 * scale, "digicode_ledbot", 0).scale.setTo(scale, scale);
-    //     this.digicodeBigGroup.create(digicodeBigX + 3 * scale, digicodeBigY + 8 * scale, "digicode_ledonoff", 0).scale.setTo(scale, scale);
-    //     this.digicodeBigGroup.create(digicodeBigX + 10 * scale, digicodeBigY + 8 * scale, "digicode_btn1", 0).scale.setTo(scale, scale);
-
-    //     // let btn1 = this.digicodeGroup.create(DIGICODE_X + 10, DIGICODE_Y + 8, "digicode_btn1", 0);
-    //     // let btn1 = this.digicodeGroup.create(DIGICODE_X - 50, DIGICODE_Y - 50, "digicode_btn1", 0);
-    //     // btn1.scale.setTo(4, 4);
-    //     // btn1.inputEnabled = true;
-    //     // btn1.events.onInputDown.add(() => {btn1.frame = 1;});
-    //     // btn1.events.onInputUp.add(() => {btn1.frame = 0;});
-
-    //     this.digicodeBigGroup.create(digicodeBigX + 17 * scale, digicodeBigY + 8 * scale, "digicode_btn2", 0).scale.setTo(scale, scale);
-    //     this.digicodeBigGroup.create(digicodeBigX + 24 * scale, digicodeBigY + 8 * scale, "digicode_btn3", 0).scale.setTo(scale, scale);
-    //     this.digicodeBigGroup.create(digicodeBigX + 10 * scale, digicodeBigY + 19 * scale, "digicode_btn4", 0).scale.setTo(scale, scale);
-    //     this.digicodeBigGroup.create(digicodeBigX + 17 * scale, digicodeBigY + 19 * scale, "digicode_btn5", 0).scale.setTo(scale, scale);
-    //     this.digicodeBigGroup.create(digicodeBigX + 24 * scale, digicodeBigY + 19 * scale, "digicode_btn6", 0).scale.setTo(scale, scale);
-    //     this.digicodeBigGroup.create(digicodeBigX + 10 * scale, digicodeBigY + 30 * scale, "digicode_btn7", 0).scale.setTo(scale, scale);
-    //     this.digicodeBigGroup.create(digicodeBigX + 17 * scale, digicodeBigY + 30 * scale, "digicode_btn8", 0).scale.setTo(scale, scale);
-    //     this.digicodeBigGroup.create(digicodeBigX + 24 * scale, digicodeBigY + 30 * scale, "digicode_btn9", 0).scale.setTo(scale, scale);
-    // }
-
-    // createRoue() {
-    //     this.roue = game.add.image(568, 102, 'roue');
-    // }
+    onButtonGridCodeValid() {
+        if (this.circuitEnabled) game.add.image(78, 57, 'screen3');
+        return this.circuitEnabled;
+    }
 
     enableLeaveSceneAction() {
         let startKey = game.input.keyboard.addKey(Phaser.Keyboard.ESC);
