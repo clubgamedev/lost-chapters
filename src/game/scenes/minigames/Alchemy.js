@@ -396,7 +396,7 @@ function gameOver() {
     potionsCreated.forEach(potion => {
         if(game.save.inventory[potion.name]) {
             game.save.inventory[potion.name]++;
-        }else{
+        } else {
             game.save.inventory[potion.name] = 1;
         }
     });

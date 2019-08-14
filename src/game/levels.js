@@ -53,7 +53,8 @@ export const sanctuaireLevel = {
 	tilesets: ["tileset_forest", "tileset_outside"],
 	lightRadius: 150,
 	obscurity: 1,
-	fog: true
+	fog: true,
+	tint: 0xB098C0
 }
 
 export const levels = {
