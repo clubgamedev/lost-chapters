@@ -16,6 +16,10 @@ export class PushButton {
         this.sprite.events.onInputDown.add(() => {
             this.sprite.frame = 1;
             this.pushButtonClickCount++;
+            if (this.pushButtonClickCount >= 10) {
+                this.sprite.inputEnabled = false;
+                this.sprite.frame = 1;
+            }
             this.callback(this.pushButtonClickCount);
         });
 

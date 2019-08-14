@@ -1,5 +1,6 @@
 export class Digicode {
 
+    digicodeCable;
     digicodeLed;
     group;
     ledValidation = [];
@@ -9,7 +10,7 @@ export class Digicode {
     constructor() {
         game.load.image('digicode_boite', 'assets/escape/digicode/digicode_boite.png');
         game.load.spritesheet('digicode_leds', 'assets/escape/digicode/digicode_leds.png', 4, 5, 4);
-        game.load.spritesheet('digicode_cable', 'assets/escape/digicode/digicode_cable.png', 3, 19, 2);
+        game.load.spritesheet('digicode_cable', 'assets/escape/digicode/digicode_cable.png', 3, 19, 3);
         game.load.spritesheet('digicode_btn1', 'assets/escape/digicode/digicode_btn1.png', 5, 8, 2);
         game.load.spritesheet('digicode_btn2', 'assets/escape/digicode/digicode_btn2.png', 5, 8, 2);
         game.load.spritesheet('digicode_btn3', 'assets/escape/digicode/digicode_btn3.png', 5, 8, 2);
@@ -22,12 +23,14 @@ export class Digicode {
     }
 
     create(x, y) {
+        this.x = x;
+        this.y = y;
         this.group = game.add.group();
         this.group.visible = true;
         this.group.inputEnableChildren = true;
 
         this.group.create(x, y, "digicode_boite");
-        this.group.create(x + 2, y + 9, "digicode_cable", 0);
+        this.digicodeCable = this.group.create(x + 2, y + 9, "digicode_cable", 0);
         this.digicodeLed = this.group.create(x + 2, y + 2, "digicode_leds", 2);
 
         this.createButton(1, x + 7, y + 2);
@@ -113,5 +116,13 @@ export class Digicode {
     enable() {
         this.isEnable = true;
         this.digicodeLed.frame = 3;
+    }
+
+    getCableX() {
+        return this.digicodeCable.x;
+    }
+
+    getCableY() {
+        return this.digicodeCable.y;
     }
 }

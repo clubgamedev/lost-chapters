@@ -7,6 +7,7 @@ import { Plant } from "../../items/escape/Plant"
 import { Tool } from "../../items/escape/Tool"
 import { ButtonGrid } from "../../items/escape/ButtonGrid";
 import { Scie } from "../../items/escape/Scie";
+import { Cable } from "../../items/escape/Cable";
 
 export class EscapeGameScene {
 
@@ -17,6 +18,7 @@ export class EscapeGameScene {
     tool;
     buttonGrid;
     scie;
+    cable;
     coverSprite;
     circuitSprite;
     feuilleSprite;
@@ -38,7 +40,8 @@ export class EscapeGameScene {
         this.digicode = new Digicode();
         this.wheel = new Wheel();
         this.buttonGrid = new ButtonGrid(() => this.onButtonGridCodeValid());
-        this.scie = new Scie();
+        this.cable = new Cable(this.digicode);
+        this.scie = new Scie(this.cable);
     }
     
     create() {
@@ -64,23 +67,28 @@ export class EscapeGameScene {
         this.wheel.update();
         this.plant.update();
         this.tool.update();
+        this.cable.update();
     }
 
     onPushButtonClicked(count) {
         switch (count) {
             case 1:
                 this.wheel.create(151, 85, this);
+                // TODO Supprimer
+                this.scie.openScie();
+                // TODO Supprimer
+                this.scie.activate();
                 break;
 
             case 2:
                 this.tableau.animations.play('open', 10, false);
                 break;
 
-            case 3:
+            case 5:
                 this.scie.openScie();
                 break;
-// TODO a supprimer
-            case 4:
+
+            case 10:
                 this.scie.activate();
                 break;
         }

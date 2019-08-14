@@ -1,10 +1,11 @@
 export class Scie {
 
     sprite;
+    cable;
 
-    constructor() {
+    constructor(cable) {
+        this.cable = cable;
         game.load.spritesheet('scie', 'assets/escape/scie.png', 52, 15, 16);
-        game.load.spritesheet('digicode_cable', 'assets/escape/digicode/digicode_cable.png', 3, 19, 2);
     }
 
     create(x, y) {
@@ -20,14 +21,10 @@ export class Scie {
     activate() {
         let anim = this.sprite.animations.play('move');
         anim.enableUpdate = true;
-        anim.onUpdate(frame => (frame === 10) ? this.dropCable() : null);
-    }
-
-    dropCable() {
-        game.add.image(this.sprite.x, this.sprite.y, 'digicode_cable', 1);
-    }
-
-    update() {
-
+        anim.onUpdate.add(anim => {
+            if (anim.currentFrame.index === 10) {
+                this.cable.drop(this.sprite.x + 18, this.sprite.y - 5);
+            }
+        });
     }
 }
