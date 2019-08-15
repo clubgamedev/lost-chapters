@@ -1,122 +1,84 @@
-import { allPotions} from "./potions";
+import { allPotions } from "./potions";
+import { sounds } from "../../../audio"
 
 export class BookRecipes {
 
-    bookRecipes;
-    isOpened = false;
-    thumbWidth;
-    thumbHeight;
-    originalX;
+    constructor(group) {
+        this.isOpened = false;
+        this.group = group;
 
-    bookOpenSound;
-    bookCloseSound;
-
-    thumbText;
-    recipesList=[];
-
-
-    constructor(bookOpenSound, bookCloseSound){
-        this.bookOpenSound = bookOpenSound;
-        this.bookCloseSound = bookCloseSound;
-        game.load.image("book-bg", "assets/ui/book.png");
-    }
-
-    create(x, y) {
-        this.originalX = x;
-        this.bookRecipes = game.add.image(x, y, 'book-bg');
-
-        this.bookRecipes.width = this.bookRecipes.width / 2;
-        this.bookRecipes.height = this.bookRecipes.height / 2;
-        this.thumbHeight = this.bookRecipes.height;
-        this.thumbWidth =this.bookRecipes.width;
-        this.bookRecipes.tint = 0xC1C1C1;
-
-        this.thumbText = game.add.text(0, 0, "Recettes\n(Tab)", {
-            font: "40px Alagard",
+        this.commandText = game.add.text(10, 10, "", {
+            font: "24px Alagard",
             fill: "#E5E5E5",
             //boundsAlignH: "center",
             //boundsAlignV: "middle",
-            align:"center"
+            align: "center"
         });
-        //thumbText.setTextBounds(this.bookRecipes.x, this.bookRecipes.y, this.bookRecipes.width, this.bookRecipes.height);
-        this.thumbText.x = Math.floor(this.bookRecipes.width / 4);
-        this.thumbText.y = Math.floor(this.bookRecipes.height / 4);
-        this.bookRecipes.addChild(this.thumbText);
+        group.add(this.commandText);
+        this.updateCommands();
+        this.bookContent = [];
+    }
+
+    updateCommands() {
+        this.commandText.text = this.isOpened ? "Fermer (Action)" : "Recettes (Action)";
+        this.commandText.bringToTop();
     }
 
     open() {
-        this.bookOpenSound.play();
-        this.bookRecipes.children[0].x = 5;
-        this.bookRecipes.children[0].y = 5;
-        this.bookRecipes.children[0].scale.setTo(0.1,0.1);
-        this.bookRecipes.children[0].text = "Fermer\n(Tab)";
-
-        this.bookRecipes.width = this.thumbWidth * (game.height / this.bookRecipes.height);
-        this.bookRecipes.height = game.height - this.bookRecipes.y;
-        this.bookRecipes.x = game.width / 2 - this.bookRecipes.width / 2;
-        this.bookRecipes.bringToTop();
         this.isOpened = true;
-
-        this.displayPotionsList();
+        sounds.OPEN_BOOK.play();
+        this.drawBook();
+        this.updateCommands();
     }
 
     close() {
-        this.bookCloseSound.play();
-        this.bookRecipes.width = this.thumbWidth;
-        this.bookRecipes.height = this.thumbHeight;
-        this.bookRecipes.x = this.originalX;
         this.isOpened = false;
-
-        this.hidePotionsList();
-
-        this.bookRecipes.children[0].x = Math.floor(this.bookRecipes.width / 4);
-        this.bookRecipes.children[0].y = Math.floor(this.bookRecipes.height / 4);
-        this.bookRecipes.children[0].scale.setTo(1);
-        this.bookRecipes.children[0].text = "Recettes\n(Tab)";
+        sounds.CLOSE_BOOK.play();
+        this.bookContent.forEach(sprite => sprite.destroy());
+        this.updateCommands();
     }
 
     openOrClose() {
         this.isOpened ? this.close() : this.open();
     }
 
-    displayPotionsList() {
-        allPotions.forEach((potion, index) => this.displayRecipe(220, 135 * (index + 1), potion));
-    }
+    drawBook() {
+        this.bookContent = [];
+        const book = game.add.image(5, 5, 'book-bg');
+        book.width = (game.height - 20) * 186 / 140;
+        book.height = game.height - 20;
+        book.x = game.width / 2 - book.width / 2;
+        book.tint = 0xC1C1C1;
+        this.group.add(book);
+        this.bookContent.push(book);
 
-    displayRecipe(x, y, potion) {
-        let textPotion = game.add.text(x, y - 35, potion.displayName, {
-            font: "30px Alagard",
-            fill: "#E5E5E5"
-        });
-        this.recipesList.push(textPotion);
+        allPotions.forEach((potion, index) => {
+            let x = 220, y = 135 * (index + 1);
 
-        let potionSprite = game.add.sprite(x, y, potion.name);
-        potionSprite.scale.setTo(1.75);
-        this.recipesList.push(potionSprite);
+            let textPotion = game.add.text(x, y - 35, potion.displayName, {
+                font: "30px Alagard",
+                fill: "#333"
+            });
+            this.group.add(textPotion)
 
-        let textEquality =  game.add.text(x + 75, y, "=", {
-            font: "80px Alagard",
-            fill: "#E5E5E5"
-        });
-        this.recipesList.push(textEquality);
 
-        let ingredient1 = game.add.sprite(textEquality.x + textEquality.width + 15, y, potion.ingredients[0]);
-        ingredient1.scale.setTo(1.75);
-        this.recipesList.push(ingredient1);
-        let ingredient2 = game.add.sprite(ingredient1.x + ingredient1.width + 15, y, potion.ingredients[1]);
-        ingredient2.scale.setTo(1.75);
-        this.recipesList.push(ingredient2);
-        let ingredient3 = game.add.sprite(ingredient2.x + ingredient2.width + 15, y, potion.ingredients[2]);
-        ingredient3.scale.setTo(1.75);
-        this.recipesList.push(ingredient3);
-    }
+            let potionSprite = this.group.create(x, y, potion.name);
+            potionSprite.scale.setTo(1.75);
 
-    hidePotionsList() {
-        this.recipesList.forEach(potionSprite => potionSprite.destroy());
-    }
+            let textEquality = game.add.text(x + 75, y, "=", {
+                font: "80px Alagard",
+                fill: "#222"
+            });
+            this.group.add(textEquality);
 
-    bringToTop() {
-        this.bookRecipes.bringToTop();
-        this.recipesList.forEach(sprite => sprite.bringToTop());
+            let ingredient1 = this.group.create(textEquality.x + textEquality.width + 15, y, potion.ingredients[0]);
+            ingredient1.scale.setTo(1.75);
+            let ingredient2 = this.group.create(ingredient1.x + ingredient1.width + 15, y, potion.ingredients[1]);
+            ingredient2.scale.setTo(1.75);
+            let ingredient3 = this.group.create(ingredient2.x + ingredient2.width + 15, y, potion.ingredients[2]);
+            ingredient3.scale.setTo(1.75);
+
+            this.bookContent.push(ingredient1, ingredient2, ingredient3, potionSprite, textPotion, textEquality);
+        })
     }
 }

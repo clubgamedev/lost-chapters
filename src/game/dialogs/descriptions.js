@@ -1,4 +1,4 @@
-import { sounds } from "../utils/audio";
+import { sounds } from "../audio";
 import { talkToMyself } from "../utils/dialog";
 import { dialogs } from "../dialogs/";
 

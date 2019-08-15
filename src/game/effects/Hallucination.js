@@ -1,5 +1,5 @@
 import { talkToMyself, startDialog } from "../utils/dialog";
-import { sounds } from "../utils/audio";
+import { sounds } from "../audio";
 
 export class Hallucination extends Phaser.Sprite {
     constructor(position, properties = {}) {

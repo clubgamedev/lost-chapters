@@ -1,41 +1,31 @@
-import { positionIngredientInventory1, positionIngredientInventory2, positionIngredientInventory3, arrayPositionIngredientOnTheMap } from "./alchemy/positions.js";
 import { allPotions } from "./alchemy/potions.js";
 import { BookRecipes } from "./alchemy/BookRecipes";
-import { CircleProgress } from "./alchemy/CircleProgress";
+import { PieProgress } from "./alchemy/PieProgress";
 import { showMiddleText } from "../../utils/message"
-import {loadSave} from "../../save";
-import {PieProgress} from "./alchemy/PieProgress";
+import { sounds } from "../../audio"
+import { controls } from "../../utils/controls";
+import { shuffleArray } from "../../utils/array";
 
-let platforms, ingredients, materials,
-    marmite, corbeille,
-    arrayItemSelected = [],
-    potions,
-    itemSelected,
-    player,
-    pointerPotion,
-    keys = {},
-    repopTiming,
-    countDownRepop,
-    repopTimeInSeconds = 5,
-    ingredientsSpawned = new Map(),
-    potionsCreated = [],
-    gameOverCooldown,
-    gameOverPieProgress,
-    gameOverTimeInSeconds = 20;
+const GAME_DURATION = 120; // seconds
+const MAX_INGREDIENTS = 3;
 
-var arrayNameIngredients = ['crochetsDeSerpent', 'cireBougieNoir', 'ecorceDeBouleau', 'oeufDeCorbeau',
-    'epineDePoissonDiable', 'vieilleGnole', 'foieDeCerf', 'jusDeSauterelle', 'plumeDeCorneille'];
-
-let ingredientsOnThMap = arrayNameIngredients.slice();
-let ingredientsGenerationInterval;
-let bookRecipes;
-let isTabDown = false;
-let pickSound, cookSuccessSound, cookFailSound, bookOpenSound, bookCloseSound;
+const ingredientsNames = [
+    'crochetsDeSerpent', 'cireBougieNoir', 'ecorceDeBouleau',
+    'oeufDeCorbeau', 'epineDePoissonDiable', 'vieilleGnole',
+    'foieDeCerf', 'jusDeSauterelle', 'plumeDeCorneille'
+];
+const ingredientsPositions = [
+    { x: 20, y: 396 }, { x: 130, y: 396 }, { x: 365, y: 325 },
+    { x: 560, y: 285 }, { x: 660, y: 285 }, { x: 845, y: 325 },
+    { x: 1115, y: 396 }, { x: 1180, y: 565 }, { x: 1220, y: 396 }
+];
 
 
 export class AlchemyScene {
     preload() {
-        game.load.image('background', 'assets/alchemy/header2.png');
+        game.load.image('bg1', 'assets/alchemy/bg1.png');
+        game.load.image('bg2', 'assets/alchemy/bg2.png');
+        game.load.image('moon', 'assets/alchemy/moon.png');
         game.load.image('footer', 'assets/alchemy/footer2.png');
         game.load.image('smallSuspend', 'assets/alchemy/smallSuspend.png');
         game.load.image('bigSuspend', 'assets/alchemy/bigSuspend.png');
@@ -62,343 +52,207 @@ export class AlchemyScene {
         game.load.image('book', 'assets/ui/book.png');
         game.load.image('clock', 'assets/alchemy/clock_bis.png');
         game.load.spritesheet('marmite', 'assets/alchemy/marmiteGreenSprite.png', 77, 100, 3);
-
-        game.load.audio('pick', 'assets/alchemy/sounds/pick.wav');
-        game.load.audio('cook_fail', 'assets/alchemy/sounds/cook_fail.wav');
-        game.load.audio('cook_success', 'assets/alchemy/sounds/cook_success.wav');
-        game.load.audio('book_open', 'assets/alchemy/sounds/book_open.mp3');
-        game.load.audio('book_close', 'assets/alchemy/sounds/book_close.mp3');
     }
 
     create() {
         game.scale.setGameSize(1280, 720);
         game.physics.startSystem(Phaser.Physics.ARCADE);
 
-        pickSound = game.sound.add('pick');
-        cookSuccessSound = game.sound.add('cook_success');
-        cookFailSound = game.sound.add('cook_fail');
-        bookOpenSound = game.sound.add('book_open');
-        bookCloseSound = game.sound.add('book_close');
+        this.groups = {
+            background: game.add.group(),
+            platforms: game.add.group(),
+            objects: game.add.group(),
+            ingredients: game.add.group(),
+            player: game.add.group(),
+            hud: game.add.group(),
+            pickedIngredients: game.add.group()
+        };
 
-        let background = game.add.sprite(0, 0, 'background');
+        this.createLevel();
+        this.spawnPlayer();
+        this.spawnIngredients();
 
-        platforms = game.add.group();
-        platforms.enableBody = true;
-
-        var footer = platforms.create(0, 605, 'footer');
-        footer.body.immovable = true;
-
-        var smallSuspend = platforms.create(350, 370, 'smallSuspend');
-        smallSuspend.body.immovable = true;
-
-        var bigSuspend1 = platforms.create(0, 440, 'bigSuspend');
-        bigSuspend1.body.immovable = true;
-
-        var bigSuspend2 = platforms.create(540, 330, 'bigSuspend');
-        bigSuspend2.body.immovable = true;
-
-        var smallSuspend2 = platforms.create(830, 370, 'smallSuspend');
-        smallSuspend2.body.immovable = true;
-
-        var bigSuspend3 = platforms.create(1090, 440, 'bigSuspend');
-        bigSuspend3.body.immovable = true;
-
-        let stockage = game.add.sprite(500, 645, 'stockage');
-        stockage.scale.set(1.2);
-
-        materials = game.add.group();
-        materials.enableBody = true;
-
-        corbeille = game.add.sprite(500, 570, 'corbeille');
-        corbeille.scale = 2;
-        materials.add(corbeille);
-
-        marmite = game.add.sprite(600, 520, 'marmite');
-        materials.add(marmite);
-
-        ingredients = game.add.group();
-        ingredients.enableBody = true;
-
-        potions = game.add.group();
-        potions.enableBody = true;
-
-        itemSelected = game.add.group();
-
-        player = game.add.sprite(500, 530, 'howard');
-
-        game.physics.arcade.enable(player);
-
-        player.anchor.setTo(0.5);
-        player.body.setSize(10, 26, 11, 5);
-        player.body.gravity.y = 3000;
-        player.body.collideWorldBounds = true;
-
-        player.width = 128;
-        player.height = 128;
-
-        player.animations.add("idle", [3], 0, true);
-        player.animations.add('left', [7, 6, 8, 6], 10, true);
-        player.animations.add('right', [7, 6, 8, 6], 10, true);
-        player.animations.play('idle');
-
-        countDownRepop = game.time.create(false);
-        countDownRepop.add(Phaser.Timer.SECOND * repopTimeInSeconds, generateOtherPositionIngredient, this);
-        countDownRepop.start();
-
-        let clockSprite = game.add.sprite(game.width - 70, 10, 'clock');
+        let clockSprite = this.groups.hud.create(game.width - 70, 10, 'clock');
         clockSprite.scale.set(2, 2);
-        gameOverCooldown = game.time.create(true);
-        gameOverCooldown.add(Phaser.Timer.SECOND * gameOverTimeInSeconds, gameOver, this);
-        gameOverCooldown.start();
-        gameOverPieProgress = new PieProgress(game, game.width - 70 + (clockSprite.width/2), 10 + clockSprite.height/2, 3, "#37cf23");
+        this.clockPieProgress = new PieProgress(game, game.width - 70 + (clockSprite.width / 2), 10 + clockSprite.height / 2, 3, "#cf3723");
+        this.groups.hud.add(this.clockPieProgress.sprite);
 
-        spawnElements(ingredients, arrayPositionIngredientOnTheMap, arrayNameIngredients);
+        this.timer = game.time.create(true);
+        this.timer.add(Phaser.Timer.SECOND * GAME_DURATION, this.gameOver, this);
+        this.timer.start();
 
-        marmite.animations.add('enter', [0, 1, 2], 10, true);
+        this.bookRecipes = new BookRecipes(this.groups.hud);
+        controls.ACTION.onPress(() => this.bookRecipes.openOrClose());
 
-        this.bookRecipes = new BookRecipes(bookOpenSound, bookCloseSound);
-        this.bookRecipes.create(10, 10);
-
-        game.input.keyboard.addKeyCapture([Phaser.Keyboard.LEFT, Phaser.Keyboard.RIGHT, Phaser.Keyboard.UP, Phaser.Keyboard.DOWN, Phaser.Keyboard.SPACEBAR, Phaser.Keyboard.TAB]);
-
-        keys.left = game.input.keyboard.addKey(Phaser.Keyboard.LEFT);
-        keys.right = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
-        keys.jump = game.input.keyboard.addKey(Phaser.Keyboard.UP);
-        keys.pick = game.input.keyboard.addKey(Phaser.Keyboard.DOWN);
-        keys.openBook = game.input.keyboard.addKey(Phaser.Keyboard.TAB);
+        this.potionsCreated = [];
+        this.pickedIngredients = [];
     }
 
     update() {
+        game.physics.arcade.collide(this.player, this.groups.platforms);
+        game.physics.arcade.collide(this.groups.ingredients, this.groups.platforms);
+        this.handleControls();
+        this.moon.position.y = (this.timer.seconds / GAME_DURATION) * 230;
+        this.clockPieProgress.updateProgress(this.timer.seconds / GAME_DURATION);
+    }
 
-        game.physics.arcade.collide(player, platforms);
-        game.physics.arcade.collide(ingredients, platforms);
+    handleControls() {
+        const
+            MAX_HORIZONTAL_SPEED = 500,
+            GROUND_H_ACCEL = 150,
+            AIR_H_ACCEL = 20,
+            JUMP_SPEED = 1600;
 
-        player.body.velocity.x = 0;
-        player.scale.x = Math.abs(player.scale.x);
+        if (this.player.body.touching.down) {
+            // on the floor
+            if (controls.UP.isPressed()) {
+                this.player.body.velocity.y = -1 * JUMP_SPEED;
+                this.player.animations.play('move');
+            } else if (controls.LEFT.isPressed()) {
+                this.player.body.velocity.x = Math.max(-1 * MAX_HORIZONTAL_SPEED, this.player.body.velocity.x - GROUND_H_ACCEL);
+                this.player.animations.play('move');
+            } else if (controls.RIGHT.isPressed()) {
+                this.player.body.velocity.x = Math.min(MAX_HORIZONTAL_SPEED, this.player.body.velocity.x + GROUND_H_ACCEL);
+                this.player.animations.play('move');
+            } else {
+                this.player.animations.stop();
+                this.player.animations.play('idle');
+                this.player.body.velocity.x = 0;
+            }
 
-        if (keys.left.isDown) {
-            player.body.velocity.x = -300;
-            player.animations.play('left');
-        } else if (keys.right.isDown) {
-            player.body.velocity.x = 300;
-            player.scale.x *= -1;
-            player.animations.play('right');
-        } else if (player.body.velocity.y === 0) {
-            player.animations.stop();
-            player.animations.play('idle');
+            if (controls.DOWN.isPressed()) {
+                game.physics.arcade.overlap(this.player, this.groups.ingredients, this.pickIngredient, null, this);
+                game.physics.arcade.overlap(this.player, this.marmite, this.putInMarmite, null, this);
+                game.physics.arcade.overlap(this.player, this.corbeille, this.resetIngredients, null, this);
+            }
+        } else {
+            // jumping
+            if (controls.LEFT.isPressed()) {
+                this.player.body.velocity.x -= AIR_H_ACCEL;
+            } else if (controls.RIGHT.isPressed()) {
+                this.player.body.velocity.x += AIR_H_ACCEL;
+            }
         }
-
-        if (keys.jump.justDown && player.body.touching.down) {
-            player.body.velocity.y = -1100;
-        }
-
-        if (keys.pick.isDown) {
-            game.physics.arcade.overlap(player, ingredients, pickIngredient, null, this);
-            game.physics.arcade.overlap(player, marmite, putInMarmite, null, this);
-            game.physics.arcade.overlap(player, corbeille, putInCorbeille, null, this);
-        }
-
-        if (keys.openBook.isDown && !isTabDown) {
-            isTabDown = true;
-            console.log("open book of recipes");
-            this.bookRecipes.openOrClose();
-        }
-        if (keys.openBook.isUp) {
-            isTabDown = false;
-        }
+        this.player.scale.x = this.player.body.velocity.x < 0 ? 4 : -4;
     }
 
     shutdown() {
-        itemSelected.callAll('kill');
-        arrayItemSelected = [];
-        ingredientsOnThMap = arrayNameIngredients.slice();
-        ingredients.callAll('kill');
-        clearSpawnedIngredients();
-        countDownRepop.destroy();
-        gameOverCooldown.destroy();
-        potionsCreated = [];
+        for (let groupName in this.groups) this.groups[groupName].destroy();
+        this.timer.destroy();
     }
 
     render() {
-        for (const ingredient of ingredientsSpawned.values()) {
-            ingredient.repopTimer.updateProgress(countDownRepop.duration / (repopTimeInSeconds * 1000));
+    }
+
+    createLevel() {
+        const { background, platforms, objects, ingredients, hud } = this.groups;
+
+        background.create(0, 0, 'bg2');
+        this.moon = background.create(0, 0, "moon");
+        background.create(0, 0, 'bg1');
+
+        platforms.enableBody = true;
+        platforms.create(0, 605, 'footer');
+        platforms.create(350, 370, 'smallSuspend');
+        platforms.create(0, 440, 'bigSuspend');
+        platforms.create(540, 330, 'bigSuspend');
+        platforms.create(830, 370, 'smallSuspend');
+        platforms.create(1090, 440, 'bigSuspend');
+        platforms.forEach(platform => { platform.body.immovable = true })
+
+        const stockage = hud.create(game.width / 2, 645, 'stockage');
+        stockage.anchor.setTo(0.5, 0);
+        stockage.scale.set(1.2);
+
+        objects.enableBody = true;
+
+        this.corbeille = game.add.sprite(500, 570, 'corbeille');
+        this.corbeille.scale = 2;
+        objects.add(this.corbeille);
+
+        this.marmite = game.add.sprite(600, 520, 'marmite');
+        this.marmite.animations.add('enter', [0, 1, 2], 10, true);
+        objects.add(this.marmite);
+
+        ingredients.enableBody = true;
+    }
+
+    spawnPlayer() {
+        this.player = game.add.sprite(500, 530, 'howard');
+        this.groups.player.add(this.player);
+        game.physics.arcade.enable(this.player);
+
+        this.player.anchor.setTo(0.5);
+        this.player.body.setSize(10, 26, 11, 5);
+        this.player.body.gravity.y = 6500;
+        this.player.body.collideWorldBounds = true;
+
+        this.player.scale.setTo(4, 4);
+
+        this.player.animations.add("idle", [3], 0, true);
+        this.player.animations.add('move', [7, 6, 8, 6], 10, true);
+        this.player.animations.play('idle');
+    }
+
+    resetIngredients() {
+        this.pickedIngredients = [];
+        this.groups.pickedIngredients.removeAll(true);
+        this.spawnIngredients();
+    }
+
+    pickIngredient(player, ingredient) {
+        if (this.pickedIngredients.length >= MAX_INGREDIENTS) return;
+
+        sounds.PICK.play();
+        this.groups.pickedIngredients.create(545 + this.pickedIngredients.length * 70, 655, ingredient.key);
+        this.pickedIngredients.push(ingredient.key);
+        ingredient.destroy();
+
+    }
+
+    putInMarmite() {
+        this.marmite.animations.play('enter');
+        setTimeout(() => {
+            this.marmite.animations.stop();
+            this.marmite.frame = 0;
+        }, 1000)
+
+        if (this.pickedIngredients.length > 0) {
+            this.createPotionWithIngredients();
+            this.resetIngredients();
         }
-        gameOverPieProgress.updateProgress(1 - gameOverCooldown.duration / (gameOverTimeInSeconds * 1000));
     }
-}
 
+    createPotionWithIngredients() {
+        let potionCreated = allPotions.find(potion => potion.cookPotion(this.pickedIngredients))
 
-function putInCorbeille() {
-    itemSelected.callAll('kill');
-    arrayItemSelected = [];
-    ingredientsOnThMap = arrayNameIngredients.slice();
-    ingredients.callAll('kill');
-    clearSpawnedIngredients();
-    spawnElements(ingredients, arrayPositionIngredientOnTheMap, arrayNameIngredients);
-}
-
-
-function pickIngredient(player, item) {
-    if (!inventoryIsFull()) {
-        pickSound.play();
-        addItemInInventory(item.key);
-        item.kill();
-    }
-}
-
-function addItemInInventory(item) {
-    if (arrayItemSelected.length === 0) {
-        itemSelected.create(positionIngredientInventory1.x, positionIngredientInventory1.y, item);
-        arrayItemSelected[0] = item;
-        deleteItemOnTheMap(item);
-    }
-    else if (arrayItemSelected.length === 1) {
-        itemSelected.create(positionIngredientInventory2.x, positionIngredientInventory2.y, item);
-        arrayItemSelected[1] = item;
-        deleteItemOnTheMap(item);
-    } else if (arrayItemSelected.length === 2) {
-        itemSelected.create(positionIngredientInventory3.x, positionIngredientInventory3.y, item);
-        arrayItemSelected[2] = item;
-        deleteItemOnTheMap(item);
-    } else {
-        console.log("Inventory full");
-    }
-}
-
-function putInMarmite() {
-    marmite.animations.play('enter');
-    setTimeout(() => {
-        marmite.animations.stop();
-        marmite.frame = 0;
-    }, 1000)
-
-    if (arrayItemSelected !== null && arrayItemSelected.length > 0) {
-        createPotionWithIngredients();
-        putInCorbeille();
-    }
-}
-
-function createPotionWithIngredients() {
-    let potionCreated;
-    allPotions.forEach(potion => {
-        if (potion.cookPotion(arrayItemSelected)) {
-            potionCreated = potion;
+        if (potionCreated) {
+            showMiddleText(potionCreated.displayName + " créée !", 0x000000, "#FFFFFF", 1500, "50px");
+            this.potionsCreated.push(potionCreated);
+            let potionSprite = this.groups.hud.create(10 + 70 * (this.potionsCreated.length - 1), 50, potionCreated.name);
+            potionSprite.scale.setTo(1.5);
+            sounds.COOK_SUCCESS.play();
+        } else {
+            showMiddleText("Recette inconnue !", 0xe30027, "#FFFFFF", 1500, "40px");
+            sounds.COOK_FAIL.play();
         }
-    });
-    if (potionCreated) {
-        console.log("Potion " + potionCreated.displayName + " created !");
-        showMiddleText(potionCreated.displayName + " créée !", 0x000000, "#FFFFFF", 1500, "50px");
-        displayPotionCreated(potionCreated);
-        cookSuccessSound.play();
-    } else {
-
-        showMiddleText("Recette inconnue !", 0xe30027, "#FFFFFF", 1500, "40px");
-        cookFailSound.play();
     }
-}
 
-function displayPotionCreated(potionCreated) {
-    potionsCreated.push(potionCreated);
-    let potionSprite = game.add.sprite(120 + 70 * potionsCreated.length, 10, potionCreated.name);
-    potionSprite.scale.setTo(1.5);
-}
+    spawnIngredients() {
+        this.groups.ingredients.removeAll(true);
 
-function spawnElements(groupIngredients, arrayPositionIngredientOnTheMap, arrayNameIngredients) {
-    for (let i = 0; i < arrayPositionIngredientOnTheMap.length; i++) {
-        ingredientsSpawned.set(arrayNameIngredients[i], {
-            sprite: groupIngredients.create(arrayPositionIngredientOnTheMap[i].x, arrayPositionIngredientOnTheMap[i].y, arrayNameIngredients[i]),
-            repopTimer: new CircleProgress(game, arrayPositionIngredientOnTheMap[i].x + 30, arrayPositionIngredientOnTheMap[i].y + 50, 1, 0xFFFFFF)
+        shuffleArray(ingredientsPositions);
+        ingredientsNames.forEach((name, i) => {
+            let { x, y } = ingredientsPositions[i]
+            this.groups.ingredients.create(x, y, name);
         });
     }
-}
 
-function clearSpawnedIngredients() {
-    for (const [key, ingredient] of ingredientsSpawned) {
-        ingredient.repopTimer.destroy();
-        ingredient.sprite.destroy();
-        ingredientsSpawned.delete(key);
-    }
-}
-
-function generateOtherPositionIngredient() {
-
-    var limit = 8;
-    var arrayPositionIngredientOnTheMapTmp = arrayPositionIngredientOnTheMap.slice();
-    var arrayNameIngredientsTmp = ingredientsOnThMap.slice();
-
-    ingredients.callAll('kill');
-    clearSpawnedIngredients();
-
-    for (let i = 0; i <= 8; i++) {
-        let randomNumberPosition = 0,
-            randomNumberIngredient = 0;
-        if (limit > 0) {
-            randomNumberPosition = Math.floor(Math.random() * (limit - 0 + 1));
-            randomNumberIngredient = Math.floor(Math.random() * (limit - 0 + 1));
-        }
-
-        if (arrayNameIngredientsTmp[randomNumberIngredient]) {
-            ingredientsSpawned.set(arrayNameIngredientsTmp[randomNumberIngredient], {
-                sprite: ingredients.create(arrayPositionIngredientOnTheMapTmp[randomNumberPosition].x, arrayPositionIngredientOnTheMapTmp[randomNumberPosition].y, arrayNameIngredientsTmp[randomNumberIngredient]),
-                repopTimer: new CircleProgress(game, arrayPositionIngredientOnTheMapTmp[randomNumberPosition].x + 30, arrayPositionIngredientOnTheMapTmp[randomNumberPosition].y + 50, 1, 0xFFFFFF)
-            });
-        }
-        arrayPositionIngredientOnTheMapTmp[randomNumberPosition] = undefined;
-        arrayNameIngredientsTmp[randomNumberIngredient] = undefined;
-
-        arrayPositionIngredientOnTheMapTmp = arrayFilterElement(arrayPositionIngredientOnTheMapTmp);
-        arrayNameIngredientsTmp = arrayFilterElement(arrayNameIngredientsTmp);
-        limit--;
-    }
-
-    countDownRepop.removeAll();
-    countDownRepop.add(Phaser.Timer.SECOND * repopTimeInSeconds, generateOtherPositionIngredient, this);
-    for (const ingredient of ingredientsSpawned.values()) {
-        ingredient.repopTimer.updateProgress(100);
-    }
-    this.bookRecipes.bringToTop();
-}
-
-function arrayFilterElement(array) {
-    array = array.filter(function (element) {
-        return element !== undefined;
-    })
-
-    return array;
-}
-
-function deleteItemOnTheMap(item) {
-    for (let i = 0; i < ingredientsOnThMap.length; i++) {
-        console.log("delete : " + item);
-        if (ingredientsOnThMap[i] === item) {
-            ingredientsOnThMap[i] = undefined;
-            ingredientsSpawned.get(item).repopTimer.destroy();
-            i = ingredientsOnThMap.length;
-            console.log(item);
-        }
-    }
-    ingredientsOnThMap = arrayFilterElement(ingredientsOnThMap);
-}
-
-
-function inventoryIsFull() {
-    console.log("[DEBUG] taille : " + arrayItemSelected.length);
-    if (arrayItemSelected.length >= 3) {
-        console.log("true");
-        return true;
-    }
-    console.log("false");
-    return false;
-}
-
-function gameOver() {
-    showMiddleText("Le temps est écoulé");
-    potionsCreated.forEach(potion => {
-        if(game.save.inventory[potion.name]) {
+    gameOver() {
+        showMiddleText("Le temps est écoulé");
+        this.potionsCreated.forEach(potion => {
             game.save.inventory[potion.name]++;
-        } else {
-            game.save.inventory[potion.name] = 1;
-        }
-    });
-    game.state.start('MainGame');
+        });
+        game.state.start('MainGame');
+    }
 }

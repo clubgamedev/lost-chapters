@@ -1,4 +1,4 @@
-import { addSounds, startMusic, sounds } from "../utils/audio"
+import { addSounds, startMusic, sounds } from "../audio"
 import { Player } from "../characters/Player"
 import { goToLevel } from "../levels"
 import { openBook } from "../utils/book";
@@ -31,6 +31,8 @@ export class GameScene {
 		goToLevel(game.save.level)
 		updateHud()
 		save()
+
+		game.state.start("Alchemy"); //TEMP
 	}
 
 	spawnPlayer() {

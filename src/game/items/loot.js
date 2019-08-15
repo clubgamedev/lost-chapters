@@ -1,5 +1,5 @@
 import { talkToMyself } from "../utils/dialog"
-import { sounds } from "../utils/audio"
+import { sounds } from "../audio"
 
 const loots = {
     foieDeCerf() {

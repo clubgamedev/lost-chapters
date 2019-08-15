@@ -10,7 +10,13 @@ export function loadAudio() {
         "assets/sound/slash.mp3"
     ]);
     game.load.audio("item", ["assets/sound/item.ogg", "assets/sound/item.mp3"]);
-    game.load.audio("hallucination", ["assets/sound/hallucination.wav"])
+    game.load.audio("hallucination", ["assets/sound/hallucination.wav"]);
+
+    game.load.audio('pick', 'assets/alchemy/sounds/pick.wav');
+    game.load.audio('cook_fail', 'assets/alchemy/sounds/cook_fail.wav');
+    game.load.audio('cook_success', 'assets/alchemy/sounds/cook_success.wav');
+    game.load.audio('book_open', 'assets/alchemy/sounds/book_open.mp3');
+    game.load.audio('book_close', 'assets/alchemy/sounds/book_close.mp3');
 }
 
 export function addSounds() {
@@ -19,7 +25,12 @@ export function addSounds() {
         ITEM: game.add.audio("item"),
         ENEMY_DEATH: game.add.audio("enemy-death"),
         SLASH: game.add.audio("slash"),
-        HALLUCINATION: game.add.audio("hallucination")
+        HALLUCINATION: game.add.audio("hallucination"),
+        PICK: game.sound.add('pick'),
+        COOK_SUCCESS: game.sound.add('cook_success'),
+        COOK_FAIL: game.sound.add('cook_fail'),
+        OPEN_BOOK: game.sound.add('book_open'),
+        CLOSE_BOOK: game.sound.add('book_close')
     })
 }
 

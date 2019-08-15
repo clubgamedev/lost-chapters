@@ -1,4 +1,4 @@
-import { loadAudio } from "../utils/audio"
+import { loadAudio } from "../audio"
 
 export class LoadingScene {
 	preload() {
