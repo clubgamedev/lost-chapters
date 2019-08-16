@@ -5,8 +5,9 @@ import { showMiddleText } from "../../utils/message"
 import { sounds } from "../../audio"
 import { controls } from "../../utils/controls";
 import { shuffleArray } from "../../utils/array";
+import { AlchemyLights } from "./alchemy/lights"
 
-const GAME_DURATION = 120; // seconds
+const GAME_DURATION = 30; // seconds
 const MAX_INGREDIENTS = 3;
 
 const ingredientsNames = [
@@ -55,6 +56,7 @@ export class AlchemyScene {
     }
 
     create() {
+        window.alchemy = this;
         game.scale.setGameSize(1280, 720);
         game.physics.startSystem(Phaser.Physics.ARCADE);
 
@@ -64,6 +66,8 @@ export class AlchemyScene {
             objects: game.add.group(),
             ingredients: game.add.group(),
             player: game.add.group(),
+            book: game.add.group(),
+            lights: game.add.group(),
             hud: game.add.group(),
             pickedIngredients: game.add.group()
         };
@@ -71,6 +75,7 @@ export class AlchemyScene {
         this.createLevel();
         this.spawnPlayer();
         this.spawnIngredients();
+        this.lights = new AlchemyLights(this.groups.lights);
 
         let clockSprite = this.groups.hud.create(game.width - 70, 10, 'clock');
         clockSprite.scale.set(2, 2);
@@ -81,7 +86,7 @@ export class AlchemyScene {
         this.timer.add(Phaser.Timer.SECOND * GAME_DURATION, this.gameOver, this);
         this.timer.start();
 
-        this.bookRecipes = new BookRecipes(this.groups.hud);
+        this.bookRecipes = new BookRecipes(this.groups.book);
         controls.ACTION.onPress(() => this.bookRecipes.openOrClose());
 
         this.potionsCreated = [];
@@ -92,8 +97,10 @@ export class AlchemyScene {
         game.physics.arcade.collide(this.player, this.groups.platforms);
         game.physics.arcade.collide(this.groups.ingredients, this.groups.platforms);
         this.handleControls();
-        this.moon.position.y = (this.timer.seconds / GAME_DURATION) * 230;
-        this.clockPieProgress.updateProgress(this.timer.seconds / GAME_DURATION);
+        let timeProgress = this.timer.seconds / GAME_DURATION
+        this.lights.update(this.player, this.moon, timeProgress);
+        this.moon.position.y = timeProgress * 230;
+        this.clockPieProgress.updateProgress(timeProgress);
     }
 
     handleControls() {

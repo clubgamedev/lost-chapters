@@ -53,32 +53,26 @@ export class BookRecipes {
         this.bookContent.push(book);
 
         allPotions.forEach((potion, index) => {
-            let x = 220, y = 135 * (index + 1);
+            let x = 360 + 450 * Math.floor(index / 2),
+                y = 120 + 300 * (index % 2);
 
-            let textPotion = game.add.text(x, y - 35, potion.displayName, {
+            let textPotion = game.add.text(x - 25, y - 10, potion.displayName, {
                 font: "30px Alagard",
                 fill: "#333"
             });
             this.group.add(textPotion)
 
-
-            let potionSprite = this.group.create(x, y, potion.name);
+            let potionSprite = this.group.create(x - 120, y - 30, potion.name);
             potionSprite.scale.setTo(1.75);
 
-            let textEquality = game.add.text(x + 75, y, "=", {
-                font: "80px Alagard",
-                fill: "#222"
-            });
-            this.group.add(textEquality);
-
-            let ingredient1 = this.group.create(textEquality.x + textEquality.width + 15, y, potion.ingredients[0]);
+            let ingredient1 = this.group.create(x - 100, y + 50, potion.ingredients[0]);
             ingredient1.scale.setTo(1.75);
-            let ingredient2 = this.group.create(ingredient1.x + ingredient1.width + 15, y, potion.ingredients[1]);
+            let ingredient2 = this.group.create(x, y + 50, potion.ingredients[1]);
             ingredient2.scale.setTo(1.75);
-            let ingredient3 = this.group.create(ingredient2.x + ingredient2.width + 15, y, potion.ingredients[2]);
+            let ingredient3 = this.group.create(x + 100, y + 50, potion.ingredients[2]);
             ingredient3.scale.setTo(1.75);
 
-            this.bookContent.push(ingredient1, ingredient2, ingredient3, potionSprite, textPotion, textEquality);
+            this.bookContent.push(ingredient1, ingredient2, ingredient3, potionSprite, textPotion);
         })
     }
 }
