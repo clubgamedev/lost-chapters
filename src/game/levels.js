@@ -26,7 +26,7 @@ export const forestLevel = {
 	tilesets: ["tileset_forest", "tileset_outside"],
 	lightRadius: 120,
 	fog: true,
-	tint: 0xA080B0
+	tint: 0xB090C0
 }
 
 export const caveLevel = {
@@ -54,7 +54,7 @@ export const sanctuaireLevel = {
 	lightRadius: 150,
 	obscurity: 1,
 	fog: true,
-	tint: 0xB098C0
+	tint: 0xC0A8D0
 }
 
 export const levels = {
