@@ -31,8 +31,6 @@ export class GameScene {
 		goToLevel(game.save.level)
 		updateHud()
 		save()
-
-		game.state.start("Alchemy"); //TEMP
 	}
 
 	spawnPlayer() {

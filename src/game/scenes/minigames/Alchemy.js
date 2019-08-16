@@ -7,7 +7,7 @@ import { controls } from "../../utils/controls";
 import { shuffleArray } from "../../utils/array";
 import { AlchemyLights } from "./alchemy/lights"
 
-const GAME_DURATION = 30; // seconds
+const GAME_DURATION = 120; // seconds
 const MAX_INGREDIENTS = 3;
 
 const ingredientsNames = [
