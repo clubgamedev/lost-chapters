@@ -58,6 +58,7 @@ export class AlchemyScene {
     create() {
         window.alchemy = this;
         game.scale.setGameSize(1280, 720);
+        game.world.setBounds(0, 0, 1280, 720);
         game.physics.startSystem(Phaser.Physics.ARCADE);
 
         this.groups = {
@@ -88,6 +89,8 @@ export class AlchemyScene {
 
         this.bookRecipes = new BookRecipes(this.groups.book);
         controls.ACTION.onPress(() => this.bookRecipes.openOrClose());
+        controls.UP.onPress(() => this.jump());
+        controls.DOWN.onPress(() => this.pickOrDrop());
 
         this.potionsCreated = [];
         this.pickedIngredients = [];
@@ -103,19 +106,30 @@ export class AlchemyScene {
         this.clockPieProgress.updateProgress(timeProgress);
     }
 
+    jump(){
+        const JUMP_SPEED = 1200;
+        if (this.player.body.touching.down) {
+            this.player.body.velocity.y = -1 * JUMP_SPEED;
+            this.player.animations.play('move');
+        }
+    }
+
+    pickOrDrop(){
+        if (this.player.body.touching.down) {
+            game.physics.arcade.overlap(this.player, this.groups.ingredients, this.pickIngredient, null, this);
+            game.physics.arcade.overlap(this.player, this.marmite, this.putInMarmite, null, this);
+            game.physics.arcade.overlap(this.player, this.corbeille, this.resetIngredients, null, this);
+        }
+    }
+
     handleControls() {
         const
-            MAX_HORIZONTAL_SPEED = 500,
-            GROUND_H_ACCEL = 150,
-            AIR_H_ACCEL = 50,
-            JUMP_SPEED = 1500;
+            MAX_HORIZONTAL_SPEED = 400,
+            GROUND_H_ACCEL = 100,
+            AIR_H_ACCEL = 50;
 
         if (this.player.body.touching.down) {
-            // on the floor
-            if (controls.UP.isPressed()) {
-                this.player.body.velocity.y = -1 * JUMP_SPEED;
-                this.player.animations.play('move');
-            } else if (controls.LEFT.isPressed()) {
+            if (controls.LEFT.isPressed()) {
                 this.player.body.velocity.x = Math.max(-1 * MAX_HORIZONTAL_SPEED, this.player.body.velocity.x - GROUND_H_ACCEL);
                 this.player.animations.play('move');
             } else if (controls.RIGHT.isPressed()) {
@@ -125,12 +139,6 @@ export class AlchemyScene {
                 this.player.animations.stop();
                 this.player.animations.play('idle');
                 this.player.body.velocity.x = 0;
-            }
-
-            if (controls.DOWN.isPressed()) {
-                game.physics.arcade.overlap(this.player, this.groups.ingredients, this.pickIngredient, null, this);
-                game.physics.arcade.overlap(this.player, this.marmite, this.putInMarmite, null, this);
-                game.physics.arcade.overlap(this.player, this.corbeille, this.resetIngredients, null, this);
             }
         } else {
             // jumping
@@ -191,7 +199,7 @@ export class AlchemyScene {
 
         this.player.anchor.setTo(0.5);
         this.player.body.setSize(10, 26, 11, 5);
-        this.player.body.gravity.y = 5000;
+        this.player.body.gravity.y = 4000;
         this.player.body.collideWorldBounds = true;
 
         this.player.scale.setTo(4, 4);

@@ -59,12 +59,14 @@ export class AlchemyLights {
         this.moonLight.position.y = 220 + moon.y;
         this.moonLight.radius = 1000 - 950 * timeProgress;
 
-        let saturation = Math.max(100, 10 + 150 * timeProgress).toFixed(2),
-            lightness = (100 - 50 * timeProgress).toFixed(2),
-            alpha = Math.min(1, 2 - 2 * timeProgress).toFixed(2);
+        let saturation = Math.max(100, 10 + 150 * timeProgress),
+            lightness = (100 - 50 * timeProgress),
+            playerLightness = Math.min(100, 1.25 * lightness),
+            alpha = Math.min(1, 2 - 2 * timeProgress),
+            playerAlpha = Math.min(1, alpha + 0.5);
 
-        this.cameraLight.color = `hsla(10, ${saturation}%, ${lightness}%, ${alpha * 2})`
-        this.moonLight.color = `hsla(10, ${saturation}%, ${lightness}%, ${alpha})`
+        this.cameraLight.color = `hsla(10, ${saturation.toFixed(2)}%, ${playerLightness.toFixed(2)}%, ${playerAlpha.toFixed(2)})`
+        this.moonLight.color = `hsla(10, ${saturation.toFixed(2)}%, ${lightness.toFixed(2)}%, ${alpha.toFixed(2)})`
 
         let ctx = this.light.shadowTexture.context;
         ctx.clearRect(-10, -10, game.width + 20, game.height + 20);
