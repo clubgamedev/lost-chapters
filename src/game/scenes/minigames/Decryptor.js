@@ -43,7 +43,8 @@ let countdownBar;
 let tipsPlaces;
 let particleInitialized;
 let errorSound;
-let foundSound;
+let foundSounds = [],
+    foundSoundEnd;
 let playbackRateValue;
 
 let MAX_HEALTH = 100;
@@ -89,6 +90,17 @@ function loadZodiacs() {
 
 function loadSounds() {
     game.load.audio('element_found', 'assets/decryptor/collect_item_hurry_out_of_time_01.wav');
+
+    game.load.audio('element_found_1', 'assets/decryptor/sound/FA_Scale_6.wav');
+    game.load.audio('element_found_2', 'assets/decryptor/sound/FA_Scale_7.wav');
+    game.load.audio('element_found_3', 'assets/decryptor/sound/FA_Scale_8.wav');
+    game.load.audio('element_found_4', 'assets/decryptor/sound/FA_Scale_9.wav');
+    game.load.audio('element_found_5', 'assets/decryptor/sound/FA_Scale_10.wav');
+    game.load.audio('element_found_6', 'assets/decryptor/sound/FA_Scale_11.wav');
+    game.load.audio('element_found_7', 'assets/decryptor/sound/FA_Scale_12.wav');
+    game.load.audio('element_found_8', 'assets/decryptor/sound/FA_Scale_13.wav');
+    game.load.audio('element_found_end', 'assets/decryptor/sound/FA_Scale_End.wav');
+
     game.load.audio('element_error', 'assets/decryptor/voice_male_b_effort_quick_action_05.wav');
 
 }
@@ -127,8 +139,16 @@ export class DecryptorScene {
         this.createCountdownBar();
 
         particleInitialized = false;
-        playbackRateValue = 1;
-        foundSound = game.sound.add('element_found');
+
+        foundSounds[0] = game.sound.add('element_found_1');
+        foundSounds[1] = game.sound.add('element_found_2');
+        foundSounds[2] = game.sound.add('element_found_3');
+        foundSounds[3] = game.sound.add('element_found_4');
+        foundSounds[4] = game.sound.add('element_found_5');
+        foundSounds[5] = game.sound.add('element_found_6');
+        foundSounds[6] = game.sound.add('element_found_7');
+        foundSounds[7] = game.sound.add('element_found_7');
+        foundSoundEnd = game.sound.add('element_found_end');
         errorSound = game.sound.add('element_error');
 
         createElementsWithButtons();
@@ -479,7 +499,8 @@ function gameOver(youWon, message) {
 }
 
 function decryptOver() {
-    playbackRateValue = 1;
+    //playbackRateValue = 1;
+    foundSoundEnd.play();
     if (isVariant(DecryptorConfig.BATTLE)) {
         gameState.elementIndex = 0;
         ennemyHealth -= MAX_HEALTH / nbHitsToWin;
@@ -593,11 +614,12 @@ function clearSprites() {
 
 function testKeyPressWithElement(keyPress, element) {
     if (keyAction[element.action].indexOf(keyPress) > -1) {
-        foundSound.play();
-        foundSound._sound.playbackRate.value = playbackRateValue;
-        playbackRateValue += 0.1;
-        zoomAndDeleteElementToFind(element);
+        foundSounds[gameState.elementIndex].play();
         gameState.elementIndex++;
+        //foundSound._sound.playbackRate.value = playbackRateValue;
+        //playbackRateValue += 0.1;
+        zoomAndDeleteElementToFind(element);
+
         if (gameState.elementIndex === MAX_NB_BUTTONS) {
             decryptOver();
         } else {
