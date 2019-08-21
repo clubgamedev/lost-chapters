@@ -107,8 +107,8 @@ export class AlchemyScene {
         const
             MAX_HORIZONTAL_SPEED = 500,
             GROUND_H_ACCEL = 150,
-            AIR_H_ACCEL = 20,
-            JUMP_SPEED = 1600;
+            AIR_H_ACCEL = 50,
+            JUMP_SPEED = 1500;
 
         if (this.player.body.touching.down) {
             // on the floor
@@ -135,9 +135,9 @@ export class AlchemyScene {
         } else {
             // jumping
             if (controls.LEFT.isPressed()) {
-                this.player.body.velocity.x -= AIR_H_ACCEL;
+                this.player.body.velocity.x = Math.max(-1 * MAX_HORIZONTAL_SPEED, this.player.body.velocity.x - AIR_H_ACCEL);
             } else if (controls.RIGHT.isPressed()) {
-                this.player.body.velocity.x += AIR_H_ACCEL;
+                this.player.body.velocity.x = Math.min(+1 * MAX_HORIZONTAL_SPEED, this.player.body.velocity.x + AIR_H_ACCEL);
             }
         }
         this.player.scale.x = this.player.body.velocity.x < 0 ? 4 : -4;
@@ -191,7 +191,7 @@ export class AlchemyScene {
 
         this.player.anchor.setTo(0.5);
         this.player.body.setSize(10, 26, 11, 5);
-        this.player.body.gravity.y = 6500;
+        this.player.body.gravity.y = 5000;
         this.player.body.collideWorldBounds = true;
 
         this.player.scale.setTo(4, 4);
