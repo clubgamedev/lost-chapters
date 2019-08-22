@@ -37,7 +37,7 @@ export class EscapeGameScene {
         this.tool = new Tool(() => this.onToolActivate());
         this.plant = new Plant(this.tool);
         this.pushButton = new PushButton((count) => this.onPushButtonClicked(count));
-        this.digicode = new Digicode();
+        this.digicode = new Digicode(() => this.onDigicodeCodeValid());
         this.wheel = new Wheel();
         this.buttonGrid = new ButtonGrid(() => this.onButtonGridCodeValid());
         this.cable = new Cable(this.digicode);
@@ -103,6 +103,15 @@ export class EscapeGameScene {
     onButtonGridCodeValid() {
         if (this.circuitEnabled) game.add.image(78, 57, 'screen3');
         return this.circuitEnabled;
+    }
+
+    onDigicodeCodeValid() {
+        let parchemin = game.add.image(203, 82, 'parchemin');
+        parchemin.inputEnabled = true;
+        parchemin.events.onInputDown.add(() => {
+            parchemin.visible = false;
+            game.save.inventory.parchemin = 1;
+        });
     }
 
     enableLeaveSceneAction() {

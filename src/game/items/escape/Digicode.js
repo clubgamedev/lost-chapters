@@ -3,11 +3,13 @@ export class Digicode {
     digicodeCable;
     digicodeLed;
     group;
+    callback;
     ledValidation = [];
     code = [];
     isEnable = false;
 
-    constructor() {
+    constructor(callback) {
+        this.callback = callback;
         game.load.image('digicode_boite', 'assets/escape/digicode/digicode_boite.png');
         game.load.spritesheet('digicode_leds', 'assets/escape/digicode/digicode_leds.png', 4, 5, 4);
         game.load.spritesheet('digicode_cable', 'assets/escape/digicode/digicode_cable.png', 3, 19, 3);
@@ -71,7 +73,6 @@ export class Digicode {
             } else {
                 this.onCodeError();
             }
-
         }
     }
 
@@ -86,6 +87,7 @@ export class Digicode {
 
     onCodeSuccess() {
         this.code = [];
+        this.callback();
         setTimeout(() => {
             this.ledValidation.forEach(led => led.frame = 3);
         }, 300);

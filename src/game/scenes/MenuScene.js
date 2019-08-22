@@ -30,6 +30,9 @@ export class MenuScene {
                     this.credits.destroy()
                     this.showMenu()
                 }, this, true)
+            },
+            "Escape (temporaire)": () => {
+                this.game.state.start('EscapeGame');
             }
         }
 

@@ -21,7 +21,7 @@ export function newGame() {
             potionDeProtection: 0,
             potionDeLucidite: 0,
             fioleDeSang: 1,
-            parchemin: 1,
+            parchemin: 0,
             cape: 1
         },
         loot: {
