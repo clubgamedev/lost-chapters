@@ -7,12 +7,11 @@ export class Plant {
     isFalling = false;
 
     constructor(tool) {
-        game.load.spritesheet('potfleur', 'assets/escape/potfleur.png', 16, 16, 2);
         this.tool = tool;
     }
 
     create(x, y) {
-        this.sprite = game.add.image(x, y, 'potfleur', 0);
+        this.sprite = game.add.image(x, y, 'escape_potfleur', 0);
         this.sprite.anchor.x = 0.5;
         this.sprite.anchor.y = 0.5;
         this.sprite.x = this.sprite.x + this.sprite.width/2;

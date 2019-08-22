@@ -10,12 +10,12 @@ export class Wheel {
     minX;
     maxX;
 
-    constructor() {
-        game.load.spritesheet('roue', 'assets/escape/wheel.png', 18, 18, 2);
-    }
+    // constructor() {
+        
+    // }
 
     create(x, y, escapeGame) {
-        this._sprite = game.add.image(x, y, 'roue', 1);
+        this._sprite = game.add.image(x, y, 'escape_roue', 1);
         this._sprite.anchor.setTo(0.5, 0.5);
         this._sprite.x += this._sprite.width / 2;
         this._sprite.y += this._sprite.height / 2;

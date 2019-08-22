@@ -14,18 +14,16 @@ export class Tool {
     animationActivateDuration = 30;
 
     constructor(onActivate) {
-        game.load.image('outil', 'assets/escape/outil.png');
-        game.load.image('outil_outline', 'assets/escape/outil_outline.png');
         this.onActivate = onActivate;
     }
 
     create(x, y) {
         this.positionInitX = x;
 
-        this.spriteOutline = game.add.image(x-1, y-1, 'outil_outline');
+        this.spriteOutline = game.add.image(x-1, y-1, 'escape_outil_outline');
         this.spriteOutline.visible = false;
 
-        this.sprite = game.add.image(x, y, 'outil');
+        this.sprite = game.add.image(x, y, 'escape_outil');
         this.sprite.inputEnabled = true;
         this.sprite.events.onInputOver.add(() => this.spriteOutlineEnable());
         this.sprite.events.onInputOut.add(() => this.spriteOutlineDisable());

@@ -5,20 +5,11 @@ export class ButtonGrid {
     callbackCodeValid;
 
     constructor(callbackCodeValid) {
-        game.load.image('socle', 'assets/escape/enigme2/socle.png');
-        game.load.spritesheet('bouton1', 'assets/escape/enigme2/bouton1.png', 3, 4, 2);
-        game.load.spritesheet('bouton2', 'assets/escape/enigme2/bouton2.png', 3, 4, 2);
-        game.load.spritesheet('bouton3', 'assets/escape/enigme2/bouton3.png', 3, 4, 2);
-        game.load.spritesheet('bouton4', 'assets/escape/enigme2/bouton4.png', 3, 4, 2);
-        game.load.spritesheet('bouton5', 'assets/escape/enigme2/bouton5.png', 3, 4, 2);
-        game.load.spritesheet('bouton6', 'assets/escape/enigme2/bouton6.png', 3, 4, 2);
-        game.load.spritesheet('bouton7', 'assets/escape/enigme2/bouton7.png', 3, 4, 2);
-        game.load.spritesheet('bouton8', 'assets/escape/enigme2/bouton8.png', 3, 4, 2);
         this.callbackCodeValid = callbackCodeValid;
     }
 
     create(x, y) {
-        game.add.image(x, y, 'socle');
+        game.add.image(x, y, 'escape_buttonGrid_socle');
         this.createButton(1, x + 2, y + 2);
         this.createButton(2, x + 7, y + 2);
         this.createButton(3, x + 12, y + 2);
@@ -30,7 +21,7 @@ export class ButtonGrid {
     }
 
     createButton(buttonNumber, x, y) {
-        let btn = game.add.image(x, y, "bouton" + buttonNumber, 0);
+        let btn = game.add.image(x, y, 'escape_buttonGrid_bouton' + buttonNumber, 0);
         btn.inputEnabled = true;
         btn.events.onInputDown.add(() => {
             if (btn.frame !== 1) this.addToCode(buttonNumber);

@@ -65,7 +65,7 @@ export class LoadingScene {
 		game.load.image("chalet", "assets/escape/chalet.png");
 
 		// items
-		game.load.image('potionDeForce', 'assets/items/potionDeForce.png');
+		game.load.image('potionDueForce', 'assets/items/potionDeForce.png');
 		game.load.image('fioleDeSang', 'assets/items/fioleDeSang.png');
 		game.load.image('potionDeLucidite', 'assets/items/potionDeLucidite.png');
 		game.load.image('potionDeProtection', 'assets/items/potionDeProtection.png');
@@ -75,9 +75,50 @@ export class LoadingScene {
 
 		// audio
 		loadAudio();
+		this.loadEscape();
 	}
 
 	create() {
 		this.game.state.start("TitleScreen");
+	}
+
+	loadEscape() {
+		game.load.image('escape_etablie', 'assets/escape/etablie.png');
+        game.load.image('escape_cover', 'assets/escape/cover.png');
+		game.load.image('escape_feuilles', 'assets/escape/feuilles.png');
+		game.load.image('escape_screen2', 'assets/escape/ecran_2.png');
+        game.load.image('escape_screen3', 'assets/escape/ecran_3.png');
+		game.load.image('escape_screen9', 'assets/escape/ecran_9.png');
+		game.load.image('escape_buttonGrid_socle', 'assets/escape/buttonGrid/socle.png');
+		game.load.image('escape_digicode_boite', 'assets/escape/digicode/digicode_boite.png');
+		game.load.image('escape_outil', 'assets/escape/outil.png');
+        game.load.image('escape_outil_outline', 'assets/escape/outil_outline.png');
+		
+		game.load.spritesheet('escape_scie', 'assets/escape/scie.png', 52, 15, 16);
+		game.load.spritesheet('escape_bouton_poussoir', 'assets/escape/bouton_poussoir.png', 16, 16, 2);
+		game.load.spritesheet('escape_roue', 'assets/escape/wheel.png', 18, 18, 2);
+		game.load.spritesheet('escape_potfleur', 'assets/escape/potfleur.png', 16, 16, 2);
+		game.load.spritesheet('escape_digicode_leds', 'assets/escape/digicode/digicode_leds.png', 4, 5, 4);
+        game.load.spritesheet('escape_digicode_cable', 'assets/escape/digicode/digicode_cable.png', 3, 19, 3);
+        game.load.spritesheet('escape_digicode_btn1', 'assets/escape/digicode/digicode_btn1.png', 5, 8, 2);
+        game.load.spritesheet('escape_digicode_btn2', 'assets/escape/digicode/digicode_btn2.png', 5, 8, 2);
+        game.load.spritesheet('escape_digicode_btn3', 'assets/escape/digicode/digicode_btn3.png', 5, 8, 2);
+        game.load.spritesheet('escape_digicode_btn4', 'assets/escape/digicode/digicode_btn4.png', 5, 8, 2);
+        game.load.spritesheet('escape_digicode_btn5', 'assets/escape/digicode/digicode_btn5.png', 5, 8, 2);
+        game.load.spritesheet('escape_digicode_btn6', 'assets/escape/digicode/digicode_btn6.png', 5, 8, 2);
+        game.load.spritesheet('escape_digicode_btn7', 'assets/escape/digicode/digicode_btn7.png', 5, 8, 2);
+        game.load.spritesheet('escape_digicode_btn8', 'assets/escape/digicode/digicode_btn8.png', 5, 8, 2);
+        game.load.spritesheet('escape_digicode_btn9', 'assets/escape/digicode/digicode_btn9.png', 5, 8, 2);
+		game.load.spritesheet('escape_digicode_cable', 'assets/escape/digicode/digicode_cable.png', 3, 19, 3);
+		game.load.spritesheet('escape_circuit', 'assets/escape/circuit.png', 51, 36, 2);
+        game.load.spritesheet('escape_tableau', 'assets/escape/tableau.png', 48, 42, 5);
+        game.load.spritesheet('escape_buttonGrid_bouton1', 'assets/escape/buttonGrid/bouton1.png', 3, 4, 2);
+        game.load.spritesheet('escape_buttonGrid_bouton2', 'assets/escape/buttonGrid/bouton2.png', 3, 4, 2);
+        game.load.spritesheet('escape_buttonGrid_bouton3', 'assets/escape/buttonGrid/bouton3.png', 3, 4, 2);
+        game.load.spritesheet('escape_buttonGrid_bouton4', 'assets/escape/buttonGrid/bouton4.png', 3, 4, 2);
+        game.load.spritesheet('escape_buttonGrid_bouton5', 'assets/escape/buttonGrid/bouton5.png', 3, 4, 2);
+        game.load.spritesheet('escape_buttonGrid_bouton6', 'assets/escape/buttonGrid/bouton6.png', 3, 4, 2);
+        game.load.spritesheet('escape_buttonGrid_bouton7', 'assets/escape/buttonGrid/bouton7.png', 3, 4, 2);
+        game.load.spritesheet('escape_buttonGrid_bouton8', 'assets/escape/buttonGrid/bouton8.png', 3, 4, 2);
 	}
 }

@@ -10,19 +10,7 @@ export class Digicode {
 
     constructor(callback) {
         this.callback = callback;
-        game.load.image('digicode_boite', 'assets/escape/digicode/digicode_boite.png');
-        game.load.spritesheet('digicode_leds', 'assets/escape/digicode/digicode_leds.png', 4, 5, 4);
-        game.load.spritesheet('digicode_cable', 'assets/escape/digicode/digicode_cable.png', 3, 19, 3);
-        game.load.spritesheet('digicode_btn1', 'assets/escape/digicode/digicode_btn1.png', 5, 8, 2);
-        game.load.spritesheet('digicode_btn2', 'assets/escape/digicode/digicode_btn2.png', 5, 8, 2);
-        game.load.spritesheet('digicode_btn3', 'assets/escape/digicode/digicode_btn3.png', 5, 8, 2);
-        game.load.spritesheet('digicode_btn4', 'assets/escape/digicode/digicode_btn4.png', 5, 8, 2);
-        game.load.spritesheet('digicode_btn5', 'assets/escape/digicode/digicode_btn5.png', 5, 8, 2);
-        game.load.spritesheet('digicode_btn6', 'assets/escape/digicode/digicode_btn6.png', 5, 8, 2);
-        game.load.spritesheet('digicode_btn7', 'assets/escape/digicode/digicode_btn7.png', 5, 8, 2);
-        game.load.spritesheet('digicode_btn8', 'assets/escape/digicode/digicode_btn8.png', 5, 8, 2);
-        game.load.spritesheet('digicode_btn9', 'assets/escape/digicode/digicode_btn9.png', 5, 8, 2);
-    }
+   }
 
     create(x, y) {
         this.x = x;
@@ -31,9 +19,9 @@ export class Digicode {
         this.group.visible = true;
         this.group.inputEnableChildren = true;
 
-        this.group.create(x, y, "digicode_boite");
-        this.digicodeCable = this.group.create(x + 2, y + 9, "digicode_cable", 0);
-        this.digicodeLed = this.group.create(x + 2, y + 2, "digicode_leds", 2);
+        this.group.create(x, y, "escape_digicode_boite");
+        this.digicodeCable = this.group.create(x + 2, y + 9, "escape_digicode_cable", 0);
+        this.digicodeLed = this.group.create(x + 2, y + 2, "escape_digicode_leds", 2);
 
         this.createButton(1, x + 7, y + 2);
         this.createButton(2, x + 13, y + 2);
@@ -45,14 +33,14 @@ export class Digicode {
         this.createButton(8, x + 13, y + 20);
         this.createButton(9, x + 19, y + 20);
 
-        this.ledValidation.push(this.group.create(x + 25, y + 3, "digicode_leds", 0));
-        this.ledValidation.push(this.group.create(x + 25, y + 10, "digicode_leds", 0));
-        this.ledValidation.push(this.group.create(x + 25, y + 17, "digicode_leds", 0));
-        this.ledValidation.push(this.group.create(x + 25, y + 24, "digicode_leds", 0));
+        this.ledValidation.push(this.group.create(x + 25, y + 3, "escape_digicode_leds", 0));
+        this.ledValidation.push(this.group.create(x + 25, y + 10, "escape_digicode_leds", 0));
+        this.ledValidation.push(this.group.create(x + 25, y + 17, "escape_digicode_leds", 0));
+        this.ledValidation.push(this.group.create(x + 25, y + 24, "escape_digicode_leds", 0));
     }
 
     createButton(buttonNumber, x, y) {
-        let btn = this.group.create(x, y, "digicode_btn" + buttonNumber, 0);
+        let btn = this.group.create(x, y, "escape_digicode_btn" + buttonNumber, 0);
         btn.inputEnabled = true;
         btn.events.onInputDown.add(() => {
             this.addToCode(buttonNumber);
@@ -77,10 +65,11 @@ export class Digicode {
     }
 
     /**
-     * Code : ?793
+     * Code : 2793
      */
     checkCode() {
-        return this.code.indexOf(7) != -1
+        return this.code.indexOf(2) != -1
+        && this.code.indexOf(7) != -1
         && this.code.indexOf(9) != -1
         && this.code.indexOf(3) != -1;
     }

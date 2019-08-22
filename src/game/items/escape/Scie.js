@@ -5,11 +5,10 @@ export class Scie {
 
     constructor(cable) {
         this.cable = cable;
-        game.load.spritesheet('scie', 'assets/escape/scie.png', 52, 15, 16);
     }
 
     create(x, y) {
-        this.sprite = game.add.image(x, y, 'scie', 0);
+        this.sprite = game.add.image(x, y, 'escape_scie', 0);
         this.sprite.animations.add('open', [1, 2, 3], 10);
         this.sprite.animations.add('move', [4, 5, 6, 7, 8, 9, 10, 11, 12, 13 ,14 ,15], 10);
     }

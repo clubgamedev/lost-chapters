@@ -15,7 +15,6 @@ export class Cable {
 
     constructor(digicode) {
         this.digicode = digicode;
-        game.load.spritesheet('digicode_cable', 'assets/escape/digicode/digicode_cable.png', 3, 19, 3);
     }
 
     update() {
@@ -56,7 +55,7 @@ export class Cable {
         this.isDroping = true;
         this.positionInitX = x;
         this.positionInitY = y;
-        this.sprite = game.add.image(x, y, 'digicode_cable', 1);
+        this.sprite = game.add.image(x, y, 'escape_digicode_cable', 1);
         this.sprite.inputEnabled = true;
         this.sprite.events.onInputOver.add(() => this.sprite.frame = 2);
         this.sprite.events.onInputOut.add(() => this.sprite.frame = 1);

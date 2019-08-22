@@ -25,15 +25,6 @@ export class EscapeGameScene {
     tableau;
 
     preload() {
-        game.load.image('etablie', 'assets/escape/etablie.png');
-        game.load.image('cover', 'assets/escape/cover.png');
-        game.load.image('feuilles', 'assets/escape/feuilles.png');
-        game.load.spritesheet('circuit', 'assets/escape/circuit.png', 51, 36, 2);
-        game.load.spritesheet('tableau', 'assets/escape/tableau.png', 48, 42, 5);
-        game.load.image('screen2', 'assets/escape/ecran_2.png');
-        game.load.image('screen3', 'assets/escape/ecran_3.png');
-        game.load.image('screen9', 'assets/escape/ecran_9.png');
-
         this.tool = new Tool(() => this.onToolActivate());
         this.plant = new Plant(this.tool);
         this.pushButton = new PushButton((count) => this.onPushButtonClicked(count));
@@ -46,7 +37,7 @@ export class EscapeGameScene {
     
     create() {
         game.scale.setGameSize(gameWidth, gameHeight);
-        game.add.image(0, 0, 'etablie');
+        game.add.image(0, 0, 'escape_etablie');
 
         this.digicode.create(197, 34);
         this.plant.create(130, 8);
@@ -54,10 +45,10 @@ export class EscapeGameScene {
         this.buttonGrid.create(99, 59);
         this.scie.create(52, 82);
 
-        this.circuitSprite = game.add.image(48, 39, 'circuit', 0);
-        this.feuilleSprite = game.add.image(120, 90, 'feuilles');
-        this.coverSprite = game.add.image(44, 27, 'cover');
-        this.tableau = game.add.image(189, 28, 'tableau');
+        this.circuitSprite = game.add.image(48, 39, 'escape_circuit', 0);
+        this.feuilleSprite = game.add.image(120, 90, 'escape_feuilles');
+        this.coverSprite = game.add.image(44, 27, 'escape_cover');
+        this.tableau = game.add.image(189, 28, 'escape_tableau');
         this.tableau.animations.add('open');
 
         this.enableLeaveSceneAction();
@@ -97,11 +88,11 @@ export class EscapeGameScene {
     onToolActivate() {
         this.circuitEnabled = true;
         this.circuitSprite.frame = 1;
-        game.add.image(72, 57, 'screen9');
+        game.add.image(72, 57, 'escape_screen9');
     }
 
     onButtonGridCodeValid() {
-        if (this.circuitEnabled) game.add.image(78, 57, 'screen3');
+        if (this.circuitEnabled) game.add.image(78, 57, 'escape_screen3');
         return this.circuitEnabled;
     }
 
