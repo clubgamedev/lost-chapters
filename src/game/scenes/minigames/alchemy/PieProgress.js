@@ -5,7 +5,7 @@ export class PieProgress {
     sprite;
 
     constructor(_game, _x, _y, _size, _color = "#fff", _alpha = 0.6) {
-        this.radius = _size * 8;
+        this.radius = _size;
         this.color = _color;
         this.bmp = game.add.bitmapData(this.radius * 2, this.radius * 2);
         this.sprite = game.add.sprite(_x, _y, this.bmp);

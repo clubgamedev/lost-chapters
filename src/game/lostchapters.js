@@ -14,7 +14,7 @@ export const gameWidth = 255
 export const gameHeight = 144
 
 export function startGame() {
-	game = new Phaser.Game(gameWidth, gameHeight, Phaser.AUTO, "game", null, true, false)
+	game = new Phaser.Game(gameWidth, gameHeight, Phaser.WEBGL, "game", null, true, false)
 	game.state.add("Boot", BootScene)
 	game.state.add("Preload", LoadingScene)
 	game.state.add("TitleScreen", MenuScene)

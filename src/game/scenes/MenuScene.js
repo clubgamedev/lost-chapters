@@ -33,6 +33,9 @@ export class MenuScene {
             },
             "Escape (temporaire)": () => {
                 this.game.state.start('EscapeGame');
+            },
+            "Alchemy (temporaire)": () => {
+                this.game.state.start('Alchemy');
             }
         }
 

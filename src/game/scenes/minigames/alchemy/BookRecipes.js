@@ -7,8 +7,8 @@ export class BookRecipes {
         this.isOpened = false;
         this.group = group;
 
-        this.commandText = game.add.text(10, 10, "", {
-            font: "24px Alagard",
+        this.commandText = game.add.text(5, 5, "", {
+            font: "16px Alagard",
             fill: "#E5E5E5",
             //boundsAlignH: "center",
             //boundsAlignV: "middle",
@@ -44,33 +44,29 @@ export class BookRecipes {
 
     drawBook() {
         this.bookContent = [];
-        const book = game.add.image(5, 5, 'book-bg');
-        book.width = (game.height - 20) * 186 / 140;
-        book.height = game.height - 20;
+        const book = game.add.image(2, 2, 'book-bg');
+        book.width = (game.height - 5) * 186 / 140;
+        book.height = game.height - 10;
         book.x = game.width / 2 - book.width / 2;
         book.tint = 0xC1C1C1;
         this.group.add(book);
         this.bookContent.push(book);
 
         allPotions.forEach((potion, index) => {
-            let x = 360 + 450 * Math.floor(index / 2),
-                y = 120 + 300 * (index % 2);
+            let x = 180 + 225 * Math.floor(index / 2),
+                y = 60 + 150 * (index % 2);
 
-            let textPotion = game.add.text(x - 25, y - 10, potion.displayName, {
-                font: "30px Alagard",
+            let textPotion = game.add.text(x - 25, y - 8, potion.displayName, {
+                font: "20px Alagard",
                 fill: "#333"
             });
             this.group.add(textPotion)
 
-            let potionSprite = this.group.create(x - 120, y - 30, potion.name);
-            potionSprite.scale.setTo(1.75);
+            let potionSprite = this.group.create(x - 75, y - 22, potion.name);
 
-            let ingredient1 = this.group.create(x - 100, y + 50, potion.ingredients[0]);
-            ingredient1.scale.setTo(1.75);
-            let ingredient2 = this.group.create(x, y + 50, potion.ingredients[1]);
-            ingredient2.scale.setTo(1.75);
-            let ingredient3 = this.group.create(x + 100, y + 50, potion.ingredients[2]);
-            ingredient3.scale.setTo(1.75);
+            let ingredient1 = this.group.create(x - 50, y + 25, potion.ingredients[0]);
+            let ingredient2 = this.group.create(x, y + 25, potion.ingredients[1]);
+            let ingredient3 = this.group.create(x + 50, y + 25, potion.ingredients[2]);
 
             this.bookContent.push(ingredient1, ingredient2, ingredient3, potionSprite, textPotion);
         })

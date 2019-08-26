@@ -2,7 +2,7 @@ import HueRotate from "../../../utils/HueRotate"
 import FogFilter from "../../../utils/FogFilter";
 
 export class Light {
-    constructor(position, radius = 100, color = "rgba(255, 255, 255, 1.0)", flicker = 2) {
+    constructor(position, radius = 50, color = "rgba(255, 255, 255, 1.0)", flicker = 2) {
         this.position = position
         this.radius = radius
         this.color = color;
@@ -15,26 +15,26 @@ export class AlchemyLights {
         this.group = group;
 
         let shadowTexture = game.add.bitmapData(game.width, game.height)
-        shadowTexture.radius = 90
+        shadowTexture.radius = 45
         let sprite = game.add.image(0, 0, shadowTexture)
-        sprite.width = game.width + 10
-        sprite.height = game.height + 10
+        sprite.width = game.width + 5
+        sprite.height = game.height + 5
         sprite.blendMode = Phaser.blendModes.MULTIPLY
         this.group.add(sprite)
 
         let filterSprite = game.add.image(0, 0, shadowTexture)
-        filterSprite.width = game.width + 10
-        filterSprite.height = game.height + 10
+        filterSprite.width = game.width + 5
+        filterSprite.height = game.height + 5
         filterSprite.blendMode = Phaser.blendModes.MULTIPLY
         this.group.add(filterSprite)
 
         this.light = { sprite, shadowTexture, obscurity: 0.75, filterSprite }
         this.lights = [];
 
-        this.cameraLight = new Light({ x: 0, y: 0 }, 250, "white", 0);
+        this.cameraLight = new Light({ x: 0, y: 0 }, 125, "white", 0);
         this.lights.push(this.cameraLight);
 
-        this.moonLight = new Light({ x: game.width / 2, y: 220 }, 1000, "white", 1)
+        this.moonLight = new Light({ x: game.width / 2, y: 110 }, 500, "white", 1)
         this.lights.push(this.moonLight);
 
         const hue = 0, fog = 0;
@@ -56,8 +56,8 @@ export class AlchemyLights {
     update(player, moon, timeProgress) {
 
         this.cameraLight.position = player.position;
-        this.moonLight.position.y = 220 + moon.y;
-        this.moonLight.radius = 1000 - 950 * timeProgress;
+        this.moonLight.position.y = 110 + moon.y;
+        this.moonLight.radius = 500 - 475 * timeProgress;
 
         let saturation = Math.max(100, 10 + 150 * timeProgress),
             lightness = (100 - 50 * timeProgress),

@@ -2,7 +2,7 @@ import { allPotions } from "./alchemy/potions.js";
 import { BookRecipes } from "./alchemy/BookRecipes";
 import { PieProgress } from "./alchemy/PieProgress";
 import { showMiddleText } from "../../utils/message"
-import { sounds } from "../../audio"
+import { sounds, addSounds } from "../../audio"
 import { controls } from "../../utils/controls";
 import { shuffleArray } from "../../utils/array";
 import { AlchemyLights } from "./alchemy/lights"
@@ -16,9 +16,9 @@ const ingredientsNames = [
     'foieDeCerf', 'jusDeSauterelle', 'plumeDeCorneille'
 ];
 const ingredientsPositions = [
-    { x: 20, y: 396 }, { x: 130, y: 396 }, { x: 365, y: 325 },
-    { x: 560, y: 285 }, { x: 660, y: 285 }, { x: 845, y: 325 },
-    { x: 1115, y: 396 }, { x: 1180, y: 565 }, { x: 1220, y: 396 }
+    { x: 10, y: 196 }, { x: 60, y: 196 }, { x: 180, y: 160 },
+    { x: 280, y: 140 }, { x: 330, y: 140 }, { x: 420, y: 160 },
+    { x: 557, y: 196 }, { x: 586, y: 280 }, { x: 605, y: 196 }
 ];
 
 
@@ -30,7 +30,7 @@ export class AlchemyScene {
         game.load.image('footer', 'assets/alchemy/footer2.png');
         game.load.image('smallSuspend', 'assets/alchemy/smallSuspend.png');
         game.load.image('bigSuspend', 'assets/alchemy/bigSuspend.png');
-        game.load.image('stockage', 'assets/alchemy/stockage_bis.png');
+        game.load.image('stockage', 'assets/alchemy/stockage.png');
 
         game.load.image('cireBougieNoir', 'assets/alchemy/ingredients/CireBougieNoir.png');
         game.load.image('crochetsDeSerpent', 'assets/alchemy/ingredients/CrochetsDeSerpent.png');
@@ -49,17 +49,17 @@ export class AlchemyScene {
         game.load.image('potionDeLucidite', 'assets/alchemy/potions/potionDeLucidite.png');
         game.load.image('potionDeProtection', 'assets/alchemy/potions/potionDeProtection.png');
 
-        game.load.image('corbeille', 'assets/alchemy/corbeille.png');
         game.load.image('book', 'assets/ui/book.png');
         game.load.image('clock', 'assets/alchemy/clock_bis.png');
-        game.load.spritesheet('marmite', 'assets/alchemy/marmiteGreenSprite.png', 77, 100, 3);
+        game.load.spritesheet('marmite', 'assets/alchemy/marmite.png', 48, 64, 4);
+
+        addSounds();
     }
 
     create() {
         window.alchemy = this;
-        game.scale.setGameSize(1280, 720);
-        game.world.setBounds(0, 0, 1280, 720);
-        game.physics.startSystem(Phaser.Physics.ARCADE);
+        game.scale.setGameSize(640, 360);
+        game.world.setBounds(0, 0, 640, 360);
 
         this.groups = {
             background: game.add.group(),
@@ -78,9 +78,8 @@ export class AlchemyScene {
         this.spawnIngredients();
         this.lights = new AlchemyLights(this.groups.lights);
 
-        let clockSprite = this.groups.hud.create(game.width - 70, 10, 'clock');
-        clockSprite.scale.set(2, 2);
-        this.clockPieProgress = new PieProgress(game, game.width - 70 + (clockSprite.width / 2), 10 + clockSprite.height / 2, 3, "#cf3723");
+        let clockSprite = this.groups.hud.create(game.width - 35, 5, 'clock');
+        this.clockPieProgress = new PieProgress(game, game.width - 35 + (clockSprite.width / 2), 5 + clockSprite.height / 2, 12, "#cf3723");
         this.groups.hud.add(this.clockPieProgress.sprite);
 
         this.timer = game.time.create(true);
@@ -98,35 +97,34 @@ export class AlchemyScene {
 
     update() {
         game.physics.arcade.collide(this.player, this.groups.platforms);
-        game.physics.arcade.collide(this.groups.ingredients, this.groups.platforms);
-        this.handleControls();
+
+        this.updateControls();
         let timeProgress = this.timer.seconds / GAME_DURATION
         this.lights.update(this.player, this.moon, timeProgress);
-        this.moon.position.y = timeProgress * 230;
+        this.moon.position.y = timeProgress * 115;
         this.clockPieProgress.updateProgress(timeProgress);
     }
 
-    jump(){
-        const JUMP_SPEED = 1200;
+    jump() {
+        const JUMP_SPEED = 600;
         if (this.player.body.touching.down) {
             this.player.body.velocity.y = -1 * JUMP_SPEED;
             this.player.animations.play('move');
         }
     }
 
-    pickOrDrop(){
+    pickOrDrop() {
         if (this.player.body.touching.down) {
             game.physics.arcade.overlap(this.player, this.groups.ingredients, this.pickIngredient, null, this);
             game.physics.arcade.overlap(this.player, this.marmite, this.putInMarmite, null, this);
-            game.physics.arcade.overlap(this.player, this.corbeille, this.resetIngredients, null, this);
         }
     }
 
-    handleControls() {
+    updateControls() {
         const
-            MAX_HORIZONTAL_SPEED = 400,
-            GROUND_H_ACCEL = 100,
-            AIR_H_ACCEL = 50;
+            MAX_HORIZONTAL_SPEED = 200,
+            GROUND_H_ACCEL = 50,
+            AIR_H_ACCEL = 25;
 
         if (this.player.body.touching.down) {
             if (controls.LEFT.isPressed()) {
@@ -148,15 +146,12 @@ export class AlchemyScene {
                 this.player.body.velocity.x = Math.min(+1 * MAX_HORIZONTAL_SPEED, this.player.body.velocity.x + AIR_H_ACCEL);
             }
         }
-        this.player.scale.x = this.player.body.velocity.x < 0 ? 4 : -4;
+        this.player.scale.x = this.player.body.velocity.x < 0 ? 2 : -2;
     }
 
     shutdown() {
         for (let groupName in this.groups) this.groups[groupName].destroy();
         this.timer.destroy();
-    }
-
-    render() {
     }
 
     createLevel() {
@@ -167,42 +162,37 @@ export class AlchemyScene {
         background.create(0, 0, 'bg1');
 
         platforms.enableBody = true;
-        platforms.create(0, 605, 'footer');
-        platforms.create(350, 370, 'smallSuspend');
-        platforms.create(0, 440, 'bigSuspend');
-        platforms.create(540, 330, 'bigSuspend');
-        platforms.create(830, 370, 'smallSuspend');
-        platforms.create(1090, 440, 'bigSuspend');
+        platforms.create(0, 302, 'footer');
+        platforms.create(175, 185, 'smallSuspend');
+        platforms.create(0, 220, 'bigSuspend');
+        platforms.create(270, 165, 'bigSuspend');
+        platforms.create(415, 185, 'smallSuspend');
+        platforms.create(545, 220, 'bigSuspend');
         platforms.forEach(platform => { platform.body.immovable = true })
 
-        const stockage = hud.create(game.width / 2, 645, 'stockage');
+        const stockage = hud.create(game.width / 2, 322, 'stockage');
         stockage.anchor.setTo(0.5, 0);
-        stockage.scale.set(1.2);
 
         objects.enableBody = true;
 
-        this.corbeille = game.add.sprite(500, 570, 'corbeille');
-        this.corbeille.scale = 2;
-        objects.add(this.corbeille);
-
-        this.marmite = game.add.sprite(600, 520, 'marmite');
-        this.marmite.animations.add('enter', [0, 1, 2], 10, true);
+        this.marmite = game.add.sprite(295, 240, 'marmite');
+        this.marmite.animations.add('enter', [1, 2, 3, 0], 8, false);
         objects.add(this.marmite);
 
         ingredients.enableBody = true;
     }
 
     spawnPlayer() {
-        this.player = game.add.sprite(500, 530, 'howard');
+        this.player = game.add.sprite(250, 265, 'howard');
         this.groups.player.add(this.player);
         game.physics.arcade.enable(this.player);
 
         this.player.anchor.setTo(0.5);
         this.player.body.setSize(10, 26, 11, 5);
-        this.player.body.gravity.y = 4000;
+        this.player.body.gravity.y = 2000;
         this.player.body.collideWorldBounds = true;
 
-        this.player.scale.setTo(4, 4);
+        this.player.scale.setTo(2, 2);
 
         this.player.animations.add("idle", [3], 0, true);
         this.player.animations.add('move', [7, 6, 8, 6], 10, true);
@@ -219,7 +209,8 @@ export class AlchemyScene {
         if (this.pickedIngredients.length >= MAX_INGREDIENTS) return;
 
         sounds.PICK.play();
-        this.groups.pickedIngredients.create(545 + this.pickedIngredients.length * 70, 655, ingredient.key);
+        let sprite = this.groups.pickedIngredients.create(270 + this.pickedIngredients.length * 35, 328, ingredient.key);
+        sprite.scale.setTo(0.6, 0.6)
         this.pickedIngredients.push(ingredient.key);
         ingredient.destroy();
 
@@ -242,13 +233,13 @@ export class AlchemyScene {
         let potionCreated = allPotions.find(potion => potion.cookPotion(this.pickedIngredients))
 
         if (potionCreated) {
-            showMiddleText(potionCreated.displayName + " créée !", 0x000000, "#FFFFFF", 1500, "50px");
+            showMiddleText(potionCreated.displayName + " créée !", 0x000000, "#FFFFFF", 1500, "36px");
             this.potionsCreated.push(potionCreated);
-            let potionSprite = this.groups.hud.create(10 + 70 * (this.potionsCreated.length - 1), 50, potionCreated.name);
-            potionSprite.scale.setTo(1.5);
+            let potionSprite = this.groups.hud.create(5 + 25 * (this.potionsCreated.length - 1), 25, potionCreated.name);
+            potionSprite.scale.setTo(0.5, 0.5)
             sounds.COOK_SUCCESS.play();
         } else {
-            showMiddleText("Recette inconnue !", 0xe30027, "#FFFFFF", 1500, "40px");
+            showMiddleText("Recette inconnue !", 0xe30027, "#FFFFFF", 1000, "36px");
             sounds.COOK_FAIL.play();
         }
     }
@@ -259,7 +250,8 @@ export class AlchemyScene {
         shuffleArray(ingredientsPositions);
         ingredientsNames.forEach((name, i) => {
             let { x, y } = ingredientsPositions[i]
-            this.groups.ingredients.create(x, y, name);
+            let sprite = this.groups.ingredients.create(x, y, name);
+            sprite.scale.setTo(0.6, 0.6)
         });
     }
 
