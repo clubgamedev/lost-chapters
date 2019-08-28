@@ -51,7 +51,8 @@ let MAX_HEALTH = 100;
 let health;
 let ennemyHealth;
 let healthInfoText = {};
-let nbHitsToWin = 4;
+let nbPlayerHitsToWin = 4;
+let nbEnemyHitsToWin = 4;
 
 let DecryptorConfig = {
     BLINK: "blink",
@@ -86,6 +87,9 @@ function loadZodiacs() {
     game.load.image("particle_blue", "assets/decryptor/particle_blue.png");
     game.load.spritesheet("sunburn", "assets/decryptor/sunburn_spritesheet.png", 100, 100, 61);
     game.load.image("skull", "assets/decryptor/skull.png");
+
+    game.load.image('potionDeForce', 'assets/alchemy/potions/potionDeForce.png');
+    game.load.image('potionDeProtection', 'assets/alchemy/potions/potionDeProtection.png');
 }
 
 function loadSounds() {
@@ -165,6 +169,8 @@ export class DecryptorScene {
         countDown.add(Phaser.Timer.SECOND * duration, timerOver, this);
         countDown.start();
 
+        activePotions();
+
         game.input.gamepad.start();
         game.input.gamepad.onDownCallback = function (e) {
             testKeyPressWithElement(e.keyCode, elementsToFind[gameState.elementIndex]);
@@ -236,6 +242,30 @@ export class DecryptorScene {
         game.input.keyboard.onDownCallback = null;
         game.input.gamepad.onDownCallback = null;
         game.input.gamepad.onAxisCallback = null;
+    }
+}
+
+function activePotions() {
+    if (game.save.inventory.potionDeProtection && game.save.inventory.potionDeProtection.actif) {
+        nbPlayerHitsToWin = nbPlayerHitsToWin + 2;
+    }
+
+    if (game.save.inventory.potionDeForce && game.save.inventory.potionDeForce.actif) {
+        nbEnemyHitsToWin = nbEnemyHitsToWin - 2;
+    }
+    displayActivePotions();
+}
+
+function displayActivePotions() {
+    let i = 0;
+    for (var item in game.save.inventory) {
+        if (Object.prototype.hasOwnProperty.call(game.save.inventory, item)) {
+            if (game.save.inventory[item].actif) {
+                let potion = game.add.image(10, i * 50, item);
+                potion.scale.set(0.6, 0.6);
+                i++;
+            }
+        }
     }
 }
 
@@ -503,7 +533,8 @@ function decryptOver() {
     foundSoundEnd.play();
     if (isVariant(DecryptorConfig.BATTLE)) {
         gameState.elementIndex = 0;
-        ennemyHealth -= MAX_HEALTH / nbHitsToWin;
+        //TODO : l'ennemi perd plus de vie si le joueur a une potion d'attaque
+        ennemyHealth -= MAX_HEALTH / nbEnemyHitsToWin;
         updateEnnemyHealthBar();
         if (ennemyHealth <= 0) {
             gameOver(true, "Requiescat in pace");
@@ -557,9 +588,10 @@ function updateEnnemyHealthBar() {
 
 function timerOver() {
     if (isVariant(DecryptorConfig.BATTLE)) {
+        //TODO : le joueur perd moins de vie si le joueur a une potion de défense
         game.camera.shake(0.01, 250);
         game.camera.flash(0xcc0000, 500);
-        health -= MAX_HEALTH / nbHitsToWin;
+        health -= MAX_HEALTH / nbPlayerHitsToWin;
         updatePlayerHealthBar();
         if (health <= 0) {
             gameOver(false, "La fin est proche");

@@ -17,12 +17,28 @@ export function newGame() {
     game.save = {
         level: "cave",
         inventory: {
-            potionDeForce: 0,
-            potionDeProtection: 0,
-            potionDeLucidite: 0,
-            fioleDeSang: 0,
-            parchemin: 0,
-            cape: 0
+            potionDeForce: {
+                nombre:0,
+                actif:false
+            },
+            potionDeProtection: {
+                nombre:0,
+                actif:true
+            },
+            potionDeLucidite: {
+                nombre:0,
+                actif:false
+            },
+            fioleDeSang: {
+                nombre:0,
+                actif:false
+            },
+            parchemin: {
+                nombre:0
+            },
+            cape: {
+                nombre:0
+            },
         },
         loot: {
             recettePotionDeForce: false,
