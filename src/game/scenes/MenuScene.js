@@ -18,18 +18,14 @@ export class MenuScene {
             "Contrôles": () => {
                 this.instructions = game.add.image(game.width / 2, game.height / 2, "instructions");
                 this.instructions.anchor.setTo(0.5);
-                game.controls.ACTION.onPress(() => {
-                    this.instructions.destroy()
-                    this.showMenu()
-                }, this, true)
+                game.controls.ACTION.onPress(() => this.backToMenu(), this, true)
+                game.controls.ENTER.onPress(() => this.backToMenu(), this, true)
             },
             "Crédits": () => {
                 this.credits = game.add.image(game.width / 2, game.height / 2, "credits");
                 this.credits.anchor.setTo(0.5);
-                game.controls.ACTION.onPress(() => {
-                    this.credits.destroy()
-                    this.showMenu()
-                }, this, true)
+                game.controls.ACTION.onPress(() => this.backToMenu(), this, true)
+                game.controls.ENTER.onPress(() => this.backToMenu(), this, true)
             },
             "Escape (temporaire)": () => {
                 this.game.state.start('EscapeGame');
@@ -65,6 +61,7 @@ export class MenuScene {
         game.controls.UP.onPress(this.selectChoice, this)
         game.controls.DOWN.onPress(this.selectChoice, this)
         game.controls.ACTION.onPress(this.validateChoice, this)
+        game.controls.ENTER.onPress(this.validateChoice, this)
 
         this.menu = { options, textSprite, selectionSprite }
         this.selectedChoice = 0;
@@ -84,7 +81,14 @@ export class MenuScene {
         game.controls.UP.resetEvents()
         game.controls.DOWN.resetEvents()
         game.controls.ACTION.resetEvents()
+        game.controls.ENTER.resetEvents()
         delete this.menu;
         selectedChoice()
+    }
+
+    backToMenu() {
+        this.credits && this.credits.destroy()
+        this.instructions && this.instructions.destroy()
+        this.showMenu()
     }
 }

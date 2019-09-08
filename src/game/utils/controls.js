@@ -42,6 +42,9 @@ export const controls = {
             return (controls.ACTION.button && controls.ACTION.button.isDown)
                 || controls.ACTION.key.isDown
         }
+    },
+    ENTER: {
+        keyCode: Phaser.Keyboard.ENTER
     }
 }
 
@@ -68,7 +71,9 @@ export function initControls() {
     for (let control of Object.values(controls)) {
         game.input.keyboard.addKeyCapture([control.keyCode])
         control.key = game.input.keyboard.addKey(control.keyCode)
-        control.button = game.input.gamepad.pad1.getButton(control.buttonCode)
+        if (control.buttonCode) {
+            control.button = game.input.gamepad.pad1.getButton(control.buttonCode)
+        }
         control.onPress = (callback, context = control, once = false) => {
             let add = once ? "addOnce" : "add"
             control.event = { callback, context, once }
