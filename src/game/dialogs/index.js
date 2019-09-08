@@ -4,7 +4,7 @@ import { marie } from "./SoeurMarie";
 import { arthur } from "./PereArthur";
 
 import { Marchand } from "./Marchand";
-import { Ramsey } from "./Ramsey";
+import { ramsey } from "./Ramsey";
 import { SbireForest } from "./SbireForest";
 import { SbireGardantGrotte } from "./SbireGardantGrotte";
 
@@ -26,7 +26,7 @@ export const dialogs = {
     marie,
     arthur,
     Marchand,
-    Ramsey,
+    ramsey,
     SbireForest,
     SbireGardantGrotte,
     SbireMinable,

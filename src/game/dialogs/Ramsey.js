@@ -1,5 +1,5 @@
 
-export function Ramsey(save) {
+export function ramsey(save) {
 
 	if (save.hasHelpedRamsey) {
 		return ["Utilisez cette potion à bon escient",
