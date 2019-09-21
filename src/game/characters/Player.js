@@ -9,7 +9,7 @@ import { readDescription } from "../dialogs/descriptions";
 import { pickLoot } from "../items/loot";
 import { hallucinations } from "../effects/Hallucination";
 
-const MOVE_SPEED = 150 // TEMP: 50
+const MOVE_SPEED = 50
 let ACTION_DELAY;
 
 export class Player extends Character {
