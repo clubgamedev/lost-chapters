@@ -64,6 +64,22 @@ export class Character extends Phaser.Sprite {
 		this.animations.add("walk-side", [7, 6, 8, 6], animSpeed, true)
 	}
 
+	move(direction, speed) {
+		if (direction === "DOWN") {
+			this.state = CHARACTER_STATE.WALKING_DOWN
+			this.body.velocity.y = speed
+		} else if (direction === "RIGHT") {
+			this.state = CHARACTER_STATE.WALKING_RIGHT
+			this.body.velocity.x = speed
+		} else if (direction === "TOP") {
+			this.state = CHARACTER_STATE.WALKING_TOP
+			this.body.velocity.y = -speed
+		} else if (direction === "RIGHT") {
+			this.state = CHARACTER_STATE.WALKING_LEFT
+			this.body.velocity.x = -speed
+		}
+	}
+
 	stopMoving() {
 		this.body.velocity.y = 0
 		this.body.velocity.x = 0
@@ -71,15 +87,19 @@ export class Character extends Phaser.Sprite {
 
 		switch (this.state) {
 			case CHARACTER_STATE.WALKING_LEFT:
+				this.animations.play("idle-side")
 				this.state = CHARACTER_STATE.LEFT
 				break;
 			case CHARACTER_STATE.WALKING_RIGHT:
+				this.animations.play("idle-side")
 				this.state = CHARACTER_STATE.RIGHT
 				break;
 			case CHARACTER_STATE.WALKING_UP:
+				this.animations.play("idle-back")
 				this.state = CHARACTER_STATE.UP
 				break;
 			case CHARACTER_STATE.WALKING_DOWN:
+				this.animations.play("idle-front")
 				this.state = CHARACTER_STATE.DOWN
 				break;
 		}

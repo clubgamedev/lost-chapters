@@ -72,16 +72,17 @@
                  "height":69.8181818181819,
                  "id":45,
                  "name":"",
-                 "properties":
-                    {
-                     "level":"sanctuaire",
-                     "start":2
-                    },
-                 "propertytypes":
-                    {
-                     "level":"string",
-                     "start":"int"
-                    },
+                 "properties":[
+                        {
+                         "name":"level",
+                         "type":"string",
+                         "value":"sanctuaire"
+                        }, 
+                        {
+                         "name":"start",
+                         "type":"int",
+                         "value":2
+                        }],
                  "rotation":0,
                  "type":"exit",
                  "visible":true,
@@ -94,18 +95,22 @@
                  "height":32.3182,
                  "id":47,
                  "name":"",
-                 "properties":
-                    {
-                     "level":"cave",
-                     "lock":"entree_cave",
-                     "start":1
-                    },
-                 "propertytypes":
-                    {
-                     "level":"string",
-                     "lock":"string",
-                     "start":"int"
-                    },
+                 "properties":[
+                        {
+                         "name":"level",
+                         "type":"string",
+                         "value":"cave"
+                        }, 
+                        {
+                         "name":"lock",
+                         "type":"string",
+                         "value":"entree_cave"
+                        }, 
+                        {
+                         "name":"start",
+                         "type":"int",
+                         "value":1
+                        }],
                  "rotation":0,
                  "type":"exit",
                  "visible":true,
@@ -118,20 +123,27 @@
                  "height":88.4848666666667,
                  "id":49,
                  "name":"1>2",
-                 "properties":
-                    {
-                     "camera_dx":115,
-                     "camera_dy":0,
-                     "from":1,
-                     "to":2
-                    },
-                 "propertytypes":
-                    {
-                     "camera_dx":"int",
-                     "camera_dy":"int",
-                     "from":"int",
-                     "to":"int"
-                    },
+                 "properties":[
+                        {
+                         "name":"camera_dx",
+                         "type":"int",
+                         "value":115
+                        }, 
+                        {
+                         "name":"camera_dy",
+                         "type":"int",
+                         "value":0
+                        }, 
+                        {
+                         "name":"from",
+                         "type":"int",
+                         "value":1
+                        }, 
+                        {
+                         "name":"to",
+                         "type":"int",
+                         "value":2
+                        }],
                  "rotation":0,
                  "type":"teleport",
                  "visible":true,
@@ -144,20 +156,27 @@
                  "height":102.151566666667,
                  "id":52,
                  "name":"2>1",
-                 "properties":
-                    {
-                     "camera_dx":-125,
-                     "camera_dy":0,
-                     "from":2,
-                     "to":1
-                    },
-                 "propertytypes":
-                    {
-                     "camera_dx":"int",
-                     "camera_dy":"int",
-                     "from":"int",
-                     "to":"int"
-                    },
+                 "properties":[
+                        {
+                         "name":"camera_dx",
+                         "type":"int",
+                         "value":-125
+                        }, 
+                        {
+                         "name":"camera_dy",
+                         "type":"int",
+                         "value":0
+                        }, 
+                        {
+                         "name":"from",
+                         "type":"int",
+                         "value":2
+                        }, 
+                        {
+                         "name":"to",
+                         "type":"int",
+                         "value":1
+                        }],
                  "rotation":0,
                  "type":"teleport",
                  "visible":true,
@@ -170,20 +189,27 @@
                  "height":102.152,
                  "id":53,
                  "name":"15>16",
-                 "properties":
-                    {
-                     "camera_dx":-125,
-                     "camera_dy":0,
-                     "from":15,
-                     "to":16
-                    },
-                 "propertytypes":
-                    {
-                     "camera_dx":"int",
-                     "camera_dy":"int",
-                     "from":"int",
-                     "to":"int"
-                    },
+                 "properties":[
+                        {
+                         "name":"camera_dx",
+                         "type":"int",
+                         "value":-125
+                        }, 
+                        {
+                         "name":"camera_dy",
+                         "type":"int",
+                         "value":0
+                        }, 
+                        {
+                         "name":"from",
+                         "type":"int",
+                         "value":15
+                        }, 
+                        {
+                         "name":"to",
+                         "type":"int",
+                         "value":16
+                        }],
                  "rotation":0,
                  "type":"teleport",
                  "visible":true,
@@ -196,16 +222,17 @@
                  "height":102.152,
                  "id":54,
                  "name":"",
-                 "properties":
-                    {
-                     "from":6,
-                     "to":5
-                    },
-                 "propertytypes":
-                    {
-                     "from":"int",
-                     "to":"int"
-                    },
+                 "properties":[
+                        {
+                         "name":"from",
+                         "type":"int",
+                         "value":6
+                        }, 
+                        {
+                         "name":"to",
+                         "type":"int",
+                         "value":5
+                        }],
                  "rotation":0,
                  "type":"teleport",
                  "visible":true,
@@ -218,16 +245,17 @@
                  "height":102.152,
                  "id":55,
                  "name":"",
-                 "properties":
-                    {
-                     "from":5,
-                     "to":6
-                    },
-                 "propertytypes":
-                    {
-                     "from":"int",
-                     "to":"int"
-                    },
+                 "properties":[
+                        {
+                         "name":"from",
+                         "type":"int",
+                         "value":5
+                        }, 
+                        {
+                         "name":"to",
+                         "type":"int",
+                         "value":6
+                        }],
                  "rotation":0,
                  "type":"teleport",
                  "visible":true,
@@ -240,16 +268,17 @@
                  "height":102.152,
                  "id":56,
                  "name":"5>6",
-                 "properties":
-                    {
-                     "from":5,
-                     "to":6
-                    },
-                 "propertytypes":
-                    {
-                     "from":"int",
-                     "to":"int"
-                    },
+                 "properties":[
+                        {
+                         "name":"from",
+                         "type":"int",
+                         "value":5
+                        }, 
+                        {
+                         "name":"to",
+                         "type":"int",
+                         "value":6
+                        }],
                  "rotation":0,
                  "type":"teleport",
                  "visible":true,
@@ -262,16 +291,17 @@
                  "height":102.152,
                  "id":57,
                  "name":"10>9",
-                 "properties":
-                    {
-                     "from":10,
-                     "to":9
-                    },
-                 "propertytypes":
-                    {
-                     "from":"int",
-                     "to":"int"
-                    },
+                 "properties":[
+                        {
+                         "name":"from",
+                         "type":"int",
+                         "value":10
+                        }, 
+                        {
+                         "name":"to",
+                         "type":"int",
+                         "value":9
+                        }],
                  "rotation":0,
                  "type":"teleport",
                  "visible":true,
@@ -284,16 +314,17 @@
                  "height":102.152,
                  "id":59,
                  "name":"7>8",
-                 "properties":
-                    {
-                     "from":7,
-                     "to":8
-                    },
-                 "propertytypes":
-                    {
-                     "from":"int",
-                     "to":"int"
-                    },
+                 "properties":[
+                        {
+                         "name":"from",
+                         "type":"int",
+                         "value":7
+                        }, 
+                        {
+                         "name":"to",
+                         "type":"int",
+                         "value":8
+                        }],
                  "rotation":0,
                  "type":"teleport",
                  "visible":true,
@@ -306,36 +337,35 @@
                  "height":16,
                  "id":60,
                  "name":"start1",
-                 "properties":
-                    {
-                     "id":1,
-                     "lookdir":"RIGHT"
-                    },
-                 "propertytypes":
-                    {
-                     "id":"int",
-                     "lookdir":"string"
-                    },
+                 "properties":[
+                        {
+                         "name":"id",
+                         "type":"int",
+                         "value":1
+                        }, 
+                        {
+                         "name":"lookdir",
+                         "type":"string",
+                         "value":"RIGHT"
+                        }],
                  "rotation":0,
                  "type":"start",
                  "visible":true,
                  "width":16,
-                 "x":3021,
-                 "y":1321.33333333333
+                 "x":58.0000000000001,
+                 "y":375.999999999997
                 }, 
                 {
                  "gid":6,
                  "height":16,
                  "id":61,
                  "name":"",
-                 "properties":
-                    {
-                     "vertical":true
-                    },
-                 "propertytypes":
-                    {
-                     "vertical":"bool"
-                    },
+                 "properties":[
+                        {
+                         "name":"vertical",
+                         "type":"bool",
+                         "value":true
+                        }],
                  "rotation":0,
                  "type":"rat",
                  "visible":true,
@@ -348,14 +378,12 @@
                  "height":16,
                  "id":62,
                  "name":"",
-                 "properties":
-                    {
-                     "vertical":true
-                    },
-                 "propertytypes":
-                    {
-                     "vertical":"bool"
-                    },
+                 "properties":[
+                        {
+                         "name":"vertical",
+                         "type":"bool",
+                         "value":true
+                        }],
                  "rotation":0,
                  "type":"rat",
                  "visible":true,
@@ -368,14 +396,12 @@
                  "height":16,
                  "id":63,
                  "name":"",
-                 "properties":
-                    {
-                     "vertical":false
-                    },
-                 "propertytypes":
-                    {
-                     "vertical":"bool"
-                    },
+                 "properties":[
+                        {
+                         "name":"vertical",
+                         "type":"bool",
+                         "value":false
+                        }],
                  "rotation":0,
                  "type":"rat",
                  "visible":true,
@@ -388,14 +414,12 @@
                  "height":16,
                  "id":64,
                  "name":"",
-                 "properties":
-                    {
-                     "vertical":true
-                    },
-                 "propertytypes":
-                    {
-                     "vertical":"bool"
-                    },
+                 "properties":[
+                        {
+                         "name":"vertical",
+                         "type":"bool",
+                         "value":true
+                        }],
                  "rotation":0,
                  "type":"spider",
                  "visible":true,
@@ -408,14 +432,12 @@
                  "height":16,
                  "id":65,
                  "name":"",
-                 "properties":
-                    {
-                     "vertical":false
-                    },
-                 "propertytypes":
-                    {
-                     "vertical":"bool"
-                    },
+                 "properties":[
+                        {
+                         "name":"vertical",
+                         "type":"bool",
+                         "value":false
+                        }],
                  "rotation":0,
                  "type":"spider",
                  "visible":true,
@@ -428,14 +450,12 @@
                  "height":16,
                  "id":66,
                  "name":"",
-                 "properties":
-                    {
-                     "vertical":false
-                    },
-                 "propertytypes":
-                    {
-                     "vertical":"bool"
-                    },
+                 "properties":[
+                        {
+                         "name":"vertical",
+                         "type":"bool",
+                         "value":false
+                        }],
                  "rotation":0,
                  "type":"rat",
                  "visible":true,
@@ -448,14 +468,12 @@
                  "height":16,
                  "id":67,
                  "name":"",
-                 "properties":
-                    {
-                     "vertical":false
-                    },
-                 "propertytypes":
-                    {
-                     "vertical":"bool"
-                    },
+                 "properties":[
+                        {
+                         "name":"vertical",
+                         "type":"bool",
+                         "value":false
+                        }],
                  "rotation":0,
                  "type":"rat",
                  "visible":true,
@@ -468,14 +486,12 @@
                  "height":16,
                  "id":68,
                  "name":"",
-                 "properties":
-                    {
-                     "vertical":true
-                    },
-                 "propertytypes":
-                    {
-                     "vertical":"bool"
-                    },
+                 "properties":[
+                        {
+                         "name":"vertical",
+                         "type":"bool",
+                         "value":true
+                        }],
                  "rotation":0,
                  "type":"rat",
                  "visible":true,
@@ -488,14 +504,12 @@
                  "height":96,
                  "id":70,
                  "name":"",
-                 "properties":
-                    {
-                     "action":"camera_follow"
-                    },
-                 "propertytypes":
-                    {
-                     "action":"string"
-                    },
+                 "properties":[
+                        {
+                         "name":"action",
+                         "type":"string",
+                         "value":"camera_follow"
+                        }],
                  "rotation":0,
                  "type":"trigger",
                  "visible":true,
@@ -508,14 +522,12 @@
                  "height":95.5,
                  "id":71,
                  "name":"",
-                 "properties":
-                    {
-                     "action":"camera_unfollow"
-                    },
-                 "propertytypes":
-                    {
-                     "action":"string"
-                    },
+                 "properties":[
+                        {
+                         "name":"action",
+                         "type":"string",
+                         "value":"camera_unfollow"
+                        }],
                  "rotation":0,
                  "type":"trigger",
                  "visible":true,
@@ -528,14 +540,12 @@
                  "height":68.5,
                  "id":72,
                  "name":"",
-                 "properties":
-                    {
-                     "action":"camera_unfollow"
-                    },
-                 "propertytypes":
-                    {
-                     "action":"string"
-                    },
+                 "properties":[
+                        {
+                         "name":"action",
+                         "type":"string",
+                         "value":"camera_unfollow"
+                        }],
                  "rotation":0,
                  "type":"trigger",
                  "visible":true,
@@ -548,14 +558,12 @@
                  "height":72,
                  "id":73,
                  "name":"",
-                 "properties":
-                    {
-                     "action":"camera_follow"
-                    },
-                 "propertytypes":
-                    {
-                     "action":"string"
-                    },
+                 "properties":[
+                        {
+                         "name":"action",
+                         "type":"string",
+                         "value":"camera_follow"
+                        }],
                  "rotation":0,
                  "type":"trigger",
                  "visible":true,
@@ -568,20 +576,27 @@
                  "height":88.4849,
                  "id":74,
                  "name":"3>4",
-                 "properties":
-                    {
-                     "camera_dx":115,
-                     "camera_dy":0,
-                     "from":3,
-                     "to":4
-                    },
-                 "propertytypes":
-                    {
-                     "camera_dx":"int",
-                     "camera_dy":"int",
-                     "from":"int",
-                     "to":"int"
-                    },
+                 "properties":[
+                        {
+                         "name":"camera_dx",
+                         "type":"int",
+                         "value":115
+                        }, 
+                        {
+                         "name":"camera_dy",
+                         "type":"int",
+                         "value":0
+                        }, 
+                        {
+                         "name":"from",
+                         "type":"int",
+                         "value":3
+                        }, 
+                        {
+                         "name":"to",
+                         "type":"int",
+                         "value":4
+                        }],
                  "rotation":0,
                  "type":"teleport",
                  "visible":true,
@@ -594,14 +609,12 @@
                  "height":96,
                  "id":75,
                  "name":"",
-                 "properties":
-                    {
-                     "action":"camera_follow"
-                    },
-                 "propertytypes":
-                    {
-                     "action":"string"
-                    },
+                 "properties":[
+                        {
+                         "name":"action",
+                         "type":"string",
+                         "value":"camera_follow"
+                        }],
                  "rotation":0,
                  "type":"trigger",
                  "visible":true,
@@ -614,14 +627,12 @@
                  "height":95.5,
                  "id":76,
                  "name":"",
-                 "properties":
-                    {
-                     "action":"camera_unfollow"
-                    },
-                 "propertytypes":
-                    {
-                     "action":"string"
-                    },
+                 "properties":[
+                        {
+                         "name":"action",
+                         "type":"string",
+                         "value":"camera_unfollow"
+                        }],
                  "rotation":0,
                  "type":"trigger",
                  "visible":true,
@@ -634,20 +645,27 @@
                  "height":102.152,
                  "id":77,
                  "name":"6>5",
-                 "properties":
-                    {
-                     "camera_dx":-125,
-                     "camera_dy":0,
-                     "from":6,
-                     "to":5
-                    },
-                 "propertytypes":
-                    {
-                     "camera_dx":"int",
-                     "camera_dy":"int",
-                     "from":"int",
-                     "to":"int"
-                    },
+                 "properties":[
+                        {
+                         "name":"camera_dx",
+                         "type":"int",
+                         "value":-125
+                        }, 
+                        {
+                         "name":"camera_dy",
+                         "type":"int",
+                         "value":0
+                        }, 
+                        {
+                         "name":"from",
+                         "type":"int",
+                         "value":6
+                        }, 
+                        {
+                         "name":"to",
+                         "type":"int",
+                         "value":5
+                        }],
                  "rotation":0,
                  "type":"teleport",
                  "visible":true,
@@ -660,14 +678,12 @@
                  "height":117,
                  "id":78,
                  "name":"",
-                 "properties":
-                    {
-                     "action":"camera_unfollow"
-                    },
-                 "propertytypes":
-                    {
-                     "action":"string"
-                    },
+                 "properties":[
+                        {
+                         "name":"action",
+                         "type":"string",
+                         "value":"camera_unfollow"
+                        }],
                  "rotation":0,
                  "type":"trigger",
                  "visible":true,
@@ -680,14 +696,12 @@
                  "height":115,
                  "id":79,
                  "name":"",
-                 "properties":
-                    {
-                     "action":"camera_follow"
-                    },
-                 "propertytypes":
-                    {
-                     "action":"string"
-                    },
+                 "properties":[
+                        {
+                         "name":"action",
+                         "type":"string",
+                         "value":"camera_follow"
+                        }],
                  "rotation":0,
                  "type":"trigger",
                  "visible":true,
@@ -712,14 +726,12 @@
                  "height":96,
                  "id":81,
                  "name":"",
-                 "properties":
-                    {
-                     "action":"camera_follow"
-                    },
-                 "propertytypes":
-                    {
-                     "action":"string"
-                    },
+                 "properties":[
+                        {
+                         "name":"action",
+                         "type":"string",
+                         "value":"camera_follow"
+                        }],
                  "rotation":0,
                  "type":"trigger",
                  "visible":true,
@@ -732,14 +744,12 @@
                  "height":95.5,
                  "id":82,
                  "name":"",
-                 "properties":
-                    {
-                     "action":"camera_unfollow"
-                    },
-                 "propertytypes":
-                    {
-                     "action":"string"
-                    },
+                 "properties":[
+                        {
+                         "name":"action",
+                         "type":"string",
+                         "value":"camera_unfollow"
+                        }],
                  "rotation":0,
                  "type":"trigger",
                  "visible":true,
@@ -752,20 +762,27 @@
                  "height":102.152,
                  "id":83,
                  "name":"4>3",
-                 "properties":
-                    {
-                     "camera_dx":-125,
-                     "camera_dy":0,
-                     "from":4,
-                     "to":3
-                    },
-                 "propertytypes":
-                    {
-                     "camera_dx":"int",
-                     "camera_dy":"int",
-                     "from":"int",
-                     "to":"int"
-                    },
+                 "properties":[
+                        {
+                         "name":"camera_dx",
+                         "type":"int",
+                         "value":-125
+                        }, 
+                        {
+                         "name":"camera_dy",
+                         "type":"int",
+                         "value":0
+                        }, 
+                        {
+                         "name":"from",
+                         "type":"int",
+                         "value":4
+                        }, 
+                        {
+                         "name":"to",
+                         "type":"int",
+                         "value":3
+                        }],
                  "rotation":0,
                  "type":"teleport",
                  "visible":true,
@@ -778,14 +795,12 @@
                  "height":110.5,
                  "id":84,
                  "name":"",
-                 "properties":
-                    {
-                     "action":"camera_unfollow"
-                    },
-                 "propertytypes":
-                    {
-                     "action":"string"
-                    },
+                 "properties":[
+                        {
+                         "name":"action",
+                         "type":"string",
+                         "value":"camera_unfollow"
+                        }],
                  "rotation":0,
                  "type":"trigger",
                  "visible":true,
@@ -798,14 +813,12 @@
                  "height":110.666666666667,
                  "id":85,
                  "name":"",
-                 "properties":
-                    {
-                     "action":"camera_follow"
-                    },
-                 "propertytypes":
-                    {
-                     "action":"string"
-                    },
+                 "properties":[
+                        {
+                         "name":"action",
+                         "type":"string",
+                         "value":"camera_follow"
+                        }],
                  "rotation":0,
                  "type":"trigger",
                  "visible":true,
@@ -818,20 +831,27 @@
                  "height":220.652,
                  "id":86,
                  "name":"8>7",
-                 "properties":
-                    {
-                     "camera_dx":-125,
-                     "camera_dy":0,
-                     "from":8,
-                     "to":7
-                    },
-                 "propertytypes":
-                    {
-                     "camera_dx":"int",
-                     "camera_dy":"int",
-                     "from":"int",
-                     "to":"int"
-                    },
+                 "properties":[
+                        {
+                         "name":"camera_dx",
+                         "type":"int",
+                         "value":-125
+                        }, 
+                        {
+                         "name":"camera_dy",
+                         "type":"int",
+                         "value":0
+                        }, 
+                        {
+                         "name":"from",
+                         "type":"int",
+                         "value":8
+                        }, 
+                        {
+                         "name":"to",
+                         "type":"int",
+                         "value":7
+                        }],
                  "rotation":0,
                  "type":"teleport",
                  "visible":true,
@@ -844,14 +864,12 @@
                  "height":159.5,
                  "id":87,
                  "name":"",
-                 "properties":
-                    {
-                     "action":"camera_unfollow"
-                    },
-                 "propertytypes":
-                    {
-                     "action":"string"
-                    },
+                 "properties":[
+                        {
+                         "name":"action",
+                         "type":"string",
+                         "value":"camera_unfollow"
+                        }],
                  "rotation":0,
                  "type":"trigger",
                  "visible":true,
@@ -864,14 +882,12 @@
                  "height":158.5,
                  "id":88,
                  "name":"",
-                 "properties":
-                    {
-                     "action":"camera_follow"
-                    },
-                 "propertytypes":
-                    {
-                     "action":"string"
-                    },
+                 "properties":[
+                        {
+                         "name":"action",
+                         "type":"string",
+                         "value":"camera_follow"
+                        }],
                  "rotation":0,
                  "type":"trigger",
                  "visible":true,
@@ -884,20 +900,27 @@
                  "height":88.4849,
                  "id":89,
                  "name":"9>10",
-                 "properties":
-                    {
-                     "camera_dx":115,
-                     "camera_dy":0,
-                     "from":9,
-                     "to":10
-                    },
-                 "propertytypes":
-                    {
-                     "camera_dx":"int",
-                     "camera_dy":"int",
-                     "from":"int",
-                     "to":"int"
-                    },
+                 "properties":[
+                        {
+                         "name":"camera_dx",
+                         "type":"int",
+                         "value":115
+                        }, 
+                        {
+                         "name":"camera_dy",
+                         "type":"int",
+                         "value":0
+                        }, 
+                        {
+                         "name":"from",
+                         "type":"int",
+                         "value":9
+                        }, 
+                        {
+                         "name":"to",
+                         "type":"int",
+                         "value":10
+                        }],
                  "rotation":0,
                  "type":"teleport",
                  "visible":true,
@@ -910,14 +933,12 @@
                  "height":96,
                  "id":90,
                  "name":"",
-                 "properties":
-                    {
-                     "action":"camera_follow"
-                    },
-                 "propertytypes":
-                    {
-                     "action":"string"
-                    },
+                 "properties":[
+                        {
+                         "name":"action",
+                         "type":"string",
+                         "value":"camera_follow"
+                        }],
                  "rotation":0,
                  "type":"trigger",
                  "visible":true,
@@ -930,14 +951,12 @@
                  "height":95.5,
                  "id":91,
                  "name":"",
-                 "properties":
-                    {
-                     "action":"camera_unfollow"
-                    },
-                 "propertytypes":
-                    {
-                     "action":"string"
-                    },
+                 "properties":[
+                        {
+                         "name":"action",
+                         "type":"string",
+                         "value":"camera_unfollow"
+                        }],
                  "rotation":0,
                  "type":"trigger",
                  "visible":true,
@@ -950,20 +969,27 @@
                  "height":20,
                  "id":92,
                  "name":"11>12",
-                 "properties":
-                    {
-                     "camera_dx":0,
-                     "camera_dy":105,
-                     "from":11,
-                     "to":12
-                    },
-                 "propertytypes":
-                    {
-                     "camera_dx":"int",
-                     "camera_dy":"int",
-                     "from":"int",
-                     "to":"int"
-                    },
+                 "properties":[
+                        {
+                         "name":"camera_dx",
+                         "type":"int",
+                         "value":0
+                        }, 
+                        {
+                         "name":"camera_dy",
+                         "type":"int",
+                         "value":105
+                        }, 
+                        {
+                         "name":"from",
+                         "type":"int",
+                         "value":11
+                        }, 
+                        {
+                         "name":"to",
+                         "type":"int",
+                         "value":12
+                        }],
                  "rotation":0,
                  "type":"teleport",
                  "visible":true,
@@ -976,14 +1002,12 @@
                  "height":10,
                  "id":93,
                  "name":"",
-                 "properties":
-                    {
-                     "action":"camera_follow"
-                    },
-                 "propertytypes":
-                    {
-                     "action":"string"
-                    },
+                 "properties":[
+                        {
+                         "name":"action",
+                         "type":"string",
+                         "value":"camera_follow"
+                        }],
                  "rotation":0,
                  "type":"trigger",
                  "visible":true,
@@ -996,14 +1020,12 @@
                  "height":10,
                  "id":94,
                  "name":"",
-                 "properties":
-                    {
-                     "action":"camera_unfollow"
-                    },
-                 "propertytypes":
-                    {
-                     "action":"string"
-                    },
+                 "properties":[
+                        {
+                         "name":"action",
+                         "type":"string",
+                         "value":"camera_unfollow"
+                        }],
                  "rotation":0,
                  "type":"trigger",
                  "visible":true,
@@ -1016,20 +1038,27 @@
                  "height":20,
                  "id":95,
                  "name":"12>11",
-                 "properties":
-                    {
-                     "camera_dx":0,
-                     "camera_dy":-100,
-                     "from":12,
-                     "to":11
-                    },
-                 "propertytypes":
-                    {
-                     "camera_dx":"int",
-                     "camera_dy":"int",
-                     "from":"int",
-                     "to":"int"
-                    },
+                 "properties":[
+                        {
+                         "name":"camera_dx",
+                         "type":"int",
+                         "value":0
+                        }, 
+                        {
+                         "name":"camera_dy",
+                         "type":"int",
+                         "value":-100
+                        }, 
+                        {
+                         "name":"from",
+                         "type":"int",
+                         "value":12
+                        }, 
+                        {
+                         "name":"to",
+                         "type":"int",
+                         "value":11
+                        }],
                  "rotation":0,
                  "type":"teleport",
                  "visible":true,
@@ -1042,14 +1071,12 @@
                  "height":10,
                  "id":96,
                  "name":"",
-                 "properties":
-                    {
-                     "action":"camera_follow"
-                    },
-                 "propertytypes":
-                    {
-                     "action":"string"
-                    },
+                 "properties":[
+                        {
+                         "name":"action",
+                         "type":"string",
+                         "value":"camera_follow"
+                        }],
                  "rotation":0,
                  "type":"trigger",
                  "visible":true,
@@ -1062,14 +1089,12 @@
                  "height":10,
                  "id":97,
                  "name":"",
-                 "properties":
-                    {
-                     "action":"camera_unfollow"
-                    },
-                 "propertytypes":
-                    {
-                     "action":"string"
-                    },
+                 "properties":[
+                        {
+                         "name":"action",
+                         "type":"string",
+                         "value":"camera_unfollow"
+                        }],
                  "rotation":0,
                  "type":"trigger",
                  "visible":true,
@@ -1082,20 +1107,27 @@
                  "height":48.4849,
                  "id":98,
                  "name":"13>14",
-                 "properties":
-                    {
-                     "camera_dx":0,
-                     "camera_dy":115,
-                     "from":13,
-                     "to":14
-                    },
-                 "propertytypes":
-                    {
-                     "camera_dx":"int",
-                     "camera_dy":"int",
-                     "from":"int",
-                     "to":"int"
-                    },
+                 "properties":[
+                        {
+                         "name":"camera_dx",
+                         "type":"int",
+                         "value":0
+                        }, 
+                        {
+                         "name":"camera_dy",
+                         "type":"int",
+                         "value":115
+                        }, 
+                        {
+                         "name":"from",
+                         "type":"int",
+                         "value":13
+                        }, 
+                        {
+                         "name":"to",
+                         "type":"int",
+                         "value":14
+                        }],
                  "rotation":0,
                  "type":"teleport",
                  "visible":true,
@@ -1108,14 +1140,12 @@
                  "height":8,
                  "id":99,
                  "name":"",
-                 "properties":
-                    {
-                     "action":"camera_follow"
-                    },
-                 "propertytypes":
-                    {
-                     "action":"string"
-                    },
+                 "properties":[
+                        {
+                         "name":"action",
+                         "type":"string",
+                         "value":"camera_follow"
+                        }],
                  "rotation":0,
                  "type":"trigger",
                  "visible":true,
@@ -1128,14 +1158,12 @@
                  "height":7.5,
                  "id":100,
                  "name":"",
-                 "properties":
-                    {
-                     "action":"camera_unfollow"
-                    },
-                 "propertytypes":
-                    {
-                     "action":"string"
-                    },
+                 "properties":[
+                        {
+                         "name":"action",
+                         "type":"string",
+                         "value":"camera_unfollow"
+                        }],
                  "rotation":0,
                  "type":"trigger",
                  "visible":true,
@@ -1148,20 +1176,27 @@
                  "height":26.4849,
                  "id":101,
                  "name":"14>13",
-                 "properties":
-                    {
-                     "camera_dx":0,
-                     "camera_dy":-115,
-                     "from":12,
-                     "to":11
-                    },
-                 "propertytypes":
-                    {
-                     "camera_dx":"int",
-                     "camera_dy":"int",
-                     "from":"int",
-                     "to":"int"
-                    },
+                 "properties":[
+                        {
+                         "name":"camera_dx",
+                         "type":"int",
+                         "value":0
+                        }, 
+                        {
+                         "name":"camera_dy",
+                         "type":"int",
+                         "value":-115
+                        }, 
+                        {
+                         "name":"from",
+                         "type":"int",
+                         "value":12
+                        }, 
+                        {
+                         "name":"to",
+                         "type":"int",
+                         "value":11
+                        }],
                  "rotation":0,
                  "type":"teleport",
                  "visible":true,
@@ -1174,14 +1209,12 @@
                  "height":11.5418,
                  "id":102,
                  "name":"",
-                 "properties":
-                    {
-                     "action":"camera_follow"
-                    },
-                 "propertytypes":
-                    {
-                     "action":"string"
-                    },
+                 "properties":[
+                        {
+                         "name":"action",
+                         "type":"string",
+                         "value":"camera_follow"
+                        }],
                  "rotation":0,
                  "type":"trigger",
                  "visible":true,
@@ -1194,14 +1227,12 @@
                  "height":10.8205,
                  "id":103,
                  "name":"",
-                 "properties":
-                    {
-                     "action":"camera_unfollow"
-                    },
-                 "propertytypes":
-                    {
-                     "action":"string"
-                    },
+                 "properties":[
+                        {
+                         "name":"action",
+                         "type":"string",
+                         "value":"camera_unfollow"
+                        }],
                  "rotation":0,
                  "type":"trigger",
                  "visible":true,
@@ -1214,20 +1245,27 @@
                  "height":88.4849,
                  "id":107,
                  "name":"16>15",
-                 "properties":
-                    {
-                     "camera_dx":115,
-                     "camera_dy":0,
-                     "from":16,
-                     "to":15
-                    },
-                 "propertytypes":
-                    {
-                     "camera_dx":"int",
-                     "camera_dy":"int",
-                     "from":"int",
-                     "to":"int"
-                    },
+                 "properties":[
+                        {
+                         "name":"camera_dx",
+                         "type":"int",
+                         "value":115
+                        }, 
+                        {
+                         "name":"camera_dy",
+                         "type":"int",
+                         "value":0
+                        }, 
+                        {
+                         "name":"from",
+                         "type":"int",
+                         "value":16
+                        }, 
+                        {
+                         "name":"to",
+                         "type":"int",
+                         "value":15
+                        }],
                  "rotation":0,
                  "type":"teleport",
                  "visible":true,
@@ -1240,14 +1278,12 @@
                  "height":96,
                  "id":108,
                  "name":"",
-                 "properties":
-                    {
-                     "action":"camera_follow"
-                    },
-                 "propertytypes":
-                    {
-                     "action":"string"
-                    },
+                 "properties":[
+                        {
+                         "name":"action",
+                         "type":"string",
+                         "value":"camera_follow"
+                        }],
                  "rotation":0,
                  "type":"trigger",
                  "visible":true,
@@ -1260,14 +1296,12 @@
                  "height":95.5,
                  "id":109,
                  "name":"",
-                 "properties":
-                    {
-                     "action":"camera_unfollow"
-                    },
-                 "propertytypes":
-                    {
-                     "action":"string"
-                    },
+                 "properties":[
+                        {
+                         "name":"action",
+                         "type":"string",
+                         "value":"camera_unfollow"
+                        }],
                  "rotation":0,
                  "type":"trigger",
                  "visible":true,
@@ -1292,14 +1326,12 @@
                  "height":16,
                  "id":111,
                  "name":"ramsey",
-                 "properties":
-                    {
-                     "state":"UP"
-                    },
-                 "propertytypes":
-                    {
-                     "state":"string"
-                    },
+                 "properties":[
+                        {
+                         "name":"state",
+                         "type":"string",
+                         "value":"UP"
+                        }],
                  "rotation":0,
                  "type":"character",
                  "visible":true,
@@ -1312,14 +1344,12 @@
                  "height":117,
                  "id":112,
                  "name":"",
-                 "properties":
-                    {
-                     "action":"camera_unfollow"
-                    },
-                 "propertytypes":
-                    {
-                     "action":"string"
-                    },
+                 "properties":[
+                        {
+                         "name":"action",
+                         "type":"string",
+                         "value":"camera_unfollow"
+                        }],
                  "rotation":0,
                  "type":"trigger",
                  "visible":true,
@@ -1332,14 +1362,12 @@
                  "height":115,
                  "id":113,
                  "name":"",
-                 "properties":
-                    {
-                     "action":"camera_follow"
-                    },
-                 "propertytypes":
-                    {
-                     "action":"string"
-                    },
+                 "properties":[
+                        {
+                         "name":"action",
+                         "type":"string",
+                         "value":"camera_follow"
+                        }],
                  "rotation":0,
                  "type":"trigger",
                  "visible":true,
@@ -1352,14 +1380,12 @@
                  "height":145.5,
                  "id":114,
                  "name":"",
-                 "properties":
-                    {
-                     "action":"camera_unfollow"
-                    },
-                 "propertytypes":
-                    {
-                     "action":"string"
-                    },
+                 "properties":[
+                        {
+                         "name":"action",
+                         "type":"string",
+                         "value":"camera_unfollow"
+                        }],
                  "rotation":0,
                  "type":"trigger",
                  "visible":true,
@@ -1372,14 +1398,12 @@
                  "height":143.846153846154,
                  "id":115,
                  "name":"",
-                 "properties":
-                    {
-                     "action":"camera_follow"
-                    },
-                 "propertytypes":
-                    {
-                     "action":"string"
-                    },
+                 "properties":[
+                        {
+                         "name":"action",
+                         "type":"string",
+                         "value":"camera_follow"
+                        }],
                  "rotation":0,
                  "type":"trigger",
                  "visible":true,
@@ -1392,16 +1416,17 @@
                  "height":16,
                  "id":116,
                  "name":"start2",
-                 "properties":
-                    {
-                     "id":2,
-                     "lookdir":"DOWN"
-                    },
-                 "propertytypes":
-                    {
-                     "id":"int",
-                     "lookdir":"string"
-                    },
+                 "properties":[
+                        {
+                         "name":"id",
+                         "type":"int",
+                         "value":2
+                        }, 
+                        {
+                         "name":"lookdir",
+                         "type":"string",
+                         "value":"DOWN"
+                        }],
                  "rotation":0,
                  "type":"start",
                  "visible":true,
@@ -1463,6 +1488,6 @@
         }],
  "tilewidth":16,
  "type":"map",
- "version":1.1,
+ "version":1.2,
  "width":200
 }

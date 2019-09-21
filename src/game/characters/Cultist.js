@@ -1,4 +1,4 @@
-import { Character } from "./Character"
+import { Character, CHARACTER_STATE } from "./Character"
 
 export class Cultist extends Character {
 	constructor(position, verticalMove) {
@@ -12,25 +12,19 @@ export class Cultist extends Character {
 		this.body.bounce.y = 1
 
 		this.speed = 60
-		if (verticalMove) {
-			this.body.velocity.y = this.speed
-		} else {
-			this.body.velocity.x = this.speed
-		}
+		this.move(verticalMove ? "DOWN" : "RIGHT", this.speed);
 	}
 
 	update() {
 		if (this.body.velocity.y > 0) {
-			this.animations.play("walk-front")
+			this.state = CHARACTER_STATE.WALKING_DOWN
 		} else if (this.body.velocity.y < 0) {
-			this.animations.play("walk-back")
-		} else if (this.body.velocity.y == 0) {
-			this.animations.play("walk-side")
-			if (this.body.velocity.x > 0) {
-				this.scale.x = -1
-			} else {
-				this.scale.x = 1
-			}
+			this.state = CHARACTER_STATE.WALKING_UP
+		} else if (this.body.velocity.x > 0) {
+			this.state = CHARACTER_STATE.WALKING_RIGHT
+		} else if (this.body.velocity.x < 0) {
+			this.state = CHARACTER_STATE.WALKING_LEFT
 		}
+		super.update()
 	}
 }

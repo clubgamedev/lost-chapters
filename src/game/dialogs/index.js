@@ -5,18 +5,16 @@ import { arthur } from "./PereArthur";
 
 import { Marchand } from "./Marchand";
 import { ramsey } from "./Ramsey";
-import { SbireForest } from "./SbireForest";
-import { SbireGardantGrotte } from "./SbireGardantGrotte";
 
-import { SbireMinable } from "./SbireMinable";
-import { StudentLambda } from "./StudentLambda";
 import { Therled } from "./Therled";
-import { GardeDeTherled } from "./GardeDeTherled";
 import {
     etudiant_salle_a_manger,
     etudiant_dortoir,
     etudiant_salle_astonomie
 } from "./etudiants";
+import {
+    ennemy_cultist
+} from "./sbires";
 
 import * as descriptions from "./descriptions";
 
@@ -27,14 +25,10 @@ export const dialogs = {
     arthur,
     Marchand,
     ramsey,
-    SbireForest,
-    SbireGardantGrotte,
-    SbireMinable,
-    StudentLambda,
     Therled,
-    GardeDeTherled,
     etudiant_salle_a_manger,
     etudiant_dortoir,
     etudiant_salle_astonomie,
+    ennemy_cultist,
     ...descriptions
 }
