@@ -20,9 +20,9 @@ export function newGame() {
             potionDeForce: 0,
             potionDeProtection: 0,
             potionDeLucidite: 0,
-            fioleDeSang: 1,
+            fioleDeSang: 0,
             parchemin: 0,
-            cape: 1
+            cape: 0
         },
         loot: {
             recettePotionDeForce: false,
@@ -46,6 +46,7 @@ export function newGame() {
         hasDiscoveredCodeEtabli: false,
         hasFalsifiedScroll: false,
         planquesFound: [],
-        translationsFound: []
+        translationsFound: [],
+        unlockedExits: []
     }
 }

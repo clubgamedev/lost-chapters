@@ -558,14 +558,14 @@
                          "value":"sanctuaire"
                         }, 
                         {
+                         "name":"lock",
+                         "type":"string",
+                         "value":"sortie_universite"
+                        }, 
+                        {
                          "name":"start",
                          "type":"int",
                          "value":1
-                        }, 
-                        {
-                         "name":"unlocked",
-                         "type":"string",
-                         "value":"hasMetFranck"
                         }],
                  "rotation":0,
                  "type":"exit",
@@ -813,6 +813,11 @@
                          "name":"id",
                          "type":"int",
                          "value":1
+                        }, 
+                        {
+                         "name":"lookdir",
+                         "type":"string",
+                         "value":"UP"
                         }],
                  "rotation":0,
                  "type":"start",

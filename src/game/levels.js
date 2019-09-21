@@ -20,6 +20,16 @@ export const schoolLevel = {
 	obscurity: 1
 }
 
+export const sanctuaireLevel = {
+	name: "Le Sanctuaire",
+	tilemap: "map_sanctuary",
+	tilesets: ["tileset_forest", "tileset_outside"],
+	lightRadius: 150,
+	obscurity: 1,
+	fog: true,
+	tint: 0xC0A8D0
+}
+
 export const forestLevel = {
 	name: "La forêt",
 	tilemap: "map_forest",
@@ -47,22 +57,12 @@ export const autelLevel = {
 	tint: 0xFFE0C0
 }
 
-export const sanctuaireLevel = {
-	name: "Le Sanctuaire",
-	tilemap: "map_sanctuary",
-	tilesets: ["tileset_forest", "tileset_outside"],
-	lightRadius: 150,
-	obscurity: 1,
-	fog: true,
-	tint: 0xC0A8D0
-}
-
 export const levels = {
+	school: schoolLevel,
+	sanctuaire: sanctuaireLevel,
 	forest: forestLevel,
 	cave: caveLevel,
-	autel: autelLevel,
-	school: schoolLevel,
-	sanctuaire: sanctuaireLevel
+	autel: autelLevel
 }
 
 export class Level {
@@ -201,11 +201,11 @@ export class Level {
 					x: object.x / 16,
 					y: object.y / 16
 				}, {
-						width: object.width,
-						height: object.height,
-						name: object.name,
-						...(object.properties || {})
-					})
+					width: object.width,
+					height: object.height,
+					name: object.name,
+					...(object.properties || {})
+				})
 				game.groups.objects.add(sprite)
 			})
 		})
@@ -243,24 +243,26 @@ export class Level {
 			exitSprite.width = exit.width;
 			exitSprite.height = exit.height;
 			game.groups.triggers.add(exitSprite)
-			exitSprite.action = () => {
-				if (exit.properties.unlocked && !game.save[exit.properties.unlocked]) {
-					game.disableTriggers = true;
-					let { backDirection, backDuration, message } = lockedExits[exit.properties.level]
-					return talkToMyself(message)
-						.then(() => game.player.forceMove(backDirection, backDuration))
-						.then(() => { game.disableTriggers = false; })
+			exitSprite.action = async () => {
+				if (exit.properties.lock in lockedExits) {
+					if (!game.save.unlockedExits.includes(exit.properties.lock)) {
+						game.disableTriggers = true;
+						await lockedExits[exit.properties.lock]();
+						game.disableTriggers = false;
+						if (!game.save.unlockedExits.includes(exit.properties.lock)) return;
+					}
 				}
 
 				game.disableTriggers = true;  // to avoid triggers while changing level
 				let levelName = exit.properties.level;
 				game.camera.fade(0x000000, 400)
 				setTimeout(() => {
-					goToLevel(levelName, exit.properties.start)
+					const startPosition = goToLevel(levelName, exit.properties.start)
 					setTimeout(() => {
 						game.camera.follow(game.player);
 						game.camera.flash(0x000000, 400, true)
 						game.disableTriggers = false;
+						game.player.state = CHARACTER_STATE[startPosition.properties.lookdir] || "DOWN"
 					}, 10);
 				}, 400);
 			}
@@ -336,7 +338,9 @@ export function goToLevel(levelName, startId) {
 		game.level.exit();
 	}
 	game.level = new Level(levels[levelName])
-	positionPlayerAtStartOfLevel(startId);
+
+	game.player.loadTexture(["cave", "autel"].includes(levelName) ? "cultist" : "howard", 0);
+	return positionPlayerAtStartOfLevel(startId);
 }
 
 export function positionPlayerAtStartOfLevel(id = 1) {
@@ -345,4 +349,5 @@ export function positionPlayerAtStartOfLevel(id = 1) {
 		x: startPosition.x + 8,
 		y: startPosition.y,
 	});
+	return startPosition
 }

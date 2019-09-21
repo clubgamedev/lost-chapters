@@ -138,12 +138,60 @@ export const tombe_grotte = {
     }
 }
 
+export const cape_cachee = {
+    action() {
+        if (game.save.planquesFound.includes("cape_cachee")) {
+            return [
+                `Il y a le nom de l'université brodé sur cette cape.`,
+                `Pas de doutes, elle appartient à un étudiant.`
+            ]
+        } else {
+            return [
+                `Quelqu'un a caché une vieille cape noire ici.`,
+                `Je pourrais peut-être m'en servir...`
+            ]
+        }
+    },
+    after() {
+        if (game.save.planquesFound.includes("cape_cachee")) return;
+        if (game.save.inventory.cape === 0) {
+            game.save.inventory.cape++;
+            sounds.ITEM.play();
+            game.save.planquesFound.push("cape_cachee");
+        }
+    }
+}
+
 export const lockedExits = {
-    sanctuaire: {
-        backDirection: "UP",
-        backDuration: 500,
-        message: [
-            `Je ne peux pas partir maintenant, il faut que je parle à Franck.`
-        ]
+    sortie_universite() {
+        if (game.save.hasMetFranck) {
+            game.save.unlockedExits.push("sortie_universite")
+            return talkToMyself([
+                `Je devrais aller enquêter dans la forêt pour voir`,
+                `ce que trame ce Therled et ses compères.`
+            ])
+        } else {
+            return talkToMyself([
+                `Je ne peux pas partir maintenant, il faut que je parle à Franck.`
+            ]).then(() => {
+                game.player.forceMove("UP", 500)
+            })
+        }
+    },
+    entree_cave() {
+        if (game.save.inventory.cape > 0) {
+            game.save.unlockedExits.push("entree_cave")
+            return talkToMyself([
+                `Je vais enfiler cette cape noire pour tenter de m'infiltrer.`,
+                `Ça devrait marcher tant qu'on ne me regarde pas de trop près.`
+            ])
+        } else {
+            return talkToMyself([
+                `J'entends du bruit à l'intérieur. Ça doit être le repaire des cultistes.`,
+                `Je dois trouver un moyen de m'infiltrer discrètement là-dedans`
+            ]).then(() => {
+                game.player.forceMove("DOWN", 500)
+            })
+        }
     }
 }
