@@ -4,7 +4,7 @@ import { Light } from "../utils/Light"
 
 export class Fire extends Phaser.Sprite {
     constructor(position, properties = {}) {
-        super(game, position.x * 16 + 8, position.y * 16 + 8, "fire", game.rnd.integerInRange(0, 11));
+        super(game, position.x * 16 + 8, position.y * 16 + 4, "fire", game.rnd.integerInRange(0, 11));
         this.anchor.setTo(0.5, 0);
         this.animations.add("fire", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], 15, true);
         this.animations.play("fire");
