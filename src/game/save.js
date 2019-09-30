@@ -23,7 +23,7 @@ export function newGame() {
             },
             potionDeProtection: {
                 nombre:0,
-                actif:true
+                actif:false
             },
             potionDeLucidite: {
                 nombre:0,

@@ -262,7 +262,7 @@ function displayActivePotions() {
         if (Object.prototype.hasOwnProperty.call(game.save.inventory, item)) {
             if (game.save.inventory[item].actif) {
                 let potion = game.add.image(10, i * 50, item);
-                potion.scale.set(0.6, 0.6);
+                potion.scale.set(0.8, 0.8);
                 i++;
             }
         }
