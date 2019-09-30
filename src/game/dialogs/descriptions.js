@@ -154,8 +154,8 @@ export const cape_cachee = {
     },
     after() {
         if (game.save.planquesFound.includes("cape_cachee")) return;
-        if (game.save.inventory.cape === 0) {
-            game.save.inventory.cape++;
+        if (game.save.inventory.cape.nombre === 0) {
+            game.save.inventory.cape.nombre++;
             sounds.ITEM.play();
             game.save.planquesFound.push("cape_cachee");
         }
@@ -179,7 +179,7 @@ export const lockedExits = {
         }
     },
     entree_cave() {
-        if (game.save.inventory.cape > 0) {
+        if (game.save.inventory.cape.nombre > 0) {
             game.save.unlockedExits.push("entree_cave")
             return talkToMyself([
                 `Je vais enfiler cette cape noire pour tenter de m'infiltrer.`,
