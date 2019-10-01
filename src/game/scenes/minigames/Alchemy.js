@@ -258,7 +258,7 @@ export class AlchemyScene {
     gameOver() {
         showMiddleText("Le temps est écoulé");
         this.potionsCreated.forEach(potion => {
-            game.save.inventory[potion.name]++;
+            game.save.inventory[potion.name].nombre ++;
         });
         game.state.start('MainGame');
     }
