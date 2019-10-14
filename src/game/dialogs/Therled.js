@@ -1,21 +1,20 @@
-import { talkToMyself } from "../utils/dialog"
+import { talkToMyself, startDialog } from "../utils/dialog"
 
 export function therled(save) {
 	return [
 		"Ah enfin ! Donne-moi le parchemin, il est presque trop tard !",
 		{
 			"Donner le parchemin": () => [
-				"Bien, bien, nous allons pouvoir commencer...",
-				rituel1
+				"Bien, bien, nous allons pouvoir commencer..."
 			],
 			"Refuser": () => [
 				"Qu'y a-t-il ? Tu abandonnes si près de notre but ?",
 				"Tu penses pouvoir empêcher la science d'avancer ?",
 				"Tu sais le sort que l'on réserve aux traîtres...",
-				"Je te le redemande une dernière fois. Le parchemin.",
-				rituel1
+				"Je te le redemande une dernière fois. Le parchemin."
 			]
-		}
+		},
+		rituel1
 	]
 
 }
@@ -23,11 +22,11 @@ export function therled(save) {
 function rituel1() {
 	return talkToMyself([
 		`Vous donnez le parchemin à Therled.`
-	]).then(() => [
+	]).then(() => startDialog([
 		`Maintenant, le sang pour appeler la bête...`,
 		`et le Liao pour voir à travers le voile...`,
 		rituel2
-	])
+	], { speaker: "therled" }))
 }
 
 function rituel2() {
@@ -36,12 +35,12 @@ function rituel2() {
 		`au contenu rouge sombre. On dirait du sang...`,
 		`Il distribue les fioles à ses compères, et vous en tend une,`,
 		`puis boit la dernière d'un cul sec. Les autres l'imitent.`
-	]).then(() => {
-		return {
+	]).then(() => startDialog([
+		{
 			"Boire la fiole": () => ["Et que maintant que le chien de tindalos se MONTRE!"],
 			"Boire la fausse fiole": () => ["Et que maintant que le chien de tindalos se MONTRE!"],
 		}
-	})
+	], { speaker: "therled" }))
 }
 
 /*

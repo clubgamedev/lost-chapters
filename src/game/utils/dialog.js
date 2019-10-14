@@ -2,6 +2,8 @@ import baragouin from "baragouin"
 import { dialogs } from "../dialogs"
 
 export function startDialog(lines, params = {}) {
+    if (game.dialog) endDialog();
+
     let { color, speaker } = params = Object.assign({
         color: "#CC1C00",
         bg: "dialog-box"
@@ -60,6 +62,7 @@ export function nextLine() {
         }
     }
 
+    if (line instanceof Promise) return;
     if (!line) return endDialog();
 
     if (Object.getPrototypeOf(line) === Object.prototype) {
