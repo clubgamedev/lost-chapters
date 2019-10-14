@@ -9,7 +9,6 @@ import { Hallucination } from "./effects/Hallucination";
 import RenderGroup from "./utils/RenderGroup";
 import { initLights, updateLights, clearLights } from "./utils/Light";
 import { showMiddleText } from "./utils/message"
-import { talkToMyself } from "./utils/dialog"
 import { lockedExits } from "./dialogs/descriptions";
 
 export const schoolLevel = {
@@ -284,17 +283,19 @@ export class Level {
 		})
 	}
 
-	createLights(lightRadius, obscurity, hue, fog, tint) {
+	createLights(lightRadius, obscurity, hue, fog, tint, enableMapLights = true) {
 		initLights(lightRadius, obscurity, hue, fog);
 		game.player.tint = tint || 0xFFFFFF;
 		const lightSources = { fire: Fire, light: AmbientLight };
 
-		Object.entries(lightSources).forEach(([objectType, Constructor]) => {
-			findObjectsByType(objectType, this.tilemap, "Object Layer").forEach(lightSource => {
-				let sprite = new Constructor({ x: lightSource.x / 16, y: lightSource.y / 16 }, lightSource.properties)
-				game.groups.lights.add(sprite);
+		if (enableMapLights) {
+			Object.entries(lightSources).forEach(([objectType, Constructor]) => {
+				findObjectsByType(objectType, this.tilemap, "Object Layer").forEach(lightSource => {
+					let sprite = new Constructor({ x: lightSource.x / 16, y: lightSource.y / 16 }, lightSource.properties)
+					game.groups.lights.add(sprite);
+				})
 			})
-		})
+		}
 	}
 
 	update() {

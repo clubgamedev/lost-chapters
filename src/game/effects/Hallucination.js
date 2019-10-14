@@ -24,9 +24,9 @@ export const hallucinations = {
                 return startDialog([
                     `CE... N'EST... PAS... REEL !`
                 ], {
-                        speaker: "afraid",
-                        color: "#82ACDC"
-                    });
+                    speaker: "afraid",
+                    color: "#82ACDC"
+                });
             }).then(() => {
                 sounds.HALLUCINATION.play();
                 sprite.destroy();

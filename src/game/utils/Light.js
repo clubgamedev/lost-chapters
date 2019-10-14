@@ -12,6 +12,7 @@ export class Light {
 }
 
 export function initLights(lightRadius, obscurity = 0.75, hue, fog) {
+    clearLights();
     let shadowTexture = game.add.bitmapData(game.width, game.height)
     shadowTexture.radius = 90
     let sprite = game.add.image(0, 0, shadowTexture)
@@ -46,8 +47,10 @@ export function initLights(lightRadius, obscurity = 0.75, hue, fog) {
 }
 
 export function clearLights() {
-    game.light.sprite.destroy();
-    game.light.filterSprite.destroy();
+    if (game.light) {
+        game.light.sprite.destroy();
+        game.light.filterSprite.destroy();
+    }
 
     game.world.filters = null
     game.hueFilter && game.hueFilter.destroy();
@@ -55,6 +58,8 @@ export function clearLights() {
 
     game.fogFilter && game.fogFilter.destroy();
     delete game.fogFilter;
+
+    game.groups.lights.removeAll(true);
 }
 
 export function updateLights() {

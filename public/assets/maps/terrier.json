@@ -72,12 +72,14 @@
                  "height":16,
                  "id":2,
                  "name":"",
-                 "properties":[
-                        {
-                         "name":"vertical",
-                         "type":"bool",
-                         "value":true
-                        }],
+                 "properties":
+                    {
+                     "vertical":true
+                    },
+                 "propertytypes":
+                    {
+                     "vertical":"bool"
+                    },
                  "rotation":0,
                  "type":"cultist",
                  "visible":true,
@@ -90,12 +92,14 @@
                  "height":16,
                  "id":5,
                  "name":"",
-                 "properties":[
-                        {
-                         "name":"vertical",
-                         "type":"bool",
-                         "value":false
-                        }],
+                 "properties":
+                    {
+                     "vertical":false
+                    },
+                 "propertytypes":
+                    {
+                     "vertical":"bool"
+                    },
                  "rotation":0,
                  "type":"cultist",
                  "visible":true,
@@ -108,12 +112,14 @@
                  "height":16,
                  "id":6,
                  "name":"",
-                 "properties":[
-                        {
-                         "name":"vertical",
-                         "type":"bool",
-                         "value":true
-                        }],
+                 "properties":
+                    {
+                     "vertical":true
+                    },
+                 "propertytypes":
+                    {
+                     "vertical":"bool"
+                    },
                  "rotation":0,
                  "type":"cultist",
                  "visible":true,
@@ -126,12 +132,14 @@
                  "height":16,
                  "id":7,
                  "name":"",
-                 "properties":[
-                        {
-                         "name":"vertical",
-                         "type":"bool",
-                         "value":false
-                        }],
+                 "properties":
+                    {
+                     "vertical":false
+                    },
+                 "propertytypes":
+                    {
+                     "vertical":"bool"
+                    },
                  "rotation":0,
                  "type":"cultist",
                  "visible":true,
@@ -144,12 +152,14 @@
                  "height":16,
                  "id":10,
                  "name":"",
-                 "properties":[
-                        {
-                         "name":"vertical",
-                         "type":"bool",
-                         "value":true
-                        }],
+                 "properties":
+                    {
+                     "vertical":true
+                    },
+                 "propertytypes":
+                    {
+                     "vertical":"bool"
+                    },
                  "rotation":0,
                  "type":"cultist",
                  "visible":true,
@@ -162,12 +172,14 @@
                  "height":16,
                  "id":11,
                  "name":"",
-                 "properties":[
-                        {
-                         "name":"vertical",
-                         "type":"bool",
-                         "value":false
-                        }],
+                 "properties":
+                    {
+                     "vertical":false
+                    },
+                 "propertytypes":
+                    {
+                     "vertical":"bool"
+                    },
                  "rotation":0,
                  "type":"cultist",
                  "visible":true,
@@ -180,12 +192,14 @@
                  "height":16,
                  "id":12,
                  "name":"",
-                 "properties":[
-                        {
-                         "name":"vertical",
-                         "type":"bool",
-                         "value":false
-                        }],
+                 "properties":
+                    {
+                     "vertical":false
+                    },
+                 "propertytypes":
+                    {
+                     "vertical":"bool"
+                    },
                  "rotation":0,
                  "type":"cultist",
                  "visible":true,
@@ -198,12 +212,14 @@
                  "height":16,
                  "id":13,
                  "name":"",
-                 "properties":[
-                        {
-                         "name":"vertical",
-                         "type":"bool",
-                         "value":false
-                        }],
+                 "properties":
+                    {
+                     "vertical":false
+                    },
+                 "propertytypes":
+                    {
+                     "vertical":"bool"
+                    },
                  "rotation":0,
                  "type":"cultist",
                  "visible":true,
@@ -216,12 +232,14 @@
                  "height":16,
                  "id":14,
                  "name":"",
-                 "properties":[
-                        {
-                         "name":"vertical",
-                         "type":"bool",
-                         "value":false
-                        }],
+                 "properties":
+                    {
+                     "vertical":false
+                    },
+                 "propertytypes":
+                    {
+                     "vertical":"bool"
+                    },
                  "rotation":0,
                  "type":"cultist",
                  "visible":true,
@@ -234,12 +252,14 @@
                  "height":16,
                  "id":15,
                  "name":"",
-                 "properties":[
-                        {
-                         "name":"vertical",
-                         "type":"bool",
-                         "value":false
-                        }],
+                 "properties":
+                    {
+                     "vertical":false
+                    },
+                 "propertytypes":
+                    {
+                     "vertical":"bool"
+                    },
                  "rotation":0,
                  "type":"cultist",
                  "visible":true,
@@ -252,17 +272,16 @@
                  "height":16,
                  "id":24,
                  "name":"",
-                 "properties":[
-                        {
-                         "name":"duration",
-                         "type":"int",
-                         "value":30
-                        }, 
-                        {
-                         "name":"variant",
-                         "type":"string",
-                         "value":"action_shuffle"
-                        }],
+                 "properties":
+                    {
+                     "duration":30,
+                     "variant":"action_shuffle"
+                    },
+                 "propertytypes":
+                    {
+                     "duration":"int",
+                     "variant":"string"
+                    },
                  "rotation":0,
                  "type":"runes",
                  "visible":true,
@@ -443,17 +462,16 @@
                  "height":16,
                  "id":44,
                  "name":"start1",
-                 "properties":[
-                        {
-                         "name":"id",
-                         "type":"int",
-                         "value":1
-                        }, 
-                        {
-                         "name":"lookdir",
-                         "type":"string",
-                         "value":"DOWN"
-                        }],
+                 "properties":
+                    {
+                     "id":1,
+                     "lookdir":"DOWN"
+                    },
+                 "propertytypes":
+                    {
+                     "id":"int",
+                     "lookdir":"string"
+                    },
                  "rotation":0,
                  "type":"start",
                  "visible":true,
@@ -466,17 +484,16 @@
                  "height":16,
                  "id":45,
                  "name":"start2",
-                 "properties":[
-                        {
-                         "name":"id",
-                         "type":"int",
-                         "value":2
-                        }, 
-                        {
-                         "name":"lookdir",
-                         "type":"string",
-                         "value":"DOWN"
-                        }],
+                 "properties":
+                    {
+                     "id":2,
+                     "lookdir":"DOWN"
+                    },
+                 "propertytypes":
+                    {
+                     "id":"int",
+                     "lookdir":"string"
+                    },
                  "rotation":0,
                  "type":"start",
                  "visible":true,
@@ -489,17 +506,16 @@
                  "height":14.4848666666667,
                  "id":46,
                  "name":"",
-                 "properties":[
-                        {
-                         "name":"level",
-                         "type":"string",
-                         "value":"forest"
-                        }, 
-                        {
-                         "name":"start",
-                         "type":"int",
-                         "value":2
-                        }],
+                 "properties":
+                    {
+                     "level":"forest",
+                     "start":2
+                    },
+                 "propertytypes":
+                    {
+                     "level":"string",
+                     "start":"int"
+                    },
                  "rotation":0,
                  "type":"exit",
                  "visible":true,
@@ -512,17 +528,16 @@
                  "height":14.4849,
                  "id":47,
                  "name":"",
-                 "properties":[
-                        {
-                         "name":"level",
-                         "type":"string",
-                         "value":"autel"
-                        }, 
-                        {
-                         "name":"start",
-                         "type":"int",
-                         "value":1
-                        }],
+                 "properties":
+                    {
+                     "level":"autel",
+                     "start":1
+                    },
+                 "propertytypes":
+                    {
+                     "level":"string",
+                     "start":"int"
+                    },
                  "rotation":0,
                  "type":"exit",
                  "visible":true,
@@ -559,12 +574,14 @@
                  "height":16,
                  "id":51,
                  "name":"",
-                 "properties":[
-                        {
-                         "name":"vertical",
-                         "type":"bool",
-                         "value":false
-                        }],
+                 "properties":
+                    {
+                     "vertical":false
+                    },
+                 "propertytypes":
+                    {
+                     "vertical":"bool"
+                    },
                  "rotation":0,
                  "type":"cultist",
                  "visible":true,
@@ -577,12 +594,14 @@
                  "height":16,
                  "id":52,
                  "name":"",
-                 "properties":[
-                        {
-                         "name":"vertical",
-                         "type":"bool",
-                         "value":false
-                        }],
+                 "properties":
+                    {
+                     "vertical":false
+                    },
+                 "propertytypes":
+                    {
+                     "vertical":"bool"
+                    },
                  "rotation":0,
                  "type":"cultist",
                  "visible":true,
@@ -636,7 +655,7 @@
  "nextobjectid":58,
  "orientation":"orthogonal",
  "renderorder":"right-down",
- "tiledversion":"1.2.4",
+ "tiledversion":"1.2.5",
  "tileheight":16,
  "tilesets":[
         {
@@ -667,6 +686,6 @@
         }],
  "tilewidth":16,
  "type":"map",
- "version":1.2,
+ "version":1.1,
  "width":60
 }
