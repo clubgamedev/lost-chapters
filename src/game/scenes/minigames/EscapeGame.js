@@ -101,7 +101,7 @@ export class EscapeGameScene {
         parchemin.inputEnabled = true;
         parchemin.events.onInputDown.add(() => {
             parchemin.visible = false;
-            game.save.inventory.parchemin = 1;
+            game.save.inventory.items.parchemin = 1;
         });
     }
 

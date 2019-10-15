@@ -246,11 +246,11 @@ export class DecryptorScene {
 }
 
 function activePotions() {
-    if (game.save.inventory.potionDeProtection && game.save.inventory.potionDeProtection.actif) {
+    if (game.save.inventory.items.potionDeProtection && game.save.inventory.items.potionDeProtection.actif) {
         nbPlayerHitsToWin = nbPlayerHitsToWin + 2;
     }
 
-    if (game.save.inventory.potionDeForce && game.save.inventory.potionDeForce.actif) {
+    if (game.save.inventory.items.potionDeForce && game.save.inventory.potionDeForce.actif) {
         nbEnemyHitsToWin = nbEnemyHitsToWin - 2;
     }
     displayActivePotions();

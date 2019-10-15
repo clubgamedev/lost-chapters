@@ -1,7 +1,7 @@
-export function updateHud(inventory) {
+export function updateHud() {
     game.groups.hud.removeAll(true);
     drawLucidityBar()
-    inventory.drawInventory();
+    game.save.inventory.drawInventory();
 }
 
 export function drawLucidityBar() {

@@ -17,8 +17,7 @@ export class GameScene {
         game.scale.setGameSize(255, 144);
         this.spawnPlayer()
         game.controls.ACTION.onPress(() => game.player && game.player.doAction())
-        this.inventory = new Inventory();
-        game.controls.TAB.onPress(() => this.inventory.activeItemSelection(), this, true);
+        game.controls.TAB.onPress(() => game.save.inventory.activeItemSelection(), this, true);
         if (!game.save.hasReadIntro) {
             game.paused = true;
             openBook("book_intro").then(() => {
@@ -35,7 +34,7 @@ export class GameScene {
         startMusic();
         addSounds()
         goToLevel(game.save.level)
-        updateHud(this.inventory);
+        updateHud();
         save()
     }
 
@@ -66,7 +65,7 @@ export class GameScene {
         game.level.update()
 
         game.groups.render.sort('y', Phaser.Group.SORT_ASCENDING); // depth sort
-        updateHud(this.inventory);
+        updateHud();
 
     }
 

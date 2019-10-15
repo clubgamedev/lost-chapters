@@ -1,3 +1,5 @@
+import {Inventory} from "./utils/inventory";
+
 export function loadSave() {
     if (localStorage.getItem("save") != null) {
         game.save = JSON.parse(localStorage.getItem("save"));
@@ -16,30 +18,7 @@ export function save() {
 export function newGame() {
     game.save = {
         level: "cave",
-        inventory: {
-            potionDeForce: {
-                nombre:2,
-                actif:false
-            },
-            potionDeProtection: {
-                nombre:1,
-                actif:false
-            },
-            potionDeLucidite: {
-                nombre:1,
-                actif:false
-            },
-            fioleDeSang: {
-                nombre:1,
-                actif:false
-            },
-            parchemin: {
-                nombre:1
-            },
-            cape: {
-                nombre:1
-            },
-        },
+        inventory: new Inventory(),
         loot: {
             recettePotionDeForce: false,
             recettePotionDeProtection: false,

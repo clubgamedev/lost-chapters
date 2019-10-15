@@ -5,8 +5,8 @@ export function potionDeForce(save) {
         allPotions.filter((potion) => potion.name === "potionDeForce")[0].description,
         {
             "La boire": () => {
-                save.inventory.potionDeForce.actif = true;
-                save.inventory.potionDeForce.nombre--;
+                save.inventory.items.potionDeForce.actif = true;
+                save.inventory.items.potionDeForce.nombre--;
             },
             "La ranger": () => {
 
@@ -20,8 +20,8 @@ export function potionDeLucidite(save) {
         allPotions.filter((potion) => potion.name === "potionDeLucidite")[0].description,
         {
             "La boire": () => {
-                save.inventory.potionDeLucidite.actif = true;
-                save.inventory.potionDeLucidite.nombre--;
+                save.inventory.items.potionDeLucidite.actif = true;
+                save.inventory.items.potionDeLucidite.nombre--;
             },
             "La ranger": () => {
 
@@ -35,8 +35,8 @@ export function potionDeProtection(save) {
         allPotions.filter((potion) => potion.name === "potionDeProtection")[0].description,
         {
             "La boire": () => {
-                save.inventory.potionDeProtection.actif = true;
-                save.inventory.potionDeProtection.nombre--;
+                save.inventory.items.potionDeProtection.actif = true;
+                save.inventory.items.potionDeProtection.nombre--;
             },
             "La ranger": () => {
 
@@ -50,8 +50,8 @@ export function fioleDeSang(save) {
         allPotions.filter((potion) => potion.name === "fioleDeSang")[0].description,
         {
             "La boire": () => {
-                save.inventory.fioleDeSang.actif = true;
-                save.inventory.fioleDeSang.nombre--;
+                save.inventory.items.fioleDeSang.actif = true;
+                save.inventory.items.fioleDeSang.nombre--;
             },
             "La ranger": () => {
 

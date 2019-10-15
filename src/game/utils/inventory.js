@@ -2,8 +2,35 @@ import {readDescription} from "../dialogs/descriptions";
 
 export class Inventory{
 
+    selectedItem;
+
+    items;
+
     constructor(){
-        console.log("Inventory constructed")
+        this.items = {
+            potionDeForce: {
+                nombre:2,
+                actif:false
+            },
+            potionDeProtection: {
+                nombre:1,
+                actif:false
+            },
+            potionDeLucidite: {
+                nombre:1,
+                actif:false
+            },
+            fioleDeSang: {
+                nombre:1,
+                actif:false
+            },
+            parchemin: {
+                nombre:1
+            },
+            cape: {
+                nombre:1
+            },
+        };
     }
 
     activeItemSelection() {
@@ -11,14 +38,13 @@ export class Inventory{
         game.controls.LEFT.onPress(() => this.selectPreviousItem(),this);
         game.controls.RIGHT.onPress(() => this.selectNextItem(),this);
         game.controls.ACTION.onPress(() => this.useItem(),this);
-        game.save.inventory.inventoryHighlight = true;
         this.selectFirstItem();
     }
 
     selectPreviousItem() {
         let {indexSelected, objectsInInventory} = this.getIndexOfSelectedItem();
         if (objectsInInventory[indexSelected + 1]) {
-            game.save.selectedItem = objectsInInventory[indexSelected + 1][0];
+            this.selectedItem = objectsInInventory[indexSelected + 1][0];
         }
     }
 
@@ -26,12 +52,12 @@ export class Inventory{
         let {indexSelected, objectsInInventory} = this.getIndexOfSelectedItem();
         if (objectsInInventory[indexSelected - 1]) {
             objectsInInventory[indexSelected][1].selected = false;
-            game.save.selectedItem = objectsInInventory[indexSelected - 1][0];
+            this.selectedItem = objectsInInventory[indexSelected - 1][0];
         }
     }
 
     getInventoryEntries() {
-        return Object.entries(game.save.inventory)
+        return Object.entries(this.items)
             .reverse()
             .filter(([elemName, elem]) => elem.nombre > 0);
     }
@@ -40,7 +66,7 @@ export class Inventory{
         let indexSelected;
         let objectsInInventory = this.getInventoryEntries();
         objectsInInventory.forEach(([elemName, elem], index) => {
-            if (elemName === game.save.selectedItem) {
+            if (elemName === this.selectedItem) {
                 indexSelected = index;
             }
         });
@@ -54,11 +80,11 @@ export class Inventory{
     }
 
     selectFirstItem() {
-        let itemsInInventory = Object.entries(game.save.inventory)
+        let itemsInInventory = Object.entries(this.items)
             .reverse()
             .filter(([elemName, elem]) => elem.nombre > 0);
         if (itemsInInventory && itemsInInventory.length > 0) {
-            game.save.selectedItem = itemsInInventory[0][0];
+            this.selectedItem = itemsInInventory[0][0];
         }
     }
 
@@ -69,17 +95,17 @@ export class Inventory{
         game.controls.TAB.resetEvents()
 
         game.controls.TAB.onPress(() => this.activeItemSelection(), this, true);
-        Object.entries(game.save.inventory)
+        Object.entries(this.items)
             .reverse()
             .filter(([itemName, itemObject]) => {
                 return itemObject.nombre > 0
             })
             .forEach(([itemName, itemObject], i) => itemObject.selected = false);
-        game.save.selectedItem = undefined;
+        this.selectedItem = undefined;
     }
 
     drawInventory() {
-        Object.entries(game.save.inventory)
+        Object.entries(this.items)
             .reverse()
             .filter(([itemName, itemObject]) => {
                 return itemObject.nombre > 0
@@ -108,7 +134,7 @@ export class Inventory{
                     game.groups.hud.add(quantitySprite)
                 }
 
-                if (itemName === game.save.selectedItem) {
+                if (itemName === this.selectedItem) {
                     let selectionItem = game.add.text(game.width - 16 * (i + 1) + 5, 15, "^", {
                         font: "12px Alagard",
                         fill: "red",
