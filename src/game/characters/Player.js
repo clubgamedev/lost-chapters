@@ -77,7 +77,7 @@ export class Player extends Character {
 		let isMoving;
 
 		// can't move while talking or reading
-		let canMove = !game.dialog && !game.book && !game.page && !controls.ACTION.isPressed() && !this.isForceMoving
+		let canMove = !game.dialog && !game.book && !game.page && !controls.ACTION.isPressed() && !this.isForceMoving && !game.save.selectedItem;
 
 		if (canMove && controls.DOWN.isPressed()) {
 			this.state = CHARACTER_STATE.WALKING_DOWN

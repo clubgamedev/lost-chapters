@@ -1,6 +1,7 @@
 import { sounds } from "../audio";
 import { talkToMyself } from "../utils/dialog";
 import { dialogs } from "../dialogs/";
+import {allPotions} from "../scenes/minigames/alchemy/potions";
 
 export function readDescription(name) {
     let description = dialogs[name]

@@ -43,6 +43,14 @@ export const controls = {
                 || controls.ACTION.key.isDown
         }
     },
+    TAB: {
+        keyCode: Phaser.Keyboard.TAB,
+        buttonCode: Phaser.Gamepad.XBOX360_B,
+        isPressed() {
+            return (controls.TAB.button && controls.TAB.button.isDown)
+                || controls.TAB.key.isDown
+        }
+    },
     ENTER: {
         keyCode: Phaser.Keyboard.ENTER
     }

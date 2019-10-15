@@ -66,7 +66,7 @@ export class LoadingScene {
 		game.load.image("chalet", "assets/escape/chalet.png");
 
 		// items
-		game.load.image('potionDueForce', 'assets/items/potionDeForce.png');
+		game.load.image('potionDeForce', 'assets/items/potionDeForce.png');
 		game.load.image('fioleDeSang', 'assets/items/fioleDeSang.png');
 		game.load.image('potionDeLucidite', 'assets/items/potionDeLucidite.png');
 		game.load.image('potionDeProtection', 'assets/items/potionDeProtection.png');

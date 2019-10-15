@@ -264,6 +264,7 @@ function displayActivePotions() {
                 let potion = game.add.image(10, i * 50, item);
                 potion.scale.set(0.8, 0.8);
                 i++;
+                game.save.inventory[item].actif = false;
             }
         }
     }

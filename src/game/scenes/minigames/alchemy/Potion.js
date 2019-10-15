@@ -2,12 +2,14 @@ export class Potion{
     displayName;
     name;
     ingredients = [];
+    description;
 
 
-    constructor(displayName, name, ingredients) {
+    constructor(displayName, name, ingredients, description) {
         this.displayName = displayName;
         this.name = name;
         this.ingredients = ingredients;
+        this.description = description;
     }
 
     cookPotion(ingredientsInMarmite) {

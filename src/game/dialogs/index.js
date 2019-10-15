@@ -18,6 +18,14 @@ import {
 
 import * as descriptions from "./descriptions";
 
+import {
+    potionDeForce,
+    potionDeLucidite,
+    potionDeProtection,
+    fioleDeSang,
+    cape,
+    parchemin } from "./itemsDescription"
+
 export const dialogs = {
     franck,
     augustin,
@@ -30,5 +38,11 @@ export const dialogs = {
     etudiant_dortoir,
     etudiant_salle_astonomie,
     ennemy_cultist,
+    potionDeProtection,
+    potionDeLucidite,
+    potionDeForce,
+    fioleDeSang,
+    cape,
+    parchemin,
     ...descriptions
 }

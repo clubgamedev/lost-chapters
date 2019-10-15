@@ -18,26 +18,26 @@ export function newGame() {
         level: "cave",
         inventory: {
             potionDeForce: {
-                nombre:0,
+                nombre:2,
                 actif:false
             },
             potionDeProtection: {
-                nombre:0,
+                nombre:1,
                 actif:false
             },
             potionDeLucidite: {
-                nombre:0,
+                nombre:1,
                 actif:false
             },
             fioleDeSang: {
-                nombre:0,
+                nombre:1,
                 actif:false
             },
             parchemin: {
-                nombre:0
+                nombre:1
             },
             cape: {
-                nombre:0
+                nombre:1
             },
         },
         loot: {
@@ -63,6 +63,7 @@ export function newGame() {
         hasFalsifiedScroll: false,
         planquesFound: [],
         translationsFound: [],
-        unlockedExits: []
+        unlockedExits: [],
+        selectedItem: undefined
     }
 }
