@@ -1,32 +1,44 @@
 {
-  "name": "lost-chapters",
-  "version": "0.1.0",
-  "private": true,
-  "description": "video game experiment",
-  "author": "antoine.neveux@gmail.com",
-  "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
-  },
-  "dependencies": {
-    "baragouin": "^0.1.1",
-    "core-js": "^3.1.2",
-    "hammerjs": "^2.0.8",
-    "vue": "^2.6.10",
-    "vue-router": "^3.1.3"
-  },
-  "devDependencies": {
-    "@vue/cli-plugin-babel": "^4.0.4",
-    "@vue/cli-plugin-eslint": "^4.0.4",
-    "@vue/cli-service": "^4.0.4",
-    "eslint": "^4.19.1",
-    "phaser-ce": "^2.13.2",
-    "vue-template-compiler": "^2.6.10"
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not ie <= 8"
-  ]
+    "name": "lost-chapters",
+    "version": "0.1.0",
+    "description": "Video-game based on Lovecraft universe developed by some french amateurs.",
+    "authors": [
+        "Sylvain Pollet-Villard",
+        "Benjamin Mailliet",
+        "Boris Couturier",
+        "Romain Proyart",
+        "Guillaume Maitrot",
+        "Guillaume Macret",
+        "Antoine Neveux"
+    ],
+    "repository": {
+        "url": "https://github.com/clubgamedev/lost-chapters"
+    },
+    "scripts": {
+        "serve": "vue-cli-service serve",
+        "build": "vue-cli-service build",
+        "lint": "vue-cli-service lint"
+    },
+    "dependencies": {
+        "baragouin": "^0.1.1",
+        "core-js": "^3.1.2",
+        "hammerjs": "^2.0.8",
+        "vue": "^2.6.10",
+        "vue-router": "^3.1.3"
+    },
+    "devDependencies": {
+        "@vue/cli-plugin-babel": "^4.0.4",
+        "@vue/cli-plugin-eslint": "^4.0.4",
+        "@vue/cli-service": "^4.0.4",
+        "babel-eslint": "^10.0.3",
+        "eslint": "^4.19.1",
+        "eslint-plugin-vue": "^5.2.3",
+        "phaser-ce": "^2.13.2",
+        "vue-template-compiler": "^2.6.10"
+    },
+    "browserslist": [
+        "> 1%",
+        "last 2 versions",
+        "not ie <= 8"
+    ]
 }
