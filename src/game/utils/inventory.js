@@ -181,4 +181,33 @@ export class Inventory{
     }
 
 
+
+}
+
+export function drinkPotion(textsToDisplay) {
+    if(textsToDisplay.length > 0) {
+        let drinkPotionText = game.add.text(game.player.position.x, game.player.position.y - 20, textsToDisplay[0], {
+            font: "8px Arial",
+            fill: "white",
+            boundsAlignH: "right",
+            boundsAlignV: "top"
+        });
+        //drinkPotionText.visible = false;
+        drinkPotionText.alpha = 0.8;
+        drinkPotionText.stroke = '#000000';
+        drinkPotionText.strokeThickness = 2;
+        drinkPotionText.position.x = game.player.position.x - drinkPotionText.width / 2;
+        //drinkPotionText.fixedToCamera = true;
+        console.log(drinkPotionText.position.x);
+        //drinkPotionText.visible = true;
+        let tween = game.add.tween(drinkPotionText)
+            .to({y: drinkPotionText.position.y - 20, alpha: 0.1}, 2000, Phaser.Easing.Linear.None)
+            .start();
+
+        tween.onComplete.add(() => {
+            drinkPotionText.destroy();
+            textsToDisplay.shift();
+            drinkPotion(textsToDisplay);
+        }, this)
+    }
 }

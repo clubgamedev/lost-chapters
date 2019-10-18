@@ -1,4 +1,5 @@
 import {allPotions} from "../scenes/minigames/alchemy/potions";
+import {drinkPotion} from "../utils/inventory";
 
 export function potionDeForce(save) {
     return [
@@ -7,6 +8,7 @@ export function potionDeForce(save) {
             "La boire": () => {
                 save.inventory.items.potionDeForce.actif = true;
                 save.inventory.items.potionDeForce.nombre--;
+                drinkPotion(["Psycho-stimulant consommée", "Vous vous sentez plus fort" ]);
             },
             "La ranger": () => {
 
@@ -22,6 +24,7 @@ export function potionDeLucidite(save) {
             "La boire": () => {
                 save.inventory.items.potionDeLucidite.actif = true;
                 save.inventory.items.potionDeLucidite.nombre--;
+                drinkPotion(["Tranquilisant consommée", "Votre lucidité a augmentée"]);
             },
             "La ranger": () => {
 
@@ -37,6 +40,7 @@ export function potionDeProtection(save) {
             "La boire": () => {
                 save.inventory.items.potionDeProtection.actif = true;
                 save.inventory.items.potionDeProtection.nombre--;
+                drinkPotion(["Potion du dévot consommée", "Vous vous sentez protégé"]);
             },
             "La ranger": () => {
 
@@ -52,6 +56,7 @@ export function fioleDeSang(save) {
             "La boire": () => {
                 save.inventory.items.fioleDeSang.actif = true;
                 save.inventory.items.fioleDeSang.nombre--;
+                drinkPotion(["Fiole de sang consommée", "Etait-ce une bonne idée?"]);
             },
             "La ranger": () => {
 
