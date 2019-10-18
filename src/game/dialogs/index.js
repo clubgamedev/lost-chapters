@@ -16,15 +16,14 @@ import {
     ennemy_cultist
 } from "./sbires";
 
-import * as descriptions from "./descriptions";
-
 import {
     potionDeForce,
     potionDeLucidite,
     potionDeProtection,
     fioleDeSang,
     cape,
-    parchemin } from "./itemsDescription"
+    parchemin
+} from "./itemsDescription"
 
 export const dialogs = {
     franck,
@@ -43,6 +42,5 @@ export const dialogs = {
     potionDeForce,
     fioleDeSang,
     cape,
-    parchemin,
-    ...descriptions
+    parchemin
 }
