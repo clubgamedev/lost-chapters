@@ -104,6 +104,22 @@ export class Inventory{
         this.selectedItem = undefined;
     }
 
+    createSillhouette(srcKey) {
+        var bmd = game.make.bitmapData()
+        // load our texture into the bitmap
+        bmd.load(srcKey)
+        bmd.processPixelRGB(this.forEachPixel, this)
+        return bmd
+    }
+
+    forEachPixel(pixel) {
+        // processPixelRGB won't take an argument, so we've set our sillhouetteColor globally
+        pixel.r = 255;
+        pixel.g = 255;
+        pixel.b = 255;
+        return pixel
+    }
+
     drawInventory() {
         Object.entries(this.items)
             .reverse()
@@ -112,12 +128,37 @@ export class Inventory{
             })
             .forEach(([itemName, itemObject], i) => {
 
-                let itemSprite = game.add.sprite(game.width - 16 * (i + 1), 1, itemName)
+                if (itemName === this.selectedItem) {
+                    //first create the border
+                    let sillhouetteBMD = this.createSillhouette(itemName);
+                    sillhouetteBMD.width = 16;
+                    sillhouetteBMD.height = 16;
+                    let border = game.add.sprite(game.width - 16 * (i + 1), 1, sillhouetteBMD);
+                    border.scale.setTo(1.12);
+                    border.anchor.setTo(0.02);
+                    border.tint=0xBF0000;
+                    border.fixedToCamera = true;
+                    game.groups.hud.add(border);
+
+                    let selectionItem = game.add.text(game.width - 16 * (i + 1) + 5, 15, "^", {
+                        font: "12px Alagard",
+                        fill: "red",
+                        boundsAlignH: "left",
+                        boundsAlignV: "bottom"
+                    });
+                    selectionItem.fixedToCamera = true;
+                    selectionItem.stroke = '#000000';
+                    selectionItem.strokeThickness = 2;
+                    game.groups.hud.add(selectionItem);
+                }
+                let itemSprite = game.add.sprite(game.width - 16 * (i + 1), 1, itemName);
                 itemSprite.fixedToCamera = true;
                 itemSprite.width = 16
                 itemSprite.height = 16
                 itemSprite.alpha = 0.75;
                 game.groups.hud.add(itemSprite)
+
+
 
                 if (itemObject.nombre > 1) {
                     let quantitySprite = game.add.text(game.width - 16 * (i + 1) + 10, 10, itemObject.nombre, {
@@ -134,18 +175,7 @@ export class Inventory{
                     game.groups.hud.add(quantitySprite)
                 }
 
-                if (itemName === this.selectedItem) {
-                    let selectionItem = game.add.text(game.width - 16 * (i + 1) + 5, 15, "^", {
-                        font: "12px Alagard",
-                        fill: "red",
-                        boundsAlignH: "left",
-                        boundsAlignV: "bottom"
-                    });
-                    selectionItem.fixedToCamera = true;
-                    selectionItem.stroke = '#000000';
-                    selectionItem.strokeThickness = 2;
-                    game.groups.hud.add(selectionItem);
-                }
+
             })
 
     }

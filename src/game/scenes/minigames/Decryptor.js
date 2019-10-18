@@ -87,9 +87,6 @@ function loadZodiacs() {
     game.load.image("particle_blue", "assets/decryptor/particle_blue.png");
     game.load.spritesheet("sunburn", "assets/decryptor/sunburn_spritesheet.png", 100, 100, 61);
     game.load.image("skull", "assets/decryptor/skull.png");
-
-    game.load.image('potionDeForce', 'assets/alchemy/potions/potionDeForce.png');
-    game.load.image('potionDeProtection', 'assets/alchemy/potions/potionDeProtection.png');
 }
 
 function loadSounds() {
