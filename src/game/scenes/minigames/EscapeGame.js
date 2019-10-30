@@ -8,6 +8,8 @@ import { Tool } from "../../items/escape/Tool"
 import { ButtonGrid } from "../../items/escape/ButtonGrid";
 import { Scie } from "../../items/escape/Scie";
 import { Cable } from "../../items/escape/Cable";
+import { Feuilles } from "../../items/escape/Feuilles";
+import { Labyrinthe } from '../../items/escape/Labyrinthe';
 
 export class EscapeGameScene {
 
@@ -18,11 +20,12 @@ export class EscapeGameScene {
     tool;
     buttonGrid;
     scie;
+    feuilles;
     cable;
     coverSprite;
     circuitSprite;
-    feuilleSprite;
     tableau;
+    labyrinthe;
 
     preload() {
         this.tool = new Tool(() => this.onToolActivate());
@@ -33,6 +36,8 @@ export class EscapeGameScene {
         this.buttonGrid = new ButtonGrid(() => this.onButtonGridCodeValid());
         this.cable = new Cable(this.digicode);
         this.scie = new Scie(this.cable);
+        this.feuilles = new Feuilles();
+        this.labyrinthe = new Labyrinthe(() => this.onLabyrintheValid());
     }
     
     create() {
@@ -42,11 +47,12 @@ export class EscapeGameScene {
         this.digicode.create(197, 34);
         this.plant.create(130, 8);
         this.pushButton.create(105, 98);
-        this.buttonGrid.create(99, 59);
+        this.buttonGrid.create(151, 63);
         this.scie.create(52, 82);
-
-        this.circuitSprite = game.add.image(48, 39, 'escape_circuit', 0);
-        this.feuilleSprite = game.add.image(120, 90, 'escape_feuilles');
+        this.feuilles.create(58, 104);
+        this.labyrinthe.create(87, 31);
+  
+        this.circuitSprite = game.add.image(45, 27, 'escape_circuit', 0);
         this.coverSprite = game.add.image(44, 27, 'escape_cover');
         this.tableau = game.add.image(189, 28, 'escape_tableau');
         this.tableau.animations.add('open');
@@ -59,6 +65,7 @@ export class EscapeGameScene {
         this.plant.update();
         this.tool.update();
         this.cable.update();
+        this.labyrinthe.update();
     }
 
     onPushButtonClicked(count) {
@@ -73,6 +80,7 @@ export class EscapeGameScene {
 
             case 2:
                 this.tableau.animations.play('open', 10, false);
+                this.cable.clickable();
                 break;
 
             case 5:
@@ -88,12 +96,16 @@ export class EscapeGameScene {
     onToolActivate() {
         this.circuitEnabled = true;
         this.circuitSprite.frame = 1;
-        game.add.image(72, 57, 'escape_screen9');
+        game.add.image(95, 58, 'escape_screen9');
     }
 
     onButtonGridCodeValid() {
-        if (this.circuitEnabled) game.add.image(78, 57, 'escape_screen3');
+        if (this.circuitEnabled) game.add.image(113, 58, 'escape_screen2');
         return this.circuitEnabled;
+    }
+
+    onLabyrintheValid() {
+        if (this.circuitEnabled) game.add.image(107, 58, 'escape_screen4');
     }
 
     onDigicodeCodeValid() {
@@ -108,6 +120,29 @@ export class EscapeGameScene {
     enableLeaveSceneAction() {
         let startKey = game.input.keyboard.addKey(Phaser.Keyboard.ESC);
         startKey.onDown.add(() => {
+            loadSave();
+            game.state.start('MainGame');
+        });
+
+        let textSprite = game.add.text(215, 123, "Exit", {
+            font: "14px Alagard",
+            fill: "red",
+            stroke : "#FFFFFF",
+            strokeThickness : 0
+        });
+
+        textSprite.inputEnabled = true;
+        textSprite.events.onInputOver.add(() => {
+            textSprite.strokeThickness = 4;
+            textSprite.x -= 2;
+            textSprite.y -= 2;
+        });
+        textSprite.events.onInputOut.add(() => {
+            textSprite.strokeThickness = 0
+            textSprite.x += 2;
+            textSprite.y += 2;
+        });
+        textSprite.events.onInputDown.add(() => {
             loadSave();
             game.state.start('MainGame');
         });

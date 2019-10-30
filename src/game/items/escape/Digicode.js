@@ -6,11 +6,11 @@ export class Digicode {
     callback;
     ledValidation = [];
     code = [];
-    isEnable = false;
+    _isEnabled = false;
 
     constructor(callback) {
         this.callback = callback;
-   }
+    }
 
     create(x, y) {
         this.x = x;
@@ -50,7 +50,7 @@ export class Digicode {
     }
 
     addToCode(buttonNumber) {
-        if (!this.isEnable) return;
+        if (!this._isEnabled) return;
 
         this.code.push(buttonNumber);
         this.ledValidation[this.code.length - 1].frame = 1;
@@ -65,13 +65,13 @@ export class Digicode {
     }
 
     /**
-     * Code : 2793
+     * Code : 9642
      */
     checkCode() {
-        return this.code.indexOf(2) != -1
-        && this.code.indexOf(7) != -1
-        && this.code.indexOf(9) != -1
-        && this.code.indexOf(3) != -1;
+        return this.code.indexOf(9) != -1
+        && this.code.indexOf(6) != -1
+        && this.code.indexOf(4) != -1
+        && this.code.indexOf(2) != -1;
     }
 
     onCodeSuccess() {
@@ -105,7 +105,7 @@ export class Digicode {
     }
 
     enable() {
-        this.isEnable = true;
+        this._isEnabled = true;
         this.digicodeLed.frame = 3;
     }
 
@@ -115,5 +115,9 @@ export class Digicode {
 
     getCableY() {
         return this.digicodeCable.y;
+    }
+
+    isEnabled() {
+        return this._isEnabled;
     }
 }

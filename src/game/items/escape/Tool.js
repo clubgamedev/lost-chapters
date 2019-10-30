@@ -7,7 +7,7 @@ export class Tool {
     isToolClicked = false;
     positionInitX;
     onActivate;
-    animationActivatePositionFinaleX = 63;
+    animationActivatePositionFinaleX = 50;
     animationActivatePositionFinaleY = 31;
     animationActivateDeltaX;
     animationActivateDeltaY;
@@ -22,7 +22,7 @@ export class Tool {
 
         this.spriteOutline = game.add.image(x-1, y-1, 'escape_outil_outline');
         this.spriteOutline.visible = false;
-
+        
         this.sprite = game.add.image(x, y, 'escape_outil');
         this.sprite.inputEnabled = true;
         this.sprite.events.onInputOver.add(() => this.spriteOutlineEnable());
