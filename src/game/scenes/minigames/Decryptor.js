@@ -247,7 +247,7 @@ function activePotions() {
         nbPlayerHitsToWin = nbPlayerHitsToWin + 2;
     }
 
-    if (game.save.inventory.items.potionDeForce && game.save.inventory.potionDeForce.actif) {
+    if (game.save.inventory.items.potionDeForce && game.save.inventory.items.potionDeForce.actif) {
         nbEnemyHitsToWin = nbEnemyHitsToWin - 2;
     }
     displayActivePotions();
