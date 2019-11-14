@@ -53,6 +53,14 @@ export const controls = {
     },
     ENTER: {
         keyCode: Phaser.Keyboard.ENTER
+    },
+    SHIFT: {
+        keyCode: Phaser.Keyboard.SHIFT,
+        buttonCode: Phaser.Gamepad.XBOX360_X,
+        isPressed() {
+            return (controls.SHIFT.button && controls.SHIFT.button.isDown)
+            || controls.SHIFT.key.isDown
+        }
     }
 }
 

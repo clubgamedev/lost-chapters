@@ -58,6 +58,8 @@ export class EscapeGameScene {
         this.tableau.animations.add('open');
 
         this.enableLeaveSceneAction();
+        // TODO a supprimer
+        this.onDigicodeCodeValid();
     }
 
     update() {
@@ -72,22 +74,14 @@ export class EscapeGameScene {
         switch (count) {
             case 1:
                 this.wheel.create(151, 85, this);
-                // TODO Supprimer
-                this.scie.openScie();
-                // TODO Supprimer
-                this.scie.activate();
                 break;
-
             case 2:
                 this.tableau.animations.play('open', 10, false);
-                this.cable.clickable();
                 break;
-
-            case 5:
+            case 4:
                 this.scie.openScie();
                 break;
-
-            case 10:
+            case 8:
                 this.scie.activate();
                 break;
         }
@@ -113,7 +107,7 @@ export class EscapeGameScene {
         parchemin.inputEnabled = true;
         parchemin.events.onInputDown.add(() => {
             parchemin.visible = false;
-            game.save.inventory.items.parchemin = 1;
+            game.inventory.parcheminUnlock();
         });
     }
 

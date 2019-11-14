@@ -10,6 +10,7 @@ import { pickLoot } from "../items/loot";
 import { hallucinations } from "../effects/Hallucination";
 
 const MOVE_SPEED = 50
+const RUN_SPEED = 120;
 let ACTION_DELAY;
 
 export class Player extends Character {
@@ -77,27 +78,28 @@ export class Player extends Character {
 		let isMoving;
 
 		// can't move while talking or reading
-		let canMove = !game.dialog && !game.book && !game.page && !controls.ACTION.isPressed() && !this.isForceMoving && !game.save.inventory.selectedItem;
+		let canMove = !game.dialog && !game.book && !game.page && !controls.ACTION.isPressed() && !this.isForceMoving && !game.inventory.selectedItem;
+		let moveSpeed = (controls.SHIFT.isPressed()) ? RUN_SPEED : MOVE_SPEED;
 
 		if (canMove && controls.DOWN.isPressed()) {
 			this.state = CHARACTER_STATE.WALKING_DOWN
-			this.body.velocity.y = MOVE_SPEED
+			this.body.velocity.y = moveSpeed
 			this.body.velocity.x = 0
 			isMoving = true
 		}
 		else if (canMove && controls.UP.isPressed()) {
 			this.state = CHARACTER_STATE.WALKING_UP
-			this.body.velocity.y = -MOVE_SPEED
+			this.body.velocity.y = -moveSpeed
 			this.body.velocity.x = 0
 			isMoving = true
 		} else if (canMove && controls.LEFT.isPressed()) {
 			this.state = CHARACTER_STATE.WALKING_LEFT
-			this.body.velocity.x = -MOVE_SPEED
+			this.body.velocity.x = -moveSpeed
 			this.body.velocity.y = 0
 			isMoving = true
 		} else if (canMove && controls.RIGHT.isPressed()) {
 			this.state = CHARACTER_STATE.WALKING_RIGHT
-			this.body.velocity.x = MOVE_SPEED
+			this.body.velocity.x = moveSpeed
 			this.body.velocity.y = 0
 			isMoving = true;
 		} else if (!this.isForceMoving) {

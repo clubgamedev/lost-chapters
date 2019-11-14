@@ -3,7 +3,6 @@ export class Cable {
     sprite;
     isDroping = false;
     isClicked = false;
-    _isClickable = false;
     courbeX = -1.3;
     courbeVelocity = 0.2;
     courbeY = Math.pow(this.courbeX, 2);
@@ -45,18 +44,11 @@ export class Cable {
     }
 
     onClick() {
-        // if (!this.digicode.isEnabled()) return;
-        if (!this._isClickable) return;
-
         this.isClicked = true;
         this.sprite.frame = 1;
         this.sprite.events.onInputOver.removeAll();
         this.sprite.events.onInputOut.removeAll();
         this.sprite.events.onInputDown.removeAll();
-    }
-
-    clickable() {
-        this._isClickable = true;
     }
 
     drop(x, y) {

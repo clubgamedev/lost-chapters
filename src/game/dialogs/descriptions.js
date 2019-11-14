@@ -87,7 +87,7 @@ export const descriptions = {
         },
         after() {
             if (game.save.planquesFound.includes("trou_grotte")) return;
-            game.save.inventory.items.potionDeLucidite += 2;
+            game.inventory.items.potionDeLucidite += 2;
             sounds.ITEM.play();
             game.save.planquesFound.push("trou_grotte");
         }
@@ -108,7 +108,7 @@ export const descriptions = {
         },
         after() {
             if (game.save.planquesFound.includes("mare_grotte")) return;
-            game.save.inventory.items.potionDeForce += 1;
+            game.inventory.items.potionDeForce += 1;
             sounds.ITEM.play();
             game.save.planquesFound.push("mare_grotte");
         }
@@ -133,7 +133,7 @@ export const descriptions = {
         },
         after() {
             if (game.save.planquesFound.includes("tombe_grotte")) return;
-            game.save.inventory.items.potionDeProtection += 1;
+            game.inventory.items.potionDeProtection += 1;
             sounds.ITEM.play();
             game.save.planquesFound.push("tombe_grotte");
         }
@@ -155,8 +155,8 @@ export const descriptions = {
         },
         after() {
             if (game.save.planquesFound.includes("cape_cachee")) return;
-            if (game.save.inventory.items.cape.nombre === 0) {
-                game.save.inventory.items.cape.nombre++;
+            if (game.inventory.items.cape.nombre === 0) {
+                game.inventory.items.cape.nombre++;
                 sounds.ITEM.play();
                 game.save.planquesFound.push("cape_cachee");
             }
@@ -181,7 +181,7 @@ export const lockedExits = {
         }
     },
     entree_cave() {
-        if (game.save.inventory.items.cape.nombre > 0) {
+        if (game.inventory.items.cape.nombre > 0) {
             game.save.unlockedExits.push("entree_cave")
             return talkToMyself([
                 `Je vais enfiler cette cape noire pour tenter de m'infiltrer.`,

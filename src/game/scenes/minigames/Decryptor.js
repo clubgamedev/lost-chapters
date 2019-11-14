@@ -243,11 +243,11 @@ export class DecryptorScene {
 }
 
 function activePotions() {
-    if (game.save.inventory.items.potionDeProtection && game.save.inventory.items.potionDeProtection.actif) {
+    if (game.inventory.items.potionDeProtection && game.inventory.items.potionDeProtection.actif) {
         nbPlayerHitsToWin = nbPlayerHitsToWin + 2;
     }
 
-    if (game.save.inventory.items.potionDeForce && game.save.inventory.items.potionDeForce.actif) {
+    if (game.inventory.items.potionDeForce && game.inventory.items.potionDeForce.actif) {
         nbEnemyHitsToWin = nbEnemyHitsToWin - 2;
     }
     displayActivePotions();
@@ -255,13 +255,13 @@ function activePotions() {
 
 function displayActivePotions() {
     let i = 0;
-    for (var item in game.save.inventory) {
-        if (Object.prototype.hasOwnProperty.call(game.save.inventory, item)) {
-            if (game.save.inventory[item].actif) {
+    for (var item in game.inventory) {
+        if (Object.prototype.hasOwnProperty.call(game.inventory, item)) {
+            if (game.inventory[item].actif) {
                 let potion = game.add.image(10, i * 50, item);
                 potion.scale.set(0.8, 0.8);
                 i++;
-                game.save.inventory[item].actif = false;
+                game.inventory[item].actif = false;
             }
         }
     }

@@ -18,8 +18,7 @@ export class Tuile {
         this.sprite.x += 2;
         this.sprite.y += 2;
         this.sprite.anchor.setTo(0.5);
-        // this.sprite.angle = Math.floor(Math.random() * 4) * 90;
-        this.sprite.angle = tuile.a ? tuile.a[0] : null;
+        this.sprite.angle = Math.floor(Math.random() * 4) * 90;
         this.sprite.inputEnabled = true;
         this.sprite.events.onInputDown.add(() => {
             if (this.angleCible <= 0) {

@@ -1,5 +1,5 @@
 import { initControls } from "../utils/controls";
-import { newGame } from "../save";
+import { newGame, loadSave, save } from "../save";
 
 export class MenuScene {
     create() {
@@ -28,7 +28,10 @@ export class MenuScene {
                 game.controls.ENTER.onPress(() => this.backToMenu(), this, true)
             },
             "Escape (temporaire)": () => {
-                this.game.state.start('EscapeGame');
+                newGame();
+                game.save.level = 'school';
+                this.game.state.start('MainGame');
+                // this.game.state.start('EscapeGame');
             },
             "Alchemy (temporaire)": () => {
                 this.game.state.start('Alchemy');

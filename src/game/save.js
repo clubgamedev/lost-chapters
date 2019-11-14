@@ -16,9 +16,9 @@ export function save() {
 }
 
 export function newGame() {
+    game.inventory = new Inventory();
     game.save = {
         level: "cave",
-        inventory: new Inventory(),
         loot: {
             recettePotionDeForce: false,
             recettePotionDeProtection: false,

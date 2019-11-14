@@ -25,7 +25,7 @@ export class Inventory{
                 actif:false
             },
             parchemin: {
-                nombre:1
+                nombre:0
             },
             cape: {
                 nombre:1
@@ -158,8 +158,6 @@ export class Inventory{
                 itemSprite.alpha = 0.75;
                 game.groups.hud.add(itemSprite)
 
-
-
                 if (itemObject.nombre > 1) {
                     let quantitySprite = game.add.text(game.width - 16 * (i + 1) + 10, 10, itemObject.nombre, {
                         font: "8px Arial",
@@ -174,14 +172,12 @@ export class Inventory{
 
                     game.groups.hud.add(quantitySprite)
                 }
-
-
             })
-
     }
 
-
-
+    parcheminUnlock() {
+        this.items.parchemin.nombre = 1;
+    }
 }
 
 export function drinkPotion(textsToDisplay) {
