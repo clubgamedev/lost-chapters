@@ -1,5 +1,7 @@
 import { sounds } from "../audio";
 import { talkToMyself } from "../utils/dialog";
+import {allPotions} from "../scenes/minigames/alchemy/potions";
+import {drinkPotion} from "../utils/inventory";
 
 export function readDescription(name) {
     let description = descriptions[name]
@@ -87,7 +89,7 @@ export const descriptions = {
         },
         after() {
             if (game.save.planquesFound.includes("trou_grotte")) return;
-            game.inventory.items.potionDeLucidite += 2;
+            game.save.inventory.items.potionDeLucidite += 2;
             sounds.ITEM.play();
             game.save.planquesFound.push("trou_grotte");
         }
@@ -108,7 +110,7 @@ export const descriptions = {
         },
         after() {
             if (game.save.planquesFound.includes("mare_grotte")) return;
-            game.inventory.items.potionDeForce += 1;
+            game.save.inventory.items.potionDeForce += 1;
             sounds.ITEM.play();
             game.save.planquesFound.push("mare_grotte");
         }
@@ -133,7 +135,7 @@ export const descriptions = {
         },
         after() {
             if (game.save.planquesFound.includes("tombe_grotte")) return;
-            game.inventory.items.potionDeProtection += 1;
+            game.save.inventory.items.potionDeProtection += 1;
             sounds.ITEM.play();
             game.save.planquesFound.push("tombe_grotte");
         }
@@ -155,12 +157,89 @@ export const descriptions = {
         },
         after() {
             if (game.save.planquesFound.includes("cape_cachee")) return;
-            if (game.inventory.items.cape.nombre === 0) {
-                game.inventory.items.cape.nombre++;
+            if (game.save.inventory.items.cape.nombre === 0) {
+                game.save.inventory.items.cape.nombre++;
                 sounds.ITEM.play();
                 game.save.planquesFound.push("cape_cachee");
             }
         }
+    },
+    potionDeForce : save=>{
+        return [
+            allPotions.filter((potion) => potion.name === "potionDeForce")[0].description,
+            {
+                "La boire": () => {
+                    save.inventory.items.potionDeForce.actif = true;
+                    save.inventory.items.potionDeForce.nombre--;
+                    drinkPotion(["Psycho-stimulant consommée", "Vous vous sentez plus fort" ]);
+                },
+                "La ranger": () => {
+
+                }
+            }
+        ]
+    },
+
+    potionDeLucidite : save => {
+        return [
+            allPotions.filter((potion) => potion.name === "potionDeLucidite")[0].description,
+            {
+                "La boire": () => {
+                    save.inventory.items.potionDeLucidite.actif = true;
+                    save.inventory.items.potionDeLucidite.nombre--;
+                    drinkPotion(["Tranquilisant consommée", "Votre lucidité a augmentée"]);
+                },
+                "La ranger": () => {
+
+                }
+            }
+        ]
+    },
+
+    potionDeProtection : save => {
+        return [
+            allPotions.filter((potion) => potion.name === "potionDeProtection")[0].description,
+            {
+                "La boire": () => {
+                    save.inventory.items.potionDeProtection.actif = true;
+                    save.inventory.items.potionDeProtection.nombre--;
+                    drinkPotion(["Potion du dévot consommée", "Vous vous sentez protégé"]);
+                },
+                "La ranger": () => {
+
+                }
+            }
+        ]
+    },
+
+    fioleDeSang : save => {
+        return [
+            allPotions.filter((potion) => potion.name === "fioleDeSang")[0].description,
+            {
+                "La boire": () => {
+                    save.inventory.items.fioleDeSang.actif = true;
+                    save.inventory.items.fioleDeSang.nombre--;
+                    drinkPotion(["Fiole de sang consommée", "Etait-ce une bonne idée?"]);
+                },
+                "La ranger": () => {
+
+                }
+            }
+        ]
+    },
+
+    cape : save => {
+        return [
+            "Cette cape que m'a donné Jean Louis me permet de me cacher",
+            "pour entrer dans les douches des sbires sans être vu :D",
+        ]
+    },
+
+    parchemin : save => {
+        return [
+            "Ce parchemin que m'a confié Billou ne ressemble à rien, ",
+            "on dirait du papier toilettes en toile de jute",
+        ]
     }
 }
 
@@ -181,7 +260,7 @@ export const lockedExits = {
         }
     },
     entree_cave() {
-        if (game.inventory.items.cape.nombre > 0) {
+        if (game.save.inventory.items.cape.nombre > 0) {
             game.save.unlockedExits.push("entree_cave")
             return talkToMyself([
                 `Je vais enfiler cette cape noire pour tenter de m'infiltrer.`,

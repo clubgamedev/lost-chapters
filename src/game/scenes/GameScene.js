@@ -6,7 +6,7 @@ import {updateHud} from "../utils/hud"
 import {save} from "../save"
 import {talkTo} from "../utils/dialog";
 import {readDescription} from "../dialogs/descriptions";
-import {Inventory} from "../utils/inventory";
+import {activeItemSelection} from "../utils/inventory";
 
 let hurtFlag
 
@@ -17,7 +17,7 @@ export class GameScene {
         game.scale.setGameSize(255, 144);
         this.spawnPlayer()
         game.controls.ACTION.onPress(() => game.player && game.player.doAction())
-        game.controls.TAB.onPress(() => game.inventory.activeItemSelection(), this, true);
+        game.controls.TAB.onPress(() => activeItemSelection(), this, true);
         if (!game.save.hasReadIntro) {
             game.paused = true;
             openBook("book_intro").then(() => {

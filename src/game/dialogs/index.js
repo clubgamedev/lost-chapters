@@ -16,15 +16,6 @@ import {
     ennemy_cultist
 } from "./sbires";
 
-import {
-    potionDeForce,
-    potionDeLucidite,
-    potionDeProtection,
-    fioleDeSang,
-    cape,
-    parchemin
-} from "./itemsDescription"
-
 export const dialogs = {
     franck,
     augustin,
@@ -36,11 +27,5 @@ export const dialogs = {
     etudiant_salle_a_manger,
     etudiant_dortoir,
     etudiant_salle_astonomie,
-    ennemy_cultist,
-    potionDeProtection,
-    potionDeLucidite,
-    potionDeForce,
-    fioleDeSang,
-    cape,
-    parchemin
+    ennemy_cultist
 }

@@ -78,7 +78,7 @@ export class Player extends Character {
 		let isMoving;
 
 		// can't move while talking or reading
-		let canMove = !game.dialog && !game.book && !game.page && !controls.ACTION.isPressed() && !this.isForceMoving && !game.inventory.selectedItem;
+		let canMove = !game.dialog && !game.book && !game.page && !controls.ACTION.isPressed() && !this.isForceMoving && !game.save.inventory.selectedItem;
 		let moveSpeed = (controls.SHIFT.isPressed()) ? RUN_SPEED : MOVE_SPEED;
 
 		if (canMove && controls.DOWN.isPressed()) {

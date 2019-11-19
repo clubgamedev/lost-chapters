@@ -10,6 +10,7 @@ import { Scie } from "../../items/escape/Scie";
 import { Cable } from "../../items/escape/Cable";
 import { Feuilles } from "../../items/escape/Feuilles";
 import { Labyrinthe } from '../../items/escape/Labyrinthe';
+import {parcheminUnlock} from "../../utils/inventory";
 
 export class EscapeGameScene {
 
@@ -107,7 +108,7 @@ export class EscapeGameScene {
         parchemin.inputEnabled = true;
         parchemin.events.onInputDown.add(() => {
             parchemin.visible = false;
-            game.inventory.parcheminUnlock();
+            parcheminUnlock();
         });
     }
 
