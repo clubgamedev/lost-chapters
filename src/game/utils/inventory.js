@@ -203,7 +203,3 @@ export function drawInventory(inventory) {
             }
         })
 }
-
-export function parcheminUnlock() {
-    game.save.inventory.items.parchemin.nombre = 1;
-}

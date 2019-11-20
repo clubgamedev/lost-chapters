@@ -30,8 +30,8 @@ export class MenuScene {
             "Escape (temporaire)": () => {
                 newGame();
                 game.save.level = 'school';
-                this.game.state.start('MainGame');
-                // this.game.state.start('EscapeGame');
+                // this.game.state.start('MainGame');
+                this.game.state.start('EscapeGame');
             },
             "Alchemy (temporaire)": () => {
                 this.game.state.start('Alchemy');

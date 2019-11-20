@@ -104,11 +104,25 @@ export class EscapeGameScene {
     }
 
     onDigicodeCodeValid() {
-        let parchemin = game.add.image(203, 82, 'parchemin');
+        const emitter = game.add.emitter(200, 108, 400);
+        emitter.width = 12;
+        emitter.height = 12;
+        emitter.makeParticles('particle_yellow');
+        emitter.minParticleScale = 0.1;
+        emitter.maxParticleScale = 0.4;
+        emitter.setYSpeed(-50, 50);
+        emitter.setXSpeed(-50, 50);
+        emitter.start(false, 350, 2, 0);
+
+        let parchemin = game.add.image(190, 100, 'escape_parchemin', 0);
+        parchemin.animations.add('levitation', [0, 1, 2, 3, 4, 4, 3, 2, 1, 0], 7, true);
+        parchemin.animations.play('levitation');
+
         parchemin.inputEnabled = true;
         parchemin.events.onInputDown.add(() => {
             parchemin.visible = false;
-            parcheminUnlock();
+            emitter.destroy();
+            game.save.inventory.items.parchemin.nombre = 1;
         });
     }
 

@@ -73,6 +73,9 @@ export class LoadingScene {
 		game.load.image('cape', 'assets/items/cape.png');
 		game.load.image('foieDeCerf', 'assets/items/foieDeCerf.png');
 
+		// particules
+		game.load.image("particle_yellow", "assets/sprites/particle_yellow.png");
+
 		// audio
 		loadAudio();
 		this.loadEscape();
@@ -118,5 +121,6 @@ export class LoadingScene {
         game.load.spritesheet('escape_buttonGrid_bouton_rouge', 'assets/escape/buttonGrid/bouton_rouge.png', 3, 4, 2);
         game.load.spritesheet('escape_buttonGrid_bouton_bleu', 'assets/escape/buttonGrid/bouton_bleu.png', 3, 4, 2);
         game.load.spritesheet('escape_buttonGrid_bouton_vert', 'assets/escape/buttonGrid/bouton_vert.png', 3, 4, 2);
+		game.load.spritesheet('escape_parchemin', 'assets/items/parchemin_levitation.png', 16, 32, 4);
 	}
 }
