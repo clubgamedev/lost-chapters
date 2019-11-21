@@ -51,8 +51,12 @@ let MAX_HEALTH = 100;
 let health;
 let ennemyHealth;
 let healthInfoText = {};
-let nbPlayerHitsToWin = 4;
-let nbEnemyHitsToWin = 4;
+const defaultNbPlayerHitsToWin = 4;
+const defaultNbEnemyHitsToWin = 4;
+let nbPlayerHitsToWin = defaultNbPlayerHitsToWin;
+let nbEnemyHitsToWin = defaultNbEnemyHitsToWin;
+
+
 
 let DecryptorConfig = {
     BLINK: "blink",
@@ -244,24 +248,28 @@ export class DecryptorScene {
 
 function activePotions() {
     if (game.save.inventory.items.potionDeProtection && game.save.inventory.items.potionDeProtection.actif) {
-        nbPlayerHitsToWin = nbPlayerHitsToWin + 2;
+        nbPlayerHitsToWin = defaultNbPlayerHitsToWin + 2;
+    }else{
+        nbPlayerHitsToWin = defaultNbPlayerHitsToWin;
     }
 
     if (game.save.inventory.items.potionDeForce && game.save.inventory.items.potionDeForce.actif) {
-        nbEnemyHitsToWin = nbEnemyHitsToWin - 2;
+        nbEnemyHitsToWin = defaultNbEnemyHitsToWin - 2;
+    }else{
+        nbEnemyHitsToWin = defaultNbEnemyHitsToWin;
     }
     displayActivePotions();
 }
 
 function displayActivePotions() {
     let i = 0;
-    for (var item in game.save.inventory) {
-        if (Object.prototype.hasOwnProperty.call(game.save.inventory, item)) {
-            if (game.save.inventory[item] && game.save.inventory[item].actif) {
+    for (var item in game.save.inventory.items) {
+        if (Object.prototype.hasOwnProperty.call(game.save.inventory.items, item)) {
+            if (game.save.inventory.items[item] && game.save.inventory.items[item].actif) {
                 let potion = game.add.image(10, i * 50, item);
-                potion.scale.set(0.8, 0.8);
+                potion.scale.set(2, 2);
                 i++;
-                game.save.inventory[item].actif = false;
+                game.save.inventory.items[item].actif = false;
             }
         }
     }
