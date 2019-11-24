@@ -4,8 +4,7 @@ import { openBook, nextPage } from "../utils/book";
 import { closePage, readPage } from "../utils/page";
 import { controls } from "../utils/controls"
 import { talkTo, nextLine, talkToMyself } from "../utils/dialog";
-import { dialogs } from "../dialogs"
-import { readDescription } from "../dialogs/descriptions";
+import { readDescription, descriptions } from "../dialogs/descriptions";
 import { pickLoot } from "../items/loot";
 import { hallucinations } from "../effects/Hallucination";
 
@@ -206,9 +205,9 @@ export class Player extends Character {
 				case "runes":
 					let { variant, duration, translation } = objectInFront.properties
 					if (!game.save.hasDiscoveredAlphabet) {
-						return talkToMyself(dialogs.runes_inconnues(game.save))
+						return talkToMyself(descriptions.runes_inconnues(game.save))
 					} else if (game.save.translationsFound.includes(translation)) {
-						return talkToMyself(dialogs[translation](game.save))
+						return talkToMyself(descriptions[translation](game.save))
 					} else {
 						game.decryptor = { variants: variant.split(","), duration, translation }
 						save();

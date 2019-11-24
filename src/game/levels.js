@@ -65,17 +65,18 @@ export const levels = {
 }
 
 export class Level {
-	constructor({
-		name,
-		tilemap,
-		tilesets,
-		lightRadius,
-		obscurity,
-		tint,
-		hue,
-		fog
-	}) {
-		this.name = name
+	constructor(technicalName) {
+		const {
+			name,
+			tilemap,
+			tilesets,
+			lightRadius,
+			obscurity,
+			tint,
+			hue,
+			fog
+		} = levels[technicalName];
+		this.name = technicalName
 		this.createTileMap(tilemap, tilesets)
 		this.createGroups()
 		this.createEnemies()
@@ -84,7 +85,7 @@ export class Level {
 		this.createTriggers();
 		this.createLights(lightRadius, obscurity, hue, fog, tint)
 
-		showMiddleText(name);
+		if (game.save.level !== technicalName) showMiddleText(name);
 	}
 
 	createTileMap(tilemap, tilesets) {
@@ -338,17 +339,20 @@ export function goToLevel(levelName, startId) {
 	if (game.level) {
 		game.level.exit();
 	}
-	game.level = new Level(levels[levelName])
+	game.level = new Level(levelName)
 
 	game.player.loadTexture(["cave", "autel"].includes(levelName) ? "cultist" : "howard", 0);
-	return positionPlayerAtStartOfLevel(startId);
+	if (game.save.playerPosition && game.save.level === levelName) {
+		return Object.assign(game.player.position, game.save.playerPosition);
+	} else {
+		return positionPlayerAtStartOfLevel(startId);
+	}
 }
 
 export function positionPlayerAtStartOfLevel(id = 1) {
 	let startPosition = findObjectsByType("start", game.level.tilemap, "Object Layer").find(el => el.properties.id === id)
-	Object.assign(game.player.position, {
+	return Object.assign(game.player.position, {
 		x: startPosition.x + 8,
 		y: startPosition.y,
 	});
-	return startPosition
 }

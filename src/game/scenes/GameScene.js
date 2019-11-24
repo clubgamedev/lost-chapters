@@ -1,12 +1,11 @@
-import {addSounds, startMusic, sounds} from "../audio"
-import {Player} from "../characters/Player"
-import {goToLevel} from "../levels"
-import {openBook} from "../utils/book";
-import {updateHud} from "../utils/hud"
-import {save} from "../save"
-import {talkTo} from "../utils/dialog";
-import {readDescription} from "../dialogs/descriptions";
-import {activeItemSelection} from "../utils/inventory";
+import { addSounds, startMusic, sounds } from "../audio"
+import { Player } from "../characters/Player"
+import { goToLevel } from "../levels"
+import { openBook } from "../utils/book";
+import { updateHud } from "../utils/hud"
+import { save } from "../save"
+import { talkTo } from "../utils/dialog";
+import { activeItemSelection } from "../utils/inventory";
 
 let hurtFlag
 
@@ -33,7 +32,7 @@ export class GameScene {
     startGame() {
         startMusic();
         addSounds()
-        goToLevel(game.save.level)
+        goToLevel(game.save.level || "school")
         updateHud();
         save()
     }
@@ -87,7 +86,7 @@ export class GameScene {
                     game.camera.shake(0.01, 250);
                     game.camera.flash(0xcc0000, 500);
                     setTimeout(() => {
-                        game.decryptor = {variants: ['battle']}
+                        game.decryptor = { variants: ['battle'] }
                         save();
                         game.state.start("Decryptor")
                         hurtFlag = false;

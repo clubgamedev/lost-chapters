@@ -1,8 +1,8 @@
 import { shuffleArray } from "../../utils/array";
 import { talkToMyself } from "../../utils/dialog";
-import { dialogs } from "../../dialogs"
 import { save, loadSave } from "../../save"
 import { createParticlesEmitter } from "../../effects/particles";
+import { descriptions } from "../../dialogs/descriptions";
 
 let countDown;
 let timerText;
@@ -45,7 +45,6 @@ let particleInitialized;
 let errorSound;
 let foundSounds = [],
     foundSoundEnd;
-let playbackRateValue;
 
 let MAX_HEALTH = 100;
 let health;
@@ -249,13 +248,13 @@ export class DecryptorScene {
 function activePotions() {
     if (game.save.inventory.items.potionDeProtection && game.save.inventory.items.potionDeProtection.actif) {
         nbPlayerHitsToWin = defaultNbPlayerHitsToWin + 2;
-    }else{
+    } else {
         nbPlayerHitsToWin = defaultNbPlayerHitsToWin;
     }
 
     if (game.save.inventory.items.potionDeForce && game.save.inventory.items.potionDeForce.actif) {
         nbEnemyHitsToWin = defaultNbEnemyHitsToWin - 2;
-    }else{
+    } else {
         nbEnemyHitsToWin = defaultNbEnemyHitsToWin;
     }
     displayActivePotions();
@@ -526,12 +525,9 @@ function gameOver(youWon, message) {
     } else {
         createLosingScreen(message);
     }
-    game.input.gamepad.onDownCallback = function () {
-        quitGame(youWon)
-    };
-    game.input.keyboard.onDownCallback = function () {
-        quitGame(youWon)
-    };
+
+    game.input.gamepad.onDownCallback = () => quitGame(youWon)
+    game.input.keyboard.onDownCallback = () => quitGame(youWon)
 }
 
 function decryptOver() {
@@ -615,12 +611,11 @@ function quitGame(youWon) {
         game.save.translationsFound.push(game.decryptor.translation)
         save();
     }
-    loadSave();
     game.state.start('MainGame');
 
     setTimeout(() => {
         if (youWon) {
-            let translation = dialogs[game.decryptor.translation](game.save)
+            let translation = descriptions[game.decryptor.translation](game.save)
             talkToMyself(["Ça y est, j'ai trouvé !", ...translation.map(part => `"${part}"`), "Intéressant..."]);
         } else {
             talkToMyself(["Je me suis encore trompé...", "Bon, recommençons depuis le début !"]);

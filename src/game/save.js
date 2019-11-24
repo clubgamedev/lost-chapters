@@ -1,4 +1,4 @@
-import {Inventory} from "./utils/inventory";
+import { Inventory } from "./utils/inventory";
 
 export function loadSave() {
     if (localStorage.getItem("save") != null) {
@@ -7,9 +7,10 @@ export function loadSave() {
 }
 
 export function save() {
+    game.save.level = game.level.name;
     game.save.playerPosition = {
-        x: ((game.player.position.x - 8) / 16),
-        y: ((game.player.position.y - 8) / 16)
+        x: game.player.position.x,
+        y: game.player.position.y
     };
     game.save.playerState = game.player.state;
     localStorage.setItem("save", JSON.stringify(game.save));
@@ -18,7 +19,7 @@ export function save() {
 export function newGame() {
     game.save = {
         inventory: new Inventory(),
-        level: "cave",
+        level: null,
         loot: {
             recettePotionDeForce: false,
             recettePotionDeProtection: false,
