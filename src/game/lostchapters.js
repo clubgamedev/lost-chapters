@@ -24,8 +24,6 @@ export function startGame() {
 	game.state.add("Alchemy", AlchemyScene)
 	game.state.add("EscapeGame", EscapeGameScene);
 
-	loadSave();
-
 	game.state.start("Boot")
 	return game
 }

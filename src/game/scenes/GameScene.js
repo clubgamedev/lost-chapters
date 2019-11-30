@@ -32,9 +32,10 @@ export class GameScene {
     startGame() {
         startMusic();
         addSounds()
-        goToLevel(game.save.level || "school")
+        goToLevel(game.save.level)
         updateHud();
         save()
+        setInterval(() => save(), 5000); // AUTOSAVE TOUTES LES 5 SECONDES
     }
 
     spawnPlayer() {

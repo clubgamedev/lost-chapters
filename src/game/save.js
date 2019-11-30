@@ -1,25 +1,27 @@
 import { Inventory } from "./utils/inventory";
 
+const SAVE_KEY = "lostchapters_save"
+
 export function loadSave() {
-    if (localStorage.getItem("save") != null) {
-        game.save = JSON.parse(localStorage.getItem("save"));
-    } else newGame();
+    if (localStorage.getItem(SAVE_KEY) != null) {
+        game.save = JSON.parse(localStorage.getItem(SAVE_KEY));
+    }
 }
 
 export function save() {
-    game.save.level = game.level.name;
+    if (game.level) game.save.level = game.level.name;
     game.save.playerPosition = {
         x: game.player.position.x,
         y: game.player.position.y
     };
     game.save.playerState = game.player.state;
-    localStorage.setItem("save", JSON.stringify(game.save));
+    localStorage.setItem(SAVE_KEY, JSON.stringify(game.save));
 }
 
-export function newGame() {
+export function resetSaveToNewGame() {
     game.save = {
         inventory: new Inventory(),
-        level: null,
+        level: "school",
         loot: {
             recettePotionDeForce: false,
             recettePotionDeProtection: false,

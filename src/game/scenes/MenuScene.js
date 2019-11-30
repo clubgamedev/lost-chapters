@@ -1,18 +1,20 @@
 import { initControls } from "../utils/controls";
-import { newGame, loadSave, save } from "../save";
+import { resetSaveToNewGame, loadSave, save } from "../save";
 
 export class MenuScene {
     create() {
         game.add.tileSprite(0, 0, game.width, game.height, "title-bg");
 
+        delete game.save;
+        loadSave();
         initControls()
         this.showMenu()
     }
 
     showMenu() {
         let menu = {
-            "Nouvelle partie": () => {
-                newGame();
+            [game.save ? "Continuer" : "Nouvelle partie"]: () => {
+                if (!game.save) resetSaveToNewGame();
                 requestAnimationFrame(() => this.game.state.start("MainGame"));
             },
             "Contrôles": () => {

@@ -1,4 +1,3 @@
-import { loadSave } from "../../save";
 import { Digicode } from "../../items/escape/Digicode";
 import { PushButton } from "../../items/escape/PushButton";
 import { Wheel } from "../../items/escape/Wheel";
@@ -10,7 +9,7 @@ import { Scie } from "../../items/escape/Scie";
 import { Cable } from "../../items/escape/Cable";
 import { Feuilles } from "../../items/escape/Feuilles";
 import { Labyrinthe } from '../../items/escape/Labyrinthe';
-import {parcheminUnlock} from "../../utils/inventory";
+import { parcheminUnlock } from "../../utils/inventory";
 
 export class EscapeGameScene {
 
@@ -40,7 +39,7 @@ export class EscapeGameScene {
         this.feuilles = new Feuilles();
         this.labyrinthe = new Labyrinthe(() => this.onLabyrintheValid());
     }
-    
+
     create() {
         game.scale.setGameSize(gameWidth, gameHeight);
         game.add.image(0, 0, 'escape_etablie');
@@ -52,7 +51,7 @@ export class EscapeGameScene {
         this.scie.create(52, 82);
         this.feuilles.create(58, 104);
         this.labyrinthe.create(87, 31);
-  
+
         this.circuitSprite = game.add.image(45, 27, 'escape_circuit', 0);
         this.coverSprite = game.add.image(44, 27, 'escape_cover');
         this.tableau = game.add.image(189, 28, 'escape_tableau');
@@ -129,15 +128,14 @@ export class EscapeGameScene {
     enableLeaveSceneAction() {
         let startKey = game.input.keyboard.addKey(Phaser.Keyboard.ESC);
         startKey.onDown.add(() => {
-            loadSave();
             game.state.start('MainGame');
         });
 
         let textSprite = game.add.text(215, 123, "Exit", {
             font: "14px Alagard",
             fill: "red",
-            stroke : "#FFFFFF",
-            strokeThickness : 0
+            stroke: "#FFFFFF",
+            strokeThickness: 0
         });
 
         textSprite.inputEnabled = true;
@@ -152,7 +150,6 @@ export class EscapeGameScene {
             textSprite.y += 2;
         });
         textSprite.events.onInputDown.add(() => {
-            loadSave();
             game.state.start('MainGame');
         });
     }

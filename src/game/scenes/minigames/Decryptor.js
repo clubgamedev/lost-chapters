@@ -1,6 +1,6 @@
 import { shuffleArray } from "../../utils/array";
 import { talkToMyself } from "../../utils/dialog";
-import { save, loadSave } from "../../save"
+import { save } from "../../save"
 import { createParticlesEmitter } from "../../effects/particles";
 import { descriptions } from "../../dialogs/descriptions";
 
