@@ -92,7 +92,7 @@ function franckTindalos(save) {
         "Tindalos ? Ça ne peut pas être vrai...",
         {
             "Expliquez moi": () => [
-                "Oui pardon, j'étais dans mes pensées...",
+                "Oui pardon, j'étais perdu dans mes pensées...",
                 "Je vais tout vous expliquer."
             ],
             "Et pourtant...": () => [
@@ -100,40 +100,40 @@ function franckTindalos(save) {
                 "Laissez-moi vous expliquer."
             ]
         },
-        "Therled était jadis assistant au laboratoire d'astronomie. Il travaillait sur",
-        "les lunettes de télescope, mais aussi sur l'oeil humain.",
-        "D'après ses dires, il aurait perçu au delà des étoiles qu'il observait dans le",
-        "cadre de ses études, les clés permettant de déchiffrer l'un des parchemins",
-        "inintelligibles enfouis dans les réserves de la bibliothèque.",
-        "On l'a pris pour un fou, mais sa methode de traduction s'est avérée exacte.",
+        "Therled était jadis assistant au laboratoire d'astronomie. Il travaillait",
+        "sur les lunettes de télescope, mais aussi sur l'oeil humain.",
+        "D'après ses dires, il aurait perçu au delà des étoiles qu'il observait",
+        "les clés permettant de déchiffrer un des parchemins inintelligibles",
+        "enfouis dans les réserves de la bibliothèque. On l'a pris pour",
+        "un fou, mais sa methode de traduction s'est avérée exacte.",
         "Le parchemin parlait de l'espace et du temps, et de légendes autour de",
-        "chiens démoniaques qui traqueraient quiconque se risquerait à vouloir",
+        "chiens démoniaques qui traquent quiconque se risquerait à vouloir",
         "fuir l'espace ou le temps... On les appelle les chiens de Tindalos.",
         {
             "Assez de bêtises": () => [
-                "Ces démons proviennent sans aucun doute de l'imagination de fanatiques.",
+                "C'est sans aucun doute l'imagination de fanatiques.",
             ],
             "Ils existent ?": () => [
                 "Pour tous ceux qui veulent bien y croire, bien sûr."
             ]
         },
-        "Dans les temps anciens, certains prêtres consommaient une drogue, le Liao,",
-        "qui donnait l'impression de quitter l'espace et le temps. Bien des hommes",
-        "furent envoutés par les charmes de la connaissance offerts par le Liao...",
+        "Jadis, certains prêtres consommaient une drogue, le Liao, qui donnait",
+        "l'impression de quitter l'espace et le temps. Bien des hommes furent",
+        "envoutés par les charmes de la connaissance offerte par le Liao...",
         "Mais combien aujourd'hui peuvent se vanter d'avoir admiré les angles du",
         "temps et de l'espace, sans avoir complètement perdu la tête ?",
         {
             "Et Therled ?": () => [
-                "Therled est devenu assoiffé de connaissance depuis la traduction du parchemin.",
-                "Il a commencé à expérimenter avec le Liao au laboratoire."
+                "Therled est devenu assoiffé de connaissance depuis la traduction du",
+                "parchemin. Il a fait des expériences avec le Liao au laboratoire."
             ],
             "Liao...": () => [
-                "Oui, vous l'avez deviné, c'est le psychotrope que je suspecte Therled d'avoir",
-                "utilisé sur d'autres étudiants."
+                "Oui, vous l'avez deviné, c'est le psychotrope que je suspecte Therled",
+                "d'avoir utilisé sur d'autres étudiants."
             ]
         },
-        "S'il espère voir un chien de Tindalos, cet inconscient sous-estime les risques",
-        "de sa folie. Je veux que vous l'arrêter avant qu'il ne soit trop tard."
+        "S'il espère voir un chien de Tindalos, cet inconscient a sombré dans",
+        "la folie. Je veux que vous l'arrêter avant qu'il ne soit trop tard."
     ]
 
 }
