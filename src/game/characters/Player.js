@@ -9,7 +9,7 @@ import { pickLoot } from "../items/loot";
 import { hallucinations } from "../effects/Hallucination";
 
 const MOVE_SPEED = 50
-const RUN_SPEED = 120;
+const RUN_SPEED = 100;
 let ACTION_DELAY;
 
 export class Player extends Character {
@@ -21,6 +21,8 @@ export class Player extends Character {
 		this.body.setSize(10, 13, 11, 19)
 		this.body.moves = true;
 		this.watchingPoint = this.worldPosition;
+		this.isMoving = false;
+		this.isRunning = false;
 
 		this.interactionSprite = game.make.sprite(0, 0, 'interactions');
 		this.interactionSprite.animations.add("talk", [0, 1, 2, 3], 3, true);
@@ -41,18 +43,22 @@ export class Player extends Character {
 		switch (this.state) {
 			case CHARACTER_STATE.LEFT:
 			case CHARACTER_STATE.WALKING_LEFT:
+			case CHARACTER_STATE.RUNNING_LEFT:
 				this.watchingPoint.x -= 16;
 				break;
 			case CHARACTER_STATE.RIGHT:
 			case CHARACTER_STATE.WALKING_RIGHT:
+			case CHARACTER_STATE.RUNNING_RIGHT:
 				this.watchingPoint.x += 16
 				break;
 			case CHARACTER_STATE.UP:
 			case CHARACTER_STATE.WALKING_UP:
+			case CHARACTER_STATE.RUNNING_UP:
 				this.watchingPoint.y -= 16
 				break;
 			case CHARACTER_STATE.DOWN:
 			case CHARACTER_STATE.WALKING_DOWN:
+			case CHARACTER_STATE.RUNNING_DOWN:
 				this.watchingPoint.y += 16
 				break;
 		}
@@ -74,39 +80,38 @@ export class Player extends Character {
 	}
 
 	updateControls() {
-		let isMoving;
-
 		// can't move while talking or reading
 		let canMove = !game.dialog && !game.book && !game.page && !controls.ACTION.isPressed() && !this.isForceMoving && !game.save.inventory.selectedItem;
-		let moveSpeed = (controls.SHIFT.isPressed()) ? RUN_SPEED : MOVE_SPEED;
+		this.isRunning = controls.SHIFT.isPressed();
+		let moveSpeed = this.isRunning ? RUN_SPEED : MOVE_SPEED;
 
 		if (canMove && controls.DOWN.isPressed()) {
-			this.state = CHARACTER_STATE.WALKING_DOWN
+			this.state = this.isRunning ? CHARACTER_STATE.RUNNING_DOWN : CHARACTER_STATE.WALKING_DOWN
 			this.body.velocity.y = moveSpeed
 			this.body.velocity.x = 0
-			isMoving = true
+			this.isMoving = true
 		}
 		else if (canMove && controls.UP.isPressed()) {
-			this.state = CHARACTER_STATE.WALKING_UP
+			this.state = this.isRunning ? CHARACTER_STATE.RUNNING_UP : CHARACTER_STATE.WALKING_UP
 			this.body.velocity.y = -moveSpeed
 			this.body.velocity.x = 0
-			isMoving = true
+			this.isMoving = true
 		} else if (canMove && controls.LEFT.isPressed()) {
-			this.state = CHARACTER_STATE.WALKING_LEFT
+			this.state = this.isRunning ? CHARACTER_STATE.RUNNING_LEFT : CHARACTER_STATE.WALKING_LEFT
 			this.body.velocity.x = -moveSpeed
 			this.body.velocity.y = 0
-			isMoving = true
+			this.isMoving = true
 		} else if (canMove && controls.RIGHT.isPressed()) {
-			this.state = CHARACTER_STATE.WALKING_RIGHT
+			this.state = this.isRunning ? CHARACTER_STATE.RUNNING_RIGHT : CHARACTER_STATE.WALKING_RIGHT
 			this.body.velocity.x = moveSpeed
 			this.body.velocity.y = 0
-			isMoving = true;
+			this.isMoving = true;
 		} else if (!this.isForceMoving) {
 			this.stopMoving();
-			isMoving = false;
+			this.isMoving = false;
 		}
 
-		if (isMoving && this.movesBeforeTp > 0) this.movesBeforeTp--;
+		if (this.isMoving && this.movesBeforeTp > 0) this.movesBeforeTp--;
 
 		if (game.lamp) {
 			game.lamp.x = this.x
@@ -165,18 +170,22 @@ export class Player extends Character {
 			switch (this.state) {
 				case CHARACTER_STATE.LEFT:
 				case CHARACTER_STATE.WALKING_LEFT:
+				case CHARACTER_STATE.RUNNING_LEFT:
 					pnjInFront.state = CHARACTER_STATE.RIGHT;
 					break;
 				case CHARACTER_STATE.RIGHT:
 				case CHARACTER_STATE.WALKING_RIGHT:
+				case CHARACTER_STATE.RUNNING_RIGHT:
 					pnjInFront.state = CHARACTER_STATE.LEFT;
 					break;
 				case CHARACTER_STATE.UP:
 				case CHARACTER_STATE.WALKING_UP:
+				case CHARACTER_STATE.RUNNING_UP:
 					pnjInFront.state = CHARACTER_STATE.DOWN;
 					break;
 				case CHARACTER_STATE.DOWN:
 				case CHARACTER_STATE.WALKING_DOWN:
+				case CHARACTER_STATE.RUNNING_DOWN:
 					pnjInFront.state = CHARACTER_STATE.UP;
 					break;
 			}

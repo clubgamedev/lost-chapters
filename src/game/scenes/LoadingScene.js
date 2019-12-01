@@ -32,7 +32,7 @@ export class LoadingScene {
 		game.load.tilemap("map_sanctuary", "assets/maps/sanctuaire.json", null, Phaser.Tilemap.TILED_JSON);
 
 		// spritesheets
-		game.load.spritesheet('howard', 'assets/characters/howard.png', 32, 32, 9);
+		game.load.spritesheet('howard', 'assets/characters/howard.png', 32, 32, 15);
 		game.load.spritesheet('michelle', 'assets/characters/michelle.png', 32, 32, 9);
 		game.load.spritesheet('franck', 'assets/characters/franck.png', 32, 32, 9);
 		game.load.spritesheet('therled', 'assets/characters/therled.png', 32, 32, 9);
@@ -87,14 +87,14 @@ export class LoadingScene {
 
 	loadEscape() {
 		game.load.image('escape_etablie', 'assets/escape/etablie.png');
-        game.load.image('escape_cover', 'assets/escape/cover.png');
+		game.load.image('escape_cover', 'assets/escape/cover.png');
 		game.load.image('escape_screen2', 'assets/escape/ecran_2.png');
 		game.load.image('escape_screen4', 'assets/escape/ecran_4.png');
 		game.load.image('escape_screen9', 'assets/escape/ecran_9.png');
 		game.load.image('escape_buttonGrid_socle', 'assets/escape/buttonGrid/socle.png');
 		game.load.image('escape_digicode_boite', 'assets/escape/digicode/digicode_boite.png');
 		game.load.image('escape_outil', 'assets/escape/outil.png');
-        game.load.image('escape_outil_outline', 'assets/escape/outil_outline.png');
+		game.load.image('escape_outil_outline', 'assets/escape/outil_outline.png');
 		game.load.image('escape_labyrinthe_droite', 'assets/escape/labyrinthe_droite.png');
 		game.load.image('escape_labyrinthe_angle', 'assets/escape/labyrinthe_angle.png');
 
@@ -116,11 +116,11 @@ export class LoadingScene {
 		game.load.spritesheet('escape_digicode_btn9', 'assets/escape/digicode/digicode_btn9.png', 5, 8, 2);
 		game.load.spritesheet('escape_digicode_cable', 'assets/escape/digicode/digicode_cable.png', 3, 19, 3);
 		game.load.spritesheet('escape_circuit', 'assets/escape/circuit.png', 110, 48, 2);
-        game.load.spritesheet('escape_tableau', 'assets/escape/tableau.png', 48, 42, 5);
-        game.load.spritesheet('escape_buttonGrid_bouton_jaune', 'assets/escape/buttonGrid/bouton_jaune.png', 3, 4, 2);
-        game.load.spritesheet('escape_buttonGrid_bouton_rouge', 'assets/escape/buttonGrid/bouton_rouge.png', 3, 4, 2);
-        game.load.spritesheet('escape_buttonGrid_bouton_bleu', 'assets/escape/buttonGrid/bouton_bleu.png', 3, 4, 2);
-        game.load.spritesheet('escape_buttonGrid_bouton_vert', 'assets/escape/buttonGrid/bouton_vert.png', 3, 4, 2);
+		game.load.spritesheet('escape_tableau', 'assets/escape/tableau.png', 48, 42, 5);
+		game.load.spritesheet('escape_buttonGrid_bouton_jaune', 'assets/escape/buttonGrid/bouton_jaune.png', 3, 4, 2);
+		game.load.spritesheet('escape_buttonGrid_bouton_rouge', 'assets/escape/buttonGrid/bouton_rouge.png', 3, 4, 2);
+		game.load.spritesheet('escape_buttonGrid_bouton_bleu', 'assets/escape/buttonGrid/bouton_bleu.png', 3, 4, 2);
+		game.load.spritesheet('escape_buttonGrid_bouton_vert', 'assets/escape/buttonGrid/bouton_vert.png', 3, 4, 2);
 		game.load.spritesheet('escape_parchemin', 'assets/items/parchemin_levitation.png', 16, 32, 4);
 	}
 }
