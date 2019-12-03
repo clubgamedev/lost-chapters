@@ -63,6 +63,7 @@ export class LoadingScene {
 		game.load.image("book-bg", "assets/ui/book.png");
 		game.load.image("page-bg", "assets/ui/page.png");
 		game.load.image("exit", "assets/environment/exit-open.png");
+		game.load.image('backdrop', 'assets/sprites/backdrop.png');
 
 		// items
 		game.load.image('potionDeForce', 'assets/items/potionDeForce.png');

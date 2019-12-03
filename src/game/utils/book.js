@@ -1,6 +1,6 @@
 import { books } from "../books"
 
-export function openBook(bookName) {
+export function openBook(bookName, page = 1) {
     let pages = books[bookName]
     if (!pages) return;
     if (game.player) game.player.stopMoving();
@@ -30,7 +30,9 @@ export function openBook(bookName) {
 
     game.book = { pages: [...pages], color, textSpriteLeft, textSpriteRight, bgSprite };
 
-    nextPage();
+    for (let i = 0; i < page; i++) {
+        nextPage();
+    }
 
     return new Promise((resolve) => {
         game.book.onClose = resolve

@@ -24,8 +24,12 @@ export class EscapeGameScene {
     cable;
     coverSprite;
     circuitSprite;
+    etablieSprite;
     tableau;
     labyrinthe;
+    labyrintheDone = false;
+    buttonGridDone = false;
+    digicodeEnabled = false;
 
     preload() {
         this.tool = new Tool(() => this.onToolActivate());
@@ -42,7 +46,7 @@ export class EscapeGameScene {
 
     create() {
         game.scale.setGameSize(gameWidth, gameHeight);
-        game.add.image(0, 0, 'escape_etablie');
+        this.etablieSprite = game.add.image(0, 0, 'escape_etablie');
 
         this.digicode.create(197, 34);
         this.plant.create(130, 8);
@@ -58,8 +62,7 @@ export class EscapeGameScene {
         this.tableau.animations.add('open');
 
         this.enableLeaveSceneAction();
-        // TODO a supprimer
-        this.onDigicodeCodeValid();
+        // this.onDigicodeCodeValid();
     }
 
     update() {
@@ -74,6 +77,7 @@ export class EscapeGameScene {
         switch (count) {
             case 1:
                 this.wheel.create(151, 85, this);
+                this.feuilles.nextPage();
                 break;
             case 2:
                 this.tableau.animations.play('open', 10, false);
@@ -82,6 +86,7 @@ export class EscapeGameScene {
                 this.scie.openScie();
                 break;
             case 8:
+                this.digicodeEnabled = true;
                 this.scie.activate();
                 break;
         }
@@ -90,16 +95,25 @@ export class EscapeGameScene {
     onToolActivate() {
         this.circuitEnabled = true;
         this.circuitSprite.frame = 1;
+        this.feuilles.nextPage();
         game.add.image(95, 58, 'escape_screen9');
     }
 
     onButtonGridCodeValid() {
-        if (this.circuitEnabled) game.add.image(113, 58, 'escape_screen2');
+        if (this.circuitEnabled) {
+            game.add.image(113, 58, 'escape_screen2');
+            this.buttonGridDone = true;
+            this._nextPage(this.labyrintheDone);
+        }
         return this.circuitEnabled;
     }
 
     onLabyrintheValid() {
-        if (this.circuitEnabled) game.add.image(107, 58, 'escape_screen4');
+        if (this.circuitEnabled) {
+            game.add.image(107, 58, 'escape_screen4');
+            this.labyrintheDone = true;
+            this._nextPage(this.buttonGridDone);
+        }
     }
 
     onDigicodeCodeValid() {
@@ -127,9 +141,7 @@ export class EscapeGameScene {
 
     enableLeaveSceneAction() {
         let startKey = game.input.keyboard.addKey(Phaser.Keyboard.ESC);
-        startKey.onDown.add(() => {
-            game.state.start('MainGame');
-        });
+        startKey.onDown.add(() => game.state.start('MainGame'));
 
         let textSprite = game.add.text(215, 123, "Exit", {
             font: "14px Alagard",
@@ -149,8 +161,15 @@ export class EscapeGameScene {
             textSprite.x += 2;
             textSprite.y += 2;
         });
-        textSprite.events.onInputDown.add(() => {
-            game.state.start('MainGame');
-        });
+        textSprite.events.onInputDown.add(() => game.state.start('MainGame'));
+    }
+
+    _nextPage(isDone) {
+        if (isDone) {
+            this.feuilles.nextPage();
+            if (this.digicodeEnabled) {
+                this.feuilles.nextPage();
+            }
+        }
     }
 }

@@ -1,3 +1,5 @@
+import { createSillhouette } from '../../utils/inventory';
+
 export class Wheel {
 
     _sprite;
