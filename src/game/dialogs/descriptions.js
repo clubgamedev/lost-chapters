@@ -1,7 +1,7 @@
 import { sounds } from "../audio";
 import { talkToMyself } from "../utils/dialog";
-import {allPotions} from "../scenes/minigames/alchemy/potions";
-import {drinkPotion} from "../utils/inventory";
+import { allPotions } from "../scenes/minigames/alchemy/potions";
+import { drinkPotion } from "../utils/inventory";
 
 export function readDescription(name) {
     let description = descriptions[name]
@@ -49,9 +49,12 @@ export const descriptions = {
         `Je n'y comprends rien...`
     ]),
 
-    traduction_tableau: save => ([
-        `Que tout le monde se rassemble au terrier`
-    ]),
+    traduction_tableau: save => {
+        save.hasDiscoveredTerrier = true;
+        return [
+            `Que tout le monde se rassemble au terrier`
+        ]
+    },
 
     panneau_sanctuaire: save => ([
         `Le chemin ne sera ouvert qu'à ceux qui ont bravé leurs peurs`
@@ -164,14 +167,14 @@ export const descriptions = {
             }
         }
     },
-    potionDeForce : save=>{
+    potionDeForce: save => {
         return [
             allPotions.filter((potion) => potion.name === "potionDeForce")[0].description,
             {
                 "La boire": () => {
                     save.inventory.items.potionDeForce.actif = true;
                     save.inventory.items.potionDeForce.nombre--;
-                    drinkPotion(["Psycho-stimulant consommée", "Vous vous sentez plus fort" ]);
+                    drinkPotion(["Psycho-stimulant consommée", "Vous vous sentez plus fort"]);
                 },
                 "La ranger": () => {
 
@@ -180,7 +183,7 @@ export const descriptions = {
         ]
     },
 
-    potionDeLucidite : save => {
+    potionDeLucidite: save => {
         return [
             allPotions.filter((potion) => potion.name === "potionDeLucidite")[0].description,
             {
@@ -196,7 +199,7 @@ export const descriptions = {
         ]
     },
 
-    potionDeProtection : save => {
+    potionDeProtection: save => {
         return [
             allPotions.filter((potion) => potion.name === "potionDeProtection")[0].description,
             {
@@ -212,7 +215,7 @@ export const descriptions = {
         ]
     },
 
-    fioleDeSang : save => {
+    fioleDeSang: save => {
         return [
             allPotions.filter((potion) => potion.name === "fioleDeSang")[0].description,
             {
@@ -228,14 +231,14 @@ export const descriptions = {
         ]
     },
 
-    cape : save => {
+    cape: save => {
         return [
             "Cette cape que m'a donné Jean Louis me permet de me cacher",
             "pour entrer dans les douches des sbires sans être vu :D",
         ]
     },
 
-    parchemin : save => {
+    parchemin: save => {
         return [
             "Ce parchemin que m'a confié Billou ne ressemble à rien, ",
             "on dirait du papier toilettes en toile de jute",

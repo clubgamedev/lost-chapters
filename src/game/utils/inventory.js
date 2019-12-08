@@ -1,41 +1,41 @@
-import {readDescription} from "../dialogs/descriptions";
+import { readDescription } from "../dialogs/descriptions";
 
-export class Inventory{
+export class Inventory {
 
     selectedItem;
 
     items;
 
-    constructor(){
+    constructor() {
         this.items = {
             potionDeForce: {
-                nombre:2,
-                actif:false
+                nombre: 0,
+                actif: false
             },
             potionDeProtection: {
-                nombre:1,
-                actif:false
+                nombre: 0,
+                actif: false
             },
             potionDeLucidite: {
-                nombre:1,
-                actif:false
+                nombre: 0,
+                actif: false
             },
             fioleDeSang: {
-                nombre:1,
-                actif:false
+                nombre: 0,
+                actif: false
             },
             parchemin: {
-                nombre:0
+                nombre: 0
             },
             cape: {
-                nombre:1
+                nombre: 0
             },
         };
     }
 }
 
 export function drinkPotion(textsToDisplay) {
-    if(textsToDisplay.length > 0) {
+    if (textsToDisplay.length > 0) {
         let drinkPotionText = game.add.text(game.player.position.x, game.player.position.y - 20, textsToDisplay[0], {
             font: "8px Arial",
             fill: "white",
@@ -51,7 +51,7 @@ export function drinkPotion(textsToDisplay) {
         console.log(drinkPotionText.position.x);
         //drinkPotionText.visible = true;
         let tween = game.add.tween(drinkPotionText)
-            .to({y: drinkPotionText.position.y - 20, alpha: 0.1}, 2000, Phaser.Easing.Linear.None)
+            .to({ y: drinkPotionText.position.y - 20, alpha: 0.1 }, 2000, Phaser.Easing.Linear.None)
             .start();
 
         tween.onComplete.add(() => {
@@ -63,22 +63,22 @@ export function drinkPotion(textsToDisplay) {
 }
 
 export function activeItemSelection() {
-    game.controls.TAB.onPress(() => deactiveItemSelection(),game.save.inventory, true);
-    game.controls.LEFT.onPress(() => selectPreviousItem(),game.save.inventory);
-    game.controls.RIGHT.onPress(() => selectNextItem(),game.save.inventory);
-    game.controls.ACTION.onPress(() => useItem(),game.save.inventory);
+    game.controls.TAB.onPress(() => deactiveItemSelection(), game.save.inventory, true);
+    game.controls.LEFT.onPress(() => selectPreviousItem(), game.save.inventory);
+    game.controls.RIGHT.onPress(() => selectNextItem(), game.save.inventory);
+    game.controls.ACTION.onPress(() => useItem(), game.save.inventory);
     selectFirstItem();
 }
 
 export function selectPreviousItem() {
-    let {indexSelected, objectsInInventory} = getIndexOfSelectedItem();
+    let { indexSelected, objectsInInventory } = getIndexOfSelectedItem();
     if (objectsInInventory[indexSelected + 1]) {
         game.save.inventory.selectedItem = objectsInInventory[indexSelected + 1][0];
     }
 }
 
 export function selectNextItem() {
-    let {indexSelected, objectsInInventory} = getIndexOfSelectedItem();
+    let { indexSelected, objectsInInventory } = getIndexOfSelectedItem();
     if (objectsInInventory[indexSelected - 1]) {
         objectsInInventory[indexSelected][1].selected = false;
         game.save.inventory.selectedItem = objectsInInventory[indexSelected - 1][0];
@@ -99,11 +99,11 @@ export function getIndexOfSelectedItem() {
             indexSelected = index;
         }
     });
-    return {indexSelected, objectsInInventory};
+    return { indexSelected, objectsInInventory };
 }
 
 export function useItem() {
-    let {indexSelected, objectsInInventory} = getIndexOfSelectedItem();
+    let { indexSelected, objectsInInventory } = getIndexOfSelectedItem();
     readDescription(objectsInInventory[indexSelected][0]);
     deactiveItemSelection();
 }
@@ -165,7 +165,7 @@ export function drawInventory(inventory) {
                 let border = game.add.sprite(game.width - 16 * (i + 1), 1, sillhouetteBMD);
                 border.scale.setTo(1.12);
                 border.anchor.setTo(0.02);
-                border.tint=0xBF0000;
+                border.tint = 0xBF0000;
                 border.fixedToCamera = true;
                 game.groups.hud.add(border);
 

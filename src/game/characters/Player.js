@@ -69,6 +69,7 @@ export class Player extends Character {
 
 
 	checkInFrontOfPlayer() {
+		if (!game.groups) return;
 		let { x, y } = this.watchingPoint;
 		let pnjInFront = game.groups.pnj.children.find(obj => obj instanceof Phaser.Sprite && obj.getBounds().contains(x, y));
 		let objectInFront = game.groups.objects.children.find(obj => obj instanceof Phaser.Sprite && obj.getBounds().contains(x, y));

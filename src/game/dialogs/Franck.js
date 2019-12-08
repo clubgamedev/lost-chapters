@@ -2,9 +2,8 @@ import { exhaustDialog } from "@/game/utils/dialog"
 
 export function franck(save) {
     if (!save.hasMetFranck) return franckMeeting(save)
-    if (!save.hasDiscoveredTindalos) return franckRappel1(save)
-
-    if (save.hasDiscoveredTindalos) return franckTindalos(save)
+    else if (save.hasDiscoveredTindalos && !save.hasFranckTalkedAboutTindalos) return franckTindalos(save)
+    else return franckRappel(save);
 }
 
 
@@ -52,42 +51,23 @@ function franckMeeting(save) {
         "manquent à l'appel. J'ai reçu des témoignages selon lesquels des",
         "étudiants auraient été aperçus près de la forêt derrière l'Université.",
         "J'espère que les dévots n'ont rien à voir là dedans...",
-        rappelQuestions1(),
+        rappelQuestions(),
         "Merci mon ami, et faites bien attention."
     ]
 }
 
-const rappelQuestions1 = () => exhaustDialog({
-    "La forêt ?": () => [
-        "Oui, la forêt à l'Est en sortant de l'Université.",
-        "Il n'y a rien là-bas, à part des ruines d'un ancien sanctuaire païen",
-        "qui attirent quelques illuminés de temps en temps.",
-    ],
-    "Des témoignages ?": () => [
-        "Il reste quelques élèves dans l'Université.",
-        "Libre à vous de les interroger vous-même."
-    ],
-    "Les dévots ?": () => [
-        "Des religieux qui ont un camp à l'orée du bois.",
-        "Ils se disent membres de l'Eglise, mais cela a tout l'air d'une secte.",
-        "Leur représentant est un vieil homme qu'ils appellent Père Arthur.",
-        "Il voit d'un très mauvais oeil l'Université, qu'il accuse",
-        "de pervertir les esprits. Un comble, vous ne trouvez pas ?"
-    ],
-}, "Je vais y enquêter")
-
-
-function franckRappel1(save) {
+function franckRappel(save) {
     return [
         "Vous devez faire vite, mon ami.",
         {
-            "Rappelez-moi...": () => rappelQuestions1(),
+            "Rappelez-moi...": () => rappelQuestions(save),
             "Comptez sur moi": () => []
         }
     ]
 }
 
 function franckTindalos(save) {
+    save.hasFranckTalkedAboutTindalos = true;
     return [
         "Tindalos ? Ça ne peut pas être vrai...",
         {
@@ -136,4 +116,63 @@ function franckTindalos(save) {
         "la folie. Je veux que vous l'arrêter avant qu'il ne soit trop tard."
     ]
 
+}
+
+
+const rappelQuestions = (save) => {
+    const questions = {
+        "La forêt ?": () => [
+            "Oui, la forêt à l'Est en sortant de l'Université.",
+            "Il n'y a rien là-bas, à part des ruines d'un ancien sanctuaire païen",
+            "qui attirent quelques illuminés de temps en temps.",
+        ],
+        "Des témoignages ?": () => [
+            "Il reste quelques élèves dans l'Université.",
+            "Libre à vous de les interroger vous-même."
+        ],
+        "Les dévots ?": () => [
+            "Des religieux qui ont un camp à l'orée du bois.",
+            "Ils se disent membres de l'Eglise, mais cela a tout l'air d'une secte.",
+            "Leur représentant est un vieil homme qu'ils appellent Père Arthur.",
+            "Il voit d'un très mauvais oeil l'Université, qu'il accuse",
+            "de pervertir les esprits. Un comble, vous ne trouvez pas ?"
+        ],
+    }
+
+    if (save.hasFranckTalkedAboutTindalos) {
+        questions["Un quoi de Tindalos ?"] = () => [
+            `Un chien de Tindalos, une entité démoniaque qui traquerait`,
+            `quiconque se risquerait à vouloir fuir l'espace ou le temps...`,
+            `Therled doit vouloir invoquer un de ces monstres imaginaires.`,
+            `J'ignore comment il compte s'y prendre mais ça a l'air dangereux`,
+            `et cela a sûrement un lien avec les disparitions des élèves.`,
+            `Vous devez le trouver et l'arrêter, Howard.`
+        ]
+    }
+
+    const ramsey = [
+        `C'est un de nos professeurs qui vit en ermite dans la forêt.`,
+        `Ramsey est un drôle d'hurluberlu, mais c'est un mycologue et`,
+        `phytothérapeute de génie. De plus, il connait la forêt comme sa poche.`,
+        `Vous connaissez peut-être son père, Herbert, le célèbre neurologue`,
+        `qui était un des fondateurs de l'université.`
+    ]
+
+    if (save.hasDiscoveredTerrier) {
+        questions["Le terrier ?"] = () => {
+            save.hasFranckTalkedAboutRamsey = true;
+            return [
+                `"Rendez-vous au terrier" vous dites ?`,
+                `Ce nom me dit quelque-chose, je crois qu'il s'agit d'un endroit`,
+                `caché dans la forêt. Ramsey doit pouvoir vous en dire plus.`,
+                ...ramsey
+            ]
+        }
+    }
+
+    if (save.hasFranckTalkedAboutRamsey) {
+        questions["Ramsey ?"] = () => ramsey
+    }
+
+    return exhaustDialog(questions, "Je vais y enquêter")
 }

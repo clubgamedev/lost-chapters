@@ -10,7 +10,7 @@ export function openBook(bookName, page = 1) {
     bgSprite.fixedToCamera = true;
 
     let bookFont = {
-        font: "12px Alagard",
+        font: "10px Alagard",
         fill: "black",
         boundsAlignH: "left",
         boundsAlignV: "bottom",

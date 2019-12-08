@@ -1,8 +1,18 @@
 export const book_library = [
     `Université Miskatonic
 
-Servir l'Homme dans sa quête vers l'Omnisicence`,
-    `TODO: background sur l'université, ses fondateurs, ses membres etc...`
+Servir l'Homme dans sa quête vers l'Omnisicence
+
+L'Université Miskatonic a été fondée par Will Dyer, Herbert West et Hilda Pabodie en 1913.`,
+    `Ces scientifiques de renom ont été décriés en leur temps pour leurs recherches jugées trop dangereuses, non éthiques voire païennes.`,
+    `La construction de l'Université a été financée en faisant appel au mécénat de
+bienfaiteurs, prenant au passage leur indépendance avec les pouvoirs publics et religieux en place.`,
+    `Depuis plus de cinquante ans, l'Université Miskatonic est un refuge pour les
+chercheurs dont les domaines de recherche sont rejetés ou moqués.`,
+
+    `Ici, aucun jugement moral ne sera fait.
+
+Seul la science et la connaissance importent.`
 ]
 
 export const book_lune_rouge = [
