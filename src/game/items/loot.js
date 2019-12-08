@@ -37,7 +37,7 @@ export const pickLoot = object => {
         loots[object.properties.name]().then(hasLooted => {
             if (hasLooted) {
                 sounds.ITEM.play()
-                game.groups.objects.remove(object)
+                game.groups.nonCollidableObjects.remove(object)
                 object.destroy()
             }
         })

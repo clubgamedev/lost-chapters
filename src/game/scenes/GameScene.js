@@ -124,6 +124,7 @@ export class GameScene {
         game.groups.enemies.forEachAlive(this.renderGroup, this)
         game.groups.pnj.forEachAlive(this.renderGroup, this)
         game.groups.objects.forEachAlive(this.renderGroup, this)
+        game.groups.nonCollidableObjects.forEachAlive(this.renderGroup, this)
         game.groups.triggers.forEachAlive(this.renderGroup, this)
     }
 

@@ -72,7 +72,10 @@ export class Player extends Character {
 		if (!game.groups) return;
 		let { x, y } = this.watchingPoint;
 		let pnjInFront = game.groups.pnj.children.find(obj => obj instanceof Phaser.Sprite && obj.getBounds().contains(x, y));
-		let objectInFront = game.groups.objects.children.find(obj => obj instanceof Phaser.Sprite && obj.getBounds().contains(x, y));
+		let objectInFront = [
+			...game.groups.nonCollidableObjects.children,
+			...game.groups.objects.children
+		].find(obj => obj instanceof Phaser.Sprite && obj.getBounds().contains(x, y));
 
 		this.interactionSprite.visible = !game.dialog && !game.book && !game.page && !!(pnjInFront || objectInFront)
 
@@ -195,7 +198,10 @@ export class Player extends Character {
 			return talkTo(pnjDialogId);
 		}
 
-		let objectInFront = game.groups.objects.children.find(obj => obj instanceof Phaser.Sprite && obj.getBounds().contains(x, y));
+		let objectInFront = [
+			...game.groups.nonCollidableObjects.children,
+			...game.groups.objects.children
+		].find(obj => obj instanceof Phaser.Sprite && obj.getBounds().contains(x, y));
 		if (objectInFront) {
 			switch (objectInFront.type) {
 				case "book":

@@ -147,6 +147,7 @@ export class Level {
 
 		game.groups.objects = game.add.group(game.groups.render, "objects")
 		game.groups.objects.enableBody = true
+		game.groups.nonCollidableObjects = game.add.group(game.groups.render, "nonCollidableObjects")
 
 		game.groups.triggers = game.add.group(game.groups.render, "triggers");
 		game.groups.triggers.enableBody = true
@@ -195,6 +196,9 @@ export class Level {
 			loot: Loot,
 			hallucination: Hallucination
 		};
+
+		const NON_COLLIDABLE_OBJECTS = [Runes, Book, Page, Description, Loot];
+
 		Object.entries(objects).forEach(([objectType, Constructor]) => {
 			findObjectsByType(objectType, this.tilemap, "Object Layer").forEach(object => {
 				let sprite = new Constructor({
@@ -206,7 +210,11 @@ export class Level {
 					name: object.name,
 					...(object.properties || {})
 				})
-				game.groups.objects.add(sprite)
+				if (NON_COLLIDABLE_OBJECTS.includes(Constructor)) {
+					game.groups.nonCollidableObjects.add(sprite)
+				} else {
+					game.groups.objects.add(sprite)
+				}
 			})
 		})
 	}
