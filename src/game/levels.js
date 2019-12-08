@@ -270,7 +270,7 @@ export class Level {
 						game.camera.follow(game.player);
 						game.camera.flash(0x000000, 400, true)
 						game.disableTriggers = false;
-						game.player.state = CHARACTER_STATE[startPosition.properties.lookdir] || "DOWN"
+						game.player.state = CHARACTER_STATE[startPosition.properties ?.lookdir] || "DOWN"
 					}, 10);
 				}, 400);
 			}
@@ -295,6 +295,7 @@ export class Level {
 	createLights(lightRadius, obscurity, hue, fog, tint, enableMapLights = true) {
 		initLights(lightRadius, obscurity, hue, fog);
 		game.player.tint = tint || 0xFFFFFF;
+		game.groups.pnj.forEach(pnj => { pnj.tint = tint || 0xFFFFFF })
 		const lightSources = { fire: Fire, light: AmbientLight };
 
 		if (enableMapLights) {
