@@ -185,6 +185,12 @@ export const voicesByActor = {
         speed: 35,
         resonance: 10
     },
+    marie: {
+        emotion: 50,
+        pitch: 60,
+        speed: 40,
+        resonance: 15
+    },
     myself: {
         volume: 0 //intense thinking
     },
