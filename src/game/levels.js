@@ -10,11 +10,13 @@ import RenderGroup from "./utils/RenderGroup";
 import { initLights, updateLights, clearLights } from "./utils/Light";
 import { showMiddleText } from "./utils/message"
 import { lockedExits } from "./dialogs/descriptions";
+import { startMusic } from "./audio";
 
 export const schoolLevel = {
 	name: "L'Université",
 	tilemap: "map_school",
 	tilesets: ["tileset_inside"],
+	music: "music_school",
 	lightRadius: 100,
 	obscurity: 1
 }
@@ -23,6 +25,7 @@ export const sanctuaireLevel = {
 	name: "Le Sanctuaire",
 	tilemap: "map_sanctuary",
 	tilesets: ["tileset_forest", "tileset_outside"],
+	music: "music_sanctuary",
 	lightRadius: 150,
 	obscurity: 1,
 	fog: true,
@@ -33,6 +36,7 @@ export const forestLevel = {
 	name: "La forêt",
 	tilemap: "map_forest",
 	tilesets: ["tileset_forest", "tileset_outside"],
+	music: "music_forest",
 	lightRadius: 120,
 	fog: true,
 	tint: 0xB090C0
@@ -42,6 +46,7 @@ export const caveLevel = {
 	name: "Le Terrier",
 	tilemap: "map_cave",
 	tilesets: ["tileset_cave"],
+	music: "music_cave",
 	lightRadius: 80,
 	obscurity: 0.75,
 	tint: 0xD0B090
@@ -51,6 +56,7 @@ export const autelLevel = {
 	name: "L'autel",
 	tilemap: "map_autel",
 	tilesets: ["tileset_cave", "tileset_dungeon"],
+	music: "music_autel",
 	lightRadius: 85,
 	obscurity: 1,
 	tint: 0xFFE0C0
@@ -70,6 +76,7 @@ export class Level {
 			name,
 			tilemap,
 			tilesets,
+			music,
 			lightRadius,
 			obscurity,
 			tint,
@@ -77,6 +84,7 @@ export class Level {
 			fog
 		} = levels[technicalName];
 		this.name = technicalName
+		this.music = music;
 		this.createTileMap(tilemap, tilesets)
 		this.createGroups()
 		this.createEnemies()
@@ -349,6 +357,7 @@ export function goToLevel(levelName, startId) {
 		game.level.exit();
 	}
 	game.level = new Level(levelName)
+	startMusic(game.level.music);
 
 	game.player.loadTexture(["cave", "autel"].includes(levelName) ? "cultist" : "howard", 0);
 	if (game.save.playerPosition && game.save.level === levelName) {

@@ -3,6 +3,7 @@ import { resetSaveToNewGame, loadSave, save } from "../save";
 
 export class MenuScene {
     create() {
+        game.scale.setGameSize(255, 144);
         game.add.tileSprite(0, 0, game.width, game.height, "title-bg");
 
         delete game.save;

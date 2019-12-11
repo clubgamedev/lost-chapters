@@ -1,4 +1,4 @@
-import { addSounds, startMusic, sounds } from "../audio"
+import { addSounds, sounds } from "../audio"
 import { Player } from "../characters/Player"
 import { goToLevel } from "../levels"
 import { openBook } from "../utils/book";
@@ -30,7 +30,6 @@ export class GameScene {
     }
 
     startGame() {
-        startMusic();
         addSounds()
         goToLevel(game.save.level)
         updateHud();

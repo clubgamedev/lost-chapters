@@ -80,12 +80,14 @@
                  "height":16,
                  "id":42,
                  "name":"marie",
-                 "properties":[
-                        {
-                         "name":"state",
-                         "type":"string",
-                         "value":"TOP"
-                        }],
+                 "properties":
+                    {
+                     "state":"TOP"
+                    },
+                 "propertytypes":
+                    {
+                     "state":"string"
+                    },
                  "rotation":0,
                  "type":"character",
                  "visible":true,
@@ -98,12 +100,14 @@
                  "height":16,
                  "id":44,
                  "name":"arthur",
-                 "properties":[
-                        {
-                         "name":"state",
-                         "type":"string",
-                         "value":"TOP"
-                        }],
+                 "properties":
+                    {
+                     "state":"TOP"
+                    },
+                 "propertytypes":
+                    {
+                     "state":"string"
+                    },
                  "rotation":0,
                  "type":"character",
                  "visible":true,
@@ -116,17 +120,16 @@
                  "height":33.8181818181819,
                  "id":45,
                  "name":"",
-                 "properties":[
-                        {
-                         "name":"level",
-                         "type":"string",
-                         "value":"school"
-                        }, 
-                        {
-                         "name":"start",
-                         "type":"int",
-                         "value":1
-                        }],
+                 "properties":
+                    {
+                     "level":"school",
+                     "start":1
+                    },
+                 "propertytypes":
+                    {
+                     "level":"string",
+                     "start":"int"
+                    },
                  "rotation":0,
                  "type":"exit",
                  "visible":true,
@@ -139,17 +142,16 @@
                  "height":33.8182,
                  "id":47,
                  "name":"",
-                 "properties":[
-                        {
-                         "name":"level",
-                         "type":"string",
-                         "value":"forest"
-                        }, 
-                        {
-                         "name":"start",
-                         "type":"int",
-                         "value":1
-                        }],
+                 "properties":
+                    {
+                     "level":"forest",
+                     "start":1
+                    },
+                 "propertytypes":
+                    {
+                     "level":"string",
+                     "start":"int"
+                    },
                  "rotation":0,
                  "type":"exit",
                  "visible":true,
@@ -198,12 +200,14 @@
                  "height":16,
                  "id":52,
                  "name":"start1",
-                 "properties":[
-                        {
-                         "name":"id",
-                         "type":"int",
-                         "value":1
-                        }],
+                 "properties":
+                    {
+                     "id":1
+                    },
+                 "propertytypes":
+                    {
+                     "id":"int"
+                    },
                  "rotation":0,
                  "type":"start",
                  "visible":true,
@@ -216,12 +220,14 @@
                  "height":16,
                  "id":53,
                  "name":"start2",
-                 "properties":[
-                        {
-                         "name":"id",
-                         "type":"int",
-                         "value":2
-                        }],
+                 "properties":
+                    {
+                     "id":2
+                    },
+                 "propertytypes":
+                    {
+                     "id":"int"
+                    },
                  "rotation":0,
                  "type":"start",
                  "visible":true,
@@ -295,6 +301,6 @@
         }],
  "tilewidth":16,
  "type":"map",
- "version":1.2,
+ "version":1.1,
  "width":50
 }

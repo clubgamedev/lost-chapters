@@ -93,7 +93,7 @@ function rituel4() {
 			game.camera.shake(0.01, 250);
 			game.camera.flash(0xcc0000, 500);
 			return startDialog([
-				"OUI OUI VIENS à moi mon chien !",
+				"OUI ! Viens à moi !",
 				"Tu es à moi désormais ! Sois sous mon côntrole !",
 				"Non ! comment est-ce possible !? Il me résiste à MOI, THERLED !",
 				"Non non non le sort va être rom.... ARGGGH !",

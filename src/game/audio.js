@@ -1,9 +1,11 @@
 export const sounds = {}
 
 export function loadAudio() {
-    game.load.audio("music", [
-        "assets/sound/ForestV1.mp3"
-    ]);
+    game.load.audio("music_forest", ["assets/sound/ForestV1.mp3"]);
+    game.load.audio("music_school", ["assets/sound/Song_Mistery.ogg"]);
+    game.load.audio("music_sanctuary", ["assets/sound/Song_VisitingHerForest.ogg"]);
+    game.load.audio("music_cave", ["assets/sound/Song_PainfulMemories_Loop.ogg"]);
+    game.load.audio("music_autel", ["assets/sound/Music_6_EvilBattle_Loop.ogg"]);
     game.load.audio("hurt", ["assets/sound/hurt.ogg", "assets/sound/hurt.mp3"]);
     game.load.audio("slash", [
         "assets/sound/slash.ogg",
@@ -34,15 +36,17 @@ export function addSounds() {
     })
 }
 
-export function startMusic() {
-    if (!game.music || !game.music.isPlaying) {
-        game.music = game.add.audio("music");
-        game.music.loop = true;
-        game.music.play();
-
-        //game.music.onPlay.add(() => addEffects());
-        game.onExit = () => game.music.stop();
+export function startMusic(name) {
+    if (game.music && game.music.isPlaying) {
+        game.music.stop();
     }
+    game.music = game.add.audio(name);
+    game.music.loop = true;
+    game.music.volume = 0.5;
+    game.music.play();
+
+    //game.music.onPlay.add(() => addEffects());
+    game.onExit = () => game.music.stop();
 }
 
 export function addEffects() {

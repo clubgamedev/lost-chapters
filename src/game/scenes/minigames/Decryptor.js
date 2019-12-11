@@ -522,6 +522,9 @@ function gameOver(youWon, message) {
     countDown.stop();
     if (youWon) {
         createWinningScreen(message);
+    } else if (isVariant(DecryptorConfig.BATTLE)) {
+        game.save.gameOver = "lose";
+        game.state.start("GameOver")
     } else {
         createLosingScreen(message);
     }
