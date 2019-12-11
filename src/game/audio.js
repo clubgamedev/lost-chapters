@@ -10,18 +10,16 @@ export function loadAudio() {
     game.load.audio("music_cave", ["assets/sound/Song_PainfulMemories_Loop.ogg"]);
     game.load.audio("music_autel", ["assets/sound/Music_6_EvilBattle_Loop.ogg"]);
     game.load.audio("hurt", ["assets/sound/hurt.ogg", "assets/sound/hurt.mp3"]);
-    game.load.audio("slash", [
-        "assets/sound/slash.ogg",
-        "assets/sound/slash.mp3"
-    ]);
+    game.load.audio("slash", ["assets/sound/slash.ogg", "assets/sound/slash.mp3"]);
     game.load.audio("item", ["assets/sound/item.ogg", "assets/sound/item.mp3"]);
     game.load.audio("hallucination", ["assets/sound/hallucination.wav"]);
 
-    game.load.audio('pick', 'assets/alchemy/sounds/pick.wav');
-    game.load.audio('cook_fail', 'assets/alchemy/sounds/cook_fail.wav');
-    game.load.audio('cook_success', 'assets/alchemy/sounds/cook_success.wav');
-    game.load.audio('book_open', 'assets/alchemy/sounds/book_open.mp3');
-    game.load.audio('book_close', 'assets/alchemy/sounds/book_close.mp3');
+    game.load.audio('pick', ['assets/alchemy/sounds/pick.wav']);
+    game.load.audio('cook_fail', ['assets/alchemy/sounds/cook_fail.wav']);
+    game.load.audio('cook_success', ['assets/alchemy/sounds/cook_success.wav']);
+    game.load.audio('book_open', ['assets/sound/Book Open.mp3']);
+    game.load.audio('book_close', ['assets/alchemy/sounds/book_close.mp3']);
+    game.load.audio("book_page", ["assets/sound/Book Page 1.mp3"]);
 
     range(1, 14).map(n => game.load.audio(`footstep_wood_${n}`, `assets/sound/Footsteps_Casual_LowWood_${('0' + n).slice(-2)}.ogg`));
     range(1, 14).map(n => game.load.audio(`footstep_earth_${n}`, `assets/sound/Footsteps_Casual_Earth_${('0' + n).slice(-2)}.ogg`));
@@ -40,7 +38,8 @@ export function addSounds() {
         COOK_SUCCESS: game.sound.add('cook_success'),
         COOK_FAIL: game.sound.add('cook_fail'),
         OPEN_BOOK: game.sound.add('book_open'),
-        CLOSE_BOOK: game.sound.add('book_close')
+        CLOSE_BOOK: game.sound.add('book_close'),
+        PAGE: game.sound.add('book_page')
     })
 
     sounds.FOOTSTEPS_WOOD = range(1, 14).map(n => game.sound.add(`footstep_wood_${n}`))

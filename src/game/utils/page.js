@@ -1,4 +1,5 @@
 import { pages } from "../pages"
+import { sounds } from "../audio"
 
 export function openPage(page) {
     game.player.stopMoving();
@@ -26,6 +27,8 @@ export function openPage(page) {
         textSprite.lineSpacing = -9;
         textSprite.fixedToCamera = true;
         textSprite.text = page.text || page
+
+        sounds.PAGE.play();
 
         game.page = { ...page, color, textSprite, bgSprite };
     })
