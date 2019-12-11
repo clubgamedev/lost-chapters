@@ -18,7 +18,8 @@ export const schoolLevel = {
 	tilesets: ["tileset_inside"],
 	music: "music_school",
 	lightRadius: 100,
-	obscurity: 1
+	obscurity: 1,
+	footstepSounds: "FOOTSTEPS_WOOD"
 }
 
 export const sanctuaireLevel = {
@@ -29,7 +30,8 @@ export const sanctuaireLevel = {
 	lightRadius: 150,
 	obscurity: 1,
 	fog: true,
-	tint: 0xC0A8D0
+	tint: 0xC0A8D0,
+	footstepSounds: "FOOTSTEPS_EARTH"
 }
 
 export const forestLevel = {
@@ -39,7 +41,8 @@ export const forestLevel = {
 	music: "music_forest",
 	lightRadius: 120,
 	fog: true,
-	tint: 0xB090C0
+	tint: 0xB090C0,
+	footstepSounds: "FOOTSTEPS_EARTH"
 }
 
 export const caveLevel = {
@@ -49,7 +52,8 @@ export const caveLevel = {
 	music: "music_cave",
 	lightRadius: 80,
 	obscurity: 0.75,
-	tint: 0xD0B090
+	tint: 0xD0B090,
+	footstepSounds: "FOOTSTEPS_MUD"
 }
 
 export const autelLevel = {
@@ -59,7 +63,8 @@ export const autelLevel = {
 	music: "music_autel",
 	lightRadius: 85,
 	obscurity: 1,
-	tint: 0xFFE0C0
+	tint: 0xFFE0C0,
+	footstepSounds: "FOOTSTEPS_MUD"
 }
 
 export const levels = {
@@ -72,26 +77,15 @@ export const levels = {
 
 export class Level {
 	constructor(technicalName) {
-		const {
-			name,
-			tilemap,
-			tilesets,
-			music,
-			lightRadius,
-			obscurity,
-			tint,
-			hue,
-			fog
-		} = levels[technicalName];
-		this.name = technicalName
-		this.music = music;
-		this.createTileMap(tilemap, tilesets)
+		Object.assign(this, levels[technicalName]);
+		this.name = technicalName;
+		this.createTileMap(this.tilemap, this.tilesets)
 		this.createGroups()
 		this.createEnemies()
 		this.createCharacters();
 		this.createObjects();
 		this.createTriggers();
-		this.createLights(lightRadius, obscurity, hue, fog, tint)
+		this.createLights()
 
 		if (game.save.level !== technicalName) showMiddleText(name);
 	}
@@ -300,10 +294,10 @@ export class Level {
 		})
 	}
 
-	createLights(lightRadius, obscurity, hue, fog, tint, enableMapLights = true) {
-		initLights(lightRadius, obscurity, hue, fog);
-		game.player.tint = tint || 0xFFFFFF;
-		game.groups.pnj.forEach(pnj => { pnj.tint = tint || 0xFFFFFF })
+	createLights(enableMapLights = true) {
+		initLights(this.lightRadius, this.obscurity, this.hue, this.fog);
+		game.player.tint = this.tint || 0xFFFFFF;
+		game.groups.pnj.forEach(pnj => { pnj.tint = this.tint || 0xFFFFFF })
 		const lightSources = { fire: Fire, light: AmbientLight };
 
 		if (enableMapLights) {

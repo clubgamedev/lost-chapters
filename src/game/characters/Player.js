@@ -7,6 +7,8 @@ import { talkTo, nextLine, talkToMyself } from "../utils/dialog";
 import { readDescription, descriptions } from "../dialogs/descriptions";
 import { pickLoot } from "../items/loot";
 import { hallucinations } from "../effects/Hallucination";
+import { sounds } from "../audio";
+import { pickRandomIn } from "../utils/array";
 
 const MOVE_SPEED = 50
 const RUN_SPEED = 100;
@@ -65,8 +67,23 @@ export class Player extends Character {
 
 		this.interactionSprite.position.x = this.position.x
 		this.interactionSprite.position.y = this.position.y - 32
+
+		if (this.isMoving && !this.footstepTimeout) {
+			this.playFootstepSound();
+		} else if (!this.isMoving && this.footstepTimeout) {
+			clearTimeout(this.footstepTimeout);
+			this.footstepTimeout = null;
+		}
 	}
 
+	playFootstepSound() {
+		let sound = pickRandomIn(sounds[game.level.footstepSounds])
+		sound.volume = this.isRunning ? 0.7 : 0.4;
+		this.footstepTimeout = setTimeout(() => {
+			sound.play();
+			this.playFootstepSound();
+		}, this.isRunning ? 220 : 300);
+	}
 
 	checkInFrontOfPlayer() {
 		if (!game.groups) return;

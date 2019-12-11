@@ -1,3 +1,6 @@
+
+import { range } from "./utils/array"
+
 export const sounds = {}
 
 export function loadAudio() {
@@ -19,6 +22,11 @@ export function loadAudio() {
     game.load.audio('cook_success', 'assets/alchemy/sounds/cook_success.wav');
     game.load.audio('book_open', 'assets/alchemy/sounds/book_open.mp3');
     game.load.audio('book_close', 'assets/alchemy/sounds/book_close.mp3');
+
+    range(1, 14).map(n => game.load.audio(`footstep_wood_${n}`, `assets/sound/Footsteps_Casual_LowWood_${('0' + n).slice(-2)}.ogg`));
+    range(1, 14).map(n => game.load.audio(`footstep_earth_${n}`, `assets/sound/Footsteps_Casual_Earth_${('0' + n).slice(-2)}.ogg`));
+    range(1, 10).map(n => game.load.audio(`footstep_mud_${n}`, `assets/sound/Footsteps_Casual_Mud_${('0' + n).slice(-2)}.ogg`));
+
 }
 
 export function addSounds() {
@@ -34,6 +42,10 @@ export function addSounds() {
         OPEN_BOOK: game.sound.add('book_open'),
         CLOSE_BOOK: game.sound.add('book_close')
     })
+
+    sounds.FOOTSTEPS_WOOD = range(1, 14).map(n => game.sound.add(`footstep_wood_${n}`))
+    sounds.FOOTSTEPS_EARTH = range(1, 14).map(n => game.sound.add(`footstep_earth_${n}`))
+    sounds.FOOTSTEPS_MUD = range(1, 10).map(n => game.sound.add(`footstep_mud_${n}`))
 }
 
 export function startMusic(name) {
@@ -42,11 +54,10 @@ export function startMusic(name) {
     }
     game.music = game.add.audio(name);
     game.music.loop = true;
-    game.music.volume = 0.5;
-    game.music.play();
-
+    game.music.volume = 0.4;
     //game.music.onPlay.add(() => addEffects());
     game.onExit = () => game.music.stop();
+    game.music.play();
 }
 
 export function addEffects() {

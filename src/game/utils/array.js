@@ -14,3 +14,11 @@ export function shuffleArray(array) {
 export function pickRandomIn(array) {
     return array[Math.floor(Math.random() * array.length)]
 }
+
+export function range(start, end) {
+    function* iter(start, end) {
+        let i = start;
+        while (i <= end) yield i++;
+    }
+    return [...iter(start, end)]
+}
