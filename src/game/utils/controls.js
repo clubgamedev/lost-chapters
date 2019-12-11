@@ -45,7 +45,7 @@ export const controls = {
     },
     TAB: {
         keyCode: Phaser.Keyboard.TAB,
-        buttonCode: Phaser.Gamepad.XBOX360_B,
+        buttonCode: Phaser.Gamepad.XBOX360_Y,
         isPressed() {
             return (controls.TAB.button && controls.TAB.button.isDown)
                 || controls.TAB.key.isDown
@@ -56,10 +56,10 @@ export const controls = {
     },
     SHIFT: {
         keyCode: Phaser.Keyboard.SHIFT,
-        buttonCode: Phaser.Gamepad.XBOX360_X,
+        buttonCode: Phaser.Gamepad.XBOX360_B,
         isPressed() {
             return (controls.SHIFT.button && controls.SHIFT.button.isDown)
-            || controls.SHIFT.key.isDown
+                || controls.SHIFT.key.isDown
         }
     }
 }
@@ -109,7 +109,7 @@ export function initControls() {
 export function initGamepadControls() {
     for (let control of Object.values(controls)) {
         control.button = game.input.gamepad.pad1.getButton(control.buttonCode)
-        if (control.event) {
+        if (control.event && control.button) {
             let add = control.event.once ? "addOnce" : "add"
             control.button.onDown.removeAll(control.event.context)
             control.button.onDown[add](control.event.callback, control.event.context)

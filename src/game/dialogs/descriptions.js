@@ -92,7 +92,7 @@ export const descriptions = {
         },
         after() {
             if (game.save.planquesFound.includes("trou_grotte")) return;
-            game.save.inventory.items.potionDeLucidite += 2;
+            game.save.inventory.items.potionDeLucidite.nombre += 2;
             sounds.ITEM.play();
             game.save.planquesFound.push("trou_grotte");
         }
@@ -113,7 +113,7 @@ export const descriptions = {
         },
         after() {
             if (game.save.planquesFound.includes("mare_grotte")) return;
-            game.save.inventory.items.potionDeForce += 1;
+            game.save.inventory.items.potionDeForce.nombre += 1;
             sounds.ITEM.play();
             game.save.planquesFound.push("mare_grotte");
         }
@@ -138,7 +138,7 @@ export const descriptions = {
         },
         after() {
             if (game.save.planquesFound.includes("tombe_grotte")) return;
-            game.save.inventory.items.potionDeProtection += 1;
+            game.save.inventory.items.potionDeProtection.nombre += 1;
             sounds.ITEM.play();
             game.save.planquesFound.push("tombe_grotte");
         }

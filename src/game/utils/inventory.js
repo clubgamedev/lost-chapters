@@ -63,11 +63,16 @@ export function drinkPotion(textsToDisplay) {
 }
 
 export function activeItemSelection() {
-    game.controls.TAB.onPress(() => deactiveItemSelection(), game.save.inventory, true);
-    game.controls.LEFT.onPress(() => selectPreviousItem(), game.save.inventory);
-    game.controls.RIGHT.onPress(() => selectNextItem(), game.save.inventory);
-    game.controls.ACTION.onPress(() => useItem(), game.save.inventory);
-    selectFirstItem();
+    let itemsInInventory = Object.entries(game.save.inventory.items)
+        .reverse()
+        .filter(([elemName, elem]) => elem.nombre > 0);
+    if (itemsInInventory.length > 0) {
+        game.controls.TAB.onPress(() => deactiveItemSelection(), game.save.inventory, true);
+        game.controls.LEFT.onPress(() => selectPreviousItem(), game.save.inventory);
+        game.controls.RIGHT.onPress(() => selectNextItem(), game.save.inventory);
+        game.controls.ACTION.onPress(() => useItem(), game.save.inventory);
+        selectFirstItem();
+    }
 }
 
 export function selectPreviousItem() {
