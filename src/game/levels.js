@@ -138,7 +138,7 @@ export class Level {
 
 		game.groups.render = new RenderGroup(game);
 
-		game.groups.lights = game.add.group(game.groups.render, "lights");
+		game.groups.lightSources = game.add.group(game.groups.render, "lightSources");
 
 		game.groups.characters = game.add.group(game.groups.render, "characters");
 		game.groups.characters.enableBody = true
@@ -272,7 +272,7 @@ export class Level {
 						game.camera.follow(game.player);
 						game.camera.flash(0x000000, 400, true)
 						game.disableTriggers = false;
-						game.player.state = CHARACTER_STATE[startPosition.properties ?.lookdir] || "DOWN"
+						game.player.state = CHARACTER_STATE[startPosition.properties?.lookdir] || "DOWN"
 					}, 10);
 				}, 400);
 			}
@@ -304,7 +304,7 @@ export class Level {
 			Object.entries(lightSources).forEach(([objectType, Constructor]) => {
 				findObjectsByType(objectType, this.tilemap, "Object Layer").forEach(lightSource => {
 					let sprite = new Constructor({ x: lightSource.x / 16, y: lightSource.y / 16 }, lightSource.properties)
-					game.groups.lights.add(sprite);
+					game.groups.lightSources.add(sprite);
 				})
 			})
 		}
