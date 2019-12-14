@@ -6,6 +6,7 @@ import { controls } from "../utils/controls"
 import { talkTo, nextLine, talkToMyself } from "../utils/dialog";
 import { readDescription, descriptions } from "../dialogs/descriptions";
 import { pickLoot } from "../items/loot";
+import { blocs } from "../items/Bloc";
 import { hallucinations } from "../effects/Hallucination";
 import { sounds } from "../audio";
 import { pickRandomIn } from "../utils/array";
@@ -254,6 +255,10 @@ export class Player extends Character {
 				case 'escapeTable':
 					save();
 					game.state.start('EscapeGame');
+					return;
+
+				case 'bloc':
+					blocs[objectInFront.properties.name](objectInFront);
 					return;
 
 				case "hallucination":

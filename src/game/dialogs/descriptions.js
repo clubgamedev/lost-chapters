@@ -1,7 +1,8 @@
 import { sounds } from "../audio";
-import { talkToMyself } from "../utils/dialog";
-import { allPotions } from "../scenes/minigames/alchemy/potions";
+import { talkToMyself, startDialog } from "../utils/dialog";
+import { findObjectByName } from "../utils/map";
 import { drinkPotion } from "../utils/inventory";
+import { allPotions } from "../scenes/minigames/alchemy/potions";
 
 export function readDescription(name) {
     let description = descriptions[name]
@@ -77,6 +78,35 @@ export const descriptions = {
     room_franck: save => ([
         `Bureau de Franck Belknap`
     ]),
+
+    horloge: {
+        action() {
+            return [`Cette horloge n'est pas à l'heure...`]
+        },
+        after() {
+            const choices = {
+                "Régler avec sa montre": () => talkToMyself(['Rien ne se passe...']),
+            }
+            if (game.save.hasReadSecretHours) {
+                Object.assign(choices, {
+                    "Régler à 07:17": () => talkToMyself(['Rien ne se passe...']),
+                    "Régler à 11:33": () => talkToMyself(['Rien ne se passe...']),
+                    "Régler à 04:04": () => {
+                        let murSecret = findObjectByName("mur_secret", "bloc", game.level.tilemap, "Object Layer")
+                        if (murSecret && murSecret.sprite) {
+                            sounds.HALLUCINATION.play();
+                            murSecret.sprite.destroy();
+                            murSecret.sprite = null;
+                        } else {
+                            return talkToMyself(['Rien ne se passe...'])
+                        }
+                    }
+                })
+            }
+
+            startDialog([choices])
+        }
+    },
 
     panneau_sanctuaire: save => ([
         `Le chemin ne sera ouvert qu'à ceux qui ont bravé leurs peurs`
