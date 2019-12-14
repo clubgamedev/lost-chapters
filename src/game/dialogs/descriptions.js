@@ -56,6 +56,28 @@ export const descriptions = {
         ]
     },
 
+    desc_lore_1: save => ([
+        `C'est un vieux bouquin poussiéreux.`,
+        `Sur la couverture est écrit:
+"Les rats dans les murs"`
+    ]),
+
+    room_runes: save => ([
+        `Salle d'études des runes`
+    ]),
+
+    room_astro: save => ([
+        `→ Salle d'astrologie`
+    ]),
+
+    room_library: save => ([
+        `← Bibliothèque et Dortoirs`
+    ]),
+
+    room_franck: save => ([
+        `Bureau de Franck Belknap`
+    ]),
+
     panneau_sanctuaire: save => ([
         `Le chemin ne sera ouvert qu'à ceux qui ont bravé leurs peurs`
     ]),

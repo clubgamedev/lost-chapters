@@ -50,3 +50,15 @@ J'ai envoyé le gardien prévenir la police, mais il n'est jamais revenu. La plu
     `Mon dernier espoir est la lettre que j'ai fait parvenir à Howard. Lui seul peut m'aider à faire la lumière sur toute cette histoire.`,
     `Puisse-elle lui parvenir...`
 ]
+
+export const book_lore_1 = [
+    'TODO: LORE'
+]
+
+export const book_lore_2 = [
+    'TODO: LORE'
+]
+
+export const book_lore_3 = [
+    'TODO: LORE'
+]

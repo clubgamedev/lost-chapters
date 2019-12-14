@@ -43,6 +43,7 @@ export function resetSaveToNewGame() {
         hasDiscoveredSecretPassage: false,
         hasDiscoveredCodeEtabli: false,
         hasFalsifiedScroll: false,
+        hasReadSecretHours: false,
         planquesFound: [],
         translationsFound: [],
         unlockedExits: [],
