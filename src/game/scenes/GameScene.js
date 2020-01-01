@@ -5,7 +5,7 @@ import { openBook } from "../utils/book";
 import { updateHud } from "../utils/hud"
 import { save } from "../save"
 import { talkTo } from "../utils/dialog";
-import { activeItemSelection } from "../utils/inventory";
+import { toggleItemSelection } from "../utils/inventory";
 
 let hurtFlag
 
@@ -15,8 +15,9 @@ export class GameScene {
     create() {
         game.scale.setGameSize(255, 144);
         this.spawnPlayer()
-        game.controls.ACTION.onPress(() => game.player && game.player.doAction())
-        game.controls.TAB.onPress(() => activeItemSelection(), this, true);
+        game.controls.ACTION.onPress(() => game.player && game.player.doAction());
+        game.controls.TAB.onPress(toggleItemSelection);
+
         if (!game.save.hasReadIntro) {
             game.paused = true;
             openBook("book_intro").then(() => {

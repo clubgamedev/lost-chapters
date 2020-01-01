@@ -1,11 +1,6 @@
 import { readDescription } from "../dialogs/descriptions";
 
 export class Inventory {
-
-    selectedItem;
-
-    items;
-
     constructor() {
         this.items = {
             potionDeForce: {
@@ -25,6 +20,9 @@ export class Inventory {
                 actif: false
             },
             parchemin: {
+                nombre: 0
+            },
+            parcheminFalsifie: {
                 nombre: 0
             },
             cape: {
@@ -62,80 +60,37 @@ export function drinkPotion(textsToDisplay) {
     }
 }
 
-export function activeItemSelection() {
-    let itemsInInventory = Object.entries(game.save.inventory.items)
-        .reverse()
-        .filter(([elemName, elem]) => elem.nombre > 0);
-    if (itemsInInventory.length > 0) {
-        game.controls.TAB.onPress(() => deactiveItemSelection(), game.save.inventory, true);
-        game.controls.LEFT.onPress(() => selectPreviousItem(), game.save.inventory);
-        game.controls.RIGHT.onPress(() => selectNextItem(), game.save.inventory);
-        game.controls.ACTION.onPress(() => useItem(), game.save.inventory);
-        selectFirstItem();
-    }
-}
-
-export function selectPreviousItem() {
-    let { indexSelected, objectsInInventory } = getIndexOfSelectedItem();
-    if (objectsInInventory[indexSelected + 1]) {
-        game.save.inventory.selectedItem = objectsInInventory[indexSelected + 1][0];
-    }
-}
-
-export function selectNextItem() {
-    let { indexSelected, objectsInInventory } = getIndexOfSelectedItem();
-    if (objectsInInventory[indexSelected - 1]) {
-        objectsInInventory[indexSelected][1].selected = false;
-        game.save.inventory.selectedItem = objectsInInventory[indexSelected - 1][0];
-    }
-}
-
-export function getInventoryEntries() {
+export function getItemsFound() {
     return Object.entries(game.save.inventory.items)
+        .map(([itemName, itemProps]) => ({ ...itemProps, name: itemName }))
         .reverse()
-        .filter(([elemName, elem]) => elem.nombre > 0);
+        .filter(item => item.nombre > 0)
 }
 
-export function getIndexOfSelectedItem() {
-    let indexSelected;
-    let objectsInInventory = getInventoryEntries();
-    objectsInInventory.forEach(([elemName, elem], index) => {
-        if (elemName === game.save.inventory.selectedItem) {
-            indexSelected = index;
+export function toggleItemSelection() {
+    let itemsInInventory = getItemsFound();
+    if (itemsInInventory.length > 0 && !game.dialog && !game.book && !game.page) {
+        if (game.selectedItem != null) {
+            game.selectedItem = null // deactivate item selection
+            game.controls.LEFT.resetEvents();
+            game.controls.RIGHT.resetEvents();
+        } else {
+            game.selectedItem = itemsInInventory.length - 1; // activate item selection
+            game.controls.LEFT.onPress(() => selectNextItem(-1))
+            game.controls.RIGHT.onPress(() => selectNextItem(+1))
         }
-    });
-    return { indexSelected, objectsInInventory };
-}
-
-export function useItem() {
-    let { indexSelected, objectsInInventory } = getIndexOfSelectedItem();
-    readDescription(objectsInInventory[indexSelected][0]);
-    deactiveItemSelection();
-}
-
-export function selectFirstItem() {
-    let itemsInInventory = Object.entries(game.save.inventory.items)
-        .reverse()
-        .filter(([elemName, elem]) => elem.nombre > 0);
-    if (itemsInInventory && itemsInInventory.length > 0) {
-        game.save.inventory.selectedItem = itemsInInventory[0][0];
     }
 }
 
-export function deactiveItemSelection() {
-    game.controls.RIGHT.resetEvents()
-    game.controls.LEFT.resetEvents()
-    game.controls.ACTION.resetEvents()
-    game.controls.TAB.resetEvents()
+export function selectNextItem(step = +1) {
+    let itemsFound = getItemsFound();
+    game.selectedItem = (game.selectedItem + step + itemsFound.length) % itemsFound.length;
+}
 
-    game.controls.TAB.onPress(() => activeItemSelection(), game.save.inventory, true);
-    Object.entries(game.save.inventory.items)
-        .reverse()
-        .filter(([itemName, itemObject]) => {
-            return itemObject.nombre > 0
-        })
-        .forEach(([itemName, itemObject], i) => itemObject.selected = false);
-    game.save.inventory.selectedItem = undefined;
+
+export function describeSelectedItem() {
+    let selectedItem = getItemsFound()[game.selectedItem];
+    readDescription(selectedItem.name);
 }
 
 export function createSillhouette(srcKey) {
@@ -154,57 +109,51 @@ export function forEachPixel(pixel) {
     return pixel
 }
 
-export function drawInventory(inventory) {
-    Object.entries(game.save.inventory.items)
-        .reverse()
-        .filter(([itemName, itemObject]) => {
-            return itemObject.nombre > 0
-        })
-        .forEach(([itemName, itemObject], i) => {
+export function drawInventory() {
+    getItemsFound().forEach((item, i) => {
+        if (i === game.selectedItem) {
+            let sillhouetteBMD = createSillhouette(item.name);
+            sillhouetteBMD.width = 16;
+            sillhouetteBMD.height = 16;
+            let border = game.add.sprite(game.width - 16 * (i + 1), 1, sillhouetteBMD);
+            border.scale.setTo(1.12);
+            border.anchor.setTo(0.02);
+            border.tint = 0xBF0000;
+            border.fixedToCamera = true;
+            game.groups.hud.add(border);
 
-            if (itemName === game.save.inventory.selectedItem) {
-                //first create the border
-                let sillhouetteBMD = createSillhouette(itemName);
-                sillhouetteBMD.width = 16;
-                sillhouetteBMD.height = 16;
-                let border = game.add.sprite(game.width - 16 * (i + 1), 1, sillhouetteBMD);
-                border.scale.setTo(1.12);
-                border.anchor.setTo(0.02);
-                border.tint = 0xBF0000;
-                border.fixedToCamera = true;
-                game.groups.hud.add(border);
+            let selectionItem = game.add.text(game.width - 16 * (i + 1) + 3, 15, "^", {
+                font: "12px Alagard",
+                fill: "red",
+                boundsAlignH: "left",
+                boundsAlignV: "bottom"
+            });
+            selectionItem.fixedToCamera = true;
+            selectionItem.stroke = '#000000';
+            selectionItem.strokeThickness = 2;
+            game.groups.hud.add(selectionItem);
+        }
 
-                let selectionItem = game.add.text(game.width - 16 * (i + 1) + 5, 15, "^", {
-                    font: "12px Alagard",
-                    fill: "red",
-                    boundsAlignH: "left",
-                    boundsAlignV: "bottom"
-                });
-                selectionItem.fixedToCamera = true;
-                selectionItem.stroke = '#000000';
-                selectionItem.strokeThickness = 2;
-                game.groups.hud.add(selectionItem);
-            }
-            let itemSprite = game.add.sprite(game.width - 16 * (i + 1), 1, itemName);
-            itemSprite.fixedToCamera = true;
-            itemSprite.width = 16
-            itemSprite.height = 16
-            itemSprite.alpha = 0.75;
-            game.groups.hud.add(itemSprite)
+        let itemSprite = game.add.sprite(game.width - 16 * (i + 1), 1, item.name);
+        itemSprite.fixedToCamera = true;
+        itemSprite.width = 16
+        itemSprite.height = 16
+        itemSprite.alpha = 0.75;
+        game.groups.hud.add(itemSprite)
 
-            if (itemObject.nombre > 1) {
-                let quantitySprite = game.add.text(game.width - 16 * (i + 1) + 10, 10, itemObject.nombre, {
-                    font: "8px Arial",
-                    fill: "white",
-                    boundsAlignH: "right",
-                    boundsAlignV: "top"
-                })
-                quantitySprite.fixedToCamera = true;
-                quantitySprite.alpha = 0.8;
-                quantitySprite.stroke = '#000000';
-                quantitySprite.strokeThickness = 2;
+        if (item.nombre > 1) {
+            let quantitySprite = game.add.text(game.width - 16 * (i + 1) + 10, 10, item.nombre, {
+                font: "8px Arial",
+                fill: "white",
+                boundsAlignH: "right",
+                boundsAlignV: "top"
+            })
+            quantitySprite.fixedToCamera = true;
+            quantitySprite.alpha = 0.8;
+            quantitySprite.stroke = '#000000';
+            quantitySprite.strokeThickness = 2;
 
-                game.groups.hud.add(quantitySprite)
-            }
-        })
+            game.groups.hud.add(quantitySprite)
+        }
+    })
 }
