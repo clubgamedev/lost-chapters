@@ -96,7 +96,13 @@ export class Player extends Character {
 			...game.groups.objects.children
 		].find(obj => obj instanceof Phaser.Sprite && obj.getBounds().contains(x, y));
 
-		this.interactionSprite.visible = !game.dialog && !game.book && !game.page && !!(pnjInFront || objectInFront)
+		this.interactionSprite.visible = (
+			!game.dialog
+			&& !game.book
+			&& !game.page
+			&& game.selectedItem == null
+			&& !!(pnjInFront || objectInFront)
+		)
 
 		if (pnjInFront) this.interactionSprite.animations.play("talk")
 		else if (objectInFront) this.interactionSprite.animations.play("item")
