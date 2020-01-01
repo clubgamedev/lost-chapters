@@ -13,7 +13,7 @@ export function readDescription(name) {
     description.before = description.before || (() => Promise.resolve())
     description.after = description.after || (() => Promise.resolve())
 
-    description.before()
+    return description.before()
         .then(() => talkToMyself(description.action(game.save)))
         .then(() => description.after())
 }
@@ -295,7 +295,7 @@ export const descriptions = {
 
     parcheminFalsifie: save => {
         return [
-            `La soeur Marie dit que ce parchemin décrit un rituel interdit lié à Tindalos.`,
+            `La soeur Marie dit que ce parchemin décrit un rituel lié à Tindalos.`,
             `Elle a falsifié le parchemin pour corrompre le rituel.`,
             `Je dois maintenant le substituer à l'original que possède Therled...`
         ]

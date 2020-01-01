@@ -90,7 +90,7 @@ export function selectNextItem(step = +1) {
 
 export function describeSelectedItem() {
     let selectedItem = getItemsFound()[game.selectedItem];
-    readDescription(selectedItem.name);
+    readDescription(selectedItem.name).then(toggleItemSelection)
 }
 
 export function createSillhouette(srcKey) {
