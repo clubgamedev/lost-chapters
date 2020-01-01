@@ -354,8 +354,9 @@ export function goToLevel(levelName, startId) {
 
 export function positionPlayerAtStartOfLevel(id = 1) {
 	let startPosition = findObjectsByType("start", game.level.tilemap, "Object Layer").find(el => el.properties.id === id)
-	return Object.assign(game.player.position, {
+	Object.assign(game.player.position, {
 		x: startPosition.x + 8,
-		y: startPosition.y,
+		y: startPosition.y
 	});
+	return startPosition;
 }
