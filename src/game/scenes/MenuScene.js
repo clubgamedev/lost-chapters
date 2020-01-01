@@ -13,9 +13,17 @@ export class MenuScene {
     }
 
     showMenu() {
-        let menu = {
-            [game.save ? "Continuer" : "Nouvelle partie"]: () => {
-                if (!game.save) resetSaveToNewGame();
+        let menu = {};
+
+        if (game.save) {
+            menu["Continuer l'aventure"] = () => {
+                requestAnimationFrame(() => this.game.state.start("MainGame"));
+            }
+        }
+
+        Object.assign(menu, {
+            "Nouvelle partie": () => {
+                resetSaveToNewGame();
                 requestAnimationFrame(() => this.game.state.start("MainGame"));
             },
             "Contrôles": () => {
@@ -39,7 +47,7 @@ export class MenuScene {
             "Alchemy (temporaire)": () => {
                 this.game.state.start('Alchemy');
             }
-        }
+        })
 
         let options = Object.values(menu);
 

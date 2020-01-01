@@ -1,5 +1,5 @@
 import { allPotions } from "./potions";
-import { sounds } from "../../../audio"
+import { sounds } from "@/game/audio"
 
 export class BookRecipes {
 

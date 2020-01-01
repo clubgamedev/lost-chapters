@@ -307,8 +307,8 @@ export const lockedExits = {
         if (game.save.hasMetFranck) {
             game.save.unlockedExits.push("sortie_universite")
             return talkToMyself([
-                `Je devrais aller enquêter dans la forêt pour voir`,
-                `ce que trame ce Therled et ses compères.`
+                `Je devrais aller enquêter dans la forêt pour voir ce que trament`,
+                `ce Therled et ses compères.`
             ])
         } else {
             return talkToMyself([

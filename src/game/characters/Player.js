@@ -184,7 +184,8 @@ export class Player extends Character {
 		}
 
 		return new Promise(resolve => {
-			setTimeout(() => {
+			clearTimeout(this.forceMoveTimeout);
+			this.forceMoveTimeout = setTimeout(() => {
 				this.stopMoving()
 				this.isForceMoving = false;
 				resolve();

@@ -1,11 +1,12 @@
 import { addSounds, sounds } from "../audio"
 import { Player } from "../characters/Player"
-import { goToLevel } from "../levels"
+import { goToLevel, levels } from "../levels"
 import { openBook } from "../utils/book";
 import { updateHud } from "../utils/hud"
 import { save } from "../save"
 import { talkTo } from "../utils/dialog";
 import { toggleItemSelection } from "../utils/inventory";
+import { showMiddleText } from "../utils/message";
 
 let hurtFlag
 
@@ -14,6 +15,7 @@ export class GameScene {
 
     create() {
         game.scale.setGameSize(255, 144);
+        addSounds()
         this.spawnPlayer()
         game.controls.ACTION.onPress(() => game.player && game.player.doAction());
         game.controls.TAB.onPress(toggleItemSelection);
@@ -24,6 +26,8 @@ export class GameScene {
                 game.paused = false;
                 game.save.hasReadIntro = true;
                 this.startGame();
+                game.player.forceMove("UP", 1500)
+                showMiddleText(levels.school.title)
             })
         } else {
             this.startGame();
@@ -31,7 +35,6 @@ export class GameScene {
     }
 
     startGame() {
-        addSounds()
         goToLevel(game.save.level)
         updateHud();
         save()
