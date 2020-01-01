@@ -278,15 +278,26 @@ export const descriptions = {
 
     cape: save => {
         return [
-            "Cette cape que m'a donné Jean Louis me permet de me cacher",
-            "pour entrer dans les douches des sbires sans être vu :D",
+            "C'est une cape d'étudiant noire et crasseuse.",
+            "Je pourrais m'en servir pour m'infiltrer dans leur repaire...",
         ]
     },
 
     parchemin: save => {
         return [
-            "Ce parchemin que m'a confié Billou ne ressemble à rien, ",
-            "on dirait du papier toilettes en toile de jute",
+            `Un vieux parchemin trouvé dans l'établi à l'Université.`,
+            save.hasDiscoveredAlphabet ?
+                `Les runes tracées dessus ne figurent pas dans le livre que j'ai trouvé...`
+                : `De drôles de runes sont tracées dessus...`
+
+        ];
+    },
+
+    parcheminFalsifie: save => {
+        return [
+            `La soeur Marie dit que ce parchemin décrit un rituel interdit lié à Tindalos.`,
+            `Elle a falsifié le parchemin pour corrompre le rituel.`,
+            `Je dois maintenant le substituer à l'original que possède Therled...`
         ]
     }
 }

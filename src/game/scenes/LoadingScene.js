@@ -72,6 +72,7 @@ export class LoadingScene {
 		game.load.image('potionDeLucidite', 'assets/items/potionDeLucidite.png');
 		game.load.image('potionDeProtection', 'assets/items/potionDeProtection.png');
 		game.load.image('parchemin', 'assets/items/parchemin.png');
+		game.load.image('parcheminFalsifie', 'assets/items/parchemin.png');
 		game.load.image('cape', 'assets/items/cape.png');
 		game.load.image('foieDeCerf', 'assets/items/foieDeCerf.png');
 

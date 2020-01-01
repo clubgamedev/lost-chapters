@@ -10,6 +10,7 @@ import { blocs } from "../items/Bloc";
 import { hallucinations } from "../effects/Hallucination";
 import { sounds } from "../audio";
 import { pickRandomIn } from "../utils/array";
+import { describeSelectedItem } from "../utils/inventory";
 
 const MOVE_SPEED = 50
 const RUN_SPEED = 100;
@@ -103,7 +104,17 @@ export class Player extends Character {
 
 	updateControls() {
 		// can't move while talking or reading
-		let canMove = !game.dialog && !game.book && !game.page && !controls.ACTION.isPressed() && !this.isForceMoving && !game.save.inventory.selectedItem;
+		let canMove = true;
+		if (game.dialog
+			|| game.book
+			|| game.page
+			|| controls.ACTION.isPressed()
+			|| this.isForceMoving
+			|| game.selectedItem != null
+		) {
+			canMove = false;
+		}
+
 		this.isRunning = controls.SHIFT.isPressed() && game.player.key !== "cultist";
 		let moveSpeed = this.isRunning ? RUN_SPEED : MOVE_SPEED;
 
@@ -181,6 +192,7 @@ export class Player extends Character {
 		if (game.dialog) return nextLine();
 		if (game.book) return nextPage();
 		if (game.page) return closePage();
+		if (game.selectedItem != null) return describeSelectedItem();
 
 		let { x, y } = this.watchingPoint;
 		let pnjInFront = game.groups.pnj.children.find(obj => obj instanceof Phaser.Sprite && obj.getBounds().contains(x, y));

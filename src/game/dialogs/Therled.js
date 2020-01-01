@@ -2,7 +2,8 @@ import { talkToMyself, startDialog } from "../utils/dialog"
 import { initLights } from "../utils/Light"
 import { Tindalos } from "../characters/Tindalos"
 
-let tindalos;
+let tindalos = null;
+let parcheminFalsifie = false;
 
 export function therled(save) {
 	if (tindalos) return [
@@ -10,19 +11,40 @@ export function therled(save) {
 		rituel4
 	];
 
+	if (game.save.inventory.items.parchemin.nombre === 0
+		&& game.save.inventory.items.parcheminFalsifie.nombre === 0) {
+		return [
+			`J'ai dit que je ne voulais pas être dérangé !`,
+			`Je termine les préparatifs du rituel !`,
+			`Rends-toi plutôt utile et amène-moi le parchemin !`
+		]
+	}
+
+	let choices = {
+		"Refuser": () => [
+			"Quoi !? Tu abandonnes si près de notre but ?",
+			"As-tu oublié ce pourquoi nous sommes là ?",
+			"Tu sais le sort que l'on réserve aux traîtres...",
+			"Je te le redemande une dernière fois. Le parchemin."
+		]
+	}
+
+	if (game.save.inventory.items.parchemin.nombre > 0) {
+		choices["Donner l'original"] = () => {
+			parcheminFalsifie = false;
+		}
+	}
+
+	if (game.save.inventory.items.parcheminFalsifie.nombre > 0) {
+		choices["Donner le faux"] = () => {
+			parcheminFalsifie = true;
+		}
+	}
+
 	return [
-		"Ah enfin ! Donne-moi le parchemin, il est presque trop tard !",
-		{
-			"Donner le parchemin": () => [
-				"Bien, bien, nous allons pouvoir commencer..."
-			],
-			"Refuser": () => [
-				"Qu'y a-t-il ? Tu abandonnes si près de notre but ?",
-				"Tu penses pouvoir empêcher la science d'avancer ?",
-				"Tu sais le sort que l'on réserve aux traîtres...",
-				"Je te le redemande une dernière fois. Le parchemin."
-			]
-		},
+		`J'ai dit que je ne voulais pas être dérangé !`,
+		`Ah, tu as le parchemin ! Donne-le moi, il est presque trop tard !`,
+		choices,
 		rituel1
 	]
 }
@@ -31,8 +53,9 @@ function rituel1() {
 	return talkToMyself([
 		`Vous donnez le parchemin à Therled.`
 	]).then(() => startDialog([
-		`Maintenant, le sang pour appeler la bête...`,
-		`et le Liao pour voir à travers le voile...`,
+		`Bien, bien, nous allons pouvoir commencer...`,
+		`D'abord, le sang pour appeler la bête...`,
+		`puis le Liao pour voir à travers le voile...`,
 		rituel2
 	], { speaker: "therled" }))
 }
@@ -72,7 +95,7 @@ function rituel4() {
 		`Therled déplie le parchemin et se lance dans une litanie incantatoire.`,
 		`La grotte semble se plier sous le son de sa voix...`
 	]).then(() => {
-		if (game.save.hasFalsifiedScroll) {
+		if (parcheminFalsifie) {
 			tindalos.die();
 			game.camera.shake(0.01, 250);
 			game.camera.flash(0xcc0000, 500);
@@ -86,7 +109,7 @@ function rituel4() {
 					"C'est fini Therled ! Vous n'invoquerez pas ce monstre !"
 				], { speaker: "howard" }))
 				.then(() => {
-					game.save.gameOver = "lose";
+					game.save.gameOver = "win";
 					game.state.start("GameOver")
 				})
 		} else {
@@ -99,7 +122,7 @@ function rituel4() {
 				"Non non non le sort va être rom.... ARGGGH !",
 			], { speaker: "therled" })
 				.then(() => {
-					game.save.gameOver = "win";
+					game.save.gameOver = "lose";
 					game.state.start("GameOver")
 				})
 		}

@@ -46,7 +46,6 @@ export function resetSaveToNewGame() {
         hasReadSecretHours: false,
         planquesFound: [],
         translationsFound: [],
-        unlockedExits: [],
-        selectedItem: undefined
+        unlockedExits: []
     }
 }

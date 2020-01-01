@@ -15,7 +15,7 @@ import { startMusic } from "./audio";
 import { destroyMurSecret } from "./items/Bloc"
 
 export const schoolLevel = {
-	name: "L'Université",
+	title: "L'Université",
 	tilemap: "map_school",
 	tilesets: ["tileset_inside"],
 	music: "music_school",
@@ -25,7 +25,7 @@ export const schoolLevel = {
 }
 
 export const sanctuaireLevel = {
-	name: "Le Sanctuaire",
+	title: "Le Sanctuaire",
 	tilemap: "map_sanctuary",
 	tilesets: ["tileset_forest", "tileset_outside"],
 	music: "music_sanctuary",
@@ -37,7 +37,7 @@ export const sanctuaireLevel = {
 }
 
 export const forestLevel = {
-	name: "La forêt",
+	title: "La forêt",
 	tilemap: "map_forest",
 	tilesets: ["tileset_forest", "tileset_outside"],
 	music: "music_forest",
@@ -48,7 +48,7 @@ export const forestLevel = {
 }
 
 export const caveLevel = {
-	name: "Le Terrier",
+	title: "Le Terrier",
 	tilemap: "map_cave",
 	tilesets: ["tileset_cave"],
 	music: "music_cave",
@@ -59,7 +59,7 @@ export const caveLevel = {
 }
 
 export const autelLevel = {
-	name: "L'autel",
+	title: "L'autel",
 	tilemap: "map_autel",
 	tilesets: ["tileset_cave", "tileset_dungeon"],
 	music: "music_autel",
@@ -89,7 +89,9 @@ export class Level {
 		this.createTriggers();
 		this.createLights()
 
-		if (game.save.level !== technicalName) showMiddleText(name);
+		if (game.save.level !== technicalName) { // si on a changé de level
+			showMiddleText(this.title);
+		}
 	}
 
 	createTileMap(tilemap, tilesets) {
