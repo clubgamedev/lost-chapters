@@ -245,13 +245,18 @@ export class Level {
 				let destination = tps.find(x => x.properties.from === destinationId);
 				if (destination) {
 					game.player.movesBeforeTp = 50;
+					let { camera_dx, camera_dy } = destination.properties;
 					game.camera.setPosition(
-						destination.x + destination.width / 2 + (destination.properties.camera_dx || 0) - game.camera.view.width / 2,
-						destination.y + destination.height / 2 - 8 + (destination.properties.camera_dy || 0) - game.camera.view.height / 2
+						destination.x + destination.width / 2 + (camera_dx || 0) - game.camera.view.width / 2,
+						destination.y + destination.height / 2 - 8 + (camera_dy || 0) - game.camera.view.height / 2
 					);
 					game.camera.flash("black")
 					game.player.position.x = destination.x + destination.width / 2;
 					game.player.position.y = destination.y + destination.height / 2 - 8;
+					if (camera_dy || camera_dx) {
+						let dir = camera_dx > 0 ? "RIGHT" : camera_dx < 0 ? "LEFT" : camera_dy < 0 ? "UP" : "DOWN";
+						game.player.forceMove(dir, 1000);
+					}
 				}
 			}
 		})
@@ -299,7 +304,14 @@ export class Level {
 			sprite.action = () => {
 				switch (trigger.properties.action) {
 					case "camera_follow": game.camera.follow(game.player); break;
-					case "camera_unfollow": game.camera.unfollow(); break;
+					case "camera_unfollow":
+						game.camera.follow(
+							game.player,
+							undefined,
+							trigger.properties.axis === "y" ? 1 : 0,
+							trigger.properties.axis === "x" ? 1 : 0
+						);
+						break;
 				}
 			}
 		})

@@ -57,6 +57,11 @@ export const descriptions = {
         ]
     },
 
+    traduction_souche: save => ([
+        `Ne passez plus par le pont de la rivière.`,
+        `Le vieux Ramsey devient un peu trop curieux...`
+    ]),
+
     desc_lore_1: save => ([
         `C'est un vieux bouquin poussiéreux.`,
         `Sur la couverture est écrit:
@@ -101,12 +106,20 @@ export const descriptions = {
         }
     },
 
+    panneau_direction_sanctuaire: save => ([
+        `← Sanctuaire`
+    ]),
+
     panneau_sanctuaire: save => ([
         `Le chemin ne sera ouvert qu'à ceux qui ont bravé leurs peurs`
     ]),
 
     panneau_entree_universite: save => ([
         `Université Miskatonic`
+    ]),
+
+    panneau_direction_ramsey: save => ([
+        `← Colline aux bolets`
     ]),
 
     charnier: save => ([
