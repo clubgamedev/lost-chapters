@@ -1,8 +1,8 @@
 import { sounds } from "../audio";
 import { talkToMyself, startDialog } from "../utils/dialog";
-import { findObjectByName } from "../utils/map";
 import { drinkPotion } from "../utils/inventory";
 import { allPotions } from "../scenes/minigames/alchemy/potions";
+import { destroyMurSecret } from "../items/Bloc";
 
 export function readDescription(name) {
     let description = descriptions[name]
@@ -92,14 +92,7 @@ export const descriptions = {
                     "Régler à 07:17": () => talkToMyself(['Rien ne se passe...']),
                     "Régler à 11:33": () => talkToMyself(['Rien ne se passe...']),
                     "Régler à 04:04": () => {
-                        let murSecret = findObjectByName("mur_secret", "bloc", game.level.tilemap, "Object Layer")
-                        if (murSecret && murSecret.sprite) {
-                            sounds.HALLUCINATION.play();
-                            murSecret.sprite.destroy();
-                            murSecret.sprite = null;
-                        } else {
-                            return talkToMyself(['Rien ne se passe...'])
-                        }
+                        destroyMurSecret();
                     }
                 })
             }

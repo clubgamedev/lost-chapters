@@ -1,4 +1,6 @@
 import { talkToMyself } from "../utils/dialog";
+import { findObjectByName } from "../utils/map";
+import { sounds } from "../audio";
 
 export class Bloc extends Phaser.Sprite {
 
@@ -17,5 +19,19 @@ export const blocs = {
         talkToMyself([
             `Il y a quelque-chose qui cloche avec ce mur...`
         ])
+    }
+}
+
+export function destroyMurSecret(alreadyDiscovered, tilemap = game.level.tilemap) {
+    let murSecret = findObjectByName("mur_secret", "bloc", tilemap, "Object Layer")
+    if (murSecret && murSecret.sprite) {
+        murSecret.sprite.destroy();
+        murSecret.sprite = null;
+        if (!alreadyDiscovered) {
+            sounds.HALLUCINATION.play();
+            game.save.hasDiscoveredSecretPassage = true;
+        }
+    } else if (!alreadyDiscovered) {
+        return talkToMyself(['Rien ne se passe...'])
     }
 }

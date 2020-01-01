@@ -12,6 +12,7 @@ import { initLights, updateLights, clearLights } from "./utils/Light";
 import { showMiddleText } from "./utils/message"
 import { lockedExits } from "./dialogs/descriptions";
 import { startMusic } from "./audio";
+import { destroyMurSecret } from "./items/Bloc"
 
 export const schoolLevel = {
 	name: "L'Université",
@@ -222,6 +223,10 @@ export class Level {
 				}
 			})
 		})
+
+		if (this.name === "school" && game.save.hasDiscoveredSecretPassage) {
+			destroyMurSecret(true, this.tilemap);
+		}
 	}
 
 	createTriggers() {
