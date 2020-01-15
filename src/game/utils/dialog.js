@@ -150,12 +150,18 @@ export function endChoice() {
     return selectedChoice
 }
 
-export function exhaustDialog(questions, endDialogChoice) {
+export function exhaustDialog(questions, endDialogChoice, questionsDone = []) {
     let choice = {};
     for (let question in questions) {
-        let remainingQuestions = Object.assign({}, questions)
-        delete remainingQuestions[question];
-        choice[question] = () => [].concat(questions[question]).concat(exhaustDialog(remainingQuestions, endDialogChoice))
+        if (questionsDone.includes(question) === false) {
+            choice[question] = () => {
+                questionsDone.push(question);
+                return [
+                    questions[question],
+                    () => exhaustDialog(questions, endDialogChoice, questionsDone)
+                ]
+            }
+        }
     }
     choice[endDialogChoice] = () => []; // pass to next line
     return choice;
