@@ -267,8 +267,7 @@ export class Player extends Character {
 						return game.state.start("Decryptor");
 					}
 				case "chaudron":
-					save();
-					game.state.start("Alchemy");
+					readDescription("chaudron");
 					return;
 
 				case 'escapeTable':

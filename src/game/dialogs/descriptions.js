@@ -122,6 +122,61 @@ export const descriptions = {
         `← Colline aux bolets`
     ]),
 
+    panneau_champignons: save => ([
+        `Des illustrations de divers champignons avec leurs noms`,
+        `et propriétés. Ramsey s'en sert sûrement pour ses cours.`
+    ]),
+
+    tente: {
+        action() {
+            if (game.save.hasDiscoveredCapeRamsey && !game.save.planquesFound.includes("cape_tente")) {
+                return [
+                    `Il y a une vieille cape noire déchirée en boule dans un coin.`,
+                    `Je vais la prendre pour mon enquête.`
+                ]
+            } else {
+                return [
+                    `Pouah ! Cette tente dégage une odeur fétide.`,
+                    `Des champignons poussent même à l'intérieur !`
+                ]
+            }
+        },
+
+        after() {
+            if (game.save.planquesFound.includes("cape_tente")) return;
+            if (game.save.inventory.items.cape.nombre === 0) {
+                game.save.inventory.items.cape.nombre++;
+                sounds.ITEM.play();
+                game.save.planquesFound.push("cape_tente");
+            }
+        }
+    },
+
+    chaudron: {
+        action() {
+            if (game.save.canUseChaudron) {
+                return [
+                    `Ramsey a dit que j'aurais besoin de ces potions`,
+                    `si je compte pénétrer dans le Terrier...`,
+                    `Mais je dois à tout prix y parvenir avant l'Eclipse`,
+                    `Je devrais me dépêcher d'en préparer le plus possible.`
+                ]
+            } else {
+                return [
+                    `Ce doit être le chaudron qu'utilise Ramsey pour préparer ses potions.`,
+                    `Je ferais mieux de ne pas y toucher pour le moment.`
+                ]
+            }
+        },
+
+        after() {
+            if (game.save.canUseChaudron) {
+                save();
+                game.state.start("Alchemy")
+            }
+        }
+    },
+
     charnier: save => ([
         `Un charnier, ici ? L'odeur est atroce...`
     ]),
