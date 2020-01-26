@@ -11,7 +11,7 @@ un étudiant vous parle du passage secret vers l'établi
 une page au dortoir vous donne un indice sur le code de l'établi
 sinon le code vous est donné avec un mini jeu decryptor sur le tableau en salle de classe
 minijeu de l'établi => vous obtenez une copie du parchemin de Tindalos
-ramener le parchemin à franck => il vous expose son plan pour interrompre le rituel, notamment vous infiltrer chez les cultistes et aller voir Ramsey pour fabriquer une fausse fiole de sang de Tindalos
+ramener le parchemin à franck => il vous parle des expériences de Therled autour du Liao, et vous demande d'arrêter Therled et d'aller voir Ramsey pour fabriquer un antidote contre le Liao.
 
 Déblocables:
 - découverte de Tindalos (pages dans l'université) -> débloque dialogue Franck
@@ -20,8 +20,8 @@ Déblocables:
 - découverte du code de l'établi (page dortoir université)
 
 Items:
-- ingrédient pour potion de protection (cuisine)
-- recette pour potion de protection (bibliothèque)
+- ingrédient pour potion de force (cuisine)
+- recette pour potion de force (bibliothèque)
 - parchemin d'invocation de Tindalos (établi)
 
 # 2. réunion des composants
@@ -33,7 +33,7 @@ impossible de rentrer dans la grotte sans la cape de cultiste
 rencontre avec marie. marie maitrise l'art de la calligraphie, et sait modifier le parchemin d'invocation pour bannir le chien de tindalos plutôt que de l'invoquer
 si marie contrefait le parchemin, elle se fait ensuite tuer par arthur (marie disparaît et arthur apparait au prochain chargement du niveau)
 arthur est accessible via le passage secret visible si la lucidité est assez basse
-affrontement arthur, puis arthur révèle que therled l'a trompé, après qu'il lui ait donné la recette de potion de liao, therled lui a volé des chapitres (les fameux lost chapters) de son livre de Tindalos (on apprend que son culte est dédié à Tindalos). Vous récupérez près du camp la recette, ainsi qu'une cape de cultiste pour s'infiltrer dans le terrier.
+affrontement arthur, puis arthur révèle que therled l'a trompé, après qu'il lui ait donné la recette du liao, therled lui a volé des chapitres (les fameux lost chapters) de son livre de Tindalos (on apprend que son culte est dédié à Tindalos). Il vous donne la recette d'un antidote contre le Liao, ainsi qu'une cape de cultiste pour s'infiltrer dans le terrier.
 après affrontement, au prochain chargement arthur a disparu
 
 dans la forêt, vous évitez les bestioles et trouvez de multiples ingrédients
@@ -47,11 +47,12 @@ Déblocables:
 - cape de cultiste (arthur ou ramsey)
 
 Items:
-- ingrédient pour potion de force (foret)
-- ingrédient pour potion de protection (foret)
-- ingrédient pour potion de liao (foret)
-- ingrédient pour potion de lucidité (foret)
-- recette de potion de liao (arthur)
+- ingrédients pour potion de force (foret)
+- ingrédients pour potion de protection (foret)
+- ingrédients pour potion de lucidité (foret)
+- ingrédients pour antidote (foret)
+- recette d'antidote du liao (arthur)
+- recette de potion des dévots (sanctuaire)
 
 # 3. infiltration au terrier
 
@@ -73,22 +74,22 @@ Items:
 
 niveau autel
 
-therled et d'autres cultistes sont affairés au rituel. vous vous melez à eux, le rituel commence
-therled verse dans des fioles de liao des gouttes de sang de tindalos, les distribue et tout le monde en boit
-## si vous n'avez pas la fausse fiole de sang
-le liao vous fait tomber la lucidité au minimum
-vous voyez une apparition d'un chien de tindalos, vous et les autres cultistes êtes trop terrorisés pour bouger
-> BAD ENDING:
-therled récite son parchemin d'invocation, mais cela a pour effet de libérer le chien qui le tue aussitôt.
-Fondu au blanc, et écran de gameover avec le journal de franck expliquant que le chien a tué Howard ainsi que tous les étudiants au terrier, et que Arthur s'est sacrifié pour renvoyer le chien dans sa dimension avant qu'il ne fasse plus de victimes. Franck est contraint de fermer l'université, game over
+therled et d'autres cultistes sont affairés au rituel. vous vous melez à eux. Therled réclame le parchemin, vous pouvez lui donner soit le vrai parchemin posé dans la salle, soit le faux parchemin trafiqué. Puis le rituel commence
+therled verse dans des fioles de liao des gouttes de sang de tindalos, les distribue et tout le monde en boit. Vous devez les imiter et boire.
+Vous pouvez verser discrètement l'antidote avant de boire, ou à défaut une potion de lucidité/des dévots pour réduire les effets de la drogue. Sinon le liao vous fait tomber la lucidité au minimum
+Si votre lucidité est faible, vous voyez une apparition d'un chien de tindalos, vous et les autres cultistes êtes trop terrorisés pour bouger.
 
-## si vous avez la fausse fiole de sang
-vous buvez la fausse fiole pour ne pas subir les effets du liao. les autres cultistes sont terrorisés par quelque-chose, les yeux rivés dans la même direction. Si vous avez une lucidité basse, vous voyez aussi le chien, mais si elle est supérieure à 1, vous pouvez encore vous déplacer
-    > si vous avez le parchemin trafiqué, vous profitez de la confusion pour l'intervertir avec le parchemin sur la table d'autel
-    > sinon, le chien finit par être visible après que therled ait prononcé l'incantation, bad ending
+## si parchemin trafiqué
 le parchemin interverti, therled prononce le bannissement, cela fonctionne et le chien retourne dans l'ombre, mais therled en perd la vie. On apprend qu'un bannissement requiert un sacrifice, pour répondre à la soif de sang tindalos.
 
 > "GOOD" ENDING:
 dialogue "C'est terminé", les autres cultistes trop terrorisés/défoncés pour intervenir
 Fondu au blanc, écran de gameover avec le journal de howard expliquant qu'il a brûlé les chapitres perdus. Franck détruit les stocks de Liao pendant que Ramsey soigne les étudiants des effets de la drogue. Arthur a disparu de la circulation, et le corps de Marie a été retrouvé près de son camp. Howard finit en s'adressant à feu Marie, se demandant si elle savait que celui qui prononcerait l'incantion perdrait la vie.
+
+## si vrai parchemin
+Therled tente de contrôler le chien mais échoue et meurt. S'en suit un combat avec le chien
+> BAD ENDING:
+Le combat gagné, écran de gameover avec le journal de franck expliquant qu'un bannissement requiert un sacrifice, pour répondre à la soif de sang tindalos. Howard s'est sacrifié pour renvoyer le chien dans sa dimension avant qu'il ne fasse plus de victimes. Franck est contraint de fermer l'université, game over
+
+
 
