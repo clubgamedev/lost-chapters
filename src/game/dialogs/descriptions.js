@@ -326,20 +326,7 @@ export const descriptions = {
 	},
 
 	fioleDeSang: save => {
-		return [
-			fioleDeSang.description,
-			{
-				"La boire": () => {
-					save.inventory.items.fioleDeSang.actif = true
-					save.inventory.items.fioleDeSang.nombre--
-					drinkPotion([
-						"Fiole de sang consommée",
-						"Etait-ce une bonne idée?"
-					])
-				},
-				"La ranger": () => {}
-			}
-		]
+		return [fioleDeSang.description, "Ça pourrait me servir plus tard..."]
 	},
 
 	cape: save => {

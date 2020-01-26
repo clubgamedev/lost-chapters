@@ -60,12 +60,14 @@ function capesNoires(save, questions) {
 }
 
 function robesBlanches(questions) {
-	questions["Du liao ? La drogue ?"] = () => liao(questions)
+	questions["Liao ? La drogue ?"] = () => liao(questions)
 	return [
 		`Ces fichus hippies ! Le vieux barbu m'a chassé des grottes quand j'ai`,
-		`voulu y cueillir des champignons pour préparer du Liao.`,
-		`Soi-disant que ces champigons doivent être "protégés"...`,
+		`voulu y étudier les champignons qui y poussent.`,
+		`Soi-disant que ces champignons doivent être "protégés"...`,
 		`Protégés de quoi d'abord ?`,
+		`Je suspecte que ces champignons soient à la base de la recette`,
+		`du Liao antique. Ces illuminés doivent se défoncer avec ça...`,
 		`Heureusement qu'il y a la gamine. Elle est gentille, elle.`,
 		`Elle me ramène des mûres sauvages parfois. Une brave petite.`,
 		`C'est la seule qui daigne me parler d'ailleurs...`
@@ -79,6 +81,8 @@ function liao(questions) {
 		`avoir trouvé une recette de potion magique, j'espère...`,
 		`C'est un puissant stimulant... mais avec des effets secondaires!`,
 		`Hyper-sensibilité, déréglement émotionnel, hallucinations...`,
-		`Très intéressant pour mes recherches, mais très dangereux.`
+		`Des étudiants m'ont demandé d'en fabriquer le mois dernier,`,
+		`mais c'est trop dangereux. J'ai refusé, et ils se sont énervés.`,
+		`Ils sont exclus de mon cours depuis.`
 	]
 }
