@@ -25,7 +25,8 @@ function ramseyQuestions(save) {
 		"Franck m'envoie": () => {
 			Object.assign(questions, {
 				"Les robes blanches ?": () => robesBlanches(questions),
-				"Des capes noires ?": () => capesNoires(save, questions)
+				"Des capes noires ?": () => capesNoires(save, questions),
+				"A propos du Liao": () => liao(questions)
 			})
 
 			return [
@@ -60,7 +61,6 @@ function capesNoires(save, questions) {
 }
 
 function robesBlanches(questions) {
-	questions["Liao ? La drogue ?"] = () => liao(questions)
 	return [
 		`Ces fichus hippies ! Le vieux barbu m'a chassé des grottes quand j'ai`,
 		`voulu y étudier les champignons qui y poussent.`,
@@ -75,8 +75,9 @@ function robesBlanches(questions) {
 }
 
 function liao(questions) {
+	questions["Un antidote"] = () => antidote(questions)
 	return [
-		`Ah, ça vous intéresse, hein ?`,
+		`Ah, le Liao vous intéresse, hein ?`,
 		`Vous n'êtes pas comme tous ces abrutis d'étudiants qui pensent`,
 		`avoir trouvé une recette de potion magique, j'espère...`,
 		`C'est un puissant stimulant... mais avec des effets secondaires!`,
@@ -84,5 +85,20 @@ function liao(questions) {
 		`Des étudiants m'ont demandé d'en fabriquer le mois dernier,`,
 		`mais c'est trop dangereux. J'ai refusé, et ils se sont énervés.`,
 		`Ils sont exclus de mon cours depuis.`
+	]
+}
+
+function antidote() {
+	return [
+		`Un antidote au Liao ? Et comment je fais ça, moi ?`,
+		`Pour ça, il faudrait déjà que je puisse étudier le Liao !`,
+		`Il se peut que les dévots en fabriquent, mais ils ne me laissent`,
+		`pas approcher de leurs maudites grottes.`,
+		`Sinon, demandez aux étudiants que j'ai viré de mon cours !`,
+		`Leur meneur voulait à tout prix en fabriquer, il a peut-être trouvé`,
+		`un moyen depuis. Je crois qu'il s'appelait...`,
+		{
+			"Therled ?": () => ["Oui c'est ça ! Vous le connaissez ?"]
+		}
 	]
 }
