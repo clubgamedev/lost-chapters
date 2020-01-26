@@ -1,14 +1,12 @@
 import { exhaustDialog } from "@/game/utils/dialog"
 
 export function ramsey(save) {
-
 	if (!save.hasMetRamsey) return ramseyMeeting(save)
-	else return ["Quoi ?", ramseyQuestions(save)];
-
+	else return ["Quoi ?", ramseyQuestions(save)]
 }
 
 function ramseyMeeting(save) {
-	save.hasMetRamsey = true;
+	save.hasMetRamsey = true
 
 	return [
 		"Qui êtes vous !?",
@@ -23,10 +21,8 @@ function ramseyMeeting(save) {
 }
 
 function ramseyQuestions(save) {
-
 	const questions = {
 		"Franck m'envoie": () => {
-
 			Object.assign(questions, {
 				"Les robes blanches ?": () => robesBlanches(questions),
 				"Des capes noires ?": () => capesNoires(save, questions)
@@ -37,7 +33,7 @@ function ramseyQuestions(save) {
 				"Je lui ai dit qu'il y avait des ombres dans la forêt au crépuscule.",
 				"Pas les robes blanches qui passent le jour ! Des capes noires !",
 				"Il m'a dit que j'avais goûté au mauvais champignon !",
-				"Mais qu'est-ce qu'il y connaît ?",
+				"Mais qu'est-ce qu'il y connaît ?"
 			]
 		},
 		"Que faites vous ?": () => {
@@ -50,13 +46,11 @@ function ramseyQuestions(save) {
 		}
 	}
 
-	return [
-		exhaustDialog(questions, "Heu... Je vous laisse...")
-	]
+	return [exhaustDialog(questions, "Heu... Je vous laisse...")]
 }
 
 function capesNoires(save, questions) {
-	save.hasDiscoveredCapeRamsey = true;
+	save.hasDiscoveredCapeRamsey = true
 	return [
 		`Ouais... Ils se cachent de moi, mais je les vois !`,
 		`J'ai même trouvé une de ces capes déchirée dans des buissons.`,
@@ -66,7 +60,7 @@ function capesNoires(save, questions) {
 }
 
 function robesBlanches(questions) {
-	questions["Du liao ? La drogue ?"] = () => liao(questions);
+	questions["Du liao ? La drogue ?"] = () => liao(questions)
 	return [
 		`Ces fichus hippies ! Le vieux barbu m'a chassé des grottes quand j'ai`,
 		`voulu y cueillir des champignons pour préparer du Liao.`,
@@ -82,9 +76,9 @@ function liao(questions) {
 	return [
 		`Ah, ça vous intéresse, hein ?`,
 		`Vous n'êtes pas comme tous ces abrutis d'étudiants qui pensent`,
-		`avoir trouvé la recette de la potion magique, j'espère...`,
-		`C'est un puissant stimulant... mais avec des effets secondaires:`,
+		`avoir trouvé une recette de potion magique, j'espère...`,
+		`C'est un puissant stimulant... mais avec des effets secondaires!`,
 		`Hyper-sensibilité, déréglement émotionnel, hallucinations...`,
-		`Très intéressant pour mes recherches, mais très dangereux.`,
+		`Très intéressant pour mes recherches, mais très dangereux.`
 	]
 }
