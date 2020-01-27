@@ -15,7 +15,7 @@ export class Inventory {
                 nombre: 0,
                 actif: false
             },
-            fioleDeSang: {
+            antidote: {
                 nombre: 0,
                 actif: false
             },

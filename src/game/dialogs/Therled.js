@@ -75,7 +75,8 @@ function rituel2() {
 						"Boire la fiole"() {
 							game.player.lucidity = 1
 						},
-						"Boire la fausse fiole"() {}
+						"Boire l'antidote"() {},
+						"Boire une potion"() {}
 					}
 				],
 				{ speaker: "therled" }

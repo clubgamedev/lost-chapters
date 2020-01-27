@@ -5,7 +5,7 @@ import {
 	potionDeForce,
 	potionDeProtection,
 	potionDeLucidite,
-	fioleDeSang
+	antidote
 } from "../scenes/minigames/alchemy/potions"
 import { destroyMurSecret } from "../items/Bloc"
 
@@ -325,8 +325,8 @@ export const descriptions = {
 		]
 	},
 
-	fioleDeSang: save => {
-		return [fioleDeSang.description, "Ça pourrait me servir plus tard..."]
+	antidote: save => {
+		return [antidote.description, "Ça pourrait me servir plus tard..."]
 	},
 
 	cape: save => {

@@ -86,7 +86,7 @@ export class AlchemyScene {
 			"potionDeForce",
 			"assets/alchemy/potions/potionDeForce.png"
 		)
-		game.load.image("fioleDeSang", "assets/alchemy/potions/fioleDeSang.png")
+		game.load.image("antidote", "assets/alchemy/potions/antidote.png")
 		game.load.image(
 			"potionDeLucidite",
 			"assets/alchemy/potions/potionDeLucidite.png"

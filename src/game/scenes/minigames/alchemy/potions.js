@@ -31,14 +31,14 @@ export const potionDeLucidite = new Potion({
 	]
 })
 
-export const fioleDeSang = new Potion({
-	name: "fioleDeSang",
-	displayName: "Fiole de sang",
+export const antidote = new Potion({
+	name: "antidote",
+	displayName: "Antidote",
 	ingredients: ["crochetsDeSerpent", "foieDeCerf", "jusDeSauterelle"],
 	description: [
-		"La fiole de sang est toujours aussi étrange ",
-		"et son odeur toujours aussi dérangeante...",
-		"Mais je n'ai pas le choix..."
+		"C'est l'antidote conçu par Therled pour neutraliser les effets",
+		"du Liao. C'est peut-être encore un autre de ses pièges...",
+		"Je n'ai pas le choix... Je le saurais le moment venu."
 	]
 })
 
@@ -46,5 +46,5 @@ export const ALL_POTIONS = [
 	potionDeForce,
 	potionDeProtection,
 	potionDeLucidite,
-	fioleDeSang
+	antidote
 ]
