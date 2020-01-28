@@ -7,7 +7,7 @@ import { Fire } from "./effects/Fire";
 import { AmbientLight } from "./effects/AmbientLight";
 import { Hallucination } from "./effects/Hallucination";
 import RenderGroup from "./utils/RenderGroup";
-import { findObjectsByType } from "./utils/map";
+import { findObjectsByType, findObjectByName } from "./utils/map";
 import { initLights, updateLights, clearLights } from "./utils/Light";
 import { showMiddleText } from "./utils/message"
 import { lockedExits } from "./dialogs/descriptions";
@@ -21,7 +21,12 @@ export const schoolLevel = {
 	music: "music_school",
 	lightRadius: 100,
 	obscurity: 1,
-	footstepSounds: "FOOTSTEPS_WOOD"
+	footstepSounds: "FOOTSTEPS_WOOD",
+	init(){
+		if (game.save.hasDiscoveredSecretPassage) {
+			destroyMurSecret(true, this.tilemap);
+		}
+	}
 }
 
 export const sanctuaireLevel = {
@@ -33,7 +38,16 @@ export const sanctuaireLevel = {
 	obscurity: 1,
 	fog: true,
 	tint: 0xC0A8D0,
-	footstepSounds: "FOOTSTEPS_EARTH"
+	footstepSounds: "FOOTSTEPS_EARTH",
+	init() {
+		if (game.save.hasFalsifiedScroll) {
+			const marie = findObjectByName("marie", "character", this.tilemap)
+			marie.sprite.destroy()
+		} else {
+			const arthur = findObjectByName("arthur", "character", this.tilemap)
+			arthur.sprite.destroy()
+		}
+	}
 }
 
 export const forestLevel = {
@@ -88,6 +102,7 @@ export class Level {
 		this.createObjects();
 		this.createTriggers();
 		this.createLights()
+		if(this.init) this.init.call(this);
 
 		if (game.save.level !== technicalName) { // si on a changé de level
 			showMiddleText(this.title);
@@ -171,7 +186,7 @@ export class Level {
 	createEnemies() {
 		const enemies = { rat: Rat, spider: Spider, cultist: Cultist };
 		Object.entries(enemies).forEach(([enemyType, Constructor]) => {
-			findObjectsByType(enemyType, this.tilemap, "Object Layer").forEach(enemy => {
+			findObjectsByType(enemyType, this.tilemap).forEach(enemy => {
 				let verticalMove = enemy.properties && enemy.properties.vertical === true
 				game.groups.enemies.add(
 					new Constructor({ x: enemy.x / 16, y: (enemy.y - 8) / 16 }, verticalMove)
@@ -181,12 +196,13 @@ export class Level {
 	}
 
 	createCharacters() {
-		findObjectsByType("character", this.tilemap, "Object Layer").forEach(character => {
+		findObjectsByType("character", this.tilemap).forEach(character => {
 			let characterName = character.name;
 			let state = character.properties.state;
 			let pnj = new Character(game, { x: character.x / 16, y: character.y / 16 }, characterName, CHARACTER_STATE[state])
 			pnj.properties = character.properties;
 			pnj.body.setSize(18, 14, 6, 18);
+			character.sprite = pnj;
 			game.groups.pnj.add(pnj)
 		})
 	}
@@ -207,7 +223,7 @@ export class Level {
 		const NON_COLLIDABLE_OBJECTS = [Runes, Book, Page, Description, Loot];
 
 		Object.entries(objects).forEach(([objectType, Constructor]) => {
-			findObjectsByType(objectType, this.tilemap, "Object Layer").forEach(object => {
+			findObjectsByType(objectType, this.tilemap).forEach(object => {
 				let sprite = new Constructor({
 					x: object.x / 16,
 					y: object.y / 16
@@ -225,14 +241,10 @@ export class Level {
 				}
 			})
 		})
-
-		if (this.name === "school" && game.save.hasDiscoveredSecretPassage) {
-			destroyMurSecret(true, this.tilemap);
-		}
 	}
 
 	createTriggers() {
-		const tps = findObjectsByType("teleport", this.tilemap, "Object Layer")
+		const tps = findObjectsByType("teleport", this.tilemap)
 		tps.forEach(tp => {
 			let trigger = game.add.sprite(tp.x, tp.y, "exit")
 			trigger.alpha = 0;
@@ -261,7 +273,7 @@ export class Level {
 			}
 		})
 
-		const exits = findObjectsByType("exit", this.tilemap, "Object Layer")
+		const exits = findObjectsByType("exit", this.tilemap)
 		exits.forEach(exit => {
 			let exitSprite = game.add.sprite(exit.x, exit.y, "exit")
 			exitSprite.alpha = 0;
@@ -289,12 +301,12 @@ export class Level {
 						game.disableTriggers = false;
 						let startDirection = startPosition.properties?.lookdir || "DOWN"
 						game.player.forceMove(startDirection, 500)
-					}, 10);
+					}, 50);
 				}, 400);
 			}
 		})
 
-		const triggers = findObjectsByType("trigger", this.tilemap, "Object Layer")
+		const triggers = findObjectsByType("trigger", this.tilemap)
 		triggers.forEach(trigger => {
 			let sprite = game.add.sprite(trigger.x, trigger.y, "collisions")
 			sprite.alpha = 0;
@@ -325,7 +337,7 @@ export class Level {
 
 		if (enableMapLights) {
 			Object.entries(lightSources).forEach(([objectType, Constructor]) => {
-				findObjectsByType(objectType, this.tilemap, "Object Layer").forEach(lightSource => {
+				findObjectsByType(objectType, this.tilemap).forEach(lightSource => {
 					let sprite = new Constructor({ x: lightSource.x / 16, y: lightSource.y / 16 }, lightSource.properties)
 					game.groups.lightSources.add(sprite);
 				})
@@ -354,11 +366,12 @@ export function goToLevel(levelName, startId) {
 	if (game.level) {
 		game.level.exit();
 	}
+
 	game.level = new Level(levelName)
 	startMusic(game.level.music);
 
 	game.player.loadTexture(["cave", "autel"].includes(levelName) ? "cultist" : "howard", 0);
-	if (game.save.playerPosition && game.save.level === levelName) {
+	if (game.save.playerPosition && startId === undefined) {
 		return Object.assign(game.player.position, game.save.playerPosition);
 	} else {
 		return positionPlayerAtStartOfLevel(startId);
@@ -366,7 +379,7 @@ export function goToLevel(levelName, startId) {
 }
 
 export function positionPlayerAtStartOfLevel(id = 1) {
-	let startPosition = findObjectsByType("start", game.level.tilemap, "Object Layer").find(el => el.properties.id === id)
+	let startPosition = findObjectsByType("start", game.level.tilemap).find(el => el.properties.id === id)
 	Object.assign(game.player.position, {
 		x: startPosition.x + 8,
 		y: startPosition.y

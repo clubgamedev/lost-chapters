@@ -1,6 +1,6 @@
 // find objects in a Tiled layer that containt a property called "type" equal to a certain value
-export function findObjectsByType(type, map, layer) {
-    return map.objects[layer].filter(element => {
+export function findObjectsByType(type, map) {
+    return map.objects["Object Layer"].filter(element => {
         if (element.type === type) {
             //Phaser uses top left, Tiled bottom left so we have to adjust the y position
             //also keep in mind that the cup images are a bit smaller than the tile which is 16x16
@@ -17,6 +17,6 @@ export function findObjectsByType(type, map, layer) {
     })
 }
 
-export function findObjectByName(name, type, map, layer) {
-    return findObjectsByType(type, map, layer).find(el => el.name === name)
+export function findObjectByName(name, type, map) {
+    return findObjectsByType(type, map).find(el => el.name === name)
 }

@@ -23,7 +23,7 @@ export const blocs = {
 }
 
 export function destroyMurSecret(alreadyDiscovered, tilemap = game.level.tilemap) {
-    let murSecret = findObjectByName("mur_secret", "bloc", tilemap, "Object Layer")
+    let murSecret = findObjectByName("mur_secret", "bloc", tilemap)
     if (murSecret && murSecret.sprite) {
         murSecret.sprite.destroy();
         murSecret.sprite = null;
