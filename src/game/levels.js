@@ -58,7 +58,15 @@ export const forestLevel = {
 	lightRadius: 120,
 	fog: true,
 	tint: 0xB090C0,
-	footstepSounds: "FOOTSTEPS_EARTH"
+	footstepSounds: "FOOTSTEPS_EARTH",
+	init() {
+		const marieBody = findObjectByName("marie_body", "hallucination", this.tilemap)
+		if (!game.save.hasFinishedTalkingToArthur) {
+			marieBody.sprite.destroy()
+		} else {
+			marieBody.sprite.tint = forestLevel.tint
+		}
+	}
 }
 
 export const caveLevel = {

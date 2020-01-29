@@ -52,6 +52,7 @@ export class LoadingScene {
 		game.load.spritesheet("lucidity-bar", 'assets/ui/lucidity-bar.png', 24, 8, 16);
 		game.load.spritesheet("interactions", 'assets/ui/interactions.png', 24, 24, 8);
 		game.load.spritesheet("fake_tree", "assets/environment/fake_tree.png", 96, 128, 2);
+		game.load.spritesheet("marie_body", "assets/environment/marie_body.png", 30, 23, 2);
 		game.load.spritesheet("tindalos", "assets/environment/tindalos.png", 240, 240, 3);
 
 		game.load.spritesheet("collisions", "assets/environment/collisions.png", 16, 16, 8);
