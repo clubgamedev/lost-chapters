@@ -56,16 +56,6 @@ export const descriptions = {
 		`Je n'y comprends rien...`
 	],
 
-	traduction_tableau: save => {
-		save.hasDiscoveredTerrier = true
-		return [`Que tout le monde se rassemble au terrier`]
-	},
-
-	traduction_souche: save => [
-		`Ne passez plus par le pont de la rivière.`,
-		`Le vieux Ramsey devient un peu trop curieux...`
-	],
-
 	desc_lore_1: save => [
 		`C'est un vieux bouquin poussiéreux.`,
 		`Sur la couverture est écrit:

@@ -5,6 +5,7 @@ import { closePage, readPage } from "../utils/page";
 import { controls } from "../utils/controls"
 import { talkTo, nextLine, talkToMyself } from "../utils/dialog";
 import { readDescription, descriptions } from "../dialogs/descriptions";
+import { traductions } from "../dialogs/traductions";
 import { pickLoot } from "../items/loot";
 import { blocs } from "../items/Bloc";
 import { hallucinations } from "../effects/Hallucination";
@@ -256,13 +257,13 @@ export class Player extends Character {
 					pickLoot(objectInFront);
 					return;
 				case "runes":
-					let { variant, duration, translation } = objectInFront.properties
+					let { variant, duration, name } = objectInFront.properties
 					if (!game.save.hasDiscoveredAlphabet) {
 						return talkToMyself(descriptions.runes_inconnues(game.save))
-					} else if (game.save.translationsFound.includes(translation)) {
-						return talkToMyself(descriptions[translation](game.save))
+					} else if (game.save.translationsFound.includes(name)) {
+						return talkToMyself(traductions[name].lines.map(part => `"${part}"`))
 					} else {
-						game.decryptor = { variants: variant.split(","), duration, translation }
+						game.decryptor = { variants: variant.split(","), duration, translation:name }
 						save();
 						return game.state.start("Decryptor");
 					}

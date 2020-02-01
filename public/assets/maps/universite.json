@@ -92,14 +92,12 @@
                  "height":16,
                  "id":42,
                  "name":"franck",
-                 "properties":
-                    {
-                     "state":"RIGHT"
-                    },
-                 "propertytypes":
-                    {
-                     "state":"string"
-                    },
+                 "properties":[
+                        {
+                         "name":"state",
+                         "type":"string",
+                         "value":"RIGHT"
+                        }],
                  "rotation":0,
                  "type":"character",
                  "visible":true,
@@ -112,16 +110,17 @@
                  "height":32,
                  "id":46,
                  "name":"",
-                 "properties":
-                    {
-                     "from":1,
-                     "to":3
-                    },
-                 "propertytypes":
-                    {
-                     "from":"int",
-                     "to":"int"
-                    },
+                 "properties":[
+                        {
+                         "name":"from",
+                         "type":"int",
+                         "value":1
+                        }, 
+                        {
+                         "name":"to",
+                         "type":"int",
+                         "value":3
+                        }],
                  "rotation":0,
                  "type":"teleport",
                  "visible":true,
@@ -134,16 +133,17 @@
                  "height":33,
                  "id":47,
                  "name":"",
-                 "properties":
-                    {
-                     "from":3,
-                     "to":1
-                    },
-                 "propertytypes":
-                    {
-                     "from":"int",
-                     "to":"int"
-                    },
+                 "properties":[
+                        {
+                         "name":"from",
+                         "type":"int",
+                         "value":3
+                        }, 
+                        {
+                         "name":"to",
+                         "type":"int",
+                         "value":1
+                        }],
                  "rotation":0,
                  "type":"teleport",
                  "visible":true,
@@ -156,16 +156,17 @@
                  "height":16,
                  "id":48,
                  "name":"",
-                 "properties":
-                    {
-                     "from":4,
-                     "to":6
-                    },
-                 "propertytypes":
-                    {
-                     "from":"int",
-                     "to":"int"
-                    },
+                 "properties":[
+                        {
+                         "name":"from",
+                         "type":"int",
+                         "value":4
+                        }, 
+                        {
+                         "name":"to",
+                         "type":"int",
+                         "value":6
+                        }],
                  "rotation":0,
                  "type":"teleport",
                  "visible":true,
@@ -178,16 +179,17 @@
                  "height":16,
                  "id":49,
                  "name":"",
-                 "properties":
-                    {
-                     "from":5,
-                     "to":7
-                    },
-                 "propertytypes":
-                    {
-                     "from":"int",
-                     "to":"int"
-                    },
+                 "properties":[
+                        {
+                         "name":"from",
+                         "type":"int",
+                         "value":5
+                        }, 
+                        {
+                         "name":"to",
+                         "type":"int",
+                         "value":7
+                        }],
                  "rotation":0,
                  "type":"teleport",
                  "visible":true,
@@ -200,16 +202,17 @@
                  "height":16,
                  "id":50,
                  "name":"",
-                 "properties":
-                    {
-                     "from":6,
-                     "to":4
-                    },
-                 "propertytypes":
-                    {
-                     "from":"int",
-                     "to":"int"
-                    },
+                 "properties":[
+                        {
+                         "name":"from",
+                         "type":"int",
+                         "value":6
+                        }, 
+                        {
+                         "name":"to",
+                         "type":"int",
+                         "value":4
+                        }],
                  "rotation":0,
                  "type":"teleport",
                  "visible":true,
@@ -222,16 +225,17 @@
                  "height":16,
                  "id":51,
                  "name":"",
-                 "properties":
-                    {
-                     "from":7,
-                     "to":5
-                    },
-                 "propertytypes":
-                    {
-                     "from":"int",
-                     "to":"int"
-                    },
+                 "properties":[
+                        {
+                         "name":"from",
+                         "type":"int",
+                         "value":7
+                        }, 
+                        {
+                         "name":"to",
+                         "type":"int",
+                         "value":5
+                        }],
                  "rotation":0,
                  "type":"teleport",
                  "visible":true,
@@ -244,16 +248,17 @@
                  "height":16,
                  "id":52,
                  "name":"",
-                 "properties":
-                    {
-                     "from":8,
-                     "to":9
-                    },
-                 "propertytypes":
-                    {
-                     "from":"int",
-                     "to":"int"
-                    },
+                 "properties":[
+                        {
+                         "name":"from",
+                         "type":"int",
+                         "value":8
+                        }, 
+                        {
+                         "name":"to",
+                         "type":"int",
+                         "value":9
+                        }],
                  "rotation":0,
                  "type":"teleport",
                  "visible":true,
@@ -266,16 +271,17 @@
                  "height":16,
                  "id":53,
                  "name":"",
-                 "properties":
-                    {
-                     "from":9,
-                     "to":8
-                    },
-                 "propertytypes":
-                    {
-                     "from":"int",
-                     "to":"int"
-                    },
+                 "properties":[
+                        {
+                         "name":"from",
+                         "type":"int",
+                         "value":9
+                        }, 
+                        {
+                         "name":"to",
+                         "type":"int",
+                         "value":8
+                        }],
                  "rotation":0,
                  "type":"teleport",
                  "visible":true,
@@ -288,16 +294,17 @@
                  "height":16,
                  "id":57,
                  "name":"",
-                 "properties":
-                    {
-                     "from":10,
-                     "to":11
-                    },
-                 "propertytypes":
-                    {
-                     "from":"int",
-                     "to":"int"
-                    },
+                 "properties":[
+                        {
+                         "name":"from",
+                         "type":"int",
+                         "value":10
+                        }, 
+                        {
+                         "name":"to",
+                         "type":"int",
+                         "value":11
+                        }],
                  "rotation":0,
                  "type":"teleport",
                  "visible":true,
@@ -310,16 +317,17 @@
                  "height":16,
                  "id":58,
                  "name":"",
-                 "properties":
-                    {
-                     "from":11,
-                     "to":10
-                    },
-                 "propertytypes":
-                    {
-                     "from":"int",
-                     "to":"int"
-                    },
+                 "properties":[
+                        {
+                         "name":"from",
+                         "type":"int",
+                         "value":11
+                        }, 
+                        {
+                         "name":"to",
+                         "type":"int",
+                         "value":10
+                        }],
                  "rotation":0,
                  "type":"teleport",
                  "visible":true,
@@ -332,16 +340,17 @@
                  "height":16,
                  "id":59,
                  "name":"",
-                 "properties":
-                    {
-                     "from":12,
-                     "to":13
-                    },
-                 "propertytypes":
-                    {
-                     "from":"int",
-                     "to":"int"
-                    },
+                 "properties":[
+                        {
+                         "name":"from",
+                         "type":"int",
+                         "value":12
+                        }, 
+                        {
+                         "name":"to",
+                         "type":"int",
+                         "value":13
+                        }],
                  "rotation":0,
                  "type":"teleport",
                  "visible":true,
@@ -354,16 +363,17 @@
                  "height":16,
                  "id":60,
                  "name":"",
-                 "properties":
-                    {
-                     "from":13,
-                     "to":12
-                    },
-                 "propertytypes":
-                    {
-                     "from":"int",
-                     "to":"int"
-                    },
+                 "properties":[
+                        {
+                         "name":"from",
+                         "type":"int",
+                         "value":13
+                        }, 
+                        {
+                         "name":"to",
+                         "type":"int",
+                         "value":12
+                        }],
                  "rotation":0,
                  "type":"teleport",
                  "visible":true,
@@ -376,16 +386,17 @@
                  "height":32,
                  "id":62,
                  "name":"",
-                 "properties":
-                    {
-                     "from":20,
-                     "to":21
-                    },
-                 "propertytypes":
-                    {
-                     "from":"int",
-                     "to":"int"
-                    },
+                 "properties":[
+                        {
+                         "name":"from",
+                         "type":"int",
+                         "value":20
+                        }, 
+                        {
+                         "name":"to",
+                         "type":"int",
+                         "value":21
+                        }],
                  "rotation":0,
                  "type":"teleport",
                  "visible":true,
@@ -410,16 +421,17 @@
                  "height":16,
                  "id":64,
                  "name":"",
-                 "properties":
-                    {
-                     "from":14,
-                     "to":15
-                    },
-                 "propertytypes":
-                    {
-                     "from":"int",
-                     "to":"int"
-                    },
+                 "properties":[
+                        {
+                         "name":"from",
+                         "type":"int",
+                         "value":14
+                        }, 
+                        {
+                         "name":"to",
+                         "type":"int",
+                         "value":15
+                        }],
                  "rotation":0,
                  "type":"teleport",
                  "visible":true,
@@ -432,16 +444,17 @@
                  "height":16,
                  "id":65,
                  "name":"",
-                 "properties":
-                    {
-                     "from":15,
-                     "to":14
-                    },
-                 "propertytypes":
-                    {
-                     "from":"int",
-                     "to":"int"
-                    },
+                 "properties":[
+                        {
+                         "name":"from",
+                         "type":"int",
+                         "value":15
+                        }, 
+                        {
+                         "name":"to",
+                         "type":"int",
+                         "value":14
+                        }],
                  "rotation":0,
                  "type":"teleport",
                  "visible":true,
@@ -454,16 +467,17 @@
                  "height":16,
                  "id":66,
                  "name":"",
-                 "properties":
-                    {
-                     "from":16,
-                     "to":17
-                    },
-                 "propertytypes":
-                    {
-                     "from":"int",
-                     "to":"int"
-                    },
+                 "properties":[
+                        {
+                         "name":"from",
+                         "type":"int",
+                         "value":16
+                        }, 
+                        {
+                         "name":"to",
+                         "type":"int",
+                         "value":17
+                        }],
                  "rotation":0,
                  "type":"teleport",
                  "visible":true,
@@ -476,16 +490,17 @@
                  "height":16,
                  "id":67,
                  "name":"",
-                 "properties":
-                    {
-                     "from":17,
-                     "to":16
-                    },
-                 "propertytypes":
-                    {
-                     "from":"int",
-                     "to":"int"
-                    },
+                 "properties":[
+                        {
+                         "name":"from",
+                         "type":"int",
+                         "value":17
+                        }, 
+                        {
+                         "name":"to",
+                         "type":"int",
+                         "value":16
+                        }],
                  "rotation":0,
                  "type":"teleport",
                  "visible":true,
@@ -498,16 +513,17 @@
                  "height":16,
                  "id":68,
                  "name":"",
-                 "properties":
-                    {
-                     "from":18,
-                     "to":19
-                    },
-                 "propertytypes":
-                    {
-                     "from":"int",
-                     "to":"int"
-                    },
+                 "properties":[
+                        {
+                         "name":"from",
+                         "type":"int",
+                         "value":18
+                        }, 
+                        {
+                         "name":"to",
+                         "type":"int",
+                         "value":19
+                        }],
                  "rotation":0,
                  "type":"teleport",
                  "visible":true,
@@ -520,16 +536,17 @@
                  "height":16,
                  "id":69,
                  "name":"",
-                 "properties":
-                    {
-                     "from":19,
-                     "to":18
-                    },
-                 "propertytypes":
-                    {
-                     "from":"int",
-                     "to":"int"
-                    },
+                 "properties":[
+                        {
+                         "name":"from",
+                         "type":"int",
+                         "value":19
+                        }, 
+                        {
+                         "name":"to",
+                         "type":"int",
+                         "value":18
+                        }],
                  "rotation":0,
                  "type":"teleport",
                  "visible":true,
@@ -542,18 +559,22 @@
                  "height":16,
                  "id":70,
                  "name":"",
-                 "properties":
-                    {
-                     "level":"sanctuaire",
-                     "lock":"sortie_universite",
-                     "start":1
-                    },
-                 "propertytypes":
-                    {
-                     "level":"string",
-                     "lock":"string",
-                     "start":"int"
-                    },
+                 "properties":[
+                        {
+                         "name":"level",
+                         "type":"string",
+                         "value":"sanctuaire"
+                        }, 
+                        {
+                         "name":"lock",
+                         "type":"string",
+                         "value":"sortie_universite"
+                        }, 
+                        {
+                         "name":"start",
+                         "type":"int",
+                         "value":1
+                        }],
                  "rotation":0,
                  "type":"exit",
                  "visible":true,
@@ -566,16 +587,17 @@
                  "height":32,
                  "id":71,
                  "name":"",
-                 "properties":
-                    {
-                     "from":21,
-                     "to":20
-                    },
-                 "propertytypes":
-                    {
-                     "from":"int",
-                     "to":"int"
-                    },
+                 "properties":[
+                        {
+                         "name":"from",
+                         "type":"int",
+                         "value":21
+                        }, 
+                        {
+                         "name":"to",
+                         "type":"int",
+                         "value":20
+                        }],
                  "rotation":0,
                  "type":"teleport",
                  "visible":true,
@@ -648,16 +670,17 @@
                  "height":16,
                  "id":78,
                  "name":"etudiant",
-                 "properties":
-                    {
-                     "dialog":"etudiant_dortoir",
-                     "state":"UP"
-                    },
-                 "propertytypes":
-                    {
-                     "dialog":"string",
-                     "state":"string"
-                    },
+                 "properties":[
+                        {
+                         "name":"dialog",
+                         "type":"string",
+                         "value":"etudiant_dortoir"
+                        }, 
+                        {
+                         "name":"state",
+                         "type":"string",
+                         "value":"UP"
+                        }],
                  "rotation":0,
                  "type":"character",
                  "visible":true,
@@ -670,16 +693,17 @@
                  "height":16,
                  "id":80,
                  "name":"etudiant",
-                 "properties":
-                    {
-                     "dialog":"etudiant_salle_a_manger",
-                     "state":"UP"
-                    },
-                 "propertytypes":
-                    {
-                     "dialog":"string",
-                     "state":"string"
-                    },
+                 "properties":[
+                        {
+                         "name":"dialog",
+                         "type":"string",
+                         "value":"etudiant_salle_a_manger"
+                        }, 
+                        {
+                         "name":"state",
+                         "type":"string",
+                         "value":"UP"
+                        }],
                  "rotation":0,
                  "type":"character",
                  "visible":true,
@@ -691,19 +715,18 @@
                  "gid":7,
                  "height":16,
                  "id":82,
-                 "name":"",
-                 "properties":
-                    {
-                     "duration":30,
-                     "translation":"traduction_tableau",
-                     "variant":"action_shuffle"
-                    },
-                 "propertytypes":
-                    {
-                     "duration":"int",
-                     "translation":"string",
-                     "variant":"string"
-                    },
+                 "name":"traduction_tableau",
+                 "properties":[
+                        {
+                         "name":"duration",
+                         "type":"int",
+                         "value":30
+                        }, 
+                        {
+                         "name":"variant",
+                         "type":"string",
+                         "value":"action_shuffle"
+                        }],
                  "rotation":0,
                  "type":"runes",
                  "visible":true,
@@ -776,16 +799,17 @@
                  "height":16,
                  "id":88,
                  "name":"start1",
-                 "properties":
-                    {
-                     "id":1,
-                     "lookdir":"UP"
-                    },
-                 "propertytypes":
-                    {
-                     "id":"int",
-                     "lookdir":"string"
-                    },
+                 "properties":[
+                        {
+                         "name":"id",
+                         "type":"int",
+                         "value":1
+                        }, 
+                        {
+                         "name":"lookdir",
+                         "type":"string",
+                         "value":"UP"
+                        }],
                  "rotation":0,
                  "type":"start",
                  "visible":true,
@@ -1002,6 +1026,6 @@
         }],
  "tilewidth":16,
  "type":"map",
- "version":1.1,
+ "version":1.2,
  "width":100
 }

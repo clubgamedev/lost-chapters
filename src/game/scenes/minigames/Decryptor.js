@@ -2,7 +2,7 @@ import { shuffleArray } from "../../utils/array"
 import { talkToMyself } from "../../utils/dialog"
 import { save } from "../../save"
 import { createParticlesEmitter } from "../../effects/particles"
-import { descriptions } from "../../dialogs/descriptions"
+import { traductions } from "../../dialogs/traductions"
 
 let countDown
 let timerText
@@ -794,14 +794,15 @@ function quitGame(youWon) {
 
 	setTimeout(() => {
 		if (youWon) {
-			let translation = descriptions[game.decryptor.translation](
-				game.save
-			)
+			let traduction = traductions[game.decryptor.translation];
+			if(traduction.before) traduction.before(game.save)
 			talkToMyself([
 				"Ça y est, j'ai trouvé !",
-				...translation.map(part => `"${part}"`),
-				"Intéressant..."
-			])
+				...traduction.lines.map(part => `"${part}"`),
+			]).then(() => {
+				if(traduction.after) traduction.after(game.save)
+				else talkToMyself(["Intéressant..."]);
+			})
 		} else {
 			talkToMyself([
 				"Je me suis encore trompé...",

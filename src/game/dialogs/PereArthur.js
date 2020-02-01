@@ -8,8 +8,8 @@ export function arthur(save) {
 	else if (save.hasTalkedToArthur) return arthurRappel(save)
 	else
 		return [
-			"Hum... Tu maîtrises les runes...",
-			"Mais j'ai lu en toi. Tu n'es pas de l'Université.",
+			"Comment ? Tu maîtrises les runes ?",
+			"Mais j'ai lu en toi. Tu n'es pas de l'Université !",
 			"Qui es-tu ?!",
 			{
 				"Inspecteur Howard...": () =>

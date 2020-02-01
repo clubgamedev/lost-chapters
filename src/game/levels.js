@@ -66,6 +66,15 @@ export const forestLevel = {
 		} else {
 			marieBody.sprite.tint = forestLevel.tint
 		}
+
+		const ramsey = findObjectByName("ramsey","character", this.tilemap)
+		const runes_ramsey = findObjectByName("traduction_camp_ramsey", "runes", this.tilemap)
+		if(game.save.loot.recetteAntidote){
+			ramsey.sprite.destroy();
+		} else {
+			runes_ramsey.sprite.destroy()
+		}
+
 	}
 }
 
