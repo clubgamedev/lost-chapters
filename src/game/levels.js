@@ -241,6 +241,11 @@ export class Level {
 
 		Object.entries(objects).forEach(([objectType, Constructor]) => {
 			findObjectsByType(objectType, this.tilemap).forEach(object => {
+
+				if(Constructor === Hallucination && game.save.unlockedHallucinations.includes(object.name)){
+					return; // do not reinstanciate previous hallucinations
+				}
+
 				let sprite = new Constructor({
 					x: object.x / 16,
 					y: object.y / 16

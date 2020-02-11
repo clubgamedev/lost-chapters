@@ -51,6 +51,7 @@ export function resetSaveToNewGame() {
         planquesFound: [],
         translationsFound: [],
         unlockedExits: [],
+        unlockedHallucinations: [],
         lucidity: 16
     }
 }

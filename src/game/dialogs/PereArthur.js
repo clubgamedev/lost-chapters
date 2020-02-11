@@ -45,7 +45,7 @@ export function arthurRappel(save) {
 				return [`Tu n'es pas en position de me donner des ordres !`]
 			}
 		},
-		arthurEnding(save)
+		() => arthurEnding(save)
 	]
 }
 

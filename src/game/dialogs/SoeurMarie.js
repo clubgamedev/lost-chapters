@@ -58,7 +58,7 @@ function marieMeeting(save) {
 }
 
 function marieRappel(save) {
-    if (save.inventory.items.parcheminFalsifie.nombre > 0) {
+    if (save.hasFalsifiedScroll) {
         return [
             `Pas de temps à perdre !`,
             `Trouvez Therled et faites échouer le rituel !`
@@ -158,6 +158,7 @@ function marieParchemin(save) {
                 ]).then(() => {
                     save.inventory.items.parchemin.nombre = 0;
                     save.inventory.items.parcheminFalsifie.nombre = 1;
+                    save.hasFalsifiedScroll = true;
                     return startDialog([
                         `Voilà, c'est fait.`,
                         `Si vous parvenez à substituer le parchemin avec l'original,`,

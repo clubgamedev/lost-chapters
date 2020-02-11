@@ -29,6 +29,7 @@ export const hallucinations = {
                 });
             }).then(() => {
                 sounds.HALLUCINATION.play();
+                game.save.unlockedHallucinations.push("fake_tree")
                 game.camera.flash(0x009999, 500)
                 sprite.destroy();
             })
@@ -55,6 +56,7 @@ export const hallucinations = {
                 game.save.lucidity = Math.max(3, game.save.lucidity - 8)
             }
             sounds.HALLUCINATION.play();
+            game.save.unlockedHallucinations.push("marie_body")
             game.camera.flash(0x009999, 500)
             sprite.destroy();
             return talkToMyself([
