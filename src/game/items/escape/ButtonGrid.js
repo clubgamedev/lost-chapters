@@ -36,15 +36,13 @@ export class ButtonGrid {
 
     addToCode(couleur) {
         this.code.push(couleur);
-        if (this.code.length > 7) this.code.shift();
-        if (this.code.length === 7
+        if (this.code.length > 5) this.code.shift();
+        if (this.code.length === 5
             && this.code[0] === this.rouge
-            && this.code[1] === this.vert
-            && this.code[2] === this.rouge
-            && this.code[3] === this.jaune
-            && this.code[4] === this.bleu
-            && this.code[5] === this.rouge
-            && this.code[6] === this.vert)
+            && this.code[1] === this.jaune
+            && this.code[2] === this.bleu
+            && this.code[3] === this.rouge
+            && this.code[4] === this.vert)
             {
                 this.activated = this.callbackCodeValid();
             }
