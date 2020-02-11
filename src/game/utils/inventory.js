@@ -46,7 +46,6 @@ export function drinkPotion(textsToDisplay) {
         drinkPotionText.strokeThickness = 2;
         drinkPotionText.position.x = game.player.position.x - drinkPotionText.width / 2;
         //drinkPotionText.fixedToCamera = true;
-        console.log(drinkPotionText.position.x);
         //drinkPotionText.visible = true;
         let tween = game.add.tween(drinkPotionText)
             .to({ y: drinkPotionText.position.y - 20, alpha: 0.1 }, 2000, Phaser.Easing.Linear.None)
