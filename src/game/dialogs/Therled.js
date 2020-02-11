@@ -73,7 +73,7 @@ function rituel2() {
 				[
 					{
 						"Boire la fiole"() {
-							game.player.lucidity = 1
+							game.save.lucidity = 1
 						},
 						"Boire l'antidote"() {},
 						"Boire une potion"() {}

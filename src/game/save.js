@@ -3,8 +3,9 @@ import { Inventory } from "./utils/inventory";
 const SAVE_KEY = "lostchapters_save"
 
 export function loadSave() {
+    resetSaveToNewGame();
     if (localStorage.getItem(SAVE_KEY) != null) {
-        game.save = JSON.parse(localStorage.getItem(SAVE_KEY));
+        Object.assign(game.save, JSON.parse(localStorage.getItem(SAVE_KEY)));
     }
 }
 
@@ -49,6 +50,7 @@ export function resetSaveToNewGame() {
         hasReadSecretHours: false,
         planquesFound: [],
         translationsFound: [],
-        unlockedExits: []
+        unlockedExits: [],
+        lucidity: 16
     }
 }

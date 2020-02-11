@@ -108,10 +108,10 @@ export class GameScene {
 		}
 
 		game.player.alpha = 0.5
-		game.player.lucidity--
+		game.save.lucidity--
 
 		sounds.HURT.play()
-		if (game.player.lucidity < 1) {
+		if (game.save.lucidity < 1) {
 			this.gameOver()
 		} else {
 			setTimeout(() => {

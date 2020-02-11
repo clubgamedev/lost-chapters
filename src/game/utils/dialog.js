@@ -13,7 +13,7 @@ export function startDialog(lines, params = {}) {
 	))
 
 	let voice = Object.assign({}, voicesByActor[speaker], params)
-	voice.emotion = (voice.emotion || 30) + (16 - game.player.lucidity) * 4
+	voice.emotion = (voice.emotion || 30) + (16 - game.save.lucidity) * 4
 
 	game.player && game.player.stopMoving()
 

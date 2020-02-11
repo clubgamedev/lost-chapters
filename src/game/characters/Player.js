@@ -21,7 +21,6 @@ export class Player extends Character {
 	constructor(game) {
 		super(game, { x: 0, y: 0 }, "howard", game.save.playerState)
 		this.type = "player"
-		this.lucidity = 16
 		this.movesBeforeTp = 0;
 		this.body.setSize(10, 13, 11, 19)
 		this.body.moves = true;

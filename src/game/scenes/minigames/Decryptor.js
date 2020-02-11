@@ -238,7 +238,7 @@ export class DecryptorScene {
 		}
 
 		let waitForStickReset = false;
-		game.input.gamepad.pad1.onAxisCallback = function(e) {
+		game.input.gamepad.onAxisCallback = function(e) {
 			const axis = getStickDirection(0.95)
 			if(axis != null && !waitForStickReset){
 				waitForStickReset = true;
@@ -393,7 +393,7 @@ function createHealthInfo() {
 	textBarGroup.z = 0
 
 	//  battle: commencer avec malus de lucidité si barre de lucidité faible avant combat
-	health = Math.round(MAX_HEALTH * (0.5 + (0.5 * game.player.lucidity) / 16))
+	health = Math.round(MAX_HEALTH * (0.5 + (0.5 * game.save.lucidity) / 16))
 	ennemyHealth = MAX_HEALTH
 
 	let textStyle = {
@@ -799,6 +799,9 @@ function quitGame(youWon) {
 		game.save.translationsFound.push(game.decryptor.translation)
 		save()
 	}
+
+	game.input.gamepad.onDownCallback = null
+	game.input.keyboard.onDownCallback = null
 	game.state.start("MainGame")
 
 	setTimeout(() => {

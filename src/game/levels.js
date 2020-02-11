@@ -367,7 +367,7 @@ export class Level {
 		//TODO: faire un setInterval 500ms plutot que de fr ça à chaque frame
 		if (game.music && game.music._sound) {
 			let t = game.time.totalElapsedSeconds();
-			game.music._sound.playbackRate.value = 1 + Math.sin(t) * (16 - game.player.lucidity) * 0.0026;
+			game.music._sound.playbackRate.value = 1 + Math.sin(t) * (16 - game.save.lucidity) * 0.0026;
 		}
 	}
 
