@@ -242,11 +242,11 @@ export class DecryptorScene {
 			const axis = getStickDirection(0.95)
 			if(axis != null && !waitForStickReset){
 				waitForStickReset = true;
-				console.log("Axis "+axis, e)
+				//console.log("Axis "+axis, e)
 
 				testKeyPressWithElement(axis, elementsToFind[gameState.elementIndex])
 			} else if(getStickDirection(0.05) === null){
-				console.log("Axis reset", e);
+				//console.log("Axis reset", e);
 				waitForStickReset = false;
 			}
 		}
