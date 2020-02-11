@@ -1,5 +1,6 @@
 import { shuffleArray } from "../../utils/array"
 import { talkToMyself } from "../../utils/dialog"
+import { getStickDirection } from "../../utils/controls"
 import { save } from "../../save"
 import { createParticlesEmitter } from "../../effects/particles"
 import { traductions } from "../../dialogs/traductions"
@@ -157,10 +158,10 @@ export class DecryptorScene {
 		loadSounds()
 
 		keyAction = {
-			u: [Phaser.Keyboard.UP, Phaser.Gamepad.XBOX360_DPAD_UP],
-			d: [Phaser.Keyboard.DOWN, Phaser.Gamepad.XBOX360_DPAD_UP],
-			l: [Phaser.Keyboard.LEFT, Phaser.Gamepad.XBOX360_DPAD_UP],
-			r: [Phaser.Keyboard.RIGHT, Phaser.Gamepad.XBOX360_DPAD_UP],
+			u: [Phaser.Keyboard.UP, Phaser.Gamepad.XBOX360_DPAD_UP, "up"],
+			d: [Phaser.Keyboard.DOWN, Phaser.Gamepad.XBOX360_DPAD_DOWN, "down"],
+			l: [Phaser.Keyboard.LEFT, Phaser.Gamepad.XBOX360_DPAD_LEFT, "left"],
+			r: [Phaser.Keyboard.RIGHT, Phaser.Gamepad.XBOX360_DPAD_RIGHT, "right"],
 			"1": [
 				Phaser.Keyboard.ONE,
 				Phaser.Keyboard.A,
@@ -231,15 +232,23 @@ export class DecryptorScene {
 		game.input.gamepad.start()
 		game.input.gamepad.onDownCallback = function(e) {
 			testKeyPressWithElement(
-				e.keyCode,
+				e,
 				elementsToFind[gameState.elementIndex]
 			)
 		}
-		game.input.gamepad.onAxisCallback = function(e) {
-			testKeyPressWithElement(
-				e.keyCode,
-				elementsToFind[gameState.elementIndex]
-			)
+
+		let waitForStickReset = false;
+		game.input.gamepad.pad1.onAxisCallback = function(e) {
+			const axis = getStickDirection(0.95)
+			if(axis != null && !waitForStickReset){
+				waitForStickReset = true;
+				console.log("Axis "+axis, e)
+
+				testKeyPressWithElement(axis, elementsToFind[gameState.elementIndex])
+			} else if(getStickDirection(0.05) === null){
+				console.log("Axis reset", e);
+				waitForStickReset = false;
+			}
 		}
 
 		game.input.keyboard.addKeyCapture([
@@ -835,7 +844,7 @@ function clearSprites() {
 }
 
 function testKeyPressWithElement(keyPress, element) {
-	if (keyAction[element.action].indexOf(keyPress) > -1) {
+	if (keyAction[element.action].includes(keyPress)) {
 		foundSounds[gameState.elementIndex].play()
 		gameState.elementIndex++
 		//foundSound._sound.playbackRate.value = playbackRateValue;

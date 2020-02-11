@@ -64,10 +64,10 @@ export const controls = {
     }
 }
 
-export function getStickDirection() {
+export function getStickDirection(THRESHOLD = 0.5) {
     let axisX = game.input.gamepad.pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X),
-        axisY = game.input.gamepad.pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_Y),
-        THRESHOLD = 0.5
+        axisY = game.input.gamepad.pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_Y);
+
     if (Math.abs(axisX) > Math.abs(axisY)) {
         if (axisX > THRESHOLD) return "right"
         if (axisX < -THRESHOLD) return "left"
