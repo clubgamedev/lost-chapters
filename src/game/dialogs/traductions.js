@@ -21,11 +21,14 @@ export const traductions = {
 		    `Rassemblez-vous au terrier pour le rituel.`
         ],
         after(save){
-            save.isRamseyMissing = true;
+            save.canUseChaudron = true;
             return talkToMyself([
                 `Qui a pu kidnapper Ramsey ? Les dévots ? Les étudiants ?`,
-                save.hasMetRamsey ? `Ramsey avait parlé de capes noires...` : `Je le saurais une fois que je serais rentré dans ce "terrier".`,
-                `Ils n'ont pas touché au reste du camp.`
+                save.hasMetRamsey
+                    ? `Ramsey avait parlé de capes noires qui rodaient autour du camp...`
+                    : `Je le saurais une fois que je serais rentré dans ce "terrier".`,
+                `Heureusement, ils n'ont pas touché au reste du camp.`,
+                `Je vais devoir me débrouiller seul pour préparer l'antidote au Liao.`,
             ])
         }
     }

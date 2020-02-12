@@ -1,6 +1,6 @@
 import { shuffleArray } from "../../utils/array"
 import { talkToMyself } from "../../utils/dialog"
-import { getStickDirection } from "../../utils/controls"
+import { stick } from "../../utils/controls"
 import { save } from "../../save"
 import { createParticlesEmitter } from "../../effects/particles"
 import { traductions } from "../../dialogs/traductions"
@@ -230,26 +230,13 @@ export class DecryptorScene {
 		activePotions()
 
 		game.input.gamepad.start()
-		game.input.gamepad.onDownCallback = function(e) {
-			testKeyPressWithElement(
-				e,
-				elementsToFind[gameState.elementIndex]
-			)
+		game.input.gamepad.onDownCallback = function(button) {
+			testKeyPressWithElement(button,	elementsToFind[gameState.elementIndex])
 		}
 
-		let waitForStickReset = false;
-		game.input.gamepad.onAxisCallback = function(e) {
-			const axis = getStickDirection(0.95)
-			if(axis != null && !waitForStickReset){
-				waitForStickReset = true;
-				//console.log("Axis "+axis, e)
-
-				testKeyPressWithElement(axis, elementsToFind[gameState.elementIndex])
-			} else if(getStickDirection(0.05) === null){
-				//console.log("Axis reset", e);
-				waitForStickReset = false;
-			}
-		}
+		stick.onDirection(direction => {
+			testKeyPressWithElement(direction, elementsToFind[gameState.elementIndex])
+		})
 
 		game.input.keyboard.addKeyCapture([
 			Phaser.Keyboard.A,
@@ -335,7 +322,7 @@ export class DecryptorScene {
 		elementsToFind = []
 		game.input.keyboard.onDownCallback = null
 		game.input.gamepad.onDownCallback = null
-		game.input.gamepad.onAxisCallback = null
+		stick.resetEvents();
 	}
 }
 

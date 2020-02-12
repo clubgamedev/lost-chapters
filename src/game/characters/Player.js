@@ -121,7 +121,7 @@ export class Player extends Character {
 			canMove = false;
 		}
 
-		this.isRunning = controls.SHIFT.isPressed() && game.player.key !== "cultist";
+		this.isRunning = controls.SECONDARY.isPressed() && game.player.key !== "cultist";
 		let moveSpeed = this.isRunning ? RUN_SPEED : MOVE_SPEED;
 
 		if (canMove && controls.DOWN.isPressed()) {
@@ -260,7 +260,11 @@ export class Player extends Character {
 					if (!game.save.hasDiscoveredAlphabet) {
 						return talkToMyself(descriptions.runes_inconnues(game.save))
 					} else if (game.save.translationsFound.includes(name)) {
-						return talkToMyself(traductions[name].lines.map(part => `"${part}"`))
+						const traduction = traductions[name]
+						return talkToMyself(traduction.lines.map(part => `"${part}"`))
+							.then(() => {
+								if(traduction.after) traduction.after(game.save)
+							})
 					} else {
 						game.decryptor = { variants: variant.split(","), duration, translation:name }
 						save();

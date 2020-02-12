@@ -1,5 +1,6 @@
 import { sounds } from "../audio"
 import { talkToMyself, startDialog } from "../utils/dialog"
+import { save } from "../save"
 import { drinkPotion } from "../utils/inventory"
 import {
 	potionDeForce,
@@ -142,10 +143,12 @@ export const descriptions = {
 		action() {
 			if (game.save.canUseChaudron) {
 				return [
-					`Ramsey a dit que j'aurais besoin de ces potions`,
-					`si je compte pénétrer dans le Terrier...`,
-					`Mais je dois à tout prix y parvenir avant l'Eclipse`,
-					`Je devrais me dépêcher d'en préparer le plus possible.`
+					`Arthur a dit que j'aurais besoin de l'antidote si je compte pénétrer`,
+					`dans le Terrier... Mais Ramsey n'est plus là pour m'en préparer.`,
+					`Je vais devoir me débrouiller seul pour faire ces potions.`,
+					`L'Eclipse a lieu bientôt, il fera bientôt nuit noire.`,
+					`Je devrais me dépêcher d'en préparer le plus possible d'ici là.`,
+					`Ça ne doit pas être si compliqué ?`
 				]
 			} else {
 				return [

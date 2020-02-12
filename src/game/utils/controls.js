@@ -3,7 +3,7 @@ export const controls = {
         keyCode: Phaser.Keyboard.UP,
         buttonCode: Phaser.Gamepad.XBOX360_DPAD_UP,
         isPressed() {
-            return (getStickDirection() === "up")
+            return (stick.getDirection() === "up")
                 || (controls.UP.button && controls.UP.button.isDown)
                 || controls.UP.key.isDown
         }
@@ -12,7 +12,7 @@ export const controls = {
         keyCode: Phaser.Keyboard.DOWN,
         buttonCode: Phaser.Gamepad.XBOX360_DPAD_DOWN,
         isPressed() {
-            return (getStickDirection() === "down")
+            return (stick.getDirection() === "down")
                 || (controls.DOWN.button && controls.DOWN.button.isDown)
                 || controls.DOWN.key.isDown
         }
@@ -21,7 +21,7 @@ export const controls = {
         keyCode: Phaser.Keyboard.LEFT,
         buttonCode: Phaser.Gamepad.XBOX360_DPAD_LEFT,
         isPressed() {
-            return (getStickDirection() === "left")
+            return (stick.getDirection() === "left")
                 || (controls.LEFT.button && controls.LEFT.button.isDown)
                 || controls.LEFT.key.isDown
         }
@@ -30,7 +30,7 @@ export const controls = {
         keyCode: Phaser.Keyboard.RIGHT,
         buttonCode: Phaser.Gamepad.XBOX360_DPAD_RIGHT,
         isPressed() {
-            return (getStickDirection() === "right")
+            return (stick.getDirection() === "right")
                 || (controls.RIGHT.button && controls.RIGHT.button.isDown)
                 || controls.RIGHT.key.isDown
         }
@@ -43,39 +43,66 @@ export const controls = {
                 || controls.ACTION.key.isDown
         }
     },
-    TAB: {
+    SECONDARY: {
+        keyCode: Phaser.Keyboard.SHIFT,
+        buttonCode: Phaser.Gamepad.XBOX360_B,
+        isPressed() {
+            return (controls.SECONDARY.button && controls.SECONDARY.button.isDown)
+                || controls.SECONDARY.key.isDown
+        }
+    },
+    SELECT: {
         keyCode: Phaser.Keyboard.TAB,
         buttonCode: Phaser.Gamepad.XBOX360_Y,
         isPressed() {
-            return (controls.TAB.button && controls.TAB.button.isDown)
-                || controls.TAB.key.isDown
+            return (controls.SELECT.button && controls.SELECT.button.isDown)
+                || controls.SELECT.key.isDown
         }
     },
     ENTER: {
         keyCode: Phaser.Keyboard.ENTER
-    },
-    SHIFT: {
-        keyCode: Phaser.Keyboard.SHIFT,
-        buttonCode: Phaser.Gamepad.XBOX360_B,
-        isPressed() {
-            return (controls.SHIFT.button && controls.SHIFT.button.isDown)
-                || controls.SHIFT.key.isDown
-        }
     }
 }
 
-export function getStickDirection(THRESHOLD = 0.5) {
-    let axisX = game.input.gamepad.pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X),
-        axisY = game.input.gamepad.pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_Y);
+export const stick = {
+    getDirection(THRESHOLD = 0.5){
+        let axisX = stick.getAxisX() ,
+        axisY = stick.getAxisY();
 
-    if (Math.abs(axisX) > Math.abs(axisY)) {
-        if (axisX > THRESHOLD) return "right"
-        if (axisX < -THRESHOLD) return "left"
-        return null
-    } else {
-        if (axisY > THRESHOLD) return "down"
-        if (axisY < -THRESHOLD) return "up"
-        return null
+        if (Math.abs(axisX) > Math.abs(axisY)) {
+            if (axisX > THRESHOLD) return "right"
+            if (axisX < -THRESHOLD) return "left"
+            return null
+        } else {
+            if (axisY > THRESHOLD) return "down"
+            if (axisY < -THRESHOLD) return "up"
+            return null
+        }
+    },
+
+    getAxisX(){
+        return game.input.gamepad.pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X)
+    },
+
+    getAxisY(){
+        return game.input.gamepad.pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_Y)
+    },
+
+    onDirection(callback){
+        let waitForStickReset = false;
+		game.input.gamepad.onAxisCallback = function(e) {
+			const axis = stick.getDirection(0.95)
+			if(axis != null && !waitForStickReset){
+				waitForStickReset = true;
+				callback(axis)
+			} else if(stick.getDirection(0.05) === null){
+				waitForStickReset = false;
+			}
+		}
+    },
+
+    resetEvents() {
+        game.input.gamepad.onAxisCallback = null;
     }
 }
 

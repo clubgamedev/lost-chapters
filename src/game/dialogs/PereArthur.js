@@ -205,6 +205,8 @@ export function liao(questions) {
 			]).then(() => {
 				game.save.loot.recetteAntidote = true
 				sounds.ITEM.play()
-			})
+			}),
+		`Si tu comptes arrêter Therled, il te faut cet antidote.`,
+		`Autrement tu risques de perdre l'esprit, comme les autres...`
 	]
 }

@@ -13,7 +13,7 @@ export const potionDeForce = new Potion({
 
 export const potionDeProtection = new Potion({
 	name: "potionDeProtection",
-	displayName: "Potion du dévot",
+	displayName: "Elixir du dévot",
 	ingredients: ["foieDeCerf", "jusDeSauterelle", "plumeDeCorneille"],
 	description: [
 		"Le potion du dévot dégage un sentiment de sureté palpable,",

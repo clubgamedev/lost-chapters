@@ -75,8 +75,8 @@ export function toggleItemSelection() {
             game.controls.RIGHT.resetEvents();
         } else {
             game.selectedItem = itemsInInventory.length - 1; // activate item selection
-            game.controls.LEFT.onPress(() => selectNextItem(-1))
-            game.controls.RIGHT.onPress(() => selectNextItem(+1))
+            game.controls.LEFT.onPress(() => selectNextItem(+1))
+            game.controls.RIGHT.onPress(() => selectNextItem(-1))
         }
     }
 }

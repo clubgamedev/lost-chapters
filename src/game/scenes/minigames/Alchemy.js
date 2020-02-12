@@ -3,7 +3,7 @@ import { BookRecipes } from "./alchemy/BookRecipes"
 import { PieProgress } from "./alchemy/PieProgress"
 import { showMiddleText } from "../../utils/message"
 import { sounds, addSounds } from "../../audio"
-import { controls } from "../../utils/controls"
+import { controls, stick } from "../../utils/controls"
 import { shuffleArray } from "../../utils/array"
 import { AlchemyLights } from "./alchemy/lights"
 
@@ -146,9 +146,11 @@ export class AlchemyScene {
 		this.timer.start()
 
 		this.bookRecipes = new BookRecipes(this.groups.book)
-		controls.ACTION.onPress(() => this.bookRecipes.openOrClose())
+		controls.SELECT.onPress(() => this.bookRecipes.openOrClose())
+		controls.ACTION.onPress(() => this.jump())
 		controls.UP.onPress(() => this.jump())
 		controls.DOWN.onPress(() => this.pickOrDrop())
+		controls.SECONDARY.onPress(() => this.pickOrDrop())
 
 		this.potionsCreated = []
 		this.pickedIngredients = []
@@ -197,7 +199,10 @@ export class AlchemyScene {
 			AIR_H_ACCEL = 25
 
 		if (this.player.body.touching.down) {
-			if (controls.LEFT.isPressed()) {
+			if(Math.abs(stick.getAxisX()) > 0.05) {
+				this.player.body.velocity.x = MAX_HORIZONTAL_SPEED * stick.getAxisX()
+				this.player.animations.play("move")
+			} else if (controls.LEFT.isPressed()) {
 				this.player.body.velocity.x = Math.max(
 					-1 * MAX_HORIZONTAL_SPEED,
 					this.player.body.velocity.x - GROUND_H_ACCEL
@@ -323,7 +328,7 @@ export class AlchemyScene {
 
 		if (potionCreated) {
 			showMiddleText(
-				potionCreated.displayName + " créée !",
+				potionCreated.displayName + " créé !",
 				0x000000,
 				"#FFFFFF",
 				1500,
@@ -363,8 +368,13 @@ export class AlchemyScene {
 	gameOver() {
 		showMiddleText("Le temps est écoulé")
 		this.potionsCreated.forEach(potion => {
-			game.save.inventory[potion.name].nombre++
+			game.save.inventory.items[potion.name].nombre++
 		})
+		controls.SELECT.resetEvents();
+		controls.ACTION.resetEvents();
+		controls.UP.resetEvents();
+		controls.DOWN.resetEvents();
+		controls.SECONDARY.resetEvents();
 		game.state.start("MainGame")
 	}
 }
