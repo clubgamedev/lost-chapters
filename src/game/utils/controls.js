@@ -61,6 +61,14 @@ export const controls = {
     },
     ENTER: {
         keyCode: Phaser.Keyboard.ENTER
+    },
+    TAB: {
+        keyCode: Phaser.Keyboard.TAB,
+        buttonCode: Phaser.Gamepad.XBOX360_RIGHT_BUMPER,
+        isPressed() {
+            return (controls.TAB.button && controls.TAB.button.isDown)
+                || controls.TAB.key.isDown
+        }
     }
 }
 

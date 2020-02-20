@@ -38,12 +38,6 @@ export class MenuScene {
                 game.controls.ACTION.onPress(() => this.backToMenu(), this, true)
                 game.controls.ENTER.onPress(() => this.backToMenu(), this, true)
             },
-            "Escape (temporaire)": () => {
-                resetSaveToNewGame();
-                game.save.level = 'school';
-                // this.game.state.start('MainGame');
-                this.game.state.start('EscapeGame');
-            },
             "Alchemy (temporaire)": () => {
                 this.game.state.start('Alchemy');
             }

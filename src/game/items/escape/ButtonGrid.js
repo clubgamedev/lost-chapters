@@ -14,19 +14,21 @@ export class ButtonGrid {
 
     create(x, y) {
         game.add.image(x, y, 'escape_buttonGrid_socle');
-
-        let btnVert = game.add.image(x+2, y+2, 'escape_buttonGrid_bouton_vert');
-        this.initButton(btnVert, this.vert);
-        let btnJaune = game.add.image(x+7, y+2, 'escape_buttonGrid_bouton_jaune');
-        this.initButton(btnJaune, this.jaune);
-        let btnRouge = game.add.image(x+12, y+2, 'escape_buttonGrid_bouton_rouge');
-        this.initButton(btnRouge, this.rouge);
-        let btnBleu = game.add.image(x+17, y+2, 'escape_buttonGrid_bouton_bleu');
-        this.initButton(btnBleu, this.bleu);
+        this.initButton('escape_buttonGrid_bouton_vert', x+2, y+3, this.vert);
+        this.initButton('escape_buttonGrid_bouton_jaune', x+8, y+3, this.jaune);
+        this.initButton('escape_buttonGrid_bouton_rouge', x+14, y+3, this.rouge);
+        this.initButton('escape_buttonGrid_bouton_bleu', x+20, y+3, this.bleu);
     }
 
-    initButton(buttonSprite, couleur) {
+    initButton(spriteName, x, y, couleur) {
+        const buttonSprite = game.add.image(x, y, spriteName);
+        const outline = game.add.sprite(x-1, y-1, this.createSillhouette(buttonSprite.width, buttonSprite.height));
+        outline.visible = false;
+        outline.moveDown();
+
         buttonSprite.inputEnabled = true;
+        buttonSprite.events.onInputOver.add(() => outline.visible = true);
+        buttonSprite.events.onInputOut.add(() => outline.visible = false);
         buttonSprite.events.onInputDown.add(() => {
             buttonSprite.frame = 1;
             this.addToCode(couleur);
@@ -46,5 +48,14 @@ export class ButtonGrid {
             {
                 this.activated = this.callbackCodeValid();
             }
+    }
+
+    createSillhouette(width, height) {
+        var bmd = game.add.bitmapData();
+        bmd.ctx.beginPath();
+        bmd.ctx.rect(0, 0, width+2, height+2);
+        bmd.ctx.fillStyle = '#ffffff';
+        bmd.ctx.fill();
+        return bmd;
     }
 }

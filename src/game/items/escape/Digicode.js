@@ -65,11 +65,11 @@ export class Digicode {
     }
 
     /**
-     * Code : 9642
+     * Code : 9542
      */
     checkCode() {
         return this.code.indexOf(9) != -1
-        && this.code.indexOf(6) != -1
+        && this.code.indexOf(5) != -1
         && this.code.indexOf(4) != -1
         && this.code.indexOf(2) != -1;
     }

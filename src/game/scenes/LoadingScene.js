@@ -121,10 +121,10 @@ export class LoadingScene {
 		game.load.spritesheet('escape_digicode_cable', 'assets/escape/digicode/digicode_cable.png', 3, 19, 3);
 		game.load.spritesheet('escape_circuit', 'assets/escape/circuit.png', 110, 48, 2);
 		game.load.spritesheet('escape_tableau', 'assets/escape/tableau.png', 48, 42, 5);
-		game.load.spritesheet('escape_buttonGrid_bouton_jaune', 'assets/escape/buttonGrid/bouton_jaune.png', 3, 4, 2);
-		game.load.spritesheet('escape_buttonGrid_bouton_rouge', 'assets/escape/buttonGrid/bouton_rouge.png', 3, 4, 2);
-		game.load.spritesheet('escape_buttonGrid_bouton_bleu', 'assets/escape/buttonGrid/bouton_bleu.png', 3, 4, 2);
-		game.load.spritesheet('escape_buttonGrid_bouton_vert', 'assets/escape/buttonGrid/bouton_vert.png', 3, 4, 2);
+		game.load.spritesheet('escape_buttonGrid_bouton_jaune', 'assets/escape/buttonGrid/bouton_jaune.png', 4, 5, 2);
+		game.load.spritesheet('escape_buttonGrid_bouton_rouge', 'assets/escape/buttonGrid/bouton_rouge.png', 4, 5, 2);
+		game.load.spritesheet('escape_buttonGrid_bouton_bleu', 'assets/escape/buttonGrid/bouton_bleu.png', 4, 5, 2);
+		game.load.spritesheet('escape_buttonGrid_bouton_vert', 'assets/escape/buttonGrid/bouton_vert.png', 4, 5, 2);
 		game.load.spritesheet('escape_parchemin', 'assets/items/parchemin_levitation.png', 16, 32, 4);
 	}
 }

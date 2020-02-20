@@ -51,7 +51,7 @@ export class EscapeGameScene {
         this.digicode.create(197, 34);
         this.plant.create(130, 8);
         this.pushButton.create(105, 98);
-        this.buttonGrid.create(151, 63);
+        this.buttonGrid.create(147, 61);
         this.scie.create(52, 82);
         this.feuilles.create(58, 104);
         this.labyrinthe.create(87, 31);
