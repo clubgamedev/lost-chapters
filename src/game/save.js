@@ -48,6 +48,7 @@ export function resetSaveToNewGame() {
         hasDiscoveredCapeRamsey: false,
         hasFalsifiedScroll: false,
         hasReadSecretHours: false,
+        isNightTime: false,
         planquesFound: [],
         translationsFound: [],
         unlockedExits: [],

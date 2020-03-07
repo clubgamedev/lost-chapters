@@ -37,12 +37,12 @@ export class AlchemyLights {
         this.moonLight = new Light({ x: game.width / 2, y: 110 }, 500, "white", 1)
         this.lights.push(this.moonLight);
 
-        const hue = 0, fog = 0;
+        const hueVariation = 0, fog = 0;
 
-        if (hue) {
-            const frag = new HueRotate(game);
+        if (hueVariation) {
+            const frag = new HueRotate(game, { hueVariation });
             // the angle you provide determines the new color
-            frag.init(game.width, game.height, sprite, Phaser.Math.degToRad(180));
+            frag.init(game.width, game.height, sprite, Phaser.Math.degToRad(0));
             this.hueFilter = new Phaser.Filter(game, frag.uniforms, frag.fragmentSrc);
             game.world.filters = [this.hueFilter]
         }

@@ -11,7 +11,14 @@ export class Light {
     }
 }
 
-export function initLights(lightRadius, obscurity = 0.75, hue, fog) {
+export function initLights({
+    lightRadius = 100,
+    obscurity = 0.75,
+    hueVariation = 0,
+    hueVariationSpeed = 0,
+    luminosity = 1,
+    fog
+}) {
     clearLights();
     let shadowTexture = game.add.bitmapData(game.width, game.height)
     shadowTexture.radius = 90
@@ -32,10 +39,10 @@ export function initLights(lightRadius, obscurity = 0.75, hue, fog) {
 
     game.cameraLight = new Light(game.camera, lightRadius, "white", 0);
 
-    if (hue) {
-        const frag = new HueRotate(game);
+    if (hueVariation || hueVariationSpeed) {
+        const frag = new HueRotate(game, { hueVariation, hueVariationSpeed, luminosity });
         // the angle you provide determines the new color
-        frag.init(game.width, game.height, sprite, Phaser.Math.degToRad(180));
+        frag.init(game.width, game.height, sprite, Phaser.Math.degToRad(0));
         game.hueFilter = new Phaser.Filter(game, frag.uniforms, frag.fragmentSrc);
         game.world.filters = [game.hueFilter]
     }

@@ -22,7 +22,7 @@ export const schoolLevel = {
 	lightRadius: 100,
 	obscurity: 1,
 	footstepSounds: "FOOTSTEPS_WOOD",
-	init(){
+	init() {
 		if (game.save.hasDiscoveredSecretPassage) {
 			destroyMurSecret(true, this.tilemap);
 		}
@@ -38,6 +38,9 @@ export const sanctuaireLevel = {
 	obscurity: 1,
 	fog: true,
 	tint: 0xC0A8D0,
+	get hueVariation() {
+		return game.save.isNightTime ? 0x6030A0 : null
+	},
 	footstepSounds: "FOOTSTEPS_EARTH",
 	init() {
 		if (game.save.hasFalsifiedScroll) {
@@ -55,9 +58,20 @@ export const forestLevel = {
 	tilemap: "map_forest",
 	tilesets: ["tileset_forest", "tileset_outside"],
 	music: "music_forest",
-	lightRadius: 120,
+	get obscurity() {
+		return game.save.isNightTime ? 0.75 : 1
+	},
+	get lightRadius() {
+		return game.save.isNightTime ? 100 : 120
+	},
 	fog: true,
 	tint: 0xB090C0,
+	get hueVariation() {
+		return game.save.isNightTime ? 25 : 0
+	},
+	get luminosity() {
+		return game.save.isNightTime ? 0.35 : 1
+	},
 	footstepSounds: "FOOTSTEPS_EARTH",
 	init() {
 		const marieBody = findObjectByName("marie_body", "hallucination", this.tilemap)
@@ -67,9 +81,9 @@ export const forestLevel = {
 			marieBody.sprite.tint = forestLevel.tint
 		}
 
-		const ramsey = findObjectByName("ramsey","character", this.tilemap)
+		const ramsey = findObjectByName("ramsey", "character", this.tilemap)
 		const runes_ramsey = findObjectByName("traduction_camp_ramsey", "runes", this.tilemap)
-		if(game.save.loot.recetteAntidote){
+		if (game.save.loot.recetteAntidote) {
 			ramsey.sprite.destroy();
 		} else {
 			runes_ramsey.sprite.destroy()
@@ -119,7 +133,7 @@ export class Level {
 		this.createObjects();
 		this.createTriggers();
 		this.createLights()
-		if(this.init) this.init.call(this);
+		if (this.init) this.init.call(this);
 
 		if (game.save.level !== technicalName) { // si on a changé de level
 			showMiddleText(this.title);
@@ -242,7 +256,7 @@ export class Level {
 		Object.entries(objects).forEach(([objectType, Constructor]) => {
 			findObjectsByType(objectType, this.tilemap).forEach(object => {
 
-				if(Constructor === Hallucination && game.save.unlockedHallucinations.includes(object.name)){
+				if (Constructor === Hallucination && game.save.unlockedHallucinations.includes(object.name)) {
 					return; // do not reinstanciate previous hallucinations
 				}
 
@@ -352,7 +366,13 @@ export class Level {
 	}
 
 	createLights(enableMapLights = true) {
-		initLights(this.lightRadius, this.obscurity, this.hue, this.fog);
+		initLights({
+			lightRadius: this.lightRadius,
+			obscurity: this.obscurity,
+			hueVariation: this.hueVariation,
+			luminosity: this.luminosity,
+			fog: this.fog
+		});
 		game.player.tint = this.tint || 0xFFFFFF;
 		game.groups.pnj.forEach(pnj => { pnj.tint = this.tint || 0xFFFFFF })
 		const lightSources = { fire: Fire, light: AmbientLight };

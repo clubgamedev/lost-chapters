@@ -2,15 +2,20 @@
 * Original shader by Daniil (https://www.shadertoy.com/view/4sl3DH)
 * Tweaked, uniforms added and converted to Phaser/PIXI by Richard Davey
 */
-Phaser.Filter.HueRotate = function (game) {
+Phaser.Filter.HueRotate = function (game, params) {
+    params = Object.assign({
+        hueVariation: 0,  // hue shift (in degrees)
+        saturation: 1,   // saturation multiplier (scalar)
+        luminosity: 1,        // value multiplier (scalar)
+        hueVariationSpeed: 0
+    }, params)
 
     Phaser.Filter.call(this, game);
 
-    this.uniforms.alpha = { type: '1f', value: 1.0 };
-    this.uniforms.size = { type: '1f', value: 0.03 };
-    this.uniforms.shift = { type: '1f', value: 0.5 };
-    this.uniforms.madness = { type: '1f', value: 0.5 };
-    this.uniforms.speed = { type: '1f', value: 1.0 };
+    this.uniforms.hue = { type: '1f', value: params.hueVariation * Math.PI / 180 };
+    this.uniforms.saturation = { type: '1f', value: params.saturation };
+    this.uniforms.value = { type: '1f', value: params.luminosity };
+    this.uniforms.speed = { type: '1f', value: params.hueVariationSpeed };
     this.uniforms.iChannel0 = { type: 'sampler2D', value: null, textureData: { repeat: true } };
 
     this.fragmentSrc = [
@@ -18,9 +23,9 @@ Phaser.Filter.HueRotate = function (game) {
         "precision mediump float;",
         "uniform vec2      resolution;",
         "uniform float     time;",
-        "uniform float     alpha;",
-        "uniform float     shift;",
-        "uniform float     madness;",
+        "uniform float     hue;",
+        "uniform float     saturation;",
+        "uniform float     value;",
         "uniform float     speed;",
         "uniform sampler2D iChannel0;",
 
@@ -32,14 +37,14 @@ Phaser.Filter.HueRotate = function (game) {
         "{",
         "vec2 uv = gl_FragCoord.xy / resolution.xy;",
 
-        "float c = cos(shift) + madness * cos(time * speed);",
-        "float s = sin(shift) + madness * sin(time * speed);",
+        "float c = value * saturation * cos(hue + time * speed);",
+        "float s = value * saturation * sin(hue + time * speed);",
 
         "mat4 hueRotation =",
         "mat4(   0.299,  0.587,  0.114, 0.0,",
         "0.299,  0.587,  0.114, 0.0,",
         "0.299,  0.587,  0.114, 0.0,",
-        "0.000,  0.000,  0.000, 1.0) +",
+        "0.000,  0.000,  0.000, 1.0) * value +",
 
         "mat4(   0.701, -0.587, -0.114, 0.0,",
         "-0.299,  0.413, -0.114, 0.0,",

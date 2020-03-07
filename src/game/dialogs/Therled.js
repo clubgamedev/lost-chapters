@@ -75,8 +75,8 @@ function rituel2() {
 						"Boire la fiole"() {
 							game.save.lucidity = 1
 						},
-						"Boire l'antidote"() {},
-						"Boire une potion"() {}
+						"Boire l'antidote"() { },
+						"Boire une potion"() { }
 					}
 				],
 				{ speaker: "therled" }
@@ -86,7 +86,12 @@ function rituel2() {
 }
 
 function rituel3() {
-	initLights(125, 0.75, true, true, false)
+	initLights({
+		lightRadius: 125,
+		obscurity: 0.75,
+		hueVariationSpeed: 1.0,
+		fog: true
+	})
 
 	startDialog([`Et que maintant que le chien de Tindalos se MONTRE!`], {
 		speaker: "therled"

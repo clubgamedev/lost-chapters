@@ -5,6 +5,7 @@ import { showMiddleText } from "../../utils/message"
 import { sounds, addSounds } from "../../audio"
 import { controls, stick } from "../../utils/controls"
 import { shuffleArray } from "../../utils/array"
+import { talkToMyself } from "../../utils/dialog"
 import { AlchemyLights } from "./alchemy/lights"
 
 const GAME_DURATION = 120 // seconds
@@ -199,7 +200,7 @@ export class AlchemyScene {
 			AIR_H_ACCEL = 25
 
 		if (this.player.body.touching.down) {
-			if(Math.abs(stick.getAxisX()) > 0.05) {
+			if (Math.abs(stick.getAxisX()) > 0.05) {
 				this.player.body.velocity.x = MAX_HORIZONTAL_SPEED * stick.getAxisX()
 				this.player.animations.play("move")
 			} else if (controls.LEFT.isPressed()) {
@@ -366,15 +367,29 @@ export class AlchemyScene {
 	}
 
 	gameOver() {
-		showMiddleText("Le temps est écoulé")
-		this.potionsCreated.forEach(potion => {
-			game.save.inventory.items[potion.name].nombre++
-		})
+		showMiddleText("Temps écoulé")
+
 		controls.SELECT.resetEvents();
 		controls.ACTION.resetEvents();
 		controls.UP.resetEvents();
 		controls.DOWN.resetEvents();
 		controls.SECONDARY.resetEvents();
+		game.save.isNightTime = true;
+
+		setTimeout(() => {
+			talkToMyself([
+				`La nuit est tombée. Je n'y vois plus rien...`,
+				this.potionsCreated.length
+					? `Voyons les potions que j'ai réussi à obtenir...`
+					: `Je ne suis pas parvenu à préparer la moindre potion...`
+			]).then(() => {
+				this.potionsCreated.forEach(potion => {
+					game.save.inventory.items[potion.name].nombre++
+					sounds.ITEM.play()
+				})
+			})
+		}, 500)
+
 		game.state.start("MainGame")
 	}
 }
