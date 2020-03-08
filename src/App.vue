@@ -1,31 +1,26 @@
 <template>
-  <div id="app">
-    <h1>Lost Chapters</h1>
-    <main>
-      <Game :importGame="importGame"/>
-    </main>
-  </div>
+  <main id="game"></main>
 </template>
 
 <script>
-import Game from "@/components/Game.vue";
-
 export default {
   name: "App",
-  components: {
-    Game
-  },
-  data() {
-    return {
-      importGame: () =>
-        import(/* webpackChunkName: "game" */ "@/game/lostchapters.js")
-    };
+  mounted() {
+    import(
+      /* webpackChunkName: "game" */ "@/game/lostchapters.js"
+    ).then(module => module.startGame());
   }
 };
 </script>
 
 
 <style>
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
 body {
   background: black;
   color: goldenrod;
@@ -67,33 +62,17 @@ body {
   src: url("../public/assets/fonts/Comicoro.ttf");
 }*/
 
-#app {
+#game {
   font-family: "Alagard", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: goldenrod;
-}
-
-canvas {
   border: 2px groove #201505;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 100vw;
+  height: 100vh;
+  transform: translate(-50%, -50%);
 }
-
-/* #nav {
-  padding: 30px;
-} */
-
-/* #nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-} */
-
-/* main {
-  max-height: 90vh;
-  margin: auto;
-} */
 </style>

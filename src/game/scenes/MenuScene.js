@@ -38,9 +38,7 @@ export class MenuScene {
                 game.controls.ACTION.onPress(() => this.backToMenu(), this, true)
                 game.controls.ENTER.onPress(() => this.backToMenu(), this, true)
             },
-            "Alchemy (temporaire)": () => {
-                this.game.state.start('Alchemy');
-            }
+            /*"Alchemy (temporaire)": () => { this.game.state.start('Alchemy'); },*/
         })
 
         let options = Object.values(menu);

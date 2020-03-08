@@ -1,6 +1,5 @@
 /* global Phaser illuminated game */
 
-import { loadSave } from "./save";
 import { BootScene } from "./scenes/BootScene"
 import { LoadingScene } from "./scenes/LoadingScene"
 import { MenuScene } from "./scenes/MenuScene"
