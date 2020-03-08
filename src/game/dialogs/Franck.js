@@ -10,7 +10,7 @@ export function franck(save) {
 function franckMeeting(save) {
 	save.hasMetFranck = true
 	return [
-		"Ah, vous voilà !",
+		"Ah, vous voilà Howard !",
 		"Je suis si content de voir votre visage, mon jeune ami.",
 		"J'ai besoin de vos talents d'enquêteur pour comprendre ce qui se passe ici.",
 		"Vous devez retrouver l'un de mes apprentis, Therled.",

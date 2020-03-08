@@ -1,8 +1,9 @@
 import { Character, CHARACTER_STATE } from "./Character"
 
 export class Cultist extends Character {
-	constructor(position, verticalMove) {
-		super(game, position, "cultist");
+	constructor({ properties, x, y }) {
+		super(game, { x, y }, "cultist");
+		this.properties = properties;
 		this.type = "cultist"
 		this.anchor.setTo(0.5)
 		game.physics.arcade.enable(this)
@@ -12,7 +13,7 @@ export class Cultist extends Character {
 		this.body.bounce.y = 1
 
 		this.speed = 60
-		this.move(verticalMove ? "DOWN" : "RIGHT", this.speed);
+		this.move(properties.vertical ? "DOWN" : "RIGHT", this.speed);
 	}
 
 	update() {

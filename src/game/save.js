@@ -53,6 +53,7 @@ export function resetSaveToNewGame() {
         translationsFound: [],
         unlockedExits: [],
         unlockedHallucinations: [],
+        enemiesDefeated: [],
         lucidity: 16
     }
 }

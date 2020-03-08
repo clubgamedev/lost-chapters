@@ -69,7 +69,7 @@ export function arthurMeeting(save) {
 				`Je vois... des runes ?`
 			]).then(() => {
 				save.hasBeatenArthur = true
-				//startFight("arthur") //TEMP
+				startFight({ name: "Arthur" })
 			})
 	]
 }

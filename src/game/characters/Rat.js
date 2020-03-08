@@ -2,8 +2,9 @@ import { Character } from "./Character"
 
 export class Rat extends Character {
 
-	constructor(position, verticalMove) {
-		super(game, position, "rat");
+	constructor({ properties, x, y }) {
+		super(game, { x, y }, "rat");
+		this.properties = properties;
 		this.type = "rat"
 		this.anchor.setTo(0.5)
 		game.physics.arcade.enable(this)
@@ -15,7 +16,7 @@ export class Rat extends Character {
 		this.speed = 100;
 		this.addAnimations();
 
-		if (verticalMove) {
+		if (properties.vertical) {
 			this.body.velocity.y = this.speed
 		} else {
 			this.body.velocity.x = this.speed

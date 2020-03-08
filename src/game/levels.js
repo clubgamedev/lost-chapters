@@ -218,10 +218,15 @@ export class Level {
 		const enemies = { rat: Rat, spider: Spider, cultist: Cultist };
 		Object.entries(enemies).forEach(([enemyType, Constructor]) => {
 			findObjectsByType(enemyType, this.tilemap).forEach(enemy => {
-				let verticalMove = enemy.properties && enemy.properties.vertical === true
-				game.groups.enemies.add(
-					new Constructor({ x: enemy.x / 16, y: (enemy.y - 8) / 16 }, verticalMove)
-				)
+				if (!game.save.enemiesDefeated.includes(enemy.name)) {
+					game.groups.enemies.add(
+						new Constructor({
+							x: enemy.x / 16,
+							y: (enemy.y - 8) / 16,
+							properties: { name: enemy.name, ...enemy.properties }
+						})
+					)
+				}
 			})
 		})
 	}

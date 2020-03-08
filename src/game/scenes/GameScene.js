@@ -7,11 +7,11 @@ import { save } from "../save"
 import { talkTo } from "../utils/dialog"
 import { toggleItemSelection } from "../utils/inventory"
 import { showMiddleText } from "../utils/message"
-
-let hurtFlag
+import { startFight } from "../scenes/minigames/Decryptor"
 
 export class GameScene {
     inventory;
+    hurtInvincibility = true;
 
     create() {
         game.scale.setGameSize(255, 144);
@@ -39,10 +39,7 @@ export class GameScene {
         updateHud();
         save()
         setInterval(() => save(), 5000); // AUTOSAVE TOUTES LES 5 SECONDES
-
-        // temporaire
-        let startKey = game.input.keyboard.addKey(Phaser.Keyboard.E).onDown.add(() => game.state.start('EscapeGame'));
-  
+        setTimeout(() => { this.hurtInvincibility = false }, 1000);
     }
 
     spawnPlayer() {
@@ -81,24 +78,18 @@ export class GameScene {
     }
 
     hurtPlayer(player, ennemy) {
-        if (hurtFlag) {
+        if (this.hurtInvincibility) {
             return
         }
 
-        hurtFlag = true
+        this.hurtInvincibility = true
 
         if (ennemy.type === "cultist") {
             ennemy.stopMoving();
             return talkTo("ennemy_cultist")
                 .then(() => {
-                    game.camera.shake(0.01, 250);
-                    game.camera.flash(0xcc0000, 500);
-                    setTimeout(() => {
-                        game.decryptor = { variants: ['battle'] }
-                        save();
-                        game.state.start("Decryptor")
-                        hurtFlag = false;
-                    }, 500)
+                    ennemy.name = "Cultiste"
+                    startFight(ennemy)
                 })
         }
 
@@ -110,7 +101,7 @@ export class GameScene {
             this.gameOver()
         } else {
             setTimeout(() => {
-                hurtFlag = false
+                this.hurtInvincibility = false
                 game.player.alpha = 1
             }, 2000)
         }
