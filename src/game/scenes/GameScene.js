@@ -18,7 +18,7 @@ export class GameScene {
         addSounds()
         this.spawnPlayer()
         game.controls.ACTION.onPress(() => game.player && game.player.doAction());
-        game.controls.TAB.onPress(toggleItemSelection);
+        game.controls.SELECT.onPress(toggleItemSelection);
 
         if (!game.save.hasReadIntro) {
             game.paused = true;

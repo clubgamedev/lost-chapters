@@ -61,21 +61,13 @@ export const controls = {
     },
     ENTER: {
         keyCode: Phaser.Keyboard.ENTER
-    },
-    TAB: {
-        keyCode: Phaser.Keyboard.TAB,
-        buttonCode: Phaser.Gamepad.XBOX360_RIGHT_BUMPER,
-        isPressed() {
-            return (controls.TAB.button && controls.TAB.button.isDown)
-                || controls.TAB.key.isDown
-        }
     }
 }
 
 export const stick = {
-    getDirection(THRESHOLD = 0.5){
-        let axisX = stick.getAxisX() ,
-        axisY = stick.getAxisY();
+    getDirection(THRESHOLD = 0.5) {
+        let axisX = stick.getAxisX(),
+            axisY = stick.getAxisY();
 
         if (Math.abs(axisX) > Math.abs(axisY)) {
             if (axisX > THRESHOLD) return "right"
@@ -88,25 +80,25 @@ export const stick = {
         }
     },
 
-    getAxisX(){
+    getAxisX() {
         return game.input.gamepad.pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X)
     },
 
-    getAxisY(){
+    getAxisY() {
         return game.input.gamepad.pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_Y)
     },
 
-    onDirection(callback){
+    onDirection(callback) {
         let waitForStickReset = false;
-		game.input.gamepad.onAxisCallback = function(e) {
-			const axis = stick.getDirection(0.95)
-			if(axis != null && !waitForStickReset){
-				waitForStickReset = true;
-				callback(axis)
-			} else if(stick.getDirection(0.05) === null){
-				waitForStickReset = false;
-			}
-		}
+        game.input.gamepad.onAxisCallback = function (e) {
+            const axis = stick.getDirection(0.95)
+            if (axis != null && !waitForStickReset) {
+                waitForStickReset = true;
+                callback(axis)
+            } else if (stick.getDirection(0.05) === null) {
+                waitForStickReset = false;
+            }
+        }
     },
 
     resetEvents() {
@@ -137,8 +129,6 @@ export function initControls() {
             delete control.event;
         }
     }
-
-    console.log("Keyboard controls ready")
 }
 
 export function initGamepadControls() {
@@ -150,6 +140,5 @@ export function initGamepadControls() {
             control.button.onDown[add](control.event.callback, control.event.context)
         }
     }
-    console.log("Gamepad controls ready")
 }
 
