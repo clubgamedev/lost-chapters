@@ -1,4 +1,4 @@
-import { talkToMyself, startDialog } from "../utils/dialog"
+import { talkToMyself, startDialog, exhaustDialog } from "../utils/dialog"
 import { initLights } from "../utils/Light"
 import { Tindalos } from "../characters/Tindalos"
 
@@ -31,12 +31,14 @@ export function therled(save) {
 	if (game.save.inventory.items.parchemin.nombre > 0) {
 		choices["Donner l'original"] = () => {
 			parcheminFalsifie = false
+			return []
 		}
 	}
 
 	if (game.save.inventory.items.parcheminFalsifie.nombre > 0) {
 		choices["Donner le faux"] = () => {
 			parcheminFalsifie = true
+			return []
 		}
 	}
 

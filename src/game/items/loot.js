@@ -17,6 +17,16 @@ const loots = {
                 ]).then(() => true)
             }
         })
+    },
+
+    parchemin() {
+        return talkToMyself([
+            `C'est une copie quasi identique du parchemin caché dans l'établi.`,
+            `Il doit s'agit du rituel d'invocation dont parlait Marie.`
+        ]).then(() => {
+            game.save.inventory.items.parchemin.nombre++
+            return true;
+        })
     }
 }
 

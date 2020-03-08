@@ -35,7 +35,7 @@ export function resetSaveToNewGame() {
             vieilleGnole: false,
             foieDeCerf: false,
             jusDeSauterelle: false,
-            plumeDeCorneille: false,
+            plumeDeCorneille: false
         },
         canUseChaudron: false,
         hasReadIntro: false,

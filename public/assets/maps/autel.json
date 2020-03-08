@@ -323,13 +323,13 @@
                  "gid":7,
                  "height":16,
                  "id":45,
-                 "name":"parchemin_original",
+                 "name":"parchemin",
                  "rotation":0,
                  "type":"loot",
                  "visible":true,
                  "width":16,
-                 "x":271.878787878788,
-                 "y":335.757575757576
+                 "x":272.878787878788,
+                 "y":324.757575757576
                 }],
          "opacity":1,
          "type":"objectgroup",
