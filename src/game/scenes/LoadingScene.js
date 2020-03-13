@@ -76,8 +76,17 @@ export class LoadingScene {
 		game.load.image('cape', 'assets/items/cape.png');
 
 		// loot
+		game.load.image('alcoolPsylocibe', 'assets/items/alcoolPsylocibe.png');
+		game.load.image('cireBougieNoire', 'assets/items/cireBougieNoire.png');
+		game.load.image('epineDePoissonDiable', 'assets/items/epineDePoissonDiable.png');
 		game.load.image('foieDeCerf', 'assets/items/foieDeCerf.png');
+		game.load.image('oeufDeCorbeau', 'assets/items/oeufDeCorbeau.png');
+		game.load.image('plumeDeGeai', 'assets/items/plumeDeGeai.png');
 		game.load.image('parchemin', 'assets/items/parchemin.png', 16, 32, 3);
+		game.load.image('plumeDeGeai', 'assets/items/plumeDeGeai.png');
+		game.load.image('racineEllebore', 'assets/items/racineEllebore.png');
+		game.load.image('sangLibellule', 'assets/items/sangLibellule.png');
+		game.load.image('vieilleGnole', 'assets/items/vieilleGnole.png');
 
 		// particules
 		game.load.image("particle_yellow", "assets/sprites/particle_yellow.png");

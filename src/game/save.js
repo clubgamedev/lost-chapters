@@ -34,8 +34,8 @@ export function resetSaveToNewGame() {
             epineDePoissonDiable: false,
             vieilleGnole: false,
             foieDeCerf: false,
-            resineTerebinthe: false,
-            plumeDeCorneille: false
+            alcoolPsylocibe: false,
+            plumeDeGeai: false
         },
         canUseChaudron: false,
         hasReadIntro: false,

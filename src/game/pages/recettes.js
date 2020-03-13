@@ -38,11 +38,7 @@ Cette potion aurait des vertus apaisantes, mais le goût est atroce.`,
 }
 
 export const recette_tranquilisant = {
-	text: `Pour vos troubles du sommeil, voilà la recette d'un tranquilisant de ma conception:
-mélanger un oeuf de corbeau et de la poudre de racine d'héllébore dans un alcool fort.
-N'importe quelle gnole fera l'affaire, mais l'oeuf doit être frais !
-Veillez à ne pas en abuser si vous voulez garder les idées claires.
-Ramsey`,
+	text: `Pour vos troubles du sommeil, voilà la recette d'un tranquilisant de ma conception: mélanger un oeuf de corbeau et de la poudre de racine d'héllébore dans un alcool fort. N'importe quelle gnole fera l'affaire. Ramsey`,
 	after() {
 		if (!game.save.loot.recettePotionDeLucidite) {
 			game.save.loot.recettePotionDeLucidite = true

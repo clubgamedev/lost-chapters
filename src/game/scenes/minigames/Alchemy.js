@@ -19,8 +19,8 @@ const ingredientsNames = [
 	"epineDePoissonDiable",
 	"vieilleGnole",
 	"foieDeCerf",
-	"resineTerebinthe",
-	"plumeDeCorneille"
+	"alcoolPsylocibe",
+	"plumeDeGeai"
 ]
 const ingredientsPositions = [
 	{ x: 10, y: 196 },
@@ -59,7 +59,7 @@ export class AlchemyScene {
 
 		game.load.image(
 			"oeufDeCorbeau",
-			"assets/alchemy/ingredients/OeufDeCorbeau.png"
+			"assets/alchemy/ingredients/oeufDeCorbeau.png"
 		)
 		game.load.image(
 			"epineDePoissonDiable",
@@ -67,7 +67,7 @@ export class AlchemyScene {
 		)
 		game.load.image(
 			"vieilleGnole",
-			"assets/alchemy/ingredients/VieilleGnole.png"
+			"assets/alchemy/ingredients/vieilleGnole.png"
 		)
 
 		game.load.image(
@@ -75,12 +75,12 @@ export class AlchemyScene {
 			"assets/alchemy/ingredients/foieDeCerf.png"
 		)
 		game.load.image(
-			"resineTerebinthe",
-			"assets/alchemy/ingredients/resineTerebinthe.png"
+			"alcoolPsylocibe",
+			"assets/alchemy/ingredients/alcoolPsylocibe.png"
 		)
 		game.load.image(
-			"plumeDeCorneille",
-			"assets/alchemy/ingredients/plumeDeCorneille.png"
+			"plumeDeGeai",
+			"assets/alchemy/ingredients/plumeDeGeai.png"
 		)
 
 		game.load.image(

@@ -1821,6 +1821,18 @@
                  "width":17.25,
                  "x":111.375,
                  "y":1182
+                }, 
+                {
+                 "gid":3,
+                 "height":16,
+                 "id":138,
+                 "name":"alcoolPsylocibe",
+                 "rotation":0,
+                 "type":"loot",
+                 "visible":true,
+                 "width":17.25,
+                 "x":2440.04166666667,
+                 "y":127.666666666667
                 }],
          "opacity":0.52,
          "type":"objectgroup",
@@ -1829,7 +1841,7 @@
          "y":0
         }],
  "nextlayerid":27,
- "nextobjectid":138,
+ "nextobjectid":139,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.3.1",
