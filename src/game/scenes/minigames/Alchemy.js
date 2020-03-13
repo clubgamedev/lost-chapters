@@ -12,14 +12,14 @@ const GAME_DURATION = 120 // seconds
 const MAX_INGREDIENTS = 3
 
 const ingredientsNames = [
-	"crochetsDeSerpent",
-	"cireBougieNoir",
-	"ecorceDeBouleau",
+	"racineHellebore",
+	"cireBougieNoire",
+	"sangLibellule",
 	"oeufDeCorbeau",
 	"epineDePoissonDiable",
 	"vieilleGnole",
 	"foieDeCerf",
-	"jusDeSauterelle",
+	"resineTerebinthe",
 	"plumeDeCorneille"
 ]
 const ingredientsPositions = [
@@ -45,16 +45,16 @@ export class AlchemyScene {
 		game.load.image("stockage", "assets/alchemy/stockage.png")
 
 		game.load.image(
-			"cireBougieNoir",
-			"assets/alchemy/ingredients/CireBougieNoir.png"
+			"cireBougieNoire",
+			"assets/alchemy/ingredients/cireBougieNoire.png"
 		)
 		game.load.image(
-			"crochetsDeSerpent",
-			"assets/alchemy/ingredients/CrochetsDeSerpent.png"
+			"racineHellebore",
+			"assets/alchemy/ingredients/racineHellebore.png"
 		)
 		game.load.image(
-			"ecorceDeBouleau",
-			"assets/alchemy/ingredients/EcorceDeBouleau.png"
+			"sangLibellule",
+			"assets/alchemy/ingredients/sangLibellule.png"
 		)
 
 		game.load.image(
@@ -75,8 +75,8 @@ export class AlchemyScene {
 			"assets/alchemy/ingredients/foieDeCerf.png"
 		)
 		game.load.image(
-			"jusDeSauterelle",
-			"assets/alchemy/ingredients/jusDeSauterelle.png"
+			"resineTerebinthe",
+			"assets/alchemy/ingredients/resineTerebinthe.png"
 		)
 		game.load.image(
 			"plumeDeCorneille",

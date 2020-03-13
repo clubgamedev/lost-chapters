@@ -3,38 +3,37 @@ import { Potion } from "./Potion"
 export const potionDeForce = new Potion({
 	name: "potionDeForce",
 	displayName: "Psycho-stimulant",
-	ingredients: ["cireBougieNoir", "crochetsDeSerpent", "ecorceDeBouleau"],
+	ingredients: ["cireBougieNoire", "epineDePoissonDiable", "sangLibellule"],
 	description: [
-		"Ce stimulant psychotique devrait me permettre d'avoir des réflexes",
-		"et une agilité plus performantes, ",
-		"cela pourrait être utile pour certaines épreuves."
+		"Ce stimulant psychotique devrait me permettre d'accroître mes réflexes",
+		"Cela pourrait m'être utile pour les épreuves qui m'attendent."
 	]
 })
 
 export const potionDeProtection = new Potion({
 	name: "potionDeProtection",
 	displayName: "Elixir du dévot",
-	ingredients: ["foieDeCerf", "jusDeSauterelle", "plumeDeCorneille"],
+	ingredients: ["foieDeCerf", "resineTerebinthe", "plumeDeCorneille"],
 	description: [
-		"Le potion du dévot dégage un sentiment de sureté palpable,",
-		"si je souhaite être mieux protégé, je pourrais peut être la boire..."
+		"L'elixir du dévot dégage une odeur infecte mais curieusement réconfortante.",
+		"Peut-être que si je le buvais, je me sentirais-je mieux protégé ?"
 	]
 })
 
 export const potionDeLucidite = new Potion({
 	name: "potionDeLucidite",
 	displayName: "Tranquilisant",
-	ingredients: ["oeufDeCorbeau", "epineDePoissonDiable", "vieilleGnole"],
+	ingredients: ["oeufDeCorbeau", "racineHellebore", "vieilleGnole"],
 	description: [
-		"Ce tranquilisant augmente sensiblement ma lucidité ",
-		"mais est-ce une bonne idée ?"
+		"Ce tranquilisant pourrait m'aider à retrouver ma lucidité",
+		"ou me la faire perdre au contraire ? Je n'en suis plus sûr..."
 	]
 })
 
 export const antidote = new Potion({
 	name: "antidote",
 	displayName: "Antidote",
-	ingredients: ["crochetsDeSerpent", "foieDeCerf", "jusDeSauterelle"],
+	ingredients: ["racineHellebore", "cireBougieNoire", "resineTerebinthe"],
 	description: [
 		"C'est l'antidote conçu par Therled pour neutraliser les effets",
 		"du Liao. C'est peut-être encore un autre de ses pièges...",

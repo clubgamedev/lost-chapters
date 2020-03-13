@@ -166,6 +166,10 @@ export const descriptions = {
 		}
 	},
 
+	tombe_sanctuaire: save => [
+		`TODO: lore`
+	],
+
 	charnier: save => [`Un charnier, ici ? L'odeur est atroce...`],
 
 	charnier2: save => [
@@ -279,7 +283,7 @@ export const descriptions = {
 						"Vous vous sentez plus fort"
 					])
 				},
-				"La ranger": () => {}
+				"La ranger": () => { }
 			}
 		]
 	},
@@ -296,7 +300,7 @@ export const descriptions = {
 						"Vous vous sentez plus calme et lucide"
 					])
 				},
-				"La ranger": () => {}
+				"La ranger": () => { }
 			}
 		]
 	},
@@ -313,7 +317,7 @@ export const descriptions = {
 						"Vous vous sentez en sécurité"
 					])
 				},
-				"La ranger": () => {}
+				"La ranger": () => { }
 			}
 		]
 	},
