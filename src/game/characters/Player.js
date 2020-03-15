@@ -256,17 +256,17 @@ export class Player extends Character {
 					pickLoot(objectInFront);
 					return;
 				case "runes":
-					let { variant, duration, name } = objectInFront.properties
+					let { variant = "", duration, name } = objectInFront.properties
 					if (!game.save.hasDiscoveredAlphabet) {
 						return talkToMyself(descriptions.runes_inconnues(game.save))
 					} else if (game.save.translationsFound.includes(name)) {
 						const traduction = traductions[name]
 						return talkToMyself(traduction.lines.map(part => `"${part}"`))
 							.then(() => {
-								if(traduction.after) traduction.after(game.save)
+								if (traduction.after) traduction.after(game.save)
 							})
 					} else {
-						game.decryptor = { variants: variant.split(","), duration, translation:name }
+						game.decryptor = { variants: variant.split(","), duration, translation: name }
 						save();
 						return game.state.start("Decryptor");
 					}

@@ -24,7 +24,7 @@ const loots = {
             `C'est une vieille bougie dont la cire noire a coulé et s'est figée.`
         ]).then(() => {
             if (!game.save.loot.recettePotionDeForce) {
-                return talkToMyself([`Je me demande avec quoi est faite cette cire pour avoir cette couleur si noire ?`]).then(() => false)
+                return talkToMyself([`Je me demande avec quoi est faite cette cire pour avoir cette couleur ?`]).then(() => false)
             } else {
                 game.save.loot.cireBougieNoire = true;
                 return talkToMyself([
@@ -37,7 +37,8 @@ const loots = {
 
     epineDePoissonDiable() {
         return talkToMyself([
-            `C'est un pot contenant de drôles d'aiguilles oranges. Il est étiqueté "Poisson diable".`
+            `C'est un pot contenant de drôles d'aiguilles oranges.`,
+            `Il est étiqueté "Poisson diable".`
         ]).then(() => {
             if (!game.save.loot.recettePotionDeForce && !game.save.loot.recetteAntidote) {
                 return talkToMyself([`Ces aiguilles doivent venir des poissons de la rivière, je suppose.`]).then(() => false)

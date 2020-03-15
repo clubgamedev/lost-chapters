@@ -1,4 +1,5 @@
 import { exhaustDialog } from "@/game/utils/dialog"
+import { talkToMyself } from "../utils/dialog"
 
 export function ramsey(save) {
 	if (!save.hasMetRamsey) return ramseyMeeting(save)
@@ -99,6 +100,11 @@ function antidote() {
 		`un moyen depuis. Je crois qu'il s'appelait...`,
 		{
 			"Therled ?": () => ["Oui c'est ça ! Vous le connaissez ?"]
+		},
+		() => {
+			return talkToMyself([
+				`Je commence à le connaître, en effet...`
+			])
 		}
 	]
 }

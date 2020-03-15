@@ -65,7 +65,7 @@ export const forestLevel = {
 		return game.save.isNightTime ? 100 : 120
 	},
 	fog: true,
-	tint: 0xB090C0,
+	tint: 0xC090B0,
 	get hueVariation() {
 		return game.save.isNightTime ? 25 : 0
 	},

@@ -15,7 +15,9 @@ export function startDialog(lines, params = {}) {
 	let voice = Object.assign({}, voicesByActor[speaker], params)
 	voice.emotion = (voice.emotion || 30) + (16 - game.save.lucidity) * 4
 
-	game.player && game.player.stopMoving()
+	if (game.player && game.player.body) {
+		game.player.stopMoving()
+	}
 
 	let bgSprite = game.add.sprite(0, game.height - 40, params.bg)
 	bgSprite.fixedToCamera = true

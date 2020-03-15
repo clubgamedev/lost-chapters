@@ -779,18 +779,18 @@ function timerOver() {
 function quitGame(youWon) {
 	game.input.gamepad.onDownCallback = null
 	game.input.keyboard.onDownCallback = null
-	game.state.start("MainGame")
+	let translationKey = game.decryptor.translation
 
 	if (game.decryptor.translation) {
 		setTimeout(() => {
 			if (youWon) {
-				let traduction = traductions[game.decryptor.translation];
+				let traduction = traductions[translationKey];
 				if (traduction.before) traduction.before(game.save)
 				talkToMyself([
 					"Ça y est, j'ai trouvé !",
 					...traduction.lines.map(part => `"${part}"`),
 				]).then(() => {
-					game.save.translationsFound.push(game.decryptor.translation)
+					game.save.translationsFound.push(translationKey)
 					save()
 					if (traduction.after) traduction.after(game.save)
 					else talkToMyself(["Intéressant..."]);
@@ -814,6 +814,7 @@ function quitGame(youWon) {
 		}, 500)
 	}
 
+	game.state.start("MainGame")
 	delete game.decryptor
 }
 
