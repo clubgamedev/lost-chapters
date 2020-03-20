@@ -1,5 +1,6 @@
 import { initControls } from "../utils/controls";
-import { resetSaveToNewGame, loadSave, save } from "../save";
+import { resetSaveToNewGame, loadSave } from "../save";
+import { sounds } from "../audio";
 
 export class MenuScene {
     create() {
@@ -76,6 +77,7 @@ export class MenuScene {
     selectChoice() {
         let upOrDown = game.controls.UP.isPressed() ? -1 : +1
         let nbOptions = this.menu.options.length
+        sounds.MENU_MOVE.play();
         this.selectedChoice = (this.selectedChoice + nbOptions + upOrDown) % nbOptions
         this.menu.selectionSprite.cameraOffset.y = 51 + 16 * this.selectedChoice;
     }
@@ -89,12 +91,14 @@ export class MenuScene {
         game.controls.ACTION.resetEvents()
         game.controls.ENTER.resetEvents()
         delete this.menu;
+        sounds.MENU_POSITIVE.play();
         selectedChoice()
     }
 
     backToMenu() {
         this.credits && this.credits.destroy()
         this.instructions && this.instructions.destroy()
+        sounds.MENU_NEGATIVE.play();
         this.showMenu()
     }
 }

@@ -15,7 +15,6 @@ export class GameScene {
 
     create() {
         game.scale.setGameSize(255, 144);
-        addSounds()
         this.spawnPlayer()
         game.controls.ACTION.onPress(() => game.player && game.player.doAction());
         game.controls.SELECT.onPress(toggleItemSelection);

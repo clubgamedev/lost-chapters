@@ -1,4 +1,5 @@
 import { readDescription } from "../dialogs/descriptions";
+import { sounds } from "../audio";
 
 export class Inventory {
     constructor() {
@@ -70,10 +71,12 @@ export function toggleItemSelection() {
     let itemsInInventory = getItemsFound();
     if (itemsInInventory.length > 0 && !game.dialog && !game.book && !game.page) {
         if (game.selectedItem != null) {
+            sounds.MENU_NEGATIVE.play();
             game.selectedItem = null // deactivate item selection
             game.controls.LEFT.resetEvents();
             game.controls.RIGHT.resetEvents();
         } else {
+            sounds.MENU_POSITIVE.play();
             game.selectedItem = itemsInInventory.length - 1; // activate item selection
             game.controls.LEFT.onPress(() => selectNextItem(+1))
             game.controls.RIGHT.onPress(() => selectNextItem(-1))
@@ -83,6 +86,7 @@ export function toggleItemSelection() {
 
 export function selectNextItem(step = +1) {
     let itemsFound = getItemsFound();
+    sounds.MENU_MOVE.play();
     game.selectedItem = (game.selectedItem + step + itemsFound.length) % itemsFound.length;
 }
 

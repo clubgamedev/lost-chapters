@@ -1,4 +1,4 @@
-import { loadAudio } from "../audio"
+import { loadAudio, addSounds } from "../audio"
 
 export class LoadingScene {
 	preload() {
@@ -97,6 +97,7 @@ export class LoadingScene {
 	}
 
 	create() {
+		addSounds()
 		this.game.state.start("TitleScreen");
 	}
 

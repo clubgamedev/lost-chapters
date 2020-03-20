@@ -1,5 +1,6 @@
 import baragouin from "baragouin"
 import { dialogs } from "../dialogs"
+import { sounds } from "../audio"
 
 export function startDialog(lines, params = {}) {
 	if (game.dialog) endDialog()
@@ -161,6 +162,7 @@ export function startChoice(choice) {
 export function selectChoice() {
 	let upOrDown = game.controls.UP.isPressed() ? -1 : +1
 	let nbOptions = game.dialog.choice.options.length
+	sounds.MENU_MOVE.play()
 	game.dialog.selectedChoice =
 		(game.dialog.selectedChoice + nbOptions + upOrDown) % nbOptions
 	game.dialog.choice.selectionSprite.cameraOffset.y =

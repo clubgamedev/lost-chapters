@@ -125,6 +125,7 @@ export function initControls() {
             if (control.button) control.button.onDown[add](callback, context)
         }
         control.resetEvents = () => {
+            if (!control.event) return;
             control.key.onDown.removeAll(control.event.context)
             if (control.button) control.button.onDown.removeAll(control.event.context)
             delete control.event;

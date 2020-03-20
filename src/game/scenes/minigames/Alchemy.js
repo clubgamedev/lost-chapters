@@ -106,8 +106,6 @@ export class AlchemyScene {
 			64,
 			4
 		)
-
-		addSounds()
 	}
 
 	create() {

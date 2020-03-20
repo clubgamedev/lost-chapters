@@ -22,6 +22,9 @@ export function loadAudio() {
     game.load.audio('book_open', ['assets/sound/Book Open.mp3']);
     game.load.audio('book_close', ['assets/alchemy/sounds/book_close.mp3']);
     game.load.audio("book_page", ["assets/sound/Book Page 1.mp3"]);
+    game.load.audio("menu_positive", ['assets/sound/MenuPositive.wav']);
+    game.load.audio("menu_negative", ['assets/sound/MenuNegative.wav']);
+    game.load.audio("menu_move", ['assets/sound/MenuMove.wav']);
 
     range(1, 14).map(n => game.load.audio(`footstep_wood_${n}`, `assets/sound/Footsteps_Casual_LowWood_${('0' + n).slice(-2)}.ogg`));
     range(1, 14).map(n => game.load.audio(`footstep_earth_${n}`, `assets/sound/Footsteps_Casual_Earth_${('0' + n).slice(-2)}.ogg`));
@@ -38,7 +41,10 @@ export function addSounds() {
         COOK_FAIL: game.sound.add('cook_fail'),
         OPEN_BOOK: game.sound.add('book_open'),
         CLOSE_BOOK: game.sound.add('book_close'),
-        PAGE: game.sound.add('book_page')
+        PAGE: game.sound.add('book_page'),
+        MENU_POSITIVE: game.sound.add('menu_positive'),
+        MENU_NEGATIVE: game.sound.add('menu_negative'),
+        MENU_MOVE: game.sound.add('menu_move')
     })
 
     sounds.FOOTSTEPS_WOOD = range(1, 14).map(n => game.sound.add(`footstep_wood_${n}`))
