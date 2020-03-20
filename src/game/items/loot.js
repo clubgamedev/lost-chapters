@@ -45,7 +45,7 @@ const loots = {
             } else {
                 game.save.loot.epineDePoissonDiable = true;
                 return talkToMyself([
-                    `Ces aiguilles contiennent un venin qui attaque le système nerveux des proies.`,
+                    `Ces aiguilles contiennent un venin qui attaque le système nerveux.`,
                     `Mais à petite dose, on peut s'en servir pour inhiber les psychotropes.`,
                     `Je vais prendre ce bocal, mais je ne devrais pas trop jouer avec...`
                 ]).then(() => true)

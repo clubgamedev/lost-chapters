@@ -27,6 +27,7 @@ export function resetSaveToNewGame() {
             recettePotionDeForce: false,
             recettePotionDeProtection: false,
             recettePotionDeLucidite: false,
+            recetteAntidote: false,
             cireBougieNoire: false,
             racineHellebore: false,
             sangLibellule: false,

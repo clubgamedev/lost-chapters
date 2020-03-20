@@ -199,6 +199,22 @@ export function exhaustDialog(questions, endDialogChoice, questionsDone = []) {
 	return choice
 }
 
+export function loopDialog(questions, endDialogChoice) {
+	let choice = {}
+	for (let question in questions) {
+		choice[question] = () => {
+			questionsDone.push(question)
+			return [
+				questions[question],
+				() =>
+					exhaustDialog(questions, endDialogChoice)
+			]
+		}
+	}
+	choice[endDialogChoice] = () => []
+	return choice
+}
+
 export function sayLine(line) {
 	if (game.dialog.voice.skipSpeech) {
 		game.dialog.textSprite.text = line

@@ -37,8 +37,14 @@ function ramseyQuestions(save) {
 				"Il m'a dit que j'avais goûté au mauvais champignon !",
 				"Mais qu'est-ce qu'il y connaît ?"
 			]
-		},
-		"Que faites vous ?": () => {
+		}
+	}
+
+	if (game.save.hasRamseyTalkedAboutIngredients) {
+		questions["Les ingrédients"] = () => infosIngredients(questions)
+	} else {
+		questions["Que faites vous ?"] = () => {
+			questions["Quelles décoctions ?"] = () => preparerPotion(questions)
 			return [
 				"J'étudie les plantes, et les champignons. J'en fais des décoctions.",
 				"Et j'essaie de transmettre mon savoir à ces idiots de l'école.",
@@ -106,5 +112,116 @@ function antidote() {
 				`Je commence à le connaître, en effet...`
 			])
 		}
+	]
+}
+
+function preparerPotion(questions) {
+	questions["Les ingrédients"] = () => infosIngredients(questions)
+	game.save.loot.recettePotionDeForce = true;
+	game.save.hasRamseyTalkedAboutIngredients = true;
+	return [
+		`Mes potions stimulent l'esprit de ceux qui les boivent.`,
+		`Elles pourraient vous servir si vous êtes inspecteur !`,
+		`Tenez, je peux par exemple vous préparer un psycho-stimulant`,
+		`qui améliorera votre concentration et votre acuité mentale.`,
+		`Ramenez-moi juste les ingrédients:`,
+		`de la cire noire, des épines de poisson diable et des psycholibes.`,
+		`Quoi ? Pourquoi vous me regardez pas comme ça ?`,
+		`Tss... je vais vous faire un dessin des ingrédients...`
+	]
+}
+
+function infosIngredients(questions) {
+	const potions = {};
+	const ingredients = {
+		cireNoire: () => [
+			`Les dévots l'utilisent dans leurs grottes et sanctuaires.`,
+			`Ils la fabriquent eux-mêmes à partir de graisses végétales.`,
+			`Mélangée à de la cendre, elle prend cette couleur noire.`
+		],
+		psycholibe: () => [
+			`Ce sont des champignons qui poussent dans la forêt.`,
+			`Ils peuvent être utilisés à des fins... récréatives.`,
+			`Et il se trouve que je n'en ai plus en stock !`
+		],
+		epineDeDiable: () => [
+			`Les poissons du diable, on en trouve plein la rivière !`,
+			`Je viens d'en pêcher justement, il y en a sur le séchoir.`
+		],
+		foieDeCerf: () => [
+			`Vous allez devoir chasser le cerf !`,
+			`Vous n'avez pas le profil d'un bon chasseur, je me trompe ?`,
+			`Essayez les cuisines de l'Université alors.`
+		],
+		plumeDeGeai: () => [
+			`De magnifiques oiseaux, hein ? J'ai vu un superbe spécimen se poser`,
+			`tous les matins sur un arbre mort, pas loin du camp.`
+		],
+		sangLibellule: () => [
+			`J'ai vu des dévots qui piégeaient les libellules près du pont de la rivière.`,
+			`Mais je n'ai aucune idée de ce qu'ils peuvent en faire ! Soyez prudents...`
+		],
+		oeufCorbeau: () => [
+			`Un oeuf de corbeau ? Ça se mange ?`,
+			`Cherchez sous un arbre de la forêt, je suppose ?`,
+			`Des corbeaux, il y en a plein parmi ces bois.`
+		],
+		alcool: () => [
+			`Vous cherchez de la gnôle ? Ce n'est pas vraiment le moment...`,
+			`Franck doit sûrement en avoir dans ses appartements.`,
+			`Il est un peu trop porté sur la bouteille à mon goût...`
+		],
+		racineHellebore: () => [
+			`L'héllébore calme les nerfs et peut servir d'antidouleur de fortune,`,
+			`mais attention au risque d'addiction.`,
+			`Le vieux chef à la tête des dévots du sanctuaire cueille tous les pieds`,
+			`qu'il trouve. Depuis, on en trouve de moins en moins dans la forêt.`,
+			`Je voudrais bien l'en empêcher, mais je ne suis pas en bons termes avec...`,
+		]
+	}
+
+	if (game.save.loot.recettePotionDeForce) {
+		potions['Psycho-stimulant'] = () => [
+			exhaustDialog({
+				['Cire noire']: ingredients.cireNoire,
+				['Psycholibe']: ingredients.psycholibe,
+				['Epine de diable']: ingredients.epineDeDiable
+			}, "Autre chose...")
+		]
+	}
+
+	if (game.save.loot.recettePotionDeProtection) {
+		potions["Elixir du dévot"] = () => [
+			exhaustDialog({
+				['Foie de cerf']: ingredients.foieDeCerf,
+				['Plume de geai']: ingredients.plumeDeGeai,
+				['Sang de libellule']: ingredients.sangLibellule
+			}, "Autre chose...")
+		]
+	}
+
+	if (game.save.loot.recettePotionDeLucidite) {
+		potions["Tranquilisant"] = () => [
+			exhaustDialog({
+				['Oeuf de corbeau']: ingredients.oeufCorbeau,
+				['Alcool']: ingredients.alcool,
+				[`Racine d'hellebore`]: ingredients.racineHellebore
+			}, "Autre chose...")
+		]
+	}
+
+	if (game.save.loot.recetteAntidote) {
+		potions["Antidote au liao"] = () => [
+			exhaustDialog({
+				['Epine de diable']: ingredients.epineDeDiable,
+				['Sang de libellule']: ingredients.sangLibellule,
+				[`Racine d'hellebore`]: ingredients.racineHellebore
+			}, "Autre chose...")
+		]
+	}
+
+	return [
+		`Quel ingrédient cherchez-vous ?`,
+		exhaustDialog(potions, "C'est bon, j'ai tout noté !")
 	]
 }
