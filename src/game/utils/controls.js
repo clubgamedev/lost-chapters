@@ -60,7 +60,8 @@ export const controls = {
         }
     },
     ENTER: {
-        keyCode: Phaser.Keyboard.ENTER
+        keyCode: Phaser.Keyboard.ENTER,
+        buttonCode: Phaser.Gamepad.XBOX360_START,
     }
 }
 

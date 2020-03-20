@@ -9,9 +9,11 @@ export function loadAudio() {
     game.load.audio("music_sanctuary", ["assets/sound/Song_VisitingHerForest.ogg"]);
     game.load.audio("music_cave", ["assets/sound/Song_PainfulMemories_Loop.ogg"]);
     game.load.audio("music_autel", ["assets/sound/Music_6_EvilBattle_Loop.ogg"]);
+    game.load.audio("music_battle", ["assets/sound/BRPG_Take_Courage_FULL_Loop.ogg"]);
+    game.load.audio("music_boss", ["assets/sound/BRPG_Hell_Spawn_FULL_Loop.ogg"]);
+
     game.load.audio("hurt", ["assets/sound/hurt.ogg", "assets/sound/hurt.mp3"]);
-    game.load.audio("slash", ["assets/sound/slash.ogg", "assets/sound/slash.mp3"]);
-    game.load.audio("item", ["assets/sound/item.ogg", "assets/sound/item.mp3"]);
+    game.load.audio("item", ["assets/sound/collect_item_02.wav", "assets/sound/item.mp3"]);
     game.load.audio("hallucination", ["assets/sound/hallucination.wav"]);
 
     game.load.audio('pick', ['assets/alchemy/sounds/pick.wav']);
@@ -24,15 +26,12 @@ export function loadAudio() {
     range(1, 14).map(n => game.load.audio(`footstep_wood_${n}`, `assets/sound/Footsteps_Casual_LowWood_${('0' + n).slice(-2)}.ogg`));
     range(1, 14).map(n => game.load.audio(`footstep_earth_${n}`, `assets/sound/Footsteps_Casual_Earth_${('0' + n).slice(-2)}.ogg`));
     range(1, 10).map(n => game.load.audio(`footstep_mud_${n}`, `assets/sound/Footsteps_Casual_Mud_${('0' + n).slice(-2)}.ogg`));
-
 }
 
 export function addSounds() {
     Object.assign(sounds, {
         HURT: game.add.audio("hurt"),
         ITEM: game.add.audio("item"),
-        ENEMY_DEATH: game.add.audio("enemy-death"),
-        SLASH: game.add.audio("slash"),
         HALLUCINATION: game.add.audio("hallucination"),
         PICK: game.sound.add('pick'),
         COOK_SUCCESS: game.sound.add('cook_success'),
@@ -45,6 +44,7 @@ export function addSounds() {
     sounds.FOOTSTEPS_WOOD = range(1, 14).map(n => game.sound.add(`footstep_wood_${n}`))
     sounds.FOOTSTEPS_EARTH = range(1, 14).map(n => game.sound.add(`footstep_earth_${n}`))
     sounds.FOOTSTEPS_MUD = range(1, 10).map(n => game.sound.add(`footstep_mud_${n}`))
+
 }
 
 export function startMusic(name) {

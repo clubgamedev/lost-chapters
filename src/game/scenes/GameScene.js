@@ -19,6 +19,7 @@ export class GameScene {
         this.spawnPlayer()
         game.controls.ACTION.onPress(() => game.player && game.player.doAction());
         game.controls.SELECT.onPress(toggleItemSelection);
+        game.controls.ENTER.onPress(toggleItemSelection);
 
         if (!game.save.hasReadIntro) {
             game.paused = true;
@@ -118,7 +119,8 @@ export class GameScene {
         //game.debug.spriteInfo(this.player, 30, 30);
 
         game.debug.body(game.player)
-        game.debug.pixel(game.player.watchingPoint.x, game.player.watchingPoint.y, "rgba(0,255,0,1)", 1);
+        const { x, y } = game.player.watchingPoint
+        game.debug.pixel(x, y, "rgba(0,255,0,1)", 1);
         game.groups.enemies.forEachAlive(this.renderGroup, this)
         game.groups.pnj.forEachAlive(this.renderGroup, this)
         game.groups.objects.forEachAlive(this.renderGroup, this)
@@ -128,5 +130,11 @@ export class GameScene {
 
     renderGroup(member) {
         game.debug.body(member)
+    }
+
+    shutdown() {
+        game.controls.ACTION.resetEvents()
+        game.controls.SELECT.resetEvents();
+        game.controls.ENTER.resetEvents();
     }
 }

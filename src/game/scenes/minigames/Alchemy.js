@@ -148,6 +148,7 @@ export class AlchemyScene {
 
 		this.bookRecipes = new BookRecipes(this.groups.book)
 		controls.SELECT.onPress(() => this.bookRecipes.openOrClose())
+		controls.ENTER.onPress(() => this.bookRecipes.openOrClose())
 		controls.ACTION.onPress(() => this.jump())
 		controls.UP.onPress(() => this.jump())
 		controls.DOWN.onPress(() => this.pickOrDrop())

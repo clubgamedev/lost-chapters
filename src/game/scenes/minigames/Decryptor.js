@@ -1,9 +1,10 @@
-import { shuffleArray } from "../../utils/array"
+import { shuffleArray, pickRandomIn, range } from "../../utils/array"
 import { talkToMyself } from "../../utils/dialog"
 import { stick } from "../../utils/controls"
 import { save } from "../../save"
 import { createParticlesEmitter } from "../../effects/particles"
 import { traductions } from "../../dialogs/traductions"
+import { startMusic } from "../../audio";
 
 let countDown
 let timerText
@@ -59,6 +60,7 @@ let particleInitialized
 let errorSound
 let foundSounds = [],
 	foundSoundEnd
+let madnessSounds
 
 let MAX_HEALTH = 100
 let health
@@ -98,10 +100,14 @@ function loadZodiacs() {
 	game.load.image("scorpio", "assets/decryptor/scorpio.png")
 	game.load.image("taurus", "assets/decryptor/taurus.png")
 	game.load.image("virgo", "assets/decryptor/virgo.png")
-	game.load.image(
-		"backgroundTipsStars",
-		"assets/decryptor/star_background.png"
-	)
+
+	let backgroundSrc = "assets/decryptor/star_background.png";
+	switch (game.decryptor.enemy.type) {
+		case "cultist": backgroundSrc = "assets/decryptor/cultist_background.png"; break;
+		case "tindalos": backgroundSrc = "assets/decryptor/tindalos_background.png"; break;
+	}
+
+	game.load.image("backgroundTipsStars", backgroundSrc);
 	game.load.image("backgroundCave", "assets/decryptor/cave_background.png")
 	game.load.image(
 		"backgroundForest",
@@ -149,6 +155,8 @@ function loadSounds() {
 		"element_error",
 		"assets/decryptor/sound/voice_male_b_effort_quick_action_05.wav"
 	)
+
+	range(1, 3).map(n => game.load.audio(`madness${n}`, `assets/sound/Madness${n}.mp3`));
 }
 
 export class DecryptorScene {
@@ -197,7 +205,6 @@ export class DecryptorScene {
 		tipsPlaces = createPlaces()
 
 		this.createBackground()
-
 		this.createCountdownBar()
 
 		particleInitialized = false
@@ -213,12 +220,15 @@ export class DecryptorScene {
 		foundSoundEnd = game.sound.add("element_found_end")
 		errorSound = game.sound.add("element_error")
 
+		madnessSounds = range(1, 3).map(n => game.sound.add(`madness${n}`));
+
 		createElementsWithButtons()
 		createElementsToDecryptBackground()
 		createElementsToDecrypt()
 
 		if (isVariant(DecryptorConfig.BATTLE)) {
 			createHealthInfo()
+			startMusic(game.decryptor.enemy.type === "tindalos" ? "music_boss" : "music_battle")
 		}
 
 		activeElement(elementsToFind[gameState.elementIndex].display)
@@ -291,28 +301,24 @@ export class DecryptorScene {
 	}
 
 	createCountdownBar() {
-		if (!isVariant(DecryptorConfig.BATTLE)) {
-			countdownBar = game.add.graphics(
-				0,
-				game.height - downScreenHeight + 20
-			)
-			countdownBar.beginFill(0xcc0000, 0.2)
-			countdownBar.drawRect(0, 0, game.width, 1)
-			countdownBar.endFill()
-			gameObjects.push(countdownBar)
-		}
+		countdownBar = game.add.graphics(
+			0,
+			game.height - downScreenHeight + 20
+		)
+		countdownBar.beginFill(0xcc0000, 0.2)
+		countdownBar.drawRect(0, 0, game.width, 1)
+		countdownBar.endFill()
+		gameObjects.push(countdownBar)
 	}
 
 	update() { }
 
 	render() {
-		if (!isVariant(DecryptorConfig.BATTLE)) {
-			countdownBar.y =
-				(countDown.duration / 1000 / duration) *
-				(game.height - downScreenHeight + 20)
-			countdownBar.height =
-				game.height - downScreenHeight + 20 - countdownBar.y
-		}
+		countdownBar.y =
+			(countDown.duration / 1000 / duration) *
+			(game.height - downScreenHeight + 20)
+		countdownBar.height =
+			game.height - downScreenHeight + 20 - countdownBar.y
 	}
 
 	shutdown() {
@@ -762,8 +768,9 @@ function timerOver() {
 	if (isVariant(DecryptorConfig.BATTLE)) {
 		//TODO : le joueur perd moins de vie si le joueur a une potion de défense
 		game.camera.shake(0.01, 250)
-		game.camera.flash(0xcc0000, 500)
+		game.camera.flash(0xaa00cc, 500)
 		health -= MAX_HEALTH / nbPlayerHitsToWin
+		pickRandomIn(madnessSounds).play();
 		updatePlayerHealthBar()
 		if (health <= 0) {
 			gameOver(false, "Non... Il est dans ma tête !")
