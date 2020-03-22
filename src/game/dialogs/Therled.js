@@ -126,8 +126,7 @@ function rituel4() {
 					`Ce monstre semble affaibli ! C'est le moment de le bannir pour de bon !`
 				]))
 				.then(() => startFight({
-					name: "Chien de Tindalos",
-					type: "tindalos",
+					enemy: "Chien de Tindalos",
 					duration: 20,
 					nbPlayerHitsToWin: 16
 				}))

@@ -686,11 +686,13 @@ function gameOver(youWon, message) {
 
 	if (youWon) {
 		createWinningScreen(message)
-	} else if (isVariant(DecryptorConfig.BATTLE)) {
-		game.save.gameOver = "lose_battle"
-		game.state.start("GameOver")
 	} else {
 		createLosingScreen(message)
+		if (isVariant(DecryptorConfig.BATTLE)) {
+			game.camera.fade(0x000000, 500)
+			game.save.gameOver = "lose_battle"
+			setTimeout(() => game.state.start("GameOver"), 2000);
+		}
 	}
 
 	game.input.gamepad.onDownCallback = () => quitGame(youWon)
@@ -766,13 +768,14 @@ function timerOver() {
 		//TODO : le joueur perd moins de vie si le joueur a une potion de défense
 		game.camera.shake(0.01, 250)
 		game.camera.flash(0xaa00cc, 500)
-		health -= MAX_HEALTH / (nbRunes * game.decryptor.nbPlayerHitsToWin)
+		health -= MAX_HEALTH / game.decryptor.nbEnemyHitsToLose
 		pickRandomIn(madnessSounds).play();
-		setTimeout(() => pickRandomIn(sounds.HURT).play(), 500);
 		updatePlayerHealthBar()
 		if (health <= 0) {
+			sounds.DEATH.play();
 			gameOver(false, "Non... Il est dans ma tête !")
 		} else {
+			setTimeout(() => pickRandomIn(sounds.HURT).play(), 500);
 			countDown.removeAll()
 			countDown.add(Phaser.Timer.SECOND * game.decryptor.duration, timerOver, this)
 		}
@@ -822,7 +825,7 @@ function testKeyPressWithElement(keyPress, element) {
 
 		if (isVariant(DecryptorConfig.BATTLE)) {
 			//TODO : l'ennemi perd plus de vie si le joueur a une potion d'attaque
-			ennemyHealth -= MAX_HEALTH / game.decryptor.nbEnemyHitsToLose
+			ennemyHealth -= MAX_HEALTH / game.decryptor.nbPlayerHitsToWin
 			updateEnnemyHealthBar()
 			if (ennemyHealth <= 0) {
 				gameOver(true, "J'ai pris le dessus sur mon adversaire !")
@@ -915,7 +918,7 @@ function createMiddleText(textToDisplay, backgroundColor, textColor) {
 
 	game.add
 		.tween(middleText)
-		.to({ x: 0 }, 750, Phaser.Easing.Linear.None)
+		.to({ x: 0 }, 250, Phaser.Easing.Quadratic.InOut)
 		.start()
 }
 

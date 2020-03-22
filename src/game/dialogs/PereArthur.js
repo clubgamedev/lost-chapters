@@ -69,8 +69,7 @@ export function arthurMeeting(save) {
 				`Je vois... des runes ?`
 			])
 				.then(() => startFight({
-					type: "arthur",
-					name: "Père Arthur",
+					enemy: "Père Arthur",
 					duration: 30
 				}))
 				.then(youWon => {

@@ -8,11 +8,12 @@ export class GameOverScene {
         game.add.tileSprite(0, 0, game.width, game.height, "title-bg");
         const hasWon = (game.save.gameOver === "win")
         game.music.stop()
+        if (hasWon) sounds.GAME_WIN.play();
+        else sounds.GAME_OVER.play();
+
         openBook(`book_${game.save.gameOver}`).then(() => {
             this.title = game.add.image(game.width / 2, game.height / 2, hasWon ? "gameover-win" : "gameover");
             this.title.anchor.setTo(0.5);
-            if (hasWon) sounds.GAME_WIN.play();
-            else sounds.GAME_OVER.play();
             setTimeout(() => {
                 this.pressEnter = game.add.image(game.width / 2, game.height - 20, "enter");
                 this.pressEnter.anchor.setTo(0.5);

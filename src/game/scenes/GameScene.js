@@ -1,5 +1,5 @@
 import { save } from "../save"
-import { addSounds, sounds } from "../audio"
+import { sounds } from "../audio"
 import { Player } from "../characters/Player"
 import { goToLevel, levels } from "../levels"
 import { openBook } from "../utils/book"
@@ -90,8 +90,7 @@ export class GameScene {
             return talkTo("ennemy_cultist")
                 .then(() => {
                     startFight({
-                        type: "cultist",
-                        name: "Cultiste",
+                        enemy: "Cultiste",
                         duration: 25
                     }).then(() => {
                         game.save.enemiesDefeated.push(ennemy.properties.name)
