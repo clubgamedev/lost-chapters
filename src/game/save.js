@@ -7,6 +7,7 @@ export function loadSave() {
     if (localStorage.getItem(SAVE_KEY) != null) {
         Object.assign(game.save, JSON.parse(localStorage.getItem(SAVE_KEY)));
     }
+    game.save.lucidity = Math.max(3, game.save.lucidity); // min 3 hp in case loading save on a monster
 }
 
 export function save() {
@@ -55,6 +56,7 @@ export function resetSaveToNewGame() {
         unlockedExits: [],
         unlockedHallucinations: [],
         enemiesDefeated: [],
-        lucidity: 16
+        lucidity: 16,
+        gameOver: null
     }
 }

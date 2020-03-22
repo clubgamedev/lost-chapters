@@ -27,6 +27,7 @@ export class Player extends Character {
 		this.watchingPoint = this.worldPosition;
 		this.isMoving = false;
 		this.isRunning = false;
+		this.isDying = false;
 
 		this.interactionSprite = game.make.sprite(0, 0, 'interactions');
 		this.interactionSprite.animations.add("talk", [0, 1, 2, 3], 3, true);
@@ -78,6 +79,11 @@ export class Player extends Character {
 		}
 	}
 
+	destroy() {
+		super.destroy();
+		clearTimeout(this.footstepTimeout);
+	}
+
 	playFootstepSound() {
 		let sound = pickRandomIn(sounds[game.level.footstepSounds])
 		sound.volume = this.isRunning ? 0.7 : 0.4;
@@ -116,6 +122,7 @@ export class Player extends Character {
 			|| game.page
 			|| controls.ACTION.isPressed()
 			|| this.isForceMoving
+			|| this.isDying
 			|| game.selectedItem != null
 		) {
 			canMove = false;
@@ -266,9 +273,30 @@ export class Player extends Character {
 								if (traduction.after) traduction.after(game.save)
 							})
 					} else {
-						game.decryptor = { variants: variant.split(","), duration, translation: name }
-						save();
-						return game.state.start("Decryptor");
+						return startDecryptor({
+							variants: variant.split(","),
+							duration,
+							translation: name
+						}).then(youWon => {
+							if (youWon) {
+								let traduction = traductions[name];
+								if (traduction.before) traduction.before(game.save)
+								return talkToMyself([
+									"Ça y est, j'ai trouvé !",
+									...traduction.lines.map(part => `"${part}"`),
+								]).then(() => {
+									game.save.translationsFound.push(name)
+									save()
+									if (traduction.after) traduction.after(game.save)
+									else talkToMyself(["Intéressant..."]);
+								})
+							} else {
+								return talkToMyself([
+									"Je me suis encore trompé...",
+									"Bon, recommençons depuis le début !"
+								])
+							}
+						})
 					}
 				case "chaudron":
 					readDescription("chaudron");

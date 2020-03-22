@@ -283,8 +283,8 @@
                  "type":"loot",
                  "visible":true,
                  "width":16,
-                 "x":527.75,
-                 "y":63
+                 "x":528.75,
+                 "y":60
                 }],
          "opacity":1,
          "type":"objectgroup",

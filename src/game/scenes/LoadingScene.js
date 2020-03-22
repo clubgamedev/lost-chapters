@@ -18,6 +18,7 @@ export class LoadingScene {
 		game.load.image("instructions", "assets/sprites/instructions.png");
 		game.load.image("credits", "assets/sprites/credits.png");
 		game.load.image("gameover", "assets/sprites/game-over.png");
+		game.load.image("gameover-win", "assets/sprites/game-over-win.png");
 
 		// tileset
 		game.load.image("tileset_forest", "assets/environment/forest_tileset.png");
@@ -85,7 +86,7 @@ export class LoadingScene {
 		game.load.image('plumeDeGeai', 'assets/items/plumeDeGeai.png');
 		game.load.image('parchemin', 'assets/items/parchemin.png', 16, 32, 3);
 		game.load.image('plumeDeGeai', 'assets/items/plumeDeGeai.png');
-		game.load.image('racineEllebore', 'assets/items/racineEllebore.png');
+		game.load.image('racineHellebore', 'assets/items/racineHellebore.png');
 		game.load.image('sangLibellule', 'assets/items/sangLibellule.png');
 		game.load.image('vieilleGnole', 'assets/items/vieilleGnole.png');
 

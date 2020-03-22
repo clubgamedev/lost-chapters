@@ -1,10 +1,11 @@
+import { save } from "../save"
 import { addSounds, sounds } from "../audio"
 import { Player } from "../characters/Player"
 import { goToLevel, levels } from "../levels"
 import { openBook } from "../utils/book"
 import { updateHud } from "../utils/hud"
-import { save } from "../save"
 import { talkTo } from "../utils/dialog"
+import { pickRandomIn } from "../utils/array";
 import { toggleItemSelection } from "../utils/inventory"
 import { showMiddleText } from "../utils/message"
 import { startFight } from "../scenes/minigames/Decryptor"
@@ -88,18 +89,29 @@ export class GameScene {
             ennemy.stopMoving();
             return talkTo("ennemy_cultist")
                 .then(() => {
-                    ennemy.name = "Cultiste"
-                    startFight(ennemy)
+                    startFight({
+                        type: "cultist",
+                        name: "Cultiste",
+                        duration: 25
+                    }).then(() => {
+                        game.save.enemiesDefeated.push(ennemy.properties.name)
+                        setTimeout(() => {
+                            talkToMyself([
+                                `Celui-là est hors d'état de nuire.`,
+                                `Je dois continuer d'avancer !`
+                            ]);
+                        }, 500)
+                    })
                 })
         }
 
         game.player.alpha = 0.5
         game.save.lucidity--
 
-        sounds.HURT.play()
         if (game.save.lucidity < 1) {
             this.gameOver()
         } else {
+            pickRandomIn(sounds.HURT).play()
             setTimeout(() => {
                 this.hurtInvincibility = false
                 game.player.alpha = 1
@@ -109,8 +121,11 @@ export class GameScene {
 
 
     gameOver() {
-        game.music.stop()
-        game.state.start("GameOver")
+        game.player.isDying = true;
+        sounds.DEATH.play();
+        game.camera.fade(0x000000, 800)
+        game.save.gameOver = "lose_overworld"
+        setTimeout(() => game.state.start("GameOver"), 1250)
     }
 
     debugGame() {

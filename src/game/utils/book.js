@@ -3,7 +3,7 @@ import { sounds } from "../audio"
 
 export function openBook(bookName, page = 1) {
     let pages = books[bookName]
-    if (!pages) return;
+    if (!pages) return Promise.reject("Book not found");
     if (game.player && game.player.body) game.player.stopMoving();
 
     let bgSprite = game.add.sprite(35, 4, "book-bg");

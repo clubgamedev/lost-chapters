@@ -12,9 +12,9 @@ export function loadAudio() {
     game.load.audio("music_battle", ["assets/sound/BRPG_Take_Courage_FULL_Loop.ogg"]);
     game.load.audio("music_boss", ["assets/sound/BRPG_Hell_Spawn_FULL_Loop.ogg"]);
 
-    game.load.audio("hurt", ["assets/sound/hurt.ogg", "assets/sound/hurt.mp3"]);
     game.load.audio("item", ["assets/sound/collect_item_02.wav", "assets/sound/item.mp3"]);
     game.load.audio("hallucination", ["assets/sound/hallucination.wav"]);
+    game.load.audio("death", ["assets/sound/death.wav"]);
 
     game.load.audio('pick', ['assets/alchemy/sounds/pick.wav']);
     game.load.audio('cook_fail', ['assets/alchemy/sounds/cook_fail.wav']);
@@ -26,10 +26,13 @@ export function loadAudio() {
     game.load.audio("menu_negative", ['assets/sound/MenuNegative.wav']);
     game.load.audio("menu_move", ['assets/sound/MenuMove.wav']);
     game.load.audio("start_game", ['assets/sound/GameStart.ogg']);
+    game.load.audio("game_over", ['assets/sound/GameOver.mp3']);
+    game.load.audio("game_win", ['assets/sound/GameWin.mp3']);
 
     range(1, 14).map(n => game.load.audio(`footstep_wood_${n}`, `assets/sound/Footsteps_Casual_LowWood_${('0' + n).slice(-2)}.ogg`));
     range(1, 14).map(n => game.load.audio(`footstep_earth_${n}`, `assets/sound/Footsteps_Casual_Earth_${('0' + n).slice(-2)}.ogg`));
     range(1, 10).map(n => game.load.audio(`footstep_mud_${n}`, `assets/sound/Footsteps_Casual_Mud_${('0' + n).slice(-2)}.ogg`));
+    range(1, 2).map(n => game.load.audio(`hurt${n}`, `assets/sound/hurt${n}.wav`));
 }
 
 export function addSounds() {
@@ -38,6 +41,7 @@ export function addSounds() {
         ITEM: game.add.audio("item"),
         HALLUCINATION: game.add.audio("hallucination"),
         PICK: game.sound.add('pick'),
+        DEATH: game.sound.add('death'),
         COOK_SUCCESS: game.sound.add('cook_success'),
         COOK_FAIL: game.sound.add('cook_fail'),
         OPEN_BOOK: game.sound.add('book_open'),
@@ -46,12 +50,15 @@ export function addSounds() {
         MENU_POSITIVE: game.sound.add('menu_positive'),
         MENU_NEGATIVE: game.sound.add('menu_negative'),
         MENU_MOVE: game.sound.add('menu_move'),
-        START_GAME: game.sound.add('start_game')
+        START_GAME: game.sound.add('start_game'),
+        GAME_OVER: game.sound.add('game_over'),
+        GAME_WIN: game.add.audio('game_win')
     })
 
     sounds.FOOTSTEPS_WOOD = range(1, 14).map(n => game.sound.add(`footstep_wood_${n}`))
     sounds.FOOTSTEPS_EARTH = range(1, 14).map(n => game.sound.add(`footstep_earth_${n}`))
     sounds.FOOTSTEPS_MUD = range(1, 10).map(n => game.sound.add(`footstep_mud_${n}`))
+    sounds.HURT = range(1, 2).map(n => game.sound.add(`hurt${n}`))
 
 }
 

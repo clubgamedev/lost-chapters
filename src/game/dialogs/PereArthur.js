@@ -67,10 +67,15 @@ export function arthurMeeting(save) {
 				`L'homme remue les lèvres sans produire aucun son.`,
 				`Que se passe-t-il ? Ma vision se trouble...`,
 				`Je vois... des runes ?`
-			]).then(() => {
-				save.hasBeatenArthur = true
-				startFight({ name: "Arthur" })
-			})
+			])
+				.then(() => startFight({
+					type: "arthur",
+					name: "Père Arthur",
+					duration: 30
+				}))
+				.then(youWon => {
+					if (youWon) game.save.hasBeatenArthur = true;
+				})
 	]
 }
 

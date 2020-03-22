@@ -81,7 +81,7 @@ const loots = {
             } else {
                 game.save.loot.sangLibellule = true;
                 return talkToMyself([
-                    `Ce sont des psycholibes, tels que dessinés sur la recette du psycho-stimulant.`,
+                    `Ce sont les psycholibes de la recette du psycho-stimulant.`,
                     `Parfait, j'ai l'ingrédient principal !`
                 ]).then(() => true)
             }

@@ -337,9 +337,10 @@ export const descriptions = {
 					]).then(() => {
 						save.lucidity = Math.max(1, save.lucidity - 8);
 						sounds.HALLUCINATION.play();
-						return startDialog([
-							`AAAAAaaaaaaaah !`
-						]).then(() => talkToMyself([
+						return startDialog([`AAAAAaaaaaaaah !`], {
+							speaker: "afraid",
+							color: "#82ACDC"
+						}).then(() => talkToMyself([
 							`J'ai vu des yeux terrifiants me fixer par delà l'horizon...`,
 							`Ce n'est... qu'une... hallucination...`
 						]))

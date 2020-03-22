@@ -122,11 +122,27 @@ function rituel4() {
 				],
 				{ speaker: "therled" }
 			)
+				.then(() => talkToMyself([
+					`Ce monstre semble affaibli ! C'est le moment de le bannir pour de bon !`
+				]))
+				.then(() => startFight({
+					name: "Chien de Tindalos",
+					type: "tindalos",
+					duration: 20,
+					nbPlayerHitsToWin: 16
+				}))
+				.then(() => startDialog(
+					[
+						"Noooon ! Qu'avez-vous fait !? Aargh...."
+					],
+					{ speaker: "therled" }
+				))
 				.then(() => tindalos.fadeOut())
 				.then(() =>
 					startDialog(
 						[
-							"C'est fini Therled ! Vous n'invoquerez pas ce monstre !"
+							"C'est fini Therled ! Vous n'invoquerez pas ce monstre !",
+							"Therled, vous m'entendez ?"
 						],
 						{ speaker: "howard" }
 					)
@@ -147,7 +163,7 @@ function rituel4() {
 				],
 				{ speaker: "therled" }
 			).then(() => {
-				game.save.gameOver = "lose"
+				game.save.gameOver = "lose_battle"
 				game.state.start("GameOver")
 			})
 		}

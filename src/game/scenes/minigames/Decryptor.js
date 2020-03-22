@@ -4,15 +4,16 @@ import { stick } from "../../utils/controls"
 import { save } from "../../save"
 import { createParticlesEmitter } from "../../effects/particles"
 import { traductions } from "../../dialogs/traductions"
-import { startMusic } from "../../audio";
+import { startMusic, sounds } from "../../audio";
 
 let countDown
 let timerText
 let keyAction
-let duration, variants
+let variants
 
 let elementsToFind = []
-let MAX_NB_BUTTONS = 8
+let NB_RUNES_TO_FIND = 8
+let NB_RUNES = 12;
 let actionArray = ["u", "d", "l", "r", "1", "2", "3", "4"]
 let zodiacsArray = [
 	"aquarius",
@@ -66,10 +67,6 @@ let MAX_HEALTH = 100
 let health
 let ennemyHealth
 let healthInfoText = {}
-const defaultNbPlayerHitsToWin = 8
-const defaultNbEnemyHitsToWin = 8
-let nbPlayerHitsToWin = defaultNbPlayerHitsToWin
-let nbEnemyHitsToWin = defaultNbEnemyHitsToWin
 
 let DecryptorConfig = {
 	BLINK: "blink",
@@ -100,11 +97,15 @@ function loadZodiacs() {
 	game.load.image("scorpio", "assets/decryptor/scorpio.png")
 	game.load.image("taurus", "assets/decryptor/taurus.png")
 	game.load.image("virgo", "assets/decryptor/virgo.png")
+	game.load.image("arthur_background", "assets/decryptor/arthur_background.png")
+	game.load.image("cultist_background", "assets/decryptor/cultist_background.png")
+	game.load.image("tindalos_background", "assets/decryptor/tindalos_background.png")
 
 	let backgroundSrc = "assets/decryptor/star_background.png";
-	switch (game.decryptor.enemy.type) {
-		case "cultist": backgroundSrc = "assets/decryptor/cultist_background.png"; break;
-		case "tindalos": backgroundSrc = "assets/decryptor/tindalos_background.png"; break;
+	switch (game.decryptor.enemy) {
+		case "Père Arthur": backgroundSrc = "assets/decryptor/arthur_background.png"; break;
+		case "Cultiste": backgroundSrc = "assets/decryptor/cultist_background.png"; break;
+		case "Chien de Tindalos": backgroundSrc = "assets/decryptor/tindalos_background.png"; break;
 	}
 
 	game.load.image("backgroundTipsStars", backgroundSrc);
@@ -194,9 +195,6 @@ export class DecryptorScene {
 	}
 
 	create() {
-		duration = game.decryptor.duration || 30
-		variants = game.decryptor.variants || []
-
 		game.scale.setGameSize(800, 450)
 
 		downScreenHeight = game.height / 5
@@ -228,13 +226,13 @@ export class DecryptorScene {
 
 		if (isVariant(DecryptorConfig.BATTLE)) {
 			createHealthInfo()
-			startMusic(game.decryptor.enemy.type === "tindalos" ? "music_boss" : "music_battle")
+			startMusic(game.decryptor.enemy === "Chien de Tindalos" ? "music_boss" : "music_battle")
 		}
 
 		activeElement(elementsToFind[gameState.elementIndex].display)
 
 		countDown = game.time.create(false)
-		countDown.add(Phaser.Timer.SECOND * duration, timerOver, this)
+		countDown.add(Phaser.Timer.SECOND * game.decryptor.duration, timerOver, this)
 		countDown.start()
 
 		activePotions()
@@ -315,7 +313,7 @@ export class DecryptorScene {
 
 	render() {
 		countdownBar.y =
-			(countDown.duration / 1000 / duration) *
+			(countDown.duration / 1000 / game.decryptor.duration) *
 			(game.height - downScreenHeight + 20)
 		countdownBar.height =
 			game.height - downScreenHeight + 20 - countdownBar.y
@@ -337,19 +335,16 @@ function activePotions() {
 		game.save.inventory.items.potionDeProtection &&
 		game.save.inventory.items.potionDeProtection.actif
 	) {
-		nbPlayerHitsToWin = defaultNbPlayerHitsToWin + 2
-	} else {
-		nbPlayerHitsToWin = defaultNbPlayerHitsToWin
+		game.decryptor.nbEnemyHitsToLose += 1
 	}
 
 	if (
 		game.save.inventory.items.potionDeForce &&
 		game.save.inventory.items.potionDeForce.actif
 	) {
-		nbEnemyHitsToWin = defaultNbEnemyHitsToWin - 2
-	} else {
-		nbEnemyHitsToWin = defaultNbEnemyHitsToWin
+		game.decryptor.nbPlayerHitsToWin = Math.ceil(game.decryptor.nbPlayerHitsToWin * 0.8)
 	}
+
 	displayActivePotions()
 }
 
@@ -416,7 +411,7 @@ function createHealthInfo() {
 	gameObjects.push(healthBar)
 
 	textStyle.boundsAlignH = "right"
-	let textEnnemyHealth = game.add.text(game.width / 2, 0, game.decryptor.enemy.name, textStyle)
+	let textEnnemyHealth = game.add.text(game.width / 2, 0, game.decryptor.enemy, textStyle)
 	textEnnemyHealth.setTextBounds(0, 0, game.width / 2 - 55, 15)
 	textBarGroup.add(textEnnemyHealth)
 	gameObjects.push(textEnnemyHealth)
@@ -536,8 +531,8 @@ function createElementsToDecrypt() {
 	elementsToFind = []
 	let sunburnScale = 1.5
 
-	for (let i = 0; i < MAX_NB_BUTTONS; i++) {
-		let action = actionArray[Math.floor(Math.random() * MAX_NB_BUTTONS)]
+	for (let i = 0; i < NB_RUNES_TO_FIND; i++) {
+		let action = actionArray[Math.floor(Math.random() * NB_RUNES_TO_FIND)]
 		let elementPlace = new Phaser.Graphics(
 			game,
 			0,
@@ -597,7 +592,7 @@ function findActionForZodiac(zodiacToFind) {
 }
 
 function isVariant(variantName) {
-	return variants.includes(variantName)
+	return game.decryptor.variants.includes(variantName)
 }
 
 function createElementsWithButtons() {
@@ -688,10 +683,11 @@ function createPlaces() {
 
 function gameOver(youWon, message) {
 	countDown.stop()
+
 	if (youWon) {
 		createWinningScreen(message)
 	} else if (isVariant(DecryptorConfig.BATTLE)) {
-		game.save.gameOver = "lose"
+		game.save.gameOver = "lose_battle"
 		game.state.start("GameOver")
 	} else {
 		createLosingScreen(message)
@@ -699,6 +695,7 @@ function gameOver(youWon, message) {
 
 	game.input.gamepad.onDownCallback = () => quitGame(youWon)
 	game.input.keyboard.onDownCallback = () => quitGame(youWon)
+
 }
 
 function decryptOver() {
@@ -769,14 +766,15 @@ function timerOver() {
 		//TODO : le joueur perd moins de vie si le joueur a une potion de défense
 		game.camera.shake(0.01, 250)
 		game.camera.flash(0xaa00cc, 500)
-		health -= MAX_HEALTH / nbPlayerHitsToWin
+		health -= MAX_HEALTH / (nbRunes * game.decryptor.nbPlayerHitsToWin)
 		pickRandomIn(madnessSounds).play();
+		setTimeout(() => pickRandomIn(sounds.HURT).play(), 500);
 		updatePlayerHealthBar()
 		if (health <= 0) {
 			gameOver(false, "Non... Il est dans ma tête !")
 		} else {
 			countDown.removeAll()
-			countDown.add(Phaser.Timer.SECOND * duration, timerOver, this)
+			countDown.add(Phaser.Timer.SECOND * game.decryptor.duration, timerOver, this)
 		}
 	} else {
 		gameOver(false)
@@ -786,43 +784,11 @@ function timerOver() {
 function quitGame(youWon) {
 	game.input.gamepad.onDownCallback = null
 	game.input.keyboard.onDownCallback = null
-	let translationKey = game.decryptor.translation
-
-	if (game.decryptor.translation) {
-		setTimeout(() => {
-			if (youWon) {
-				let traduction = traductions[translationKey];
-				if (traduction.before) traduction.before(game.save)
-				talkToMyself([
-					"Ça y est, j'ai trouvé !",
-					...traduction.lines.map(part => `"${part}"`),
-				]).then(() => {
-					game.save.translationsFound.push(translationKey)
-					save()
-					if (traduction.after) traduction.after(game.save)
-					else talkToMyself(["Intéressant..."]);
-				})
-			} else {
-				talkToMyself([
-					"Je me suis encore trompé...",
-					"Bon, recommençons depuis le début !"
-				])
-			}
-		}, 500)
-	}
-
-	if (isVariant(DecryptorConfig.BATTLE) && youWon) {
-		game.save.enemiesDefeated.push(game.decryptor.enemy.properties.name)
-		setTimeout(() => {
-			talkToMyself([
-				`Celui-là est hors d'état de nuire.`,
-				`Je dois continuer d'avancer !`
-			]);
-		}, 500)
-	}
-
 	game.state.start("MainGame")
-	delete game.decryptor
+	setTimeout(() => {
+		game.decryptor.onEnd(youWon);
+		delete game.decryptor
+	}, 500)
 }
 
 function clearScreenTips() {
@@ -856,14 +822,14 @@ function testKeyPressWithElement(keyPress, element) {
 
 		if (isVariant(DecryptorConfig.BATTLE)) {
 			//TODO : l'ennemi perd plus de vie si le joueur a une potion d'attaque
-			ennemyHealth -= MAX_HEALTH / nbEnemyHitsToWin
+			ennemyHealth -= MAX_HEALTH / game.decryptor.nbEnemyHitsToLose
 			updateEnnemyHealthBar()
 			if (ennemyHealth <= 0) {
 				gameOver(true, "J'ai pris le dessus sur mon adversaire !")
 			}
 		}
 
-		if (gameState.elementIndex === MAX_NB_BUTTONS) {
+		if (gameState.elementIndex === NB_RUNES_TO_FIND) {
 			decryptOver()
 		} else {
 			activeElement(elementsToFind[gameState.elementIndex].display)
@@ -879,13 +845,12 @@ function testKeyPressWithElement(keyPress, element) {
 			}
 		}
 	} else {
-		let duration = countDown.duration
 		game.camera.shake(0.01, 250)
 		game.camera.flash(0xcc0000, 500)
-		if (duration > 5000) {
+		if (countDown.duration > 5000) {
 			errorSound.play()
 			countDown.removeAll()
-			countDown.add(duration - Phaser.Timer.SECOND * 5, timerOver, this)
+			countDown.add(countDown.duration - Phaser.Timer.SECOND * 5, timerOver, this)
 		} else {
 			timerOver()
 		}
@@ -954,12 +919,34 @@ function createMiddleText(textToDisplay, backgroundColor, textColor) {
 		.start()
 }
 
-export function startFight(enemy) {
+export function startFight({
+	enemy,
+	duration = 30,
+	nbEnemyHitsToLose = 3,
+	nbPlayerHitsToWin = NB_RUNES_TO_FIND
+}) {
 	game.camera.shake(0.01, 250)
 	game.camera.flash(0xcc0000, 500)
-	setTimeout(() => {
-		game.decryptor = { variants: ["battle"], enemy }
-		save()
-		game.state.start("Decryptor")
-	}, 500)
+	return new Promise(resolve => {
+		setTimeout(() => {
+			game.decryptor = {
+				variants: ["battle"],
+				enemy,
+				duration,
+				onEnd: resolve,
+				nbEnemyHitsToLose,
+				nbPlayerHitsToWin
+			}
+			save()
+			game.state.start("Decryptor")
+		}, 500)
+	})
+}
+
+export function startDecryptor({ variants = [], duration = 30, translation }) {
+	return new Promise(resolve => {
+		game.decryptor = { variants, duration, translation, onEnd: resolve }
+		save();
+		game.state.start("Decryptor");
+	});
 }
