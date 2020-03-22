@@ -25,6 +25,7 @@ export function loadAudio() {
     game.load.audio("menu_positive", ['assets/sound/MenuPositive.wav']);
     game.load.audio("menu_negative", ['assets/sound/MenuNegative.wav']);
     game.load.audio("menu_move", ['assets/sound/MenuMove.wav']);
+    game.load.audio("start_game", ['assets/sound/GameStart.ogg']);
 
     range(1, 14).map(n => game.load.audio(`footstep_wood_${n}`, `assets/sound/Footsteps_Casual_LowWood_${('0' + n).slice(-2)}.ogg`));
     range(1, 14).map(n => game.load.audio(`footstep_earth_${n}`, `assets/sound/Footsteps_Casual_Earth_${('0' + n).slice(-2)}.ogg`));
@@ -44,7 +45,8 @@ export function addSounds() {
         PAGE: game.sound.add('book_page'),
         MENU_POSITIVE: game.sound.add('menu_positive'),
         MENU_NEGATIVE: game.sound.add('menu_negative'),
-        MENU_MOVE: game.sound.add('menu_move')
+        MENU_MOVE: game.sound.add('menu_move'),
+        START_GAME: game.sound.add('start_game')
     })
 
     sounds.FOOTSTEPS_WOOD = range(1, 14).map(n => game.sound.add(`footstep_wood_${n}`))

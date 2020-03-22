@@ -322,6 +322,34 @@ export const descriptions = {
 		]
 	},
 
+	liao: save => {
+		return [
+			`Cette potion porte l'étiquette "Liao".`,
+			`Il s'agit du psychotrope utilisé par Therled sur les étudiants.`,
+			`Franck m'a dit de ne pas y toucher, mais c'est peut-être la clé ?`,
+			`Que devrais-je faire ?`,
+			{
+				"La boire": () => {
+					save.inventory.items.liao.nombre--;
+					drinkPotion([
+						"Liao consommé",
+						"L'espace se plie autour de vous..."
+					]).then(() => {
+						save.lucidity = Math.max(1, save.lucidity - 8);
+						sounds.HALLUCINATION.play();
+						return startDialog([
+							`AAAAAaaaaaaaah !`
+						]).then(() => talkToMyself([
+							`J'ai vu des yeux terrifiants me fixer par delà l'horizon...`,
+							`Ce n'est... qu'une... hallucination...`
+						]))
+					})
+				},
+				"La ranger": () => { }
+			}
+		]
+	},
+
 	antidote: save => {
 		return [antidote.description, "Ça pourrait me servir plus tard..."]
 	},

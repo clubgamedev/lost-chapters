@@ -80,6 +80,7 @@ export class LoadingScene {
 		game.load.image('cireBougieNoire', 'assets/items/cireBougieNoire.png');
 		game.load.image('epineDePoissonDiable', 'assets/items/epineDePoissonDiable.png');
 		game.load.image('foieDeCerf', 'assets/items/foieDeCerf.png');
+		game.load.image('liao', 'assets/items/liao.png');
 		game.load.image('oeufDeCorbeau', 'assets/items/oeufDeCorbeau.png');
 		game.load.image('plumeDeGeai', 'assets/items/plumeDeGeai.png');
 		game.load.image('parchemin', 'assets/items/parchemin.png', 16, 32, 3);

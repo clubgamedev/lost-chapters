@@ -18,22 +18,26 @@ export class MenuScene {
 
         if (game.save) {
             menu["Continuer l'aventure"] = () => {
+                sounds.START_GAME.play()
                 requestAnimationFrame(() => this.game.state.start("MainGame"));
             }
         }
 
         Object.assign(menu, {
             "Nouvelle partie": () => {
+                sounds.START_GAME.play()
                 resetSaveToNewGame();
                 requestAnimationFrame(() => this.game.state.start("MainGame"));
             },
             "Contrôles": () => {
+                sounds.MENU_POSITIVE.play();
                 this.instructions = game.add.image(game.width / 2, game.height / 2, "instructions");
                 this.instructions.anchor.setTo(0.5);
                 game.controls.ACTION.onPress(() => this.backToMenu(), this, true)
                 game.controls.ENTER.onPress(() => this.backToMenu(), this, true)
             },
             "Crédits": () => {
+                sounds.MENU_POSITIVE.play();
                 this.credits = game.add.image(game.width / 2, game.height / 2, "credits");
                 this.credits.anchor.setTo(0.5);
                 game.controls.ACTION.onPress(() => this.backToMenu(), this, true)
@@ -91,7 +95,6 @@ export class MenuScene {
         game.controls.ACTION.resetEvents()
         game.controls.ENTER.resetEvents()
         delete this.menu;
-        sounds.MENU_POSITIVE.play();
         selectedChoice()
     }
 

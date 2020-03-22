@@ -264,6 +264,9 @@ export class Level {
 				if (Constructor === Hallucination && game.save.unlockedHallucinations.includes(object.name)) {
 					return; // do not reinstanciate previous hallucinations
 				}
+				if (Constructor === Loot && game.save.loot[object.name] === true) {
+					return; // remove already found loot
+				}
 
 				let sprite = new Constructor({
 					x: object.x / 16,

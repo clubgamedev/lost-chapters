@@ -29,6 +29,9 @@ export class Inventory {
             cape: {
                 nombre: 0
             },
+            liao: {
+                nombre: 0
+            }
         };
     }
 }
@@ -36,9 +39,9 @@ export class Inventory {
 export function drinkPotion(textsToDisplay) {
     if (textsToDisplay.length > 0) {
         let drinkPotionText = game.add.text(game.player.position.x, game.player.position.y - 20, textsToDisplay[0], {
-            font: "8px Arial",
+            font: "14px Alagard",
             fill: "white",
-            boundsAlignH: "right",
+            boundsAlignH: "center",
             boundsAlignV: "top"
         });
         //drinkPotionText.visible = false;
@@ -52,11 +55,14 @@ export function drinkPotion(textsToDisplay) {
             .to({ y: drinkPotionText.position.y - 20, alpha: 0.1 }, 2000, Phaser.Easing.Linear.None)
             .start();
 
-        tween.onComplete.add(() => {
-            drinkPotionText.destroy();
-            textsToDisplay.shift();
-            drinkPotion(textsToDisplay);
-        }, this)
+        return new Promise(resolve => {
+            tween.onComplete.add(() => {
+                drinkPotionText.destroy();
+                textsToDisplay.shift();
+                drinkPotion(textsToDisplay);
+                resolve();
+            }, this)
+        })
     }
 }
 

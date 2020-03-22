@@ -161,7 +161,20 @@ const loots = {
             `C'est une copie quasi identique du parchemin caché dans l'établi.`,
             `Il doit s'agit du rituel d'invocation dont parlait Marie.`
         ]).then(() => {
+            game.save.loot.parchemin = true;
             game.save.inventory.items.parchemin.nombre++
+            return true;
+        })
+    },
+
+    liao() {
+        return talkToMyself([
+            `Une potion à la couleur étrange porte l'étiquette "Liao".`,
+            `C'est donc ça le psychotrope que mentionnait Franck !`,
+            `Je vais la prendre avec moi, mais je ne devrais pas y toucher.`
+        ]).then(() => {
+            game.save.loot.liao = true;
+            game.save.inventory.items.liao.nombre++
             return true;
         })
     }

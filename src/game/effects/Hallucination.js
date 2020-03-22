@@ -40,7 +40,7 @@ export const hallucinations = {
         }
     },
 
-    marie_body(sprite){
+    marie_body(sprite) {
         talkToMyself([
             `C'est Soeur Marie !`,
             `Ses lèvres sont blèmes et son corps est froid... Elle ne respire plus...`,
@@ -52,8 +52,8 @@ export const hallucinations = {
                 color: "#82ACDC"
             });
         }).then(() => {
-            if(game.save.lucidity > 3){
-                game.save.lucidity = Math.max(3, game.save.lucidity - 8)
+            if (game.save.lucidity > 3) {
+                game.save.lucidity = Math.max(3, +game.save.lucidity - 8)
             }
             sounds.HALLUCINATION.play();
             game.save.unlockedHallucinations.push("marie_body")
