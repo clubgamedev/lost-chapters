@@ -1,17 +1,23 @@
 import { Character, CHARACTER_STATE } from "./Character"
 import { save } from "../save";
+import { sounds } from "../audio";
+
 import { openBook, nextPage } from "../utils/book";
 import { closePage, readPage } from "../utils/page";
 import { controls } from "../utils/controls"
-import { talkTo, nextLine, talkToMyself } from "../utils/dialog";
-import { readDescription, descriptions } from "../dialogs/descriptions";
-import { traductions } from "../dialogs/traductions";
-import { pickLoot } from "../items/loot";
-import { blocs } from "../items/Bloc";
-import { hallucinations } from "../effects/Hallucination";
-import { sounds } from "../audio";
 import { pickRandomIn } from "../utils/array";
 import { describeSelectedItem } from "../utils/inventory";
+import { talkTo, nextLine, talkToMyself } from "../utils/dialog";
+
+import { readDescription, descriptions } from "../dialogs/descriptions";
+import { traductions } from "../dialogs/traductions";
+
+import { pickLoot } from "../items/loot";
+import { blocs } from "../items/Bloc";
+
+import { hallucinations } from "../effects/Hallucination";
+
+import { startDecryptor } from "../scenes/minigames/Decryptor"
 
 const MOVE_SPEED = 50
 const RUN_SPEED = 100;

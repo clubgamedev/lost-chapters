@@ -12,7 +12,7 @@ import { destroyMurSecret } from "../items/Bloc"
 
 export function readDescription(name) {
 	let description = descriptions[name]
-	if (!description) return console.error(`Description not found: ${name}`)
+	if (!description) return Promise.reject(`Description not found: ${name}`)
 
 	if (typeof description === "function") description = { action: description }
 
