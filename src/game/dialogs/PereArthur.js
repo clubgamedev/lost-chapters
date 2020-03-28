@@ -1,4 +1,4 @@
-import { talkToMyself, exhaustDialog } from "../utils/dialog.js"
+import { talkTo, talkToMyself, exhaustDialog } from "../utils/dialog.js"
 import { startFight } from "../scenes/minigames/Decryptor.js"
 import { sounds } from "../audio.js"
 
@@ -17,7 +17,7 @@ export function arthur(save) {
 						"Je lui explique, sans trop de détails, l'objet de mon enquête."
 					]).then(() => {
 						save.hasTalkedToArthur = true
-						return arthurRappel(save)
+						return talkTo("arthur")
 					})
 			}
 		]
@@ -28,25 +28,27 @@ export function arthurRappel(save) {
 		"Alors ainsi, tu en as après Therled...",
 		"Peut-être que nos objectifs concordent finalement...",
 		arthurQuestions(save),
-		{
-			"Où est Marie ?": () => {
-				return [
-					`Soeur Marie a désobéi aux règles de notre Ordre.`,
-					`Elle a manipulé des écritures interdites et les a mises entre les`,
-					`mains d'un étranger... Vous ! Son sort est maintenant scellé...`
-				]
-			}
-		},
-		{
-			"Qu'avez-vous fait d'elle ?": () => {
-				return [`Cela ne te regarde pas !`]
-			},
-			"Laissez-la tranquille !": () => {
-				return [`Tu n'es pas en position de me donner des ordres !`]
-			}
-		},
+		arthurMarie(),
 		() => arthurEnding(save)
 	]
+}
+
+export function arthurMarie() {
+	return {
+		"Où est Marie ?": () => {
+			return [
+				`Soeur Marie a désobéi aux règles de notre Ordre.`,
+				`Elle a manipulé des écritures interdites et les a mises entre les`,
+				`mains d'un étranger... Vous ! Son sort est maintenant scellé...`
+			]
+		},
+		"Qu'avez-vous fait d'elle ?": () => {
+			return [`Cela ne te regarde pas !`]
+		},
+		"Laissez-la tranquille !": () => {
+			return [`Tu n'es pas en position de me donner des ordres !`]
+		}
+	}
 }
 
 export function arthurEnding(save) {
@@ -54,7 +56,12 @@ export function arthurEnding(save) {
 	return [
 		"Ne penses-tu pas avoir déjà causé assez de mal comme ça ?",
 		"Mets-toi au travail, inspecteur. Retrouve la trace de Therled !",
-		"Et peut-être alors que je pardonnerais Soeur Marie..."
+		"Et peut-être alors que je pardonnerais Soeur Marie...",
+		exhaustDialog({
+			"L'antidote": () => ingredientsAntidote(save),
+			"Marie": () => arthurMarie(save),
+			"Rappelez-moi...": () => arthurQuestions(save)
+		}, "Je reviendrais...")
 	]
 }
 
@@ -73,7 +80,10 @@ export function arthurMeeting(save) {
 					duration: 30
 				}))
 				.then(youWon => {
-					if (youWon) game.save.hasBeatenArthur = true;
+					if (youWon) {
+						game.save.hasBeatenArthur = true;
+						return talkTo("arthur")
+					}
 				})
 	]
 }
@@ -132,7 +142,7 @@ export function arthurQuestions(save) {
 		}
 	}
 
-	return [exhaustDialog(questions)]
+	return [exhaustDialog(questions, "J'en sais assez")]
 }
 
 export function frontiere(questions) {
@@ -210,6 +220,16 @@ export function liao(questions) {
 				game.save.loot.recetteAntidote = true
 				sounds.ITEM.play()
 			}),
+		ingredientsAntidote()
+	]
+}
+
+export function ingredientsAntidote() {
+	return [
+		`L'antidote est composé de 3 ingrédients: de la poudre d'héllébore,`,
+		`du sang de libellule et des épines de poisson diable.`,
+		`Je reviens justement de la forêt avec un sac de racines d'héllébore.`,
+		`Tu trouveras les autres ingrédients près de la rivière.`,
 		`Si tu comptes arrêter Therled, il te faut cet antidote.`,
 		`Autrement tu risques de perdre l'esprit, comme les autres...`
 	]

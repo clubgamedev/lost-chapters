@@ -134,8 +134,8 @@ const loots = {
             } else {
                 game.save.loot.sangLibellule = true;
                 return talkToMyself([
-                    `Il doit s'agir des racines d'héllébore dont parlait Ramsey.`,
-                    `Cela semble être un ingrédient important aussi pour les dévots.`
+                    `Voilà les racines d'héllébore dont parlait le père Arthur.`,
+                    `Cela semble être un ingrédient important de l'antidote.`
                 ]).then(() => true)
             }
         })
