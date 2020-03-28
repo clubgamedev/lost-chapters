@@ -67,12 +67,15 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  border: 2px groove #201505;
   position: fixed;
   top: 50%;
   left: 50%;
   width: 100vw;
-  height: 100vh;
+  max-width: 1280px;
   transform: translate(-50%, -50%);
+}
+
+canvas {
+  border: 2px groove #201505;
 }
 </style>
