@@ -1,11 +1,12 @@
 import { ALL_POTIONS } from "./alchemy/potions.js"
-import { BookRecipes } from "./alchemy/BookRecipes"
+import { openBookRecipes } from "./alchemy/BookRecipes"
 import { PieProgress } from "./alchemy/PieProgress"
 import { showMiddleText } from "../../utils/message"
-import { sounds, addSounds } from "../../audio"
+import { sounds } from "../../audio"
 import { controls, stick } from "../../utils/controls"
 import { shuffleArray } from "../../utils/array"
 import { talkToMyself } from "../../utils/dialog"
+import { closeBook } from "../../utils/book"
 import { AlchemyLights } from "./alchemy/lights"
 
 const GAME_DURATION = 120 // seconds
@@ -36,71 +37,17 @@ const ingredientsPositions = [
 
 export class AlchemyScene {
 	preload() {
-		game.load.image("bg1", "assets/alchemy/bg1.png")
-		game.load.image("bg2", "assets/alchemy/bg2.png")
-		game.load.image("moon", "assets/alchemy/moon.png")
-		game.load.image("footer", "assets/alchemy/footer2.png")
-		game.load.image("smallSuspend", "assets/alchemy/smallSuspend.png")
-		game.load.image("bigSuspend", "assets/alchemy/bigSuspend.png")
-		game.load.image("stockage", "assets/alchemy/stockage.png")
+		game.load.image("alchemy_bg1", "assets/alchemy/bg1.png")
+		game.load.image("alchemy_bg2", "assets/alchemy/bg2.png")
+		game.load.image("alchemy_moon", "assets/alchemy/moon.png")
+		game.load.image("alchemy_footer", "assets/alchemy/footer2.png")
+		game.load.image("alchemy_smallSuspend", "assets/alchemy/smallSuspend.png")
+		game.load.image("alchemy_bigSuspend", "assets/alchemy/bigSuspend.png")
+		game.load.image("alchemy_stockage", "assets/alchemy/stockage.png")
 
-		game.load.image(
-			"cireBougieNoire",
-			"assets/alchemy/ingredients/cireBougieNoire.png"
-		)
-		game.load.image(
-			"racineHellebore",
-			"assets/alchemy/ingredients/racineHellebore.png"
-		)
-		game.load.image(
-			"sangLibellule",
-			"assets/alchemy/ingredients/sangLibellule.png"
-		)
-
-		game.load.image(
-			"oeufDeCorbeau",
-			"assets/alchemy/ingredients/oeufDeCorbeau.png"
-		)
-		game.load.image(
-			"epineDePoissonDiable",
-			"assets/alchemy/ingredients/epineDePoissonDiable.png"
-		)
-		game.load.image(
-			"vieilleGnole",
-			"assets/alchemy/ingredients/vieilleGnole.png"
-		)
-
-		game.load.image(
-			"foieDeCerf",
-			"assets/alchemy/ingredients/foieDeCerf.png"
-		)
-		game.load.image(
-			"alcoolPsylocibe",
-			"assets/alchemy/ingredients/alcoolPsylocibe.png"
-		)
-		game.load.image(
-			"plumeDeGeai",
-			"assets/alchemy/ingredients/plumeDeGeai.png"
-		)
-
-		game.load.image(
-			"potionDeForce",
-			"assets/alchemy/potions/potionDeForce.png"
-		)
-		game.load.image("antidote", "assets/alchemy/potions/antidote.png")
-		game.load.image(
-			"potionDeLucidite",
-			"assets/alchemy/potions/potionDeLucidite.png"
-		)
-		game.load.image(
-			"potionDeProtection",
-			"assets/alchemy/potions/potionDeProtection.png"
-		)
-
-		game.load.image("book", "assets/ui/book.png")
-		game.load.image("clock", "assets/alchemy/clock_bis.png")
+		game.load.image("alchemy_clock", "assets/alchemy/clock_bis.png")
 		game.load.spritesheet(
-			"marmite",
+			"alchemy_marmite",
 			"assets/alchemy/marmite.png",
 			48,
 			64,
@@ -119,7 +66,6 @@ export class AlchemyScene {
 			objects: game.add.group(),
 			ingredients: game.add.group(),
 			player: game.add.group(),
-			book: game.add.group(),
 			lights: game.add.group(),
 			hud: game.add.group(),
 			pickedIngredients: game.add.group()
@@ -130,7 +76,7 @@ export class AlchemyScene {
 		this.spawnIngredients()
 		this.lights = new AlchemyLights(this.groups.lights)
 
-		let clockSprite = this.groups.hud.create(game.width - 35, 5, "clock")
+		let clockSprite = this.groups.hud.create(game.width - 35, 5, "alchemy_clock")
 		this.clockPieProgress = new PieProgress(
 			game,
 			game.width - 35 + clockSprite.width / 2,
@@ -140,13 +86,21 @@ export class AlchemyScene {
 		)
 		this.groups.hud.add(this.clockPieProgress.sprite)
 
+		this.commandText = game.add.text(5, 5, "Recettes\n(Action)", {
+			font: "16px Alagard",
+			fill: "#E5E5E5",
+			//boundsAlignH: "center",
+			//boundsAlignV: "middle",
+			align: "center"
+		})
+		this.groups.hud.add(this.commandText)
+
 		this.timer = game.time.create(true)
 		this.timer.add(Phaser.Timer.SECOND * GAME_DURATION, this.gameOver, this)
 		this.timer.start()
 
-		this.bookRecipes = new BookRecipes(this.groups.book)
-		controls.SELECT.onPress(() => this.bookRecipes.openOrClose())
-		controls.ENTER.onPress(() => this.bookRecipes.openOrClose())
+		controls.SELECT.onPress(() => this.toggleRecipesBook())
+		controls.ENTER.onPress(() => this.toggleRecipesBook())
 		controls.ACTION.onPress(() => this.jump())
 		controls.UP.onPress(() => this.jump())
 		controls.DOWN.onPress(() => this.pickOrDrop())
@@ -171,6 +125,20 @@ export class AlchemyScene {
 		if (this.player.body.touching.down) {
 			this.player.body.velocity.y = -1 * JUMP_SPEED
 			this.player.animations.play("move")
+		}
+	}
+
+	toggleRecipesBook() {
+		if (game.book) {
+			closeBook()
+			this.commandText.text = ""
+			this.commandText.bringToTop()
+
+		} else {
+			openBookRecipes()
+			this.groups.book = game.book.group;
+			this.commandText.text = "Fermer\n(Action)"
+			this.commandText.bringToTop()
 		}
 	}
 
@@ -244,27 +212,27 @@ export class AlchemyScene {
 	createLevel() {
 		const { background, platforms, objects, ingredients, hud } = this.groups
 
-		background.create(0, 0, "bg2")
-		this.moon = background.create(0, 0, "moon")
-		background.create(0, 0, "bg1")
+		background.create(0, 0, "alchemy_bg2")
+		this.moon = background.create(0, 0, "alchemy_moon")
+		background.create(0, 0, "alchemy_bg1")
 
 		platforms.enableBody = true
-		platforms.create(0, 302, "footer")
-		platforms.create(175, 185, "smallSuspend")
-		platforms.create(0, 220, "bigSuspend")
-		platforms.create(270, 165, "bigSuspend")
-		platforms.create(415, 185, "smallSuspend")
-		platforms.create(545, 220, "bigSuspend")
+		platforms.create(0, 302, "alchemy_footer")
+		platforms.create(175, 185, "alchemy_smallSuspend")
+		platforms.create(0, 220, "alchemy_bigSuspend")
+		platforms.create(270, 165, "alchemy_bigSuspend")
+		platforms.create(415, 185, "alchemy_smallSuspend")
+		platforms.create(545, 220, "alchemy_bigSuspend")
 		platforms.forEach(platform => {
 			platform.body.immovable = true
 		})
 
-		const stockage = hud.create(game.width / 2, 322, "stockage")
+		const stockage = hud.create(game.width / 2, 322, "alchemy_stockage")
 		stockage.anchor.setTo(0.5, 0)
 
 		objects.enableBody = true
 
-		this.marmite = game.add.sprite(295, 240, "marmite")
+		this.marmite = game.add.sprite(295, 240, "alchemy_marmite")
 		this.marmite.animations.add("enter", [1, 2, 3, 0], 8, false)
 		objects.add(this.marmite)
 
@@ -338,7 +306,7 @@ export class AlchemyScene {
 			let potionSprite = this.groups.hud.create(
 				5 + 25 * (this.potionsCreated.length - 1),
 				25,
-				potionCreated.name
+				"alchemy_" + potionCreated.name
 			)
 			potionSprite.scale.setTo(0.5, 0.5)
 			sounds.COOK_SUCCESS.play()
@@ -360,7 +328,7 @@ export class AlchemyScene {
 		shuffleArray(ingredientsPositions)
 		ingredientsNames.forEach((name, i) => {
 			let { x, y } = ingredientsPositions[i]
-			let sprite = this.groups.ingredients.create(x, y, name)
+			let sprite = this.groups.ingredients.create(x, y, "alchemy_" + name)
 			sprite.scale.setTo(0.6, 0.6)
 		})
 	}

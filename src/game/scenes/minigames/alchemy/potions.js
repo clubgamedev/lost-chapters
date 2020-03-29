@@ -3,6 +3,7 @@ import { Potion } from "./Potion"
 export const potionDeForce = new Potion({
 	name: "potionDeForce",
 	displayName: "Psycho-stimulant",
+	recette: "recettePotionDeForce",
 	ingredients: ["cireBougieNoire", "epineDePoissonDiable", "alcoolPsylocibe"],
 	description: [
 		"Ce stimulant psychotique devrait me permettre d'accroître mes réflexes",
@@ -13,6 +14,7 @@ export const potionDeForce = new Potion({
 export const potionDeProtection = new Potion({
 	name: "potionDeProtection",
 	displayName: "Elixir du dévot",
+	recette: "recettePotionDeProtection",
 	ingredients: ["foieDeCerf", "sangLibellule", "plumeDeGeai"],
 	description: [
 		"L'elixir du dévot dégage une odeur infecte mais curieusement réconfortante.",
@@ -23,6 +25,7 @@ export const potionDeProtection = new Potion({
 export const potionDeLucidite = new Potion({
 	name: "potionDeLucidite",
 	displayName: "Tranquilisant",
+	recette: "recettePotionDeLucidite",
 	ingredients: ["oeufDeCorbeau", "racineHellebore", "vieilleGnole"],
 	description: [
 		"Ce tranquilisant pourrait m'aider à retrouver ma lucidité",
@@ -33,6 +36,7 @@ export const potionDeLucidite = new Potion({
 export const antidote = new Potion({
 	name: "antidote",
 	displayName: "Antidote",
+	recette: "recetteAntidote",
 	ingredients: ["racineHellebore", "sangLibellule", "epineDePoissonDiable"],
 	description: [
 		"C'est l'antidote conçu par Therled pour neutraliser les effets",

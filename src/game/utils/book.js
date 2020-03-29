@@ -58,9 +58,9 @@ export function nextPage() {
 
 export function closeBook() {
     if (game.book) {
-        game.book.textSpriteLeft.destroy();
-        game.book.textSpriteRight.destroy();
-        game.book.bgSprite.destroy();
+        game.book.textSpriteLeft && game.book.textSpriteLeft.destroy();
+        game.book.textSpriteRight && game.book.textSpriteRight.destroy();
+        game.book.bgSprite && game.book.bgSprite.destroy();
         game.book.onClose();
         sounds.CLOSE_BOOK.play();
         delete game.book;

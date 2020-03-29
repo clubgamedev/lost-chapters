@@ -4,6 +4,9 @@ import { sounds } from "../audio";
 export class Inventory {
     constructor() {
         this.items = {
+            livreRecettes: {
+                nombre: 0
+            },
             potionDeForce: {
                 nombre: 0,
                 actif: false

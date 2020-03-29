@@ -9,6 +9,7 @@ import {
 	antidote
 } from "../scenes/minigames/alchemy/potions"
 import { destroyMurSecret } from "../items/Bloc"
+import { openBookRecipes } from "../scenes/minigames/alchemy/BookRecipes"
 
 export function readDescription(name) {
 	let description = descriptions[name]
@@ -377,6 +378,10 @@ export const descriptions = {
 			`Elle a falsifié le parchemin pour corrompre le rituel.`,
 			`Je dois maintenant le substituer à l'original que possède Therled...`
 		]
+	},
+
+	livreRecettes: save => {
+		return ["J'ai noté ces recettes de potions dans mon calepin:", () => openBookRecipes()]
 	}
 }
 

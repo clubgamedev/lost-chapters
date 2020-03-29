@@ -1,93 +1,73 @@
 import { ALL_POTIONS } from "./potions"
 import { sounds } from "@/game/audio"
+import { toggleItemSelection } from "../../../utils/inventory";
 
-export class BookRecipes {
-	constructor(group) {
-		this.isOpened = false
-		this.group = group
+export function openBookRecipes() {
+	sounds.OPEN_BOOK.play()
+	game.book = {
+		page: 1,
+		pages: [],
+		sprites: [],
+		group: game.add.group(undefined, "book"),
+		onClose: closeBookRecipes
+	};
+	drawBookRecipes()
+}
 
-		this.commandText = game.add.text(5, 5, "", {
-			font: "16px Alagard",
-			fill: "#E5E5E5",
-			//boundsAlignH: "center",
-			//boundsAlignV: "middle",
-			align: "center"
-		})
-		group.add(this.commandText)
-		this.updateCommands()
-		this.bookContent = []
+export function closeBookRecipes() {
+	game.book.group.destroy()
+	if (game.state.current === "MainGame") {
+		setTimeout(() => toggleItemSelection(), 0)
 	}
+}
 
-	updateCommands() {
-		this.commandText.text = this.isOpened
-			? "Fermer (Action)"
-			: "Recettes (Action)"
-		this.commandText.bringToTop()
-	}
+function drawBookRecipes() {
+	const scaleFactor = game.state.current === "MainGame" ? 255 / 640 : 1;
+	game.book.sprites.forEach(sprite => sprite.destroy())
+	game.book.sprites = [];
 
-	open() {
-		this.isOpened = true
-		sounds.OPEN_BOOK.play()
-		this.drawBook()
-		this.updateCommands()
-	}
+	const book = game.add.image(2, 2, "book-bg")
+	book.width = ((game.height - 5) * 186) / 140
+	book.height = game.height - 10
+	book.x = game.width / 2 - book.width / 2
+	book.tint = 0xc1c1c1
+	book.fixedToCamera = true;
+	game.book.group.add(book)
+	game.book.sprites.push(book)
 
-	close() {
-		this.isOpened = false
-		sounds.CLOSE_BOOK.play()
-		this.bookContent.forEach(sprite => sprite.destroy())
-		this.updateCommands()
-	}
+	ALL_POTIONS
+		.forEach((potion, index) => {
+			if (!game.save.loot[potion.recette]) return;
 
-	openOrClose() {
-		this.isOpened ? this.close() : this.open()
-	}
+			let x = scaleFactor * (180 + 225 * Math.floor(index / 2)),
+				y = scaleFactor * (60 + 150 * (index % 2))
 
-	drawBook() {
-		this.bookContent = []
-		const book = game.add.image(2, 2, "book-bg")
-		book.width = ((game.height - 5) * 186) / 140
-		book.height = game.height - 10
-		book.x = game.width / 2 - book.width / 2
-		book.tint = 0xc1c1c1
-		this.group.add(book)
-		this.bookContent.push(book)
-
-		ALL_POTIONS.forEach((potion, index) => {
-			let x = 180 + 225 * Math.floor(index / 2),
-				y = 60 + 150 * (index % 2)
-
-			let textPotion = game.add.text(x - 25, y - 8, potion.displayName, {
-				font: "20px Alagard",
+			let textPotion = game.add.text(x - scaleFactor * 25, y - scaleFactor * 8, potion.displayName, {
+				font: `${scaleFactor * 20}px Alagard`,
 				fill: "#333"
 			})
-			this.group.add(textPotion)
+			textPotion.fixedToCamera = true;
+			game.book.group.add(textPotion)
+			game.book.sprites.push(textPotion)
 
-			let potionSprite = this.group.create(x - 75, y - 22, potion.name)
+			let potionSprite = game.book.group.create(
+				x - scaleFactor * 70,
+				y - scaleFactor * 22,
+				"alchemy_" + potion.name
+			)
+			potionSprite.fixedToCamera = true;
+			potionSprite.scale.setTo(scaleFactor);
+			game.book.sprites.push(potionSprite)
 
-			let ingredient1 = this.group.create(
-				x - 50,
-				y + 25,
-				potion.ingredients[0]
-			)
-			let ingredient2 = this.group.create(
-				x,
-				y + 25,
-				potion.ingredients[1]
-			)
-			let ingredient3 = this.group.create(
-				x + 50,
-				y + 25,
-				potion.ingredients[2]
-			)
-
-			this.bookContent.push(
-				ingredient1,
-				ingredient2,
-				ingredient3,
-				potionSprite,
-				textPotion
-			)
+			potion.ingredients.forEach((ingredient, i) => {
+				let sprite = game.book.group.create(
+					x + scaleFactor * (10 + 50 * (i - 1)),
+					y + scaleFactor * 25,
+					"alchemy_" + ingredient
+				)
+				sprite.fixedToCamera = true;
+				sprite.scale.setTo(scaleFactor);
+				game.book.sprites.push(sprite)
+			})
 		})
-	}
 }

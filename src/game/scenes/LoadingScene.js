@@ -75,6 +75,7 @@ export class LoadingScene {
 		game.load.image('potionDeProtection', 'assets/items/potionDeProtection.png');
 		game.load.image('parcheminFalsifie', 'assets/items/parchemin.png');
 		game.load.image('cape', 'assets/items/cape.png');
+		game.load.image('livreRecettes', 'assets/items/livreRecettes.png');
 
 		// loot
 		game.load.image('alcoolPsylocibe', 'assets/items/alcoolPsylocibe.png');
@@ -92,6 +93,60 @@ export class LoadingScene {
 
 		// particules
 		game.load.image("particle_yellow", "assets/sprites/particle_yellow.png");
+
+		// recipe book
+		game.load.image(
+			"alchemy_cireBougieNoire",
+			"assets/alchemy/ingredients/cireBougieNoire.png"
+		)
+		game.load.image(
+			"alchemy_racineHellebore",
+			"assets/alchemy/ingredients/racineHellebore.png"
+		)
+		game.load.image(
+			"alchemy_sangLibellule",
+			"assets/alchemy/ingredients/sangLibellule.png"
+		)
+
+		game.load.image(
+			"alchemy_oeufDeCorbeau",
+			"assets/alchemy/ingredients/oeufDeCorbeau.png"
+		)
+		game.load.image(
+			"alchemy_epineDePoissonDiable",
+			"assets/alchemy/ingredients/epineDePoissonDiable.png"
+		)
+		game.load.image(
+			"alchemy_vieilleGnole",
+			"assets/alchemy/ingredients/vieilleGnole.png"
+		)
+
+		game.load.image(
+			"alchemy_foieDeCerf",
+			"assets/alchemy/ingredients/foieDeCerf.png"
+		)
+		game.load.image(
+			"alchemy_alcoolPsylocibe",
+			"assets/alchemy/ingredients/alcoolPsylocibe.png"
+		)
+		game.load.image(
+			"alchemy_plumeDeGeai",
+			"assets/alchemy/ingredients/plumeDeGeai.png"
+		)
+
+		game.load.image(
+			"alchemy_potionDeForce",
+			"assets/alchemy/potions/potionDeForce.png"
+		)
+		game.load.image("alchemy_antidote", "assets/alchemy/potions/antidote.png")
+		game.load.image(
+			"alchemy_potionDeLucidite",
+			"assets/alchemy/potions/potionDeLucidite.png"
+		)
+		game.load.image(
+			"alchemy_potionDeProtection",
+			"assets/alchemy/potions/potionDeProtection.png"
+		)
 
 		// audio
 		loadAudio();

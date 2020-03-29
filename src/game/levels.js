@@ -77,7 +77,7 @@ export const forestLevel = {
 		const marieBody = findObjectByName("marie_body", "hallucination", this.tilemap)
 		if (!game.save.hasFinishedTalkingToArthur) {
 			marieBody.sprite.destroy()
-		} else {
+		} else if (marieBody.sprite) {
 			marieBody.sprite.tint = forestLevel.tint
 		}
 

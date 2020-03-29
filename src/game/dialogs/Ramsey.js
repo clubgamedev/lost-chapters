@@ -117,17 +117,13 @@ function antidote() {
 
 function preparerPotion(questions) {
 	questions["Les ingrédients"] = () => infosIngredients(questions)
-	game.save.loot.recettePotionDeForce = true;
 	game.save.hasRamseyTalkedAboutIngredients = true;
 	return [
-		`Mes potions stimulent l'esprit de ceux qui les boivent.`,
+		`Les potions stimulent l'esprit de ceux qui les boivent.`,
 		`Elles pourraient vous servir si vous êtes inspecteur !`,
-		`Tenez, je peux par exemple vous préparer un psycho-stimulant`,
+		`Tenez, j'ai par exemple un psycho-stimulant fait-maison`,
 		`qui améliorera votre concentration et votre acuité mentale.`,
-		`Ramenez-moi juste les ingrédients:`,
-		`de la cire noire, des épines de poisson diable et des psycholibes.`,
-		`Quoi ? Pourquoi vous me regardez pas comme ça ?`,
-		`Tss... je vais vous faire un dessin des ingrédients...`
+		`La recette est écrite sur ce parchemin derrière moi.`
 	]
 }
 
