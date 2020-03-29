@@ -76,6 +76,16 @@ export class AlchemyScene {
 		this.spawnIngredients()
 		this.lights = new AlchemyLights(this.groups.lights)
 
+		game.paused = true;
+		this.instructions = game.add.image(game.width / 2, game.height / 2, "instructions_alchemy");
+		this.instructions.anchor.setTo(0.5);
+		controls.ACTION.onPress(() => this.start(), this, true)
+		controls.ENTER.onPress(() => this.start(), this, true)
+	}
+
+	start() {
+		this.instructions.destroy()
+
 		let clockSprite = this.groups.hud.create(game.width - 35, 5, "alchemy_clock")
 		this.clockPieProgress = new PieProgress(
 			game,
@@ -99,6 +109,8 @@ export class AlchemyScene {
 		this.timer.add(Phaser.Timer.SECOND * GAME_DURATION, this.gameOver, this)
 		this.timer.start()
 
+		controls.ACTION.resetEvents()
+		controls.ENTER.resetEvents()
 		controls.SELECT.onPress(() => this.toggleRecipesBook())
 		controls.ENTER.onPress(() => this.toggleRecipesBook())
 		controls.ACTION.onPress(() => this.jump())
@@ -108,6 +120,7 @@ export class AlchemyScene {
 
 		this.potionsCreated = []
 		this.pickedIngredients = []
+		game.paused = false;
 	}
 
 	update() {
@@ -272,7 +285,7 @@ export class AlchemyScene {
 			ingredient.key
 		)
 		sprite.scale.setTo(0.6, 0.6)
-		this.pickedIngredients.push(ingredient.key)
+		this.pickedIngredients.push(ingredient.name)
 		ingredient.destroy()
 	}
 
@@ -291,7 +304,7 @@ export class AlchemyScene {
 
 	createPotionWithIngredients() {
 		let potionCreated = ALL_POTIONS.find(potion =>
-			potion.cookPotion(this.pickedIngredients)
+			potion.ingredients.every(ingredient => this.pickedIngredients.includes(ingredient))
 		)
 
 		if (potionCreated) {
@@ -329,6 +342,7 @@ export class AlchemyScene {
 		ingredientsNames.forEach((name, i) => {
 			let { x, y } = ingredientsPositions[i]
 			let sprite = this.groups.ingredients.create(x, y, "alchemy_" + name)
+			sprite.name = name;
 			sprite.scale.setTo(0.6, 0.6)
 		})
 	}

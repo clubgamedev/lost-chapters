@@ -1,4 +1,13 @@
-import { Potion } from "./Potion"
+export class Potion {
+	displayName
+	name
+	ingredients = []
+	description
+
+	constructor(props) {
+		Object.assign(this, props)
+	}
+}
 
 export const potionDeForce = new Potion({
 	name: "potionDeForce",

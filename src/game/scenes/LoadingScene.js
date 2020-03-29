@@ -16,6 +16,7 @@ export class LoadingScene {
 		game.load.image("title-bg", "assets/sprites/title-screen.png");
 		game.load.image("enter", "assets/sprites/press-enter-text.png");
 		game.load.image("instructions", "assets/sprites/instructions.png");
+		game.load.image("instructions_alchemy", "assets/sprites/instructions_alchemy.png");
 		game.load.image("credits", "assets/sprites/credits.png");
 		game.load.image("gameover", "assets/sprites/game-over.png");
 		game.load.image("gameover-win", "assets/sprites/game-over-win.png");
