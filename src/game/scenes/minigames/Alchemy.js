@@ -96,15 +96,6 @@ export class AlchemyScene {
 		)
 		this.groups.hud.add(this.clockPieProgress.sprite)
 
-		this.commandText = game.add.text(5, 5, "Recettes\n(Action)", {
-			font: "16px Alagard",
-			fill: "#E5E5E5",
-			//boundsAlignH: "center",
-			//boundsAlignV: "middle",
-			align: "center"
-		})
-		this.groups.hud.add(this.commandText)
-
 		this.timer = game.time.create(true)
 		this.timer.add(Phaser.Timer.SECOND * GAME_DURATION, this.gameOver, this)
 		this.timer.start()
@@ -144,14 +135,10 @@ export class AlchemyScene {
 	toggleRecipesBook() {
 		if (game.book) {
 			closeBook()
-			this.commandText.text = ""
-			this.commandText.bringToTop()
 
 		} else {
 			openBookRecipes()
 			this.groups.book = game.book.group;
-			this.commandText.text = "Fermer\n(Action)"
-			this.commandText.bringToTop()
 		}
 	}
 
@@ -317,8 +304,8 @@ export class AlchemyScene {
 			)
 			this.potionsCreated.push(potionCreated)
 			let potionSprite = this.groups.hud.create(
-				5 + 25 * (this.potionsCreated.length - 1),
-				25,
+				game.width - 65 - 25 * (this.potionsCreated.length - 1),
+				5,
 				"alchemy_" + potionCreated.name
 			)
 			potionSprite.scale.setTo(0.5, 0.5)
