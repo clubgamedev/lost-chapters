@@ -1,5 +1,6 @@
 import { sounds } from "../audio"
 import { talkToMyself, startDialog } from "../utils/dialog"
+import { pickRandomIn } from "../utils/array"
 import { save } from "../save"
 import { drinkPotion } from "../utils/inventory"
 import {
@@ -279,6 +280,7 @@ export const descriptions = {
 				"La boire": () => {
 					save.inventory.items.potionDeForce.actif = true
 					save.inventory.items.potionDeForce.nombre--
+					sounds.DRINK_POTION_FORCE.play()
 					drinkPotion([
 						"Psycho-stimulant consommé",
 						"Vous vous sentez plus fort"
@@ -294,11 +296,12 @@ export const descriptions = {
 			potionDeLucidite.description,
 			{
 				"La boire": () => {
-					save.inventory.items.potionDeLucidite.actif = true
 					save.inventory.items.potionDeLucidite.nombre--
+					game.save.lucidity = Math.min(16, game.save.lucidity + 8)
+					sounds.DRINK_POTION_LUCIDITE.play()
 					drinkPotion([
 						"Tranquilisant consommé",
-						"Vous vous sentez plus calme et lucide"
+						"Vous vous sentez plus lucide"
 					])
 				},
 				"La ranger": () => { }
@@ -313,6 +316,7 @@ export const descriptions = {
 				"La boire": () => {
 					save.inventory.items.potionDeProtection.actif = true
 					save.inventory.items.potionDeProtection.nombre--
+					sounds.DRINK_POTION_PROTECTION.play()
 					drinkPotion([
 						"Potion du dévot consommée",
 						"Vous vous sentez en sécurité"
@@ -332,19 +336,25 @@ export const descriptions = {
 			{
 				"La boire": () => {
 					save.inventory.items.liao.nombre--;
+					sounds.DRINK_POTION_LIAO.play()
 					drinkPotion([
 						"Liao consommé",
 						"L'espace se plie autour de vous..."
 					]).then(() => {
 						save.lucidity = Math.max(1, save.lucidity - 8);
-						sounds.HALLUCINATION.play();
+						game.camera.shake(0.01, 250)
+						game.camera.flash(0xaa00cc, 500)
+						pickRandomIn(sounds.MADNESS).play()
 						return startDialog([`AAAAAaaaaaaaah !`], {
 							speaker: "afraid",
 							color: "#82ACDC"
-						}).then(() => talkToMyself([
+						})
+					}).then(() => {
+						sounds.HALLUCINATION.play();
+						return talkToMyself([
 							`J'ai vu des yeux terrifiants me fixer par delà l'horizon...`,
 							`Ce n'est... qu'une... hallucination...`
-						]))
+						])
 					})
 				},
 				"La ranger": () => { }

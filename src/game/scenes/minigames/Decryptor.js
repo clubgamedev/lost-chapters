@@ -1,15 +1,12 @@
 import { shuffleArray, pickRandomIn, range } from "../../utils/array"
-import { talkToMyself } from "../../utils/dialog"
 import { stick } from "../../utils/controls"
 import { save } from "../../save"
 import { createParticlesEmitter } from "../../effects/particles"
-import { traductions } from "../../dialogs/traductions"
 import { startMusic, sounds } from "../../audio";
 
 let countDown
 let timerText
 let keyAction
-let variants
 
 let elementsToFind = []
 let NB_RUNES_TO_FIND = 8
@@ -61,7 +58,6 @@ let particleInitialized
 let errorSound
 let foundSounds = [],
 	foundSoundEnd
-let madnessSounds
 
 let MAX_HEALTH = 100
 let health
@@ -133,38 +129,10 @@ function loadZodiacs() {
 	game.load.image("skull", "assets/decryptor/skull.png")
 }
 
-function loadSounds() {
-	game.load.audio(
-		"element_found",
-		"assets/decryptor/sound/collect_item_hurry_out_of_time_01.wav"
-	)
-
-	game.load.audio("element_found_1", "assets/decryptor/sound/FA_Scale_6.wav")
-	game.load.audio("element_found_2", "assets/decryptor/sound/FA_Scale_7.wav")
-	game.load.audio("element_found_3", "assets/decryptor/sound/FA_Scale_8.wav")
-	game.load.audio("element_found_4", "assets/decryptor/sound/FA_Scale_9.wav")
-	game.load.audio("element_found_5", "assets/decryptor/sound/FA_Scale_10.wav")
-	game.load.audio("element_found_6", "assets/decryptor/sound/FA_Scale_11.wav")
-	game.load.audio("element_found_7", "assets/decryptor/sound/FA_Scale_12.wav")
-	game.load.audio("element_found_8", "assets/decryptor/sound/FA_Scale_13.wav")
-	game.load.audio(
-		"element_found_end",
-		"assets/decryptor/sound/FA_Scale_End.wav"
-	)
-
-	game.load.audio(
-		"element_error",
-		"assets/decryptor/sound/voice_male_b_effort_quick_action_05.wav"
-	)
-
-	range(1, 3).map(n => game.load.audio(`madness${n}`, `assets/sound/Madness${n}.mp3`));
-}
-
 export class DecryptorScene {
 	preload() {
 		loadActions()
 		loadZodiacs()
-		loadSounds()
 
 		keyAction = {
 			u: [Phaser.Keyboard.UP, Phaser.Gamepad.XBOX360_DPAD_UP, "up"],
@@ -218,7 +186,7 @@ export class DecryptorScene {
 		foundSoundEnd = game.sound.add("element_found_end")
 		errorSound = game.sound.add("element_error")
 
-		madnessSounds = range(1, 3).map(n => game.sound.add(`madness${n}`));
+
 
 		createElementsWithButtons()
 		createElementsToDecryptBackground()
@@ -769,7 +737,7 @@ function timerOver() {
 		game.camera.shake(0.01, 250)
 		game.camera.flash(0xaa00cc, 500)
 		health -= MAX_HEALTH / game.decryptor.nbEnemyHitsToLose
-		pickRandomIn(madnessSounds).play();
+		pickRandomIn(sounds.MADNESS).play();
 		updatePlayerHealthBar()
 		if (health <= 0) {
 			sounds.DEATH.play();

@@ -19,20 +19,20 @@ export class Inventory {
                 nombre: 0,
                 actif: false
             },
+            liao: {
+                nombre: 0
+            },
             antidote: {
                 nombre: 0,
                 actif: false
+            },
+            cape: {
+                nombre: 0
             },
             parchemin: {
                 nombre: 0
             },
             parcheminFalsifie: {
-                nombre: 0
-            },
-            cape: {
-                nombre: 0
-            },
-            liao: {
                 nombre: 0
             }
         };
@@ -41,25 +41,28 @@ export class Inventory {
 
 export function drinkPotion(textsToDisplay) {
     if (textsToDisplay.length > 0) {
-        let drinkPotionText = game.add.text(game.player.position.x, game.player.position.y - 20, textsToDisplay[0], {
+        let drinkPotionText = game.add.text(0, 0, textsToDisplay[0], {
             font: "14px Alagard",
             fill: "white",
             boundsAlignH: "center",
-            boundsAlignV: "top"
+            boundsAlignV: "middle"
         });
-        //drinkPotionText.visible = false;
+
+        drinkPotionText.setTextBounds(0, 0, game.width, game.height - 20);
         drinkPotionText.alpha = 0.8;
         drinkPotionText.stroke = '#000000';
         drinkPotionText.strokeThickness = 2;
-        drinkPotionText.position.x = game.player.position.x - drinkPotionText.width / 2;
-        //drinkPotionText.fixedToCamera = true;
-        //drinkPotionText.visible = true;
-        let tween = game.add.tween(drinkPotionText)
-            .to({ y: drinkPotionText.position.y - 20, alpha: 0.1 }, 2000, Phaser.Easing.Linear.None)
+        drinkPotionText.fixedToCamera = true;
+
+        let opacityTween = game.add.tween(drinkPotionText)
+            .to({ alpha: 0.1 }, 2000, Phaser.Easing.Linear.None)
+            .start();
+        game.add.tween(drinkPotionText.cameraOffset)
+            .to({ y: -20 }, 2000, Phaser.Easing.Linear.None)
             .start();
 
         return new Promise(resolve => {
-            tween.onComplete.add(() => {
+            opacityTween.onComplete.add(() => {
                 drinkPotionText.destroy();
                 textsToDisplay.shift();
                 drinkPotion(textsToDisplay);

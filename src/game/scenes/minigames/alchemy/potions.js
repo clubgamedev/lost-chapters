@@ -26,7 +26,7 @@ export const potionDeProtection = new Potion({
 	recette: "recettePotionDeProtection",
 	ingredients: ["foieDeCerf", "sangLibellule", "plumeDeGeai"],
 	description: [
-		"L'elixir du dévot dégage une odeur infecte mais curieusement réconfortante.",
+		"L'élixir du dévot dégage une odeur curieusement réconfortante.",
 		"Peut-être que si je le buvais, je me sentirais-je mieux protégé ?"
 	]
 })
