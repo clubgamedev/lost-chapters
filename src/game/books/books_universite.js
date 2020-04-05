@@ -52,13 +52,24 @@ J'ai envoyé le gardien prévenir la police, mais il n'est jamais revenu. La plu
 ]
 
 export const book_lore_1 = [
-    'TODO: LORE'
+    `Dans l'Antiquité, les mystiques buvaient des macérations de certaines plantes et champignons pour provoquer des hallucinations.`,
+    `La croyance populaire était que ces visions allaient au-delà de l'horizon des événements et permettait de prédire l'avenir.`,
+    `Les mystiques prétendaient aussi percevoir la volonté des dieux et la présence d'êtres maléfiques.`,
+    `L'espérance de vie de ces mystiques était souvent très courte. Quand un mystique ne revenait pas d'une crise hallucinatoire, on disait qu'il avait percé le voile de la réalité.`
 ]
 
 export const book_lore_2 = [
-    'TODO: LORE'
+    `Parmi tous les alphabets inventés par l'homme, les runes se démarquent. Ces caractères ne sont pas de simples symboles linguistiques mais revêtent un caractère sacré.`,
+    `Gravés dans le bois ou la roche, ils permettent de protéger un lieu, d'écarter le malin, ou encore de s'attirer bonne fortune.`,
+    `Les runes sont également le langage écrit des dieux, les écrits runiques sont donc également un moyen de communication avec le divin.`,
+    `Une rune bien tracée par un initié est ainsi visible de l'autre côté du voile, et il arrive que l'autre côté réponde, en gravant des runes là où il peut.`
 ]
 
 export const book_lore_3 = [
-    'TODO: LORE'
+    `De la même façon que l'oeil humain ne perçoit qu'une toute petite fraction de l'espace des couleurs, notre cerveau ne perçoit qu'une petite fraction de la réalité.`,
+    `Cela comprend la perception de l'espace, de l'écoulement du temps, de la température et des sons ambiants.`,
+    `De nombreux chamans, mystiques et scientifiques ont essayé d'améliorer leurs capacités de perception et de conscience de leur environnement.`,
+    `Ils y sont parvenus de nombreuses façons, mais ont tous fait face au même problème:`,
+    `celui de discerner cette nouvelle part de réalité qui s'offrait à eux, des hallucinations et illusions créées par leur cerveau.`,
+    `Notre cerveau refuse de voir ce qu'il ne comprend pas. C'est un mécanisme d'autodéfense contre la folie.`
 ]

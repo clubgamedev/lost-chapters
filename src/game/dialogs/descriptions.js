@@ -169,7 +169,7 @@ export const descriptions = {
 	},
 
 	tombe_sanctuaire: save => [
-		`TODO: lore`
+		`En mémoire du jeune Louis, emporté par la Bête.`
 	],
 
 	charnier: save => [`Un charnier, ici ? L'odeur est atroce...`],
