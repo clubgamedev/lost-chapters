@@ -49,6 +49,7 @@ export const sanctuaireLevel = {
 		} else {
 			const arthur = findObjectByName("arthur", "character", this.tilemap)
 			arthur.sprite.destroy()
+			findObjectByName("racineHellebore", "loot", this.tilemap).sprite.destroy();
 		}
 	}
 }
