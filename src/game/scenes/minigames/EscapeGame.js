@@ -9,7 +9,8 @@ import { Scie } from "../../items/escape/Scie";
 import { Cable } from "../../items/escape/Cable";
 import { Feuilles } from "../../items/escape/Feuilles";
 import { Labyrinthe } from '../../items/escape/Labyrinthe';
-import { parcheminUnlock } from "../../utils/inventory";
+import { stick, controls } from "../../utils/controls";
+import { removeInArray } from "../../utils/array";
 
 export class EscapeGameScene {
 
@@ -30,10 +31,13 @@ export class EscapeGameScene {
     labyrintheDone = false;
     buttonGridDone = false;
     digicodeEnabled = false;
+    cursor;
+    interactiveSprites = [];
+    spriteOver;
 
     preload() {
         this.tool = new Tool(() => this.onToolActivate());
-        this.plant = new Plant(this.tool);
+        this.plant = new Plant();
         this.pushButton = new PushButton((count) => this.onPushButtonClicked(count));
         this.digicode = new Digicode(() => this.onDigicodeCodeValid());
         this.wheel = new Wheel();
@@ -41,7 +45,7 @@ export class EscapeGameScene {
         this.cable = new Cable(this.digicode);
         this.scie = new Scie(this.cable);
         this.feuilles = new Feuilles();
-        this.labyrinthe = new Labyrinthe(() => this.onLabyrintheValid());
+        this.labyrinthe = new Labyrinthe();
     }
 
     create() {
@@ -61,8 +65,43 @@ export class EscapeGameScene {
         this.tableau = game.add.image(189, 28, 'escape_tableau');
         this.tableau.animations.add('open');
 
+        this.plant.onBreak = () => this.onPlantBreak();
+        this.tool.onActivate = () => this.onToolActivate();
+        this.feuilles.onBookOpen = () => {
+            this.cursor.visible = false;
+            game.paused = true;
+        }
+        this.feuilles.onBookClose = () => {
+            this.cursor.visible = true;
+            game.paused = false;
+        }
+        this.labyrinthe.onResolve = () => this.onLabyrintheValid();
+
+        this.interactiveSprites = [
+            this.pushButton.sprite,
+            this.feuilles.sprite
+        ]
+
         this.enableLeaveSceneAction();
         // this.onDigicodeCodeValid();
+
+        this.cursor = game.add.image(gameWidth / 2, gameHeight / 2, 'cursor', 0)
+        this.cursor.scale.setTo(0.5)
+
+        game.input.addMoveCallback(pointerEvent => {
+            this.cursor.position.x = pointerEvent.x + 2
+            this.cursor.position.y = pointerEvent.y + 2
+        });
+
+        controls.ACTION.onPress(() => {
+            // emulate mouse click with gamepad action button
+            if (this.spriteOver && !game.book) {
+                this.spriteOver.events.onInputDown.dispatch();
+                setTimeout(() => {
+                    this.spriteOver && this.spriteOver.events.onInputUp.dispatch()
+                }, 150)
+            }
+        })
     }
 
     update() {
@@ -71,12 +110,39 @@ export class EscapeGameScene {
         this.tool.update();
         this.cable.update();
         this.labyrinthe.update();
+
+        if (!game.book) {
+            let [sx, sy] = [stick.getAxisX(), stick.getAxisY()];
+            let dx = (sx ? sx * Math.abs(sx) : controls.LEFT.isPressed() ? -1 : controls.RIGHT.isPressed() ? 1 : 0)
+            let dy = (sy ? sy * Math.abs(sy) : controls.UP.isPressed() ? -1 : controls.DOWN.isPressed() ? 1 : 0)
+            this.cursor.position.x += dx;
+            this.cursor.position.y += dy;
+            this.cursor.bringToTop();
+        }
+
+        //game.debug.pixel(this.cursor.x, this.cursor.y, "rgba(255,0,0,1)", 1);
+        let spriteOver = this.interactiveSprites.find(sprite => sprite.getBounds().contains(this.cursor.x - 2, this.cursor.y - 2))
+        if (this.spriteOver && (!spriteOver || spriteOver !== this.spriteOver)) {
+            this.spriteOver.onOut && this.spriteOver.onOut();
+            this.spriteOver = null;
+            this.cursor.frame = 0
+        }
+        if (spriteOver && (!this.spriteOver || this.spriteOver !== spriteOver)) {
+            this.spriteOver = spriteOver;
+            this.spriteOver.onOver && this.spriteOver.onOver();
+            this.cursor.frame = 1
+        }
     }
 
     onPushButtonClicked(count) {
         switch (count) {
             case 1:
                 this.wheel.create(151, 85, this);
+                this.wheel.onWheelStuck = () => {
+                    removeInArray(this.interactiveSprites, this.wheel.sprite)
+                    this.plant.isFalling = true;
+                }
+                this.interactiveSprites.push(this.wheel.sprite)
                 this.feuilles.nextPage();
                 break;
             case 2:
@@ -92,10 +158,17 @@ export class EscapeGameScene {
         }
     }
 
+    onPlantBreak() {
+        this.tool.create(this.plant.sprite.x, this.plant.sprite.y);
+        this.interactiveSprites.push(this.tool.sprite);
+    }
+
     onToolActivate() {
         this.circuitEnabled = true;
         this.circuitSprite.frame = 1;
+        this.interactiveSprites.push(...this.labyrinthe.tuiles.flatMap(line => line.map(t => t.sprite)))
         this.feuilles.nextPage();
+        this.labyrinthe.checkSolution();
         game.add.image(95, 58, 'escape_screen9');
     }
 
@@ -113,6 +186,9 @@ export class EscapeGameScene {
             game.add.image(107, 58, 'escape_screen4');
             this.labyrintheDone = true;
             this._nextPage(this.buttonGridDone);
+            this.interactiveSprites = this.interactiveSprites.filter(
+                sprite => !(sprite && typeof sprite.key === "string" && sprite.key.startsWith("escape_labyrinthe"))
+            )
         }
     }
 
@@ -143,24 +219,21 @@ export class EscapeGameScene {
         let startKey = game.input.keyboard.addKey(Phaser.Keyboard.ESC);
         startKey.onDown.add(() => game.state.start('MainGame'));
 
-        let textSprite = game.add.text(215, 123, "Exit", {
+        let textSprite = game.add.text(196, 126, "Quitter", {
             font: "14px Alagard",
             fill: "red",
-            stroke: "#FFFFFF",
-            strokeThickness: 0
+            stroke: "black",
+            strokeThickness: 1
         });
+        this.interactiveSprites.push(textSprite)
 
         textSprite.inputEnabled = true;
-        textSprite.events.onInputOver.add(() => {
-            textSprite.strokeThickness = 4;
-            textSprite.x -= 2;
-            textSprite.y -= 2;
-        });
-        textSprite.events.onInputOut.add(() => {
-            textSprite.strokeThickness = 0
-            textSprite.x += 2;
-            textSprite.y += 2;
-        });
+        textSprite.onOver = () => {
+            textSprite.stroke = "white";
+        };
+        textSprite.onOut = () => {
+            textSprite.stroke = "black";
+        };
         textSprite.events.onInputDown.add(() => game.state.start('MainGame'));
     }
 

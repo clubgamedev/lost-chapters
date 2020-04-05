@@ -6,27 +6,22 @@ export class Tool {
     isToolDroping = false;
     isToolClicked = false;
     positionInitX;
-    onActivate;
     animationActivatePositionFinaleX = 50;
     animationActivatePositionFinaleY = 31;
     animationActivateDeltaX;
     animationActivateDeltaY;
     animationActivateDuration = 30;
 
-    constructor(onActivate) {
-        this.onActivate = onActivate;
-    }
-
     create(x, y) {
         this.positionInitX = x;
 
-        this.spriteOutline = game.add.image(x-1, y-1, 'escape_outil_outline');
+        this.spriteOutline = game.add.image(x - 1, y - 1, 'escape_outil_outline');
         this.spriteOutline.visible = false;
-        
+
         this.sprite = game.add.image(x, y, 'escape_outil');
         this.sprite.inputEnabled = true;
-        this.sprite.events.onInputOver.add(() => this.spriteOutlineEnable());
-        this.sprite.events.onInputOut.add(() => this.spriteOutlineDisable());
+        this.sprite.onOver = () => this.spriteOutlineEnable();
+        this.sprite.onOut = () => this.spriteOutlineDisable();
 
         this.isToolDroping = true;
     }
@@ -49,7 +44,7 @@ export class Tool {
             if (this.sprite.x <= this.animationActivatePositionFinaleX || this.sprite.y <= this.animationActivatePositionFinaleY) {
                 this.isToolClicked = false;
                 this.spriteOutlineDisable();
-                this.onActivate();
+                this.onActivate(); // defined in parent
             } else {
                 this.sprite.x -= this.animationActivateDeltaX;
                 this.sprite.y -= this.animationActivateDeltaY;
@@ -61,8 +56,6 @@ export class Tool {
 
     onClick() {
         this.isToolClicked = true;
-        this.sprite.events.onInputOver.removeAll();
-        this.sprite.events.onInputOut.removeAll();
         this.sprite.events.onInputDown.removeAll();
     }
 

@@ -3,19 +3,14 @@ export class Plant {
     sprite;
     velocity = 1;
     countVelocity = 0;
-    tool;
     isFalling = false;
-
-    constructor(tool) {
-        this.tool = tool;
-    }
 
     create(x, y) {
         this.sprite = game.add.image(x, y, 'escape_potfleur', 0);
         this.sprite.anchor.x = 0.5;
         this.sprite.anchor.y = 0.5;
-        this.sprite.x = this.sprite.x + this.sprite.width/2;
-        this.sprite.y = this.sprite.y + this.sprite.height/2;
+        this.sprite.x = this.sprite.x + this.sprite.width / 2;
+        this.sprite.y = this.sprite.y + this.sprite.height / 2;
     }
 
     update() {
@@ -33,7 +28,7 @@ export class Plant {
                 this.sprite.angle = 0;
                 this.sprite.frame = 1;
 
-                this.tool.create(this.sprite.x, this.sprite.y);
+                this.onBreak(); // defined in parent
             }
         }
     }

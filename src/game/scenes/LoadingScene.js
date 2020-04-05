@@ -53,6 +53,7 @@ export class LoadingScene {
 
 		game.load.spritesheet("lucidity-bar", 'assets/ui/lucidity-bar.png', 24, 8, 16);
 		game.load.spritesheet("interactions", 'assets/ui/interactions.png', 24, 24, 8);
+		game.load.spritesheet("cursor", 'assets/ui/cursor.png', 32, 32, 2);
 		game.load.spritesheet("fake_tree", "assets/environment/fake_tree.png", 96, 128, 2);
 		game.load.spritesheet("marie_body", "assets/environment/marie_body.png", 30, 23, 2);
 		game.load.spritesheet("tindalos", "assets/environment/tindalos.png", 240, 240, 3);
@@ -67,7 +68,6 @@ export class LoadingScene {
 		game.load.image("page-bg", "assets/ui/page.png");
 		game.load.image("mur_secret", "assets/environment/mur_secret.png");
 		game.load.image("exit", "assets/environment/exit-open.png");
-		game.load.image('backdrop', 'assets/sprites/backdrop.png');
 
 		// items
 		game.load.image('potionDeForce', 'assets/items/potionDeForce.png');
@@ -169,13 +169,11 @@ export class LoadingScene {
 		game.load.image('escape_digicode_boite', 'assets/escape/digicode/digicode_boite.png');
 		game.load.image('escape_outil', 'assets/escape/outil.png');
 		game.load.image('escape_outil_outline', 'assets/escape/outil_outline.png');
-		game.load.image('escape_labyrinthe_droite', 'assets/escape/labyrinthe_droite.png');
-		game.load.image('escape_labyrinthe_angle', 'assets/escape/labyrinthe_angle.png');
+		game.load.image('escape_roue', 'assets/escape/wheel.png');
 
 		game.load.spritesheet('escape_feuilles', 'assets/escape/feuilles.png', 25, 11, 2);
 		game.load.spritesheet('escape_scie', 'assets/escape/scie.png', 52, 15, 16);
 		game.load.spritesheet('escape_bouton_poussoir', 'assets/escape/bouton_poussoir.png', 16, 16, 2);
-		game.load.spritesheet('escape_roue', 'assets/escape/wheel.png', 18, 18, 2);
 		game.load.spritesheet('escape_potfleur', 'assets/escape/potfleur.png', 16, 16, 2);
 		game.load.spritesheet('escape_digicode_leds', 'assets/escape/digicode/digicode_leds.png', 4, 5, 4);
 		game.load.spritesheet('escape_digicode_cable', 'assets/escape/digicode/digicode_cable.png', 3, 19, 3);
@@ -196,5 +194,7 @@ export class LoadingScene {
 		game.load.spritesheet('escape_buttonGrid_bouton_bleu', 'assets/escape/buttonGrid/bouton_bleu.png', 4, 5, 2);
 		game.load.spritesheet('escape_buttonGrid_bouton_vert', 'assets/escape/buttonGrid/bouton_vert.png', 4, 5, 2);
 		game.load.spritesheet('escape_parchemin', 'assets/items/parchemin_levitation.png', 16, 32, 4);
+		game.load.spritesheet('escape_labyrinthe_droite', 'assets/escape/labyrinthe_droite.png', 5, 5, 2);
+		game.load.spritesheet('escape_labyrinthe_angle', 'assets/escape/labyrinthe_angle.png', 5, 5, 2);
 	}
 }

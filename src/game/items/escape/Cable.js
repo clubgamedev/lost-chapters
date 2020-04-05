@@ -26,8 +26,8 @@ export class Cable {
 
             if (this.courbeX >= 1.6) {
                 this.isDroping = false;
-                this.animationActivateDeltaX = (this.digicode.getCableX()+1 - this.sprite.x) / this.animationActivateDuration;
-                this.animationActivateDeltaY = (this.sprite.y - this.digicode.getCableY()-1) / this.animationActivateDuration;
+                this.animationActivateDeltaX = (this.digicode.getCableX() + 1 - this.sprite.x) / this.animationActivateDuration;
+                this.animationActivateDeltaY = (this.sprite.y - this.digicode.getCableY() - 1) / this.animationActivateDuration;
                 this.sprite.events.onInputDown.add(() => this.onClick());
             }
         }
@@ -46,8 +46,6 @@ export class Cable {
     onClick() {
         this.isClicked = true;
         this.sprite.frame = 1;
-        this.sprite.events.onInputOver.removeAll();
-        this.sprite.events.onInputOut.removeAll();
         this.sprite.events.onInputDown.removeAll();
     }
 
@@ -57,7 +55,7 @@ export class Cable {
         this.positionInitY = y;
         this.sprite = game.add.image(x, y, 'escape_digicode_cable', 1);
         this.sprite.inputEnabled = true;
-        this.sprite.events.onInputOver.add(() => this.sprite.frame = 2);
-        this.sprite.events.onInputOut.add(() => this.sprite.frame = 1);
+        this.sprite.onOver = () => { this.sprite.frame = 2 };
+        this.sprite.onOut = () => { this.sprite.frame = 1 };
     }
 }

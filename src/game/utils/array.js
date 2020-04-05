@@ -22,3 +22,7 @@ export function range(start, end) {
     }
     return [...iter(start, end)]
 }
+
+export function removeInArray(array, elem) {
+    array.splice(array.indexOf(elem), 1)
+}

@@ -168,6 +168,12 @@ const loots = {
     },
 
     liao() {
+        if (!game.save.hasFranckTalkedAboutTindalos) {
+            return talkToMyself([
+                `Une potion à la couleur étrange porte l'étiquette "Liao".`,
+                `Je ne devrais pas y toucher...`
+            ])
+        }
         return talkToMyself([
             `Une potion à la couleur étrange porte l'étiquette "Liao".`,
             `C'est donc ça le psychotrope que mentionnait Franck !`,

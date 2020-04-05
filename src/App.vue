@@ -77,5 +77,6 @@ body {
 
 canvas {
   border: 2px groove #201505;
+  cursor: none;
 }
 </style>
