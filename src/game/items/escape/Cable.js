@@ -36,6 +36,7 @@ export class Cable {
             if (this.sprite.x >= this.digicode.getCableX() || this.sprite.y <= this.digicode.getCableY()) {
                 this.isClicked = false;
                 this.digicode.enable();
+                this.onConnect()
             } else {
                 this.sprite.x += this.animationActivateDeltaX;
                 this.sprite.y -= this.animationActivateDeltaY;

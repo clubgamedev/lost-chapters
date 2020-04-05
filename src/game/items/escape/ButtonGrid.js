@@ -1,12 +1,10 @@
+const JAUNE = 'J', ROUGE = 'R', BLEU = 'B', VERT = 'V';
+
 export class ButtonGrid {
 
     code = [];
     callbackCodeValid;
-    activated = false;
-    jaune = 0;
-    rouge = 1;
-    bleu = 2;
-    vert = 3;
+    buttonSprites = []
 
     constructor(callbackCodeValid) {
         this.callbackCodeValid = callbackCodeValid;
@@ -14,10 +12,12 @@ export class ButtonGrid {
 
     create(x, y) {
         game.add.image(x, y, 'escape_buttonGrid_socle');
-        this.initButton('escape_buttonGrid_bouton_vert', x + 2, y + 3, this.vert);
-        this.initButton('escape_buttonGrid_bouton_jaune', x + 8, y + 3, this.jaune);
-        this.initButton('escape_buttonGrid_bouton_rouge', x + 14, y + 3, this.rouge);
-        this.initButton('escape_buttonGrid_bouton_bleu', x + 20, y + 3, this.bleu);
+        this.buttonSprites = [
+            this.initButton('escape_buttonGrid_bouton_vert', x + 2, y + 3, VERT),
+            this.initButton('escape_buttonGrid_bouton_jaune', x + 8, y + 3, JAUNE),
+            this.initButton('escape_buttonGrid_bouton_rouge', x + 14, y + 3, ROUGE),
+            this.initButton('escape_buttonGrid_bouton_bleu', x + 20, y + 3, BLEU),
+        ]
     }
 
     initButton(spriteName, x, y, couleur) {
@@ -34,18 +34,14 @@ export class ButtonGrid {
             this.addToCode(couleur);
         });
         buttonSprite.events.onInputUp.add(() => buttonSprite.frame = 0);
+        return buttonSprite
     }
 
     addToCode(couleur) {
         this.code.push(couleur);
         if (this.code.length > 5) this.code.shift();
-        if (this.code.length === 5
-            && this.code[0] === this.rouge
-            && this.code[1] === this.jaune
-            && this.code[2] === this.bleu
-            && this.code[3] === this.rouge
-            && this.code[4] === this.vert) {
-            this.activated = this.callbackCodeValid();
+        if (this.code.join('') === 'RJBRV') {
+            this.onCodeValid(); // defined in parent
         }
     }
 

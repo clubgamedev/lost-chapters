@@ -4,6 +4,8 @@ export function franck(save) {
 	if (!save.hasMetFranck) return franckMeeting(save)
 	else if (save.hasDiscoveredTindalos && !save.hasFranckTalkedAboutTindalos)
 		return franckTindalos(save)
+	else if (save.inventory.items.parchemin.nombre > 0 && !save.hasShownParcheminToFranck)
+		return franckParchemin(save)
 	else return franckRappel(save)
 }
 
@@ -121,6 +123,29 @@ function franckTindalos(save) {
 		"Allez voir Ramsey dans la forêt et parlez-lui du Liao.",
 		"Il pourra peut-être vous préparer un antidote qui fera retrouver",
 		"leur esprit aux étudiants."
+	]
+}
+
+function franckParchemin(save) {
+	save.hasShownParcheminToFranck = true
+	return [
+		"D'où vient ce parchemin ?",
+		"Vous dites l'avoir trouvé dans l'Université ?",
+		"Nous étudions les runes anciennes ici, mais celles-ci me sont inconnues.",
+		"Vous pensez que ça a un rapport avec votre enquête ?",
+		{
+			"Oui": () => [
+				`Je vois... Dans ce cas, essayez de trouver un des dévôts de la forêt.`,
+				`Ils connaissent aussi les runes, et étaient là avant nous...`
+			],
+			"Non": () => [
+				`Bien, mais cela reste troublant...`,
+				`Avant les premières disparitions, la salle d'étude des runes était`,
+				`beaucoup plus active que d'ordinaire, comme si les étudiants s'y`,
+				`étaient tous trouvés un soudain intérêt.`,
+				`Vous feriez mieux de garder ce parchemin avec vous pour le moment.`
+			]
+		}
 	]
 }
 

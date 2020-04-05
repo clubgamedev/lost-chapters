@@ -36,14 +36,15 @@ export class EscapeGameScene {
     spriteOver;
 
     preload() {
+        game.escapeGame = this;
         this.tool = new Tool(() => this.onToolActivate());
         this.plant = new Plant();
         this.pushButton = new PushButton((count) => this.onPushButtonClicked(count));
-        this.digicode = new Digicode(() => this.onDigicodeCodeValid());
+        this.digicode = new Digicode();
         this.wheel = new Wheel();
-        this.buttonGrid = new ButtonGrid(() => this.onButtonGridCodeValid());
+        this.buttonGrid = new ButtonGrid();
         this.cable = new Cable(this.digicode);
-        this.scie = new Scie(this.cable);
+        this.scie = new Scie();
         this.feuilles = new Feuilles();
         this.labyrinthe = new Labyrinthe();
     }
@@ -76,6 +77,16 @@ export class EscapeGameScene {
             game.paused = false;
         }
         this.labyrinthe.onResolve = () => this.onLabyrintheValid();
+        this.buttonGrid.onCodeValid = () => this.onButtonGridCodeValid();
+        this.scie.onEndAnim = () => {
+            this.cable.drop(this.scie.sprite.x + 18, this.scie.sprite.y - 5);
+            this.interactiveSprites.push(this.cable.sprite);
+        }
+        this.cable.onConnect = () => {
+            this.interactiveSprites.push(...this.digicode.buttonSprites)
+            removeInArray(this.interactiveSprites, this.cable.sprite)
+        }
+        this.digicode.onCodeFound = () => this.onDigicodeCodeValid();
 
         this.interactiveSprites = [
             this.pushButton.sprite,
@@ -167,6 +178,7 @@ export class EscapeGameScene {
         this.circuitEnabled = true;
         this.circuitSprite.frame = 1;
         this.interactiveSprites.push(...this.labyrinthe.tuiles.flatMap(line => line.map(t => t.sprite)))
+        this.interactiveSprites.push(...this.buttonGrid.buttonSprites)
         this.feuilles.nextPage();
         this.labyrinthe.checkSolution();
         game.add.image(95, 58, 'escape_screen9');
@@ -212,7 +224,14 @@ export class EscapeGameScene {
             parchemin.visible = false;
             emitter.destroy();
             game.save.inventory.items.parchemin.nombre = 1;
+            game.state.start('MainGame')
+            setTimeout(() => { game.escapeGame.onEnd(); }, 500);
         });
+
+        this.buttonGrid.buttonSprites.forEach(btn => {
+            removeInArray(this.interactiveSprites, btn);
+        })
+        this.interactiveSprites.push(parchemin);
     }
 
     enableLeaveSceneAction() {

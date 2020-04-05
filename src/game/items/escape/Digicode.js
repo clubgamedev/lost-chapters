@@ -3,14 +3,10 @@ export class Digicode {
     digicodeCable;
     digicodeLed;
     group;
-    callback;
     ledValidation = [];
+    buttonSprites = [];
     code = [];
     _isEnabled = false;
-
-    constructor(callback) {
-        this.callback = callback;
-    }
 
     create(x, y) {
         this.x = x;
@@ -23,15 +19,17 @@ export class Digicode {
         this.digicodeCable = this.group.create(x + 2, y + 9, "escape_digicode_cable", 0);
         this.digicodeLed = this.group.create(x + 2, y + 2, "escape_digicode_leds", 2);
 
-        this.createButton(1, x + 7, y + 2);
-        this.createButton(2, x + 13, y + 2);
-        this.createButton(3, x + 19, y + 2);
-        this.createButton(4, x + 7, y + 11);
-        this.createButton(5, x + 13, y + 11);
-        this.createButton(6, x + 19, y + 11);
-        this.createButton(7, x + 7, y + 20);
-        this.createButton(8, x + 13, y + 20);
-        this.createButton(9, x + 19, y + 20);
+        this.buttonSprites = [
+            this.createButton(1, x + 7, y + 2),
+            this.createButton(2, x + 13, y + 2),
+            this.createButton(3, x + 19, y + 2),
+            this.createButton(4, x + 7, y + 11),
+            this.createButton(5, x + 13, y + 11),
+            this.createButton(6, x + 19, y + 11),
+            this.createButton(7, x + 7, y + 20),
+            this.createButton(8, x + 13, y + 20),
+            this.createButton(9, x + 19, y + 20)
+        ]
 
         this.ledValidation.push(this.group.create(x + 25, y + 3, "escape_digicode_leds", 0));
         this.ledValidation.push(this.group.create(x + 25, y + 10, "escape_digicode_leds", 0));
@@ -47,6 +45,7 @@ export class Digicode {
             btn.frame = 1;
         });
         btn.events.onInputUp.add(() => btn.frame = 0);
+        return btn
     }
 
     addToCode(buttonNumber) {
@@ -56,7 +55,7 @@ export class Digicode {
         this.ledValidation[this.code.length - 1].frame = 1;
 
         if (this.code.length >= 4) {
-            if (this.checkCode()) {
+            if (this.code.join('') === '9342') {
                 this.onCodeSuccess();
             } else {
                 this.onCodeError();
@@ -64,19 +63,9 @@ export class Digicode {
         }
     }
 
-    /**
-     * Code : 9542
-     */
-    checkCode() {
-        return this.code.indexOf(9) != -1
-        && this.code.indexOf(5) != -1
-        && this.code.indexOf(4) != -1
-        && this.code.indexOf(2) != -1;
-    }
-
     onCodeSuccess() {
         this.code = [];
-        this.callback();
+        this.onCodeFound(); // defined in parent
         setTimeout(() => {
             this.ledValidation.forEach(led => led.frame = 3);
         }, 300);

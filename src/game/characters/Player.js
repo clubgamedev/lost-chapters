@@ -309,8 +309,21 @@ export class Player extends Character {
 					return;
 
 				case 'escapeTable':
+					if (game.save.inventory.items.parchemin.nombre > 0
+						|| game.save.inventory.items.parcheminFalsifie.nombre > 0) {
+						return talkToMyself([
+							`J'ai percé le secret de cet établi. Il ne me reste plus rien à faire ici.`,
+						])
+					}
 					save();
 					game.state.start('EscapeGame');
+					setTimeout(() => {
+						game.escapeGame.onEnd = () => talkToMyself([
+							`L'établi renfermait ce parchemin couvert de drôles de runes.`,
+							`Therled s'est donné beaucoup de mal pour le planquer ici.`,
+							`Il doit être précieux. Je ferais mieux de le montrer à Franck.`
+						])
+					}, 500);
 					return;
 
 				case 'bloc':

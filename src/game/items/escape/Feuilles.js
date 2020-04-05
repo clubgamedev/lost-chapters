@@ -5,10 +5,6 @@ export class Feuilles {
     sprite;
     page = 1;
 
-    constructor() {
-        game.controls.ACTION.onPress(() => closeBook())
-    }
-
     create(x, y) {
         this.sprite = game.add.image(x, y, 'escape_feuilles', 0);
         this.sprite.inputEnabled = true;
@@ -18,15 +14,14 @@ export class Feuilles {
     }
 
     openBook() {
-        if (game.book) {
-            this.onBookClose(); // declared in parent
-            game.paused = false;
-            return closeBook()
-        }
-
         this.onBookOpen() // declared in parent
         openBook('book_escape', this.page);
-        game.controls.ACTION.onPress(closeBook, this, true);
+        game.controls.ACTION.onPress(() => this.closeBook(), this, true);
+    }
+
+    closeBook() {
+        this.onBookClose(); // declared in parent
+        return closeBook()
     }
 
     nextPage() {
