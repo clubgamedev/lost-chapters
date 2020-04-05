@@ -1,3 +1,5 @@
+import { sounds } from "../../audio";
+
 export class PushButton {
 
     callback;
@@ -20,6 +22,7 @@ export class PushButton {
                 this.sprite.frame = 1;
             }
             this.callback(this.pushButtonClickCount);
+            sounds.PRESS_BUTTON.play();
         });
 
         this.sprite.events.onInputUp.add(() => this.sprite.frame = 0);

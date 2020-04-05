@@ -1,3 +1,5 @@
+import { sounds } from "../../audio"
+
 export class Digicode {
 
     digicodeCable;
@@ -51,19 +53,23 @@ export class Digicode {
     addToCode(buttonNumber) {
         if (!this._isEnabled) return;
 
+        sounds.BEEPS[buttonNumber - 1].play();
         this.code.push(buttonNumber);
         this.ledValidation[this.code.length - 1].frame = 1;
 
         if (this.code.length >= 4) {
-            if (this.code.join('') === '9342') {
-                this.onCodeSuccess();
-            } else {
-                this.onCodeError();
-            }
+            setTimeout(() => {
+                if (this.code.join('') === '9342') {
+                    this.onCodeSuccess();
+                } else {
+                    this.onCodeError();
+                }
+            }, 150)
         }
     }
 
     onCodeSuccess() {
+        sounds.CORRECT.play()
         this.code = [];
         this.onCodeFound(); // defined in parent
         setTimeout(() => {
@@ -72,6 +78,7 @@ export class Digicode {
     }
 
     onCodeError() {
+        sounds.INCORRECT.play()
         this.code = [];
         setTimeout(() => {
             this.ledValidation.forEach(led => led.frame = 2);

@@ -11,6 +11,7 @@ import { Feuilles } from "../../items/escape/Feuilles";
 import { Labyrinthe } from '../../items/escape/Labyrinthe';
 import { stick, controls } from "../../utils/controls";
 import { removeInArray } from "../../utils/array";
+import { sounds } from "../../audio";
 
 export class EscapeGameScene {
 
@@ -37,7 +38,7 @@ export class EscapeGameScene {
 
     preload() {
         game.escapeGame = this;
-        this.tool = new Tool(() => this.onToolActivate());
+        this.tool = new Tool();
         this.plant = new Plant();
         this.pushButton = new PushButton((count) => this.onPushButtonClicked(count));
         this.digicode = new Digicode();
@@ -157,9 +158,11 @@ export class EscapeGameScene {
                 this.feuilles.nextPage();
                 break;
             case 2:
+                sounds.PANEL_SLIDE.play();
                 this.tableau.animations.play('open', 10, false);
                 break;
             case 4:
+                sounds.PANEL_SLIDE.play();
                 this.scie.openScie();
                 break;
             case 8:
@@ -181,6 +184,7 @@ export class EscapeGameScene {
         this.interactiveSprites.push(...this.buttonGrid.buttonSprites)
         this.feuilles.nextPage();
         this.labyrinthe.checkSolution();
+        sounds.ELECTRIC_CONNECT.play();
         game.add.image(95, 58, 'escape_screen9');
     }
 
@@ -189,6 +193,7 @@ export class EscapeGameScene {
             game.add.image(113, 58, 'escape_screen2');
             this.buttonGridDone = true;
             this._nextPage(this.labyrintheDone);
+            sounds.ELECTRIC_CONNECT.play();
         }
         return this.circuitEnabled;
     }
@@ -197,6 +202,7 @@ export class EscapeGameScene {
         if (this.circuitEnabled) {
             game.add.image(107, 58, 'escape_screen4');
             this.labyrintheDone = true;
+            sounds.ELECTRIC_CONNECT.play();
             this._nextPage(this.buttonGridDone);
             this.interactiveSprites = this.interactiveSprites.filter(
                 sprite => !(sprite && typeof sprite.key === "string" && sprite.key.startsWith("escape_labyrinthe"))
@@ -223,6 +229,7 @@ export class EscapeGameScene {
         parchemin.events.onInputDown.add(() => {
             parchemin.visible = false;
             emitter.destroy();
+            sounds.ITEM.play();
             game.save.inventory.items.parchemin.nombre = 1;
             game.state.start('MainGame')
             setTimeout(() => { game.escapeGame.onEnd(); }, 500);

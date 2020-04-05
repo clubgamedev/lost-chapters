@@ -1,3 +1,5 @@
+import { sounds } from "../../audio";
+
 export class Plant {
 
     sprite;
@@ -28,6 +30,7 @@ export class Plant {
                 this.sprite.angle = 0;
                 this.sprite.frame = 1;
 
+                sounds.FALL_BREAK.play();
                 this.onBreak(); // defined in parent
             }
         }

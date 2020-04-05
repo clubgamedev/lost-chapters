@@ -1,3 +1,5 @@
+import { sounds } from "../../audio"
+
 export class Scie {
     sprite;
 
@@ -13,6 +15,7 @@ export class Scie {
 
     activate() {
         let anim = this.sprite.animations.play('move');
+        sounds.CIRCULAR_SAW.play();
         anim.enableUpdate = true;
         anim.onUpdate.add(anim => {
             if (anim.currentFrame.index === 10) {

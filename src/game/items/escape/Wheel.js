@@ -1,4 +1,4 @@
-import { createSillhouette } from '../../utils/inventory';
+import { sounds } from '../../audio';
 
 export class Wheel {
 
@@ -19,6 +19,7 @@ export class Wheel {
 
         this.sprite.inputEnabled = true;
         this.sprite.events.onInputDown.add(() => {
+            sounds.PANEL_SLIDE.play();
             this.rotateSpeed += 4
         })
 
@@ -38,8 +39,9 @@ export class Wheel {
         this.sprite.angle += this.rotateSpeed * 0.5
         if (this.cacheMuraleSprite.x > this.minX) {
             this.rotateSpeed = Math.max(-8, this.rotateSpeed - 0.25);
-        } else {
+        } else if (this.rotateSpeed !== 0) {
             this.rotateSpeed = 0;
+            sounds.PANEL_STOP.play();
         }
     }
 
@@ -65,6 +67,9 @@ export class Wheel {
             game.camera.shake(0.02, 500);
             this.stuck = true;
             this.onWheelStuck(); // defined in parent
+            sounds.PANEL_IMPACT.play();
+        } else {
+            sounds.PANEL_STOP.play();
         }
     }
 

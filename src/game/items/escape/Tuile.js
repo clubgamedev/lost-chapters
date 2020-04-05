@@ -1,4 +1,5 @@
 import { pickRandomIn, range } from "../../utils/array";
+import { sounds } from "../../audio";
 
 export class Tuile {
     sprite;
@@ -20,6 +21,7 @@ export class Tuile {
         this.sprite.angle = this.angle * 90;
         this.sprite.inputEnabled = true;
         this.sprite.events.onInputDown.add(() => {
+            sounds.PANEL_SLIDE.play();
             this.angle = (this.angle + 1) % (this.shape === "d" ? 2 : 4);
             setTimeout(() => onTurn(this.angle), 500) // defined in parent
         });

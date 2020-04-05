@@ -1,3 +1,5 @@
+import { sounds } from "../../audio";
+
 export class Cable {
 
     sprite;
@@ -36,6 +38,7 @@ export class Cable {
             if (this.sprite.x >= this.digicode.getCableX() || this.sprite.y <= this.digicode.getCableY()) {
                 this.isClicked = false;
                 this.digicode.enable();
+                sounds.ELECTRIC_CONNECT.play();
                 this.onConnect()
             } else {
                 this.sprite.x += this.animationActivateDeltaX;
@@ -47,6 +50,7 @@ export class Cable {
     onClick() {
         this.isClicked = true;
         this.sprite.frame = 1;
+        sounds.ITEM.play();
         this.sprite.events.onInputDown.removeAll();
     }
 

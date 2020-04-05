@@ -1,3 +1,4 @@
+import { sounds } from "../../audio";
 
 export class Tool {
 
@@ -56,6 +57,7 @@ export class Tool {
 
     onClick() {
         this.isToolClicked = true;
+        sounds.ITEM.play();
         this.sprite.events.onInputDown.removeAll();
     }
 

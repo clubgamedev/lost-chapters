@@ -1,3 +1,5 @@
+import { sounds } from "../../audio";
+
 const JAUNE = 'J', ROUGE = 'R', BLEU = 'B', VERT = 'V';
 
 export class ButtonGrid {
@@ -30,6 +32,7 @@ export class ButtonGrid {
         buttonSprite.onOver = () => { outline.visible = true }
         buttonSprite.onOut = () => { outline.visible = false }
         buttonSprite.events.onInputDown.add(() => {
+            sounds.SWITCH_BUTTON.play();
             buttonSprite.frame = 1;
             this.addToCode(couleur);
         });

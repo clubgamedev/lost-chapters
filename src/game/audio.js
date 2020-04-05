@@ -12,7 +12,7 @@ export function loadAudio() {
     game.load.audio("music_battle", ["assets/sound/BRPG_Take_Courage_FULL_Loop.ogg"]);
     game.load.audio("music_boss", ["assets/sound/BRPG_Hell_Spawn_FULL_Loop.ogg"]);
 
-    game.load.audio("item", ["assets/sound/collect_item_02.wav", "assets/sound/item.mp3"]);
+    game.load.audio("item", ["assets/sound/collect_item_02.wav"]);
     game.load.audio("hallucination", ["assets/sound/hallucination.wav"]);
     game.load.audio("death", ["assets/sound/death.wav"]);
 
@@ -50,6 +50,19 @@ export function loadAudio() {
     game.load.audio("element_found_end", "assets/decryptor/sound/FA_Scale_End.wav")
 
     game.load.audio("element_error", "assets/decryptor/sound/voice_male_b_effort_quick_action_05.wav")
+
+    // escape
+    range(1, 9).map(n => game.load.audio(`beep${n}`, `assets/escape/sound/retro_blip_beep_0${n}.wav`));
+    game.load.audio('switch_button', "assets/escape/sound/switch7.ogg");
+    game.load.audio('press_button', "assets/escape/sound/button.wav");
+    game.load.audio('circular_saw', "assets/escape/sound/circular-saw.ogg");
+    game.load.audio('panel_slide', "assets/escape/sound/panel_slide.wav");
+    game.load.audio('panel_stop', "assets/escape/sound/panel_stop.wav");
+    game.load.audio('panel_impact', "assets/escape/sound/panel_impact.wav");
+    game.load.audio('fall_break', "assets/escape/sound/fall_break.wav");
+    game.load.audio('electric_connect', "assets/escape/sound/electric_connect.mp3");
+    game.load.audio('correct', "assets/escape/sound/correct.wav");
+    game.load.audio('incorrect', "assets/escape/sound/incorrect.mp3");
 }
 
 export function addSounds() {
@@ -74,6 +87,16 @@ export function addSounds() {
         DRINK_POTION_PROTECTION: game.add.audio('drink_potion_2'),
         DRINK_POTION_LUCIDITE: game.add.audio('drink_potion_1'),
         DRINK_POTION_LIAO: game.add.audio('drink_potion_3'),
+        SWITCH_BUTTON: game.add.audio('switch_button'),
+        PRESS_BUTTON: game.add.audio('press_button'),
+        CIRCULAR_SAW: game.add.audio('circular_saw'),
+        PANEL_SLIDE: game.sound.add('panel_slide'),
+        PANEL_STOP: game.sound.add('panel_stop'),
+        PANEL_IMPACT: game.sound.add('panel_impact'),
+        FALL_BREAK: game.sound.add('fall_break'),
+        ELECTRIC_CONNECT: game.sound.add('electric_connect'),
+        CORRECT: game.sound.add('correct'),
+        INCORRECT: game.sound.add('incorrect')
     })
 
     sounds.FOOTSTEPS_WOOD = range(1, 14).map(n => game.sound.add(`footstep_wood_${n}`))
@@ -82,6 +105,7 @@ export function addSounds() {
     sounds.HURT = range(1, 2).map(n => game.sound.add(`hurt${n}`))
     sounds.MAKE_POTION = range(1, 2).map(n => game.sound.add(`make_potion_${n}`))
     sounds.MADNESS = range(1, 3).map(n => game.sound.add(`madness${n}`));
+    sounds.BEEPS = range(1, 9).map(n => game.sound.add(`beep${n}`))
 
 }
 
