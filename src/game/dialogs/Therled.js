@@ -1,6 +1,7 @@
 import { talkToMyself, startDialog, exhaustDialog } from "../utils/dialog"
 import { initLights } from "../utils/Light"
 import { Tindalos } from "../characters/Tindalos"
+import {startFight} from "../scenes/minigames/Decryptor";
 
 let tindalos = null
 let parcheminFalsifie = false
